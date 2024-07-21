@@ -1,12 +1,17 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 
 const { createBrowserRouter } = require("react-router-dom");
 
 const Main = lazy(()=>import("../pages/MainPage"));
 const Notice = lazy(()=>import("../pages/notice/NoticeIndexPage"));
-const Product = lazy(()=>import("../pages/product/ProductIndexPage"));
+const Pr = lazy(()=>import("../pages/pr/PrIndexPage"));
 const Article = lazy(()=>import("../pages/article/ArticleIndexPage"));
+const Product = lazy(()=>import("../pages/product/ProductIndexPage"));
+const Support = lazy(()=>import("../pages/support/SupportIndexPage"));
+const Game = lazy(()=>import("../pages/game/GameIndexPage"));
 const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
+const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
+const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
 
 const root = createBrowserRouter([
 
@@ -21,8 +26,8 @@ const root = createBrowserRouter([
     },
     
     {
-        path: "product",
-        element: <Suspense><Product /></Suspense>
+        path: "pr",
+        element: <Suspense><Pr /></Suspense>
     },
     
     {
@@ -31,8 +36,33 @@ const root = createBrowserRouter([
     },
     
     {
+        path: "product",
+        element: <Suspense><Product /></Suspense>
+    },
+    
+    {
+        path: "support",
+        element: <Suspense><Support /></Suspense>
+    },
+    
+    {
+        path: "game",
+        element: <Suspense><Game /></Suspense>
+    },
+    
+    {
         path: "login",
         element: <Suspense><Login /></Suspense>
+    },
+    
+    {
+        path: "signup",
+        element: <Suspense><Signup /></Suspense>
+    },
+    
+    {
+        path: "cash",
+        element: <Suspense><Cash /></Suspense>
     },
 
 ]);

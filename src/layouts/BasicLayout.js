@@ -1,15 +1,18 @@
 import FooterLayout from "./FooterLayout";
-import NavLayout from "./NavLayout";
+import NavLayout1 from "./NavLayout1";
+import NavLayout2 from "./NavLayout2";
 
 const BasicLayout = ({children}) => {
 
     return (
         <>
-        <NavLayout />
+        <NavLayout1 />
+        <NavLayout2 />
         
-        <div className="min-h-[700px]">
+        <main className="h-screen">
             {children}
-        </div>
+        </main>
+
 
         <FooterLayout />
         </>

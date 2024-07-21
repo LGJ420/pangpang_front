@@ -1,16 +1,16 @@
 import BasicLayout from "../../layouts/BasicLayout";
 
-const ProductIndexPage = () => {
+const CashIndexPage = () => {
 
     return (
         <BasicLayout>
 
         <section className="h-full">
-            여긴 쇼핑이다냥
+            여긴 충전소다냥
         </section>
         
         </BasicLayout>
     );
 }
 
-export default ProductIndexPage;
+export default CashIndexPage;
