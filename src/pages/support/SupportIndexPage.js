@@ -1,15 +1,15 @@
-import BasicLayout from "../../layouts/BasicLayout";
+import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
 const SupportIndexPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicWidthLimitLayout>
 
-        <section className="h-full">
+        <section>
             여긴 고객센터다냥
         </section>
         
-        </BasicLayout>
+        </BasicWidthLimitLayout>
     );
 }
 

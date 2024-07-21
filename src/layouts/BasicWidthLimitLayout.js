@@ -4,7 +4,7 @@ import NavLayout1 from "./NavLayout1";
 import NavLayout2 from "./NavLayout2";
 import { useEffect } from "react";
 
-const BasicLayout = ({children}) => {
+const BasicWidthLimitLayout = ({children}) => {
 
     const location = useLocation();
 
@@ -18,7 +18,7 @@ const BasicLayout = ({children}) => {
         <NavLayout1 />
         <NavLayout2 />
         
-        <main>
+        <main className="h-[800px] w-[1350px] m-auto">
             {children}
         </main>
 
@@ -28,4 +28,4 @@ const BasicLayout = ({children}) => {
 
 }
 
-export default BasicLayout;
+export default BasicWidthLimitLayout;

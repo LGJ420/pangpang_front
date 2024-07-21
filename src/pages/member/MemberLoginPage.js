@@ -1,9 +1,9 @@
-import BasicLayout from "../../layouts/BasicLayout";
+import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
 const MemberLoginPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicWidthLimitLayout>
 
         <section className="h-full flex flex-col items-center justify-center">
             <p>
@@ -15,7 +15,7 @@ const MemberLoginPage = () => {
             <button>내놔</button>
         </section>
 
-        </BasicLayout>
+        </BasicWidthLimitLayout>
     );
 }
 

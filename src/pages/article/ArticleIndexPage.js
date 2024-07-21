@@ -1,15 +1,15 @@
-import BasicLayout from "../../layouts/BasicLayout";
+import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
 const ArticleIndexPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicWidthLimitLayout>
 
-        <section className="h-full">
+        <section>
             여긴 자유게시판이다냥
         </section>
         
-        </BasicLayout>
+        </BasicWidthLimitLayout>
     );
 }
 

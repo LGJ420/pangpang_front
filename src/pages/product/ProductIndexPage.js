@@ -1,15 +1,15 @@
-import BasicLayout from "../../layouts/BasicLayout";
+import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
 const ProductIndexPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicWidthLimitLayout>
 
-        <section className="h-full">
+        <section>
             여긴 쇼핑이다냥
         </section>
         
-        </BasicLayout>
+        </BasicWidthLimitLayout>
     );
 }
 

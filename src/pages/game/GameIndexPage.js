@@ -1,15 +1,15 @@
-import BasicLayout from "../../layouts/BasicLayout";
+import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
 const GameIndexPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicWidthLimitLayout>
 
-        <section className="h-full">
+        <section>
             여긴 게임페이지다냥
         </section>
         
-        </BasicLayout>
+        </BasicWidthLimitLayout>
     );
 }
 

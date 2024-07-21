@@ -1,15 +1,15 @@
-import BasicLayout from "../../layouts/BasicLayout";
+import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
 const CashIndexPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicWidthLimitLayout>
 
-        <section className="h-full">
+        <section>
             여긴 충전소다냥
         </section>
         
-        </BasicLayout>
+        </BasicWidthLimitLayout>
     );
 }
 

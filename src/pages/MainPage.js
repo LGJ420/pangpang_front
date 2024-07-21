@@ -1,14 +1,16 @@
+import BannerComponent from "../components/BannerComponent";
 import BasicLayout from "../layouts/BasicLayout";
 
 const MainPage = () => {
 
     return (
         <BasicLayout>
-
-        <section className="h-full">
-            여긴 메인이다냥
-        </section>
+        <BannerComponent />
         
+        <section className="h-[600px]">
+            
+        </section>
+
         </BasicLayout>
     );
 }
