@@ -18,8 +18,8 @@ const BannerComponent = () => {
                         <h2 className="text-6xl">
                             우대 서버만의 특별한 혜택!
                         </h2>
-                        <p>
-                            빠른 성장과 기초 아이템 지원 혜택까지!
+                        <p className="mt-5">
+                            빠른 성장과 기초 아이템 지원 혜택까지!<br/>
                             우대 서버에서만 누릴 수 있는 혜택을 확인해보세요!
                         </p>
                     </div>
