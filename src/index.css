@@ -7,3 +7,9 @@ body {
     font-family: 'Noto Sans KR', sans-serif;
     min-width: 1220px;
 }
+
+/* body * {
+
+    border: solid 1px red;
+    padding: 1px;
+} */

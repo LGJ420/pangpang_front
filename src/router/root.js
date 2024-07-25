@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import productRouter from "./productRouter";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -37,7 +38,8 @@ const root = createBrowserRouter([
     
     {
         path: "product",
-        element: <Suspense><Product /></Suspense>
+        element: <Suspense><Product /></Suspense>,
+        children: productRouter()
     },
     
     {

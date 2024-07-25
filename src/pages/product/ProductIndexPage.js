@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
 const ProductIndexPage = () => {
@@ -5,9 +6,7 @@ const ProductIndexPage = () => {
     return (
         <BasicWidthLimitLayout>
 
-        <section>
-            여긴 쇼핑이다냥
-        </section>
+        <Outlet />
         
         </BasicWidthLimitLayout>
     );
