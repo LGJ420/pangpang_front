@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
 const MemberLoginPage = () => {
@@ -5,15 +6,43 @@ const MemberLoginPage = () => {
     return (
         <BasicWidthLimitLayout>
 
-        <section className="h-full flex flex-col items-center justify-center">
-            <p>
-                여긴 로그인화면이다냥
-                빨리 아이디 비번을 넘겨라냥
-            </p>
-            아디<input></input>
-            비번<input></input>
-            <button>내놔</button>
-        </section>
+            <section className="h-full flex flex-col items-center justify-center">
+
+                {/* 로그인 페이지 */}
+                <h1 class="text-3xl">
+                    <span>
+                        파이널판타지14
+                        <br></br>
+                        <strong>로그인</strong>
+                    </span>
+                </h1>
+
+                {/* 로그인 폼 */}
+                <form action="로그인url넣기" method="post">
+                    <div>
+                        <label for="member_ID"></label>
+                        <input name="member_ID" id="member_ID" placeholder="아이디를 입력해주세요."></input>
+                    </div>
+                    <div>
+                        <label for="password"></label>
+                        <input name="password" id="password" placeholder="비밀번호"></input>
+                    </div>
+                <button type="submit">로그인</button>
+                </form>
+
+                {/* 부가 서비스 */}
+                <div>
+                    <Link to={'/signup'} className="px-3">
+                        회원가입
+                    </Link>
+                    <Link to={'아이디/비밀번호 라우터 넣기'} className="px-3">
+                        아이디/비밀번호 찾기
+                    </Link>
+                    <Link to={'/'} className="px-3">
+                        홈으로 가기
+                    </Link>
+                </div>
+            </section>
 
         </BasicWidthLimitLayout>
     );
