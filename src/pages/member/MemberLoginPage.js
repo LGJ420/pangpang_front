@@ -33,10 +33,14 @@ const MemberLoginPage = () => {
                 {/* 부가 서비스 */}
                 <div>
                     <Link to={'/signup'} className="px-3">
-                            회원가입
+                        회원가입
                     </Link>
-                    <a>아이디/비밀번호 찾기</a>
-                    <a>홈으로 가기</a>
+                    <Link to={'아이디/비밀번호 라우터 넣기'} className="px-3">
+                        아이디/비밀번호 찾기
+                    </Link>
+                    <Link to={'/'} className="px-3">
+                        홈으로 가기
+                    </Link>
                 </div>
             </section>
 
