@@ -6,7 +6,8 @@ const ArticleIndexPage = () => {
         <BasicWidthLimitLayout>
 
         <section>
-            여긴 자유게시판이다냥
+            여긴 자유게시판입니다만
+            구인모
         </section>
         
         </BasicWidthLimitLayout>
