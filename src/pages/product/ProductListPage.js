@@ -7,7 +7,7 @@ const ProductListPage = () => {
 
       <div className="flex flex-col justify-center items-center">
         <table id="article-list" className="w-11/12 min-w-[860px] mt-5 text-center text-xl">
-          <thead className="bg-teal-100 text-gray-900 leading-[60px]">
+          <thead className="bg-zinc-200 text-gray-900 leading-[60px]">
             <tr>
               <th className="rounded-l-md">
                 No
