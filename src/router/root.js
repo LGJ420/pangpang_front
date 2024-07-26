@@ -4,6 +4,10 @@ import articleRouter from "./articleRouter";
 
 const { createBrowserRouter } = require("react-router-dom");
 
+
+const Test = lazy(()=>import("../pages/TestPage"));
+
+
 const Main = lazy(()=>import("../pages/MainPage"));
 const Notice = lazy(()=>import("../pages/notice/NoticeIndexPage"));
 const Pr = lazy(()=>import("../pages/pr/PrIndexPage"));
@@ -14,6 +18,7 @@ const Game = lazy(()=>import("../pages/game/GameIndexPage"));
 const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
 const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
 const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
+
 
 /**
  * 
@@ -36,6 +41,11 @@ const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
 
 
 const root = createBrowserRouter([
+
+    {
+        path: "test",
+        element: <Suspense><Test /></Suspense>
+    },
 
     {
         path: "",
