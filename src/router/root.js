@@ -1,6 +1,8 @@
 import { lazy, Suspense } from "react";
 import productRouter from "./productRouter";
 import articleRouter from "./articleRouter";
+import cartRouter from "./cartRouter";
+import cashRouter from "./cashRouter";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -15,6 +17,7 @@ const Article = lazy(()=>import("../pages/article/ArticleIndexPage"));
 const Product = lazy(()=>import("../pages/product/ProductIndexPage"));
 const Support = lazy(()=>import("../pages/support/SupportIndexPage"));
 const Game = lazy(()=>import("../pages/game/GameIndexPage"));
+const Cart = lazy(()=>import("../pages/cart/CartIndexPage"));
 const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
 const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
 const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
@@ -85,6 +88,18 @@ const root = createBrowserRouter([
     },
     
     {
+        path: "cart",
+        element: <Suspense><Cart /></Suspense>,
+        children: cartRouter()
+    },
+    
+    {
+        path: "cash",
+        element: <Suspense><Cash /></Suspense>,
+        children: cashRouter()
+    },
+
+    {
         path: "login",
         element: <Suspense><Login /></Suspense>
     },
@@ -94,10 +109,6 @@ const root = createBrowserRouter([
         element: <Suspense><Signup /></Suspense>
     },
     
-    {
-        path: "cash",
-        element: <Suspense><Cash /></Suspense>
-    },
 
 ]);
 

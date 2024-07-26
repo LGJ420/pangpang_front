@@ -1,15 +1,16 @@
 import { Outlet } from "react-router-dom";
 import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
-const CashIndexPage = () => {
+const CartIndexPage = () => {
+
 
     return (
         <BasicWidthLimitLayout>
 
         <Outlet />
-        
+
         </BasicWidthLimitLayout>
-    );
+    )
 }
 
-export default CashIndexPage;
+export default CartIndexPage;
