@@ -1,4 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 const CratListComponent = () => {
+
+    const navigate = useNavigate();
+
+    const handleClickPay = () => {
+
+        navigate({pathname: `../../orders/pay`});
+    }
 
     return (
         <>
@@ -107,7 +116,8 @@ const CratListComponent = () => {
                 <div className="mx-10 font-semibold text-3xl">
                     결제금액 : 150000원
                 </div>
-                <button className="bg-black px-10 py-5 text-xl">
+                <button className="bg-black px-10 py-5 text-xl"
+                    onClick={handleClickPay}>
                     결제하러 가기
                 </button>
             </div>
