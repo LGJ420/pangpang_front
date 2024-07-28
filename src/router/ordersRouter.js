@@ -10,7 +10,7 @@ const ordersRouter = () => {
 
     {
       path: "",
-      element: <Navigate replace to="pay" />
+      element: <Navigate replace to="result" />
     },
 
     {

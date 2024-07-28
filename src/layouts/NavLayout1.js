@@ -6,7 +6,7 @@ const NavLayout1 = () => {
         <nav id="navbar1">
             <div className="flex items-center justify-between w-[1350px] m-auto">
                 <Link to={'/'}>
-                    <img src="/images/logo_r3.png" className="h-[60px] mx-8 my-3"></img>
+                    <img src="/images/logo_r3.png" className="h-[40px] mx-8 my-3"></img>
                 </Link>
                 <ul className="flex mr-5">
                     <li className="border-r border-r-black">
