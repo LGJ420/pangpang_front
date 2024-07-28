@@ -1,4 +1,4 @@
-import CratListComponent from "../../components/CartListComponent"
+import CratListComponent from "../../components/cart/CartListComponent"
 
 const CratListPage = () => {
 

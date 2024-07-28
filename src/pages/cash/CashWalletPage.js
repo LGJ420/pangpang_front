@@ -1,4 +1,4 @@
-import CartWalletComponent from "../../components/CartWalletComponent";
+import CartWalletComponent from "../../components/cart/CartWalletComponent";
 
 const CashWalletPage = () => {
 
