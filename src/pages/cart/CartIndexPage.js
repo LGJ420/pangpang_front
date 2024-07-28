@@ -1,15 +1,16 @@
 import { Outlet } from "react-router-dom";
-import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+
+import BasicNoFooterLayout from "../../layouts/BasicNoFooterLayout";
 
 const CartIndexPage = () => {
 
 
     return (
-        <BasicWidthLimitLayout>
+        <BasicNoFooterLayout>
 
         <Outlet />
 
-        </BasicWidthLimitLayout>
+        </BasicNoFooterLayout>
     )
 }
 
