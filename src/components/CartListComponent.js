@@ -6,8 +6,8 @@ const CratListComponent = () => {
             <h1 className="text-5xl m-10">장바구니</h1>
             
             <div className="ml-20">
-                <label className="flex items-center text-2xl">
-                    <input type="checkbox" className="w-10 h-10 mr-4 appearance-none border border-gray-300 rounded-sm checked:bg-blue-600 checked:border-transparent focus:outline-none"></input>
+                <label className="flex items-center text-xl">
+                    <input type="checkbox" className="w-7 h-7 mr-4 appearance-none border border-gray-300 rounded-sm checked:bg-blue-600 checked:border-transparent focus:outline-none"></input>
                     전체선택
                 </label>
             </div>
