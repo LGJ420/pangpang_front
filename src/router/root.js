@@ -3,6 +3,7 @@ import productRouter from "./productRouter";
 import articleRouter from "./articleRouter";
 import cartRouter from "./cartRouter";
 import cashRouter from "./cashRouter";
+import ordersRouter from "./ordersRouter";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -18,9 +19,10 @@ const Product = lazy(()=>import("../pages/product/ProductIndexPage"));
 const Support = lazy(()=>import("../pages/support/SupportIndexPage"));
 const Game = lazy(()=>import("../pages/game/GameIndexPage"));
 const Cart = lazy(()=>import("../pages/cart/CartIndexPage"));
+const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
+const Orders = lazy(()=>import("../pages/orders/OrdersIndexPage"));
 const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
 const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
-const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
 
 
 /**
@@ -97,6 +99,12 @@ const root = createBrowserRouter([
         path: "cash",
         element: <Suspense><Cash /></Suspense>,
         children: cashRouter()
+    },
+    
+    {
+        path: "orders",
+        element: <Suspense><Orders /></Suspense>,
+        children: ordersRouter()
     },
 
     {
