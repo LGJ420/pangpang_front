@@ -1,17 +1,15 @@
+import { Outlet } from "react-router-dom";
 import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 
 const ArticleIndexPage = () => {
 
     return (
         <BasicWidthLimitLayout>
-
-        <section>
-            여긴 자유게시판입니다만
-            구인모
-        </section>
-        
+            <Outlet/>
         </BasicWidthLimitLayout>
     );
 }
+
+
 
 export default ArticleIndexPage;

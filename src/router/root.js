@@ -1,8 +1,15 @@
 import { lazy, Suspense } from "react";
 import productRouter from "./productRouter";
 import articleRouter from "./articleRouter";
+import cartRouter from "./cartRouter";
+import cashRouter from "./cashRouter";
+import ordersRouter from "./ordersRouter";
 
 const { createBrowserRouter } = require("react-router-dom");
+
+
+const Test = lazy(()=>import("../pages/TestPage"));
+
 
 const Main = lazy(()=>import("../pages/MainPage"));
 const Notice = lazy(()=>import("../pages/notice/NoticeIndexPage"));
@@ -11,9 +18,12 @@ const Article = lazy(()=>import("../pages/article/ArticleIndexPage"));
 const Product = lazy(()=>import("../pages/product/ProductIndexPage"));
 const Support = lazy(()=>import("../pages/support/SupportIndexPage"));
 const Game = lazy(()=>import("../pages/game/GameIndexPage"));
+const Cart = lazy(()=>import("../pages/cart/CartIndexPage"));
+const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
+const Orders = lazy(()=>import("../pages/orders/OrdersIndexPage"));
 const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
 const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
-const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
+
 
 /**
  * 
@@ -36,6 +46,11 @@ const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
 
 
 const root = createBrowserRouter([
+
+    {
+        path: "test",
+        element: <Suspense><Test /></Suspense>
+    },
 
     {
         path: "",
@@ -75,6 +90,24 @@ const root = createBrowserRouter([
     },
     
     {
+        path: "cart",
+        element: <Suspense><Cart /></Suspense>,
+        children: cartRouter()
+    },
+    
+    {
+        path: "cash",
+        element: <Suspense><Cash /></Suspense>,
+        children: cashRouter()
+    },
+    
+    {
+        path: "orders",
+        element: <Suspense><Orders /></Suspense>,
+        children: ordersRouter()
+    },
+
+    {
         path: "login",
         element: <Suspense><Login /></Suspense>
     },
@@ -84,10 +117,6 @@ const root = createBrowserRouter([
         element: <Suspense><Signup /></Suspense>
     },
     
-    {
-        path: "cash",
-        element: <Suspense><Cash /></Suspense>
-    },
 
 ]);
 

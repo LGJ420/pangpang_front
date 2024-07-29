@@ -18,7 +18,7 @@ const BasicWidthLimitLayout = ({children}) => {
         <NavLayout1 />
         <NavLayout2 />
         
-        <main className="h-[800px] w-[1350px] m-auto">
+        <main className="min-h-[1350px] w-[1350px] m-auto">
             {children}
         </main>
 

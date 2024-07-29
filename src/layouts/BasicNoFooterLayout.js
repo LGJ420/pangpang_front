@@ -4,7 +4,7 @@ import NavLayout1 from "./NavLayout1";
 import NavLayout2 from "./NavLayout2";
 import { useEffect } from "react";
 
-const BasicLayout = ({children}) => {
+const BasicNoFooterLayout = ({children}) => {
 
     const location = useLocation();
 
@@ -22,10 +22,9 @@ const BasicLayout = ({children}) => {
             {children}
         </main>
 
-        <FooterLayout />
         </>
     );
 
 }
 
-export default BasicLayout;
+export default BasicNoFooterLayout;
