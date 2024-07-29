@@ -1,41 +1,68 @@
-import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+import {
+    Input,
+    FormControl,
+    FormLabel,
+    FormErrorMessage,
+    FormHelperText,
+    } from '@chakra-ui/react'
 
 const MemberSignupPage = () => {
 
     return (
-        <BasicWidthLimitLayout>
+        <section className="login">
 
-            <section className="h-full flex flex-col items-center justify-center">
+        {/* 회원가입 폼 */}
+        <form action="로그인url넣기" method="post">
 
-            {/* 로그인 페이지 */}
-            <h1 class="text-3xl">
+            {/* 회원가입 페이지 */}
+            <h1>
                 <span>
-                    파이널판타지14
+                    팡이널팡타지14
                     <br></br>
                     <strong>회원가입</strong>
                 </span>
             </h1>
 
-            {/* 로그인 폼 */}
-            <form action="회원가입url넣기" method="post">
-                <div>
-                    <label for="member_ID"></label>
-                    <input name="member_ID" id="member_ID" placeholder="아이디를 입력해주세요."></input>
-                </div>
-                <div>
-                    <label for="password"></label>
-                    <input name="password" id="password" placeholder="비밀번호"></input>
-                </div>
-                <div>
-                    <label for="password_confirm"></label>
-                    <input name="password_confirm" id="password_confirm" placeholder="비밀번호 확인"></input>
-                </div>
+            <hr></hr>
+
+            {/* 개인정보 입력칸 */}
+            <div>
+                {/* 아이디 */}
+                <FormControl isRequired>
+                    <FormLabel>아이디</FormLabel>
+                    <Input placeholder='아이디를 입력해주세요.' />
+                </FormControl>
+
+                {/* 비밀번호 */}
+                <FormControl isRequired>
+                    <FormLabel>비밀번호</FormLabel>
+                    <Input type='password' placeholder='비밀번호를 입력해주세요.' />
+                </FormControl>
+
+                {/* 비밀번호 확인 */}
+                <FormControl isRequired>
+                    <FormLabel>비밀번호 확인</FormLabel>
+                    <Input type='password' placeholder='비밀번호를 입력해주세요.' />
+                </FormControl>
+
+                {/* 이름 */}
+                <FormControl isRequired>
+                    <FormLabel>이름</FormLabel>
+                    <Input placeholder='이름을 입력해주세요.' />
+                </FormControl>
+
+                {/* 생년월일 */}
+                <FormControl isRequired>
+                    <FormLabel>생년월일</FormLabel>
+                    <Input placeholder='980130' />
+                </FormControl>
+            </div>
+
             <button type="submit">회원가입</button>
-            </form>
 
-            </section>
+        </form>
+    </section>
 
-        </BasicWidthLimitLayout>
     );
 }
 
