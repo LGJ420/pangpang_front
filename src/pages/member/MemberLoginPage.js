@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const MemberLoginPage = () => {
 
     return (
-            <section className="login">
+            <section className="account_management">
 
                 {/* 로그인 폼 */}
                 <form action="로그인url넣기" method="post">

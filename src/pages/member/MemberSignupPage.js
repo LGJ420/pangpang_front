@@ -9,7 +9,7 @@ import {
 const MemberSignupPage = () => {
 
     return (
-        <section className="login">
+        <section className="account_management">
 
         {/* 회원가입 폼 */}
         <form action="로그인url넣기" method="post">
