@@ -1,8 +1,8 @@
 import { Children, Suspense, lazy } from "react";
 import { Navigate } from "react-router-dom";
 
+const Loading = <div>Loading...</div>
 const List = lazy(() => import("../pages/product/ProductListPage"));
-const Grid = lazy(() => import("../pages/product/ProductGridListPage"));
 const Detail = lazy(() => import("../pages/product/ProductDetailPage"));
 
 const productRouter = () => {
@@ -11,7 +11,7 @@ const productRouter = () => {
 
     {
       path: "",
-      element: <Navigate replace to="grid" />
+      element: <Navigate replace to="list" />
     },
 
     {
@@ -19,12 +19,8 @@ const productRouter = () => {
       element: <Suspense><List /></Suspense>
     },
     {
-      path: "grid",
-      element: <Suspense><Grid /></Suspense>
-    },
-    {
-      path: "detail",
-      element: <Suspense><Detail /></Suspense>
+      path: "detail/:id",
+      element: <Suspense fallback={Loading}><Detail /></Suspense>
     }
     
   ]
