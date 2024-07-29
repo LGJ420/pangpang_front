@@ -37,7 +37,7 @@ const MemberLoginPage = () => {
                         <Link to={'/signup'} className="px-5">
                             회원가입
                         </Link>
-                        <Link to={'아이디/비밀번호 라우터 넣기'} className="px-5">
+                        <Link to={'/find'} className="px-5">
                             아이디/비밀번호 찾기
                         </Link>
                         <Link to={'/'} className="px-5">
