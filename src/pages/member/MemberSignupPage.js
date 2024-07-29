@@ -54,7 +54,7 @@ const MemberSignupPage = () => {
                 {/* 생년월일 */}
                 <FormControl isRequired>
                     <FormLabel>생년월일</FormLabel>
-                    <Input placeholder='980130' />
+                    <Input placeholder='ex.881225' />
                 </FormControl>
             </div>
 
