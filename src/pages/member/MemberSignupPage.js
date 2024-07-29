@@ -56,6 +56,11 @@ const MemberSignupPage = () => {
                     <FormLabel>생년월일</FormLabel>
                     <Input placeholder='ex.881225' />
                 </FormControl>
+
+                {/* 역할 */}
+                <FormControl isRequired>
+                    <Input placeholder='User' type='hidden'/>
+                </FormControl>
             </div>
 
             <button type="submit">회원가입</button>
