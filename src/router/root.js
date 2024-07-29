@@ -23,6 +23,7 @@ const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
 const Orders = lazy(()=>import("../pages/orders/OrdersIndexPage"));
 const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
 const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
+const Find = lazy(()=>import("../pages/member/MemberFindPage"));
 
 
 /**
@@ -115,6 +116,11 @@ const root = createBrowserRouter([
     {
         path: "signup",
         element: <Suspense><Signup /></Suspense>
+    },
+
+    {
+        path: "find",
+        element: <Suspense><Find /></Suspense>
     },
     
 
