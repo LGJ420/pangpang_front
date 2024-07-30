@@ -63,7 +63,7 @@ const MemberLoginPage = () => {
                             </FormControl>
                         </div>
 
-                        <div  className="button">비밀번호 찾기</div>
+                        <button className="button">비밀번호 찾기</button>
 
                     </div>
 

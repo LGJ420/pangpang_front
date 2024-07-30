@@ -99,6 +99,7 @@ const MemberSignupPage = () => {
                     onChange={handleMemberId}
                     placeholder='아이디를 입력해주세요.' />
                 </FormControl>
+                {/* <p>아이디는 4~12자의 영문, 숫자만 사용 가능합니다</p> */}
 
                 {/* 비밀번호 */}
                 <FormControl isRequired>
@@ -109,6 +110,7 @@ const MemberSignupPage = () => {
                     onChange={handleMemberPw}
                     placeholder='비밀번호를 입력해주세요.' />
                 </FormControl>
+                {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
 
                 {/* 비밀번호 확인 */}
                 <FormControl isRequired>
@@ -150,11 +152,11 @@ const MemberSignupPage = () => {
             </div>
 
             {/* 회원가입 버튼 */}
-            <div 
+            <button
             className="button"
             onClick={onClicksignup}>
                 회원가입
-            </div>
+            </button>
 
         </div>
     </section>
