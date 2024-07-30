@@ -25,6 +25,8 @@ const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
 const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
 const SignupConfirm = lazy(()=>import("../pages/member/MemberSignupConfirmPage"));
 const Find = lazy(()=>import("../pages/member/MemberFindPage"));
+const FindId = lazy(()=>import("../pages/member/MemberFindIdPage"));
+const FindPw = lazy(()=>import("../pages/member/MemberFindPwPage"));
 
 
 /**
@@ -127,6 +129,16 @@ const root = createBrowserRouter([
     {
         path: "find",
         element: <Suspense><Find /></Suspense>
+    },
+
+    {
+        path: "find_id",
+        element: <Suspense><FindId /></Suspense>
+    },
+
+    {
+        path: "find_pw",
+        element: <Suspense><FindPw /></Suspense>
     },
     
 
