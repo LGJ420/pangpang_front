@@ -2,11 +2,11 @@ import {
     Input,
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     } from '@chakra-ui/react'
+
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const MemberSignupPage = () => {
 
@@ -36,6 +36,8 @@ const MemberSignupPage = () => {
         setMemberRole(e.target.value);
     }
 
+    const nevigate = useNavigate();
+
     const onClicksignup = ()=>{
         console.log("click signup");
         console.log("ID : " + memberId);
@@ -62,6 +64,7 @@ const MemberSignupPage = () => {
             })
             .then((response)=>{
                 console.log(response)
+                nevigate("/signup_confirm")
             })
             .catch((error)=>{
                 console.error("회원가입 요청 중 오류 발생", error);
