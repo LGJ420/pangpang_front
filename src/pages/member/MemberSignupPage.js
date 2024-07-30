@@ -42,38 +42,52 @@ const MemberSignupPage = () => {
         console.log("click signup");
         console.log("ID : " + memberId);
         console.log("PW : " + memberPw);
-        console.log("PW : " + memberPwConfirm);
-        console.log("PW : " + memberName);
-        console.log("PW : " + memberBirth);
-        console.log("PW : " + memberRole);
+        console.log("PWConfirm : " + memberPwConfirm);
+        console.log("이름 : " + memberName);
+        console.log("생년월일 : " + memberBirth);
+        console.log("역할 : " + memberRole);
 
-        if(memberPw != memberPwConfirm ) {
-            alert("비밀번호가 일치하지 않습니다.");
-        } else if (memberBirth.length != 6){
+        // 안 채운 항목이 있는지 체크
+        if([memberId, memberPw, memberPwConfirm, memberName, memberBirth].includes('')){
+            const errorMsg = "입력하지 않은 사항이 있습니다.";
+            console.error(errorMsg)
+            alert(errorMsg);
+
+            return;
+        }
+
+        // 비밀번호 = 비밀번호 확인 체크
+        if(memberPw !== memberPwConfirm ) {
+            const errorMsg = "비밀번호가 일치하지 않습니다.";
+            console.error(errorMsg);
+            alert(errorMsg);
+        }
+        
+        // 생년월일이 6자리인지 체크
+        if (memberBirth.length !== 6){
             alert("생년월일을 6자리 숫자로 입력해주세요.")
         }
-        else {
 
-            axios
-            .post("http://localhost:8080/api/member/signup",{
-                memberId : memberId,
-                memberPw : memberPw,
-                memberName : memberName,
-                memberBirth : memberBirth,
-                memberRole : memberRole
-            })
-            .then((response)=>{
-                console.log(response)
-                nevigate("/signup_confirm")
-            })
-            .catch((error)=>{
-                console.error("회원가입 요청 중 오류 발생", error);
-            });
-        }
+
+        axios
+        .post("http://localhost:8080/api/member/signup",{
+            memberId : memberId,
+            memberPw : memberPw,
+            memberName : memberName,
+            memberBirth : memberBirth,
+            memberRole : memberRole
+        })
+        .then((response)=>{
+            console.log(response)
+            nevigate("/signup_confirm")
+        })
+        .catch((error)=>{
+            console.error("회원가입 요청 중 오류 발생", error);
+        });
     }
-
-    return (
-        <section className="account_management">
+        
+        return (
+            <section className="account_management">
 
         {/* 회원가입 폼 */}
         <div>
@@ -163,5 +177,6 @@ const MemberSignupPage = () => {
 
     );
 }
+
 
 export default MemberSignupPage;
