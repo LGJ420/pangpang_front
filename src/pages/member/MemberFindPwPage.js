@@ -1,5 +1,25 @@
+import { Link } from "react-router-dom";
+import {
+    Input,
+    FormControl,
+    FormLabel,
+    } from '@chakra-ui/react'
+
+import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const MemberFindPwPage = () => {
+
+    const [memberPw, setMemberPw] = useState("");
+    const [memberPwConfirm, setMemberPwConfirm] = useState("");
+
+    const handleMemberPw = (e)=>{
+        setMemberPw(e.target.value);
+    }
+    const handleMemberPwConfirm = (e)=>{
+        setMemberPwConfirm(e.target.value);
+    }
 
     const resetMemberPw = () => {
 
@@ -16,12 +36,57 @@ const MemberFindPwPage = () => {
     }
 
     return (
+
+        <section className="account_management">
+
+        {/* 아이디 찾기 페이지 */}
+        <h1>
+            <span>
+                팡이널팡타지14
+                <br></br>
+                <strong>비밀번호 찾기</strong>
+            </span>
+            <hr></hr>
+        </h1>
+
         <div>
-            비밀번호 재설정
-            비밀번호 <input></input>
-            비밀번호 확인<input></input>
-            <button onClick={resetMemberPw}> 비밀번호 변경</button>
+            비밀번호를 재설정해주세요
+
+            <div>
+                {/* 비밀번호 */}
+                <FormControl isRequired>    
+                    <FormLabel>비밀번호</FormLabel>
+                    <Input 
+                    type='password' 
+                    value={memberPw}
+                    onChange={handleMemberPw}
+                    placeholder='비밀번호를 입력해주세요.' />
+                </FormControl>
+                {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
+
+                {/* 비밀번호 확인 */}
+                <FormControl isRequired>
+                    <FormLabel>비밀번호 확인</FormLabel>
+                    <Input 
+                    type='password' 
+                    value={memberPwConfirm}
+                    onChange={handleMemberPwConfirm}
+                    placeholder='비밀번호를 입력해주세요.' />
+                </FormControl>
+            </div>
         </div>
+
+        <div>
+            <Link to={'/'} className="px-5 button m-10">
+                홈으로
+            </Link>
+
+            <Link to={'/login'} className="px-5 button m-10">
+                로그인
+            </Link>
+        </div>
+    </section>
+
     );
 }
 
