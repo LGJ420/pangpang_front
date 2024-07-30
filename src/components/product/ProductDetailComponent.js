@@ -3,6 +3,7 @@ import { Box, Button, ButtonGroup, Flex, Image, Spacer, Text } from '@chakra-ui/
 
 import { getOne } from "../../api/productApi";
 import { Link } from "react-router-dom";
+import useCustomMove from "../../hooks/useCustomMove";
 
 /* 초기값 설정 */
 const initState = {
@@ -13,6 +14,8 @@ const initState = {
 }
 
 const ProductDetailComponent = ({num}) => {
+
+  const {moveToList} = useCustomMove();
 
   const [product, setProduct] = useState(initState);
 
