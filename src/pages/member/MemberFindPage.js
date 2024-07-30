@@ -20,7 +20,10 @@ const MemberLoginPage = () => {
 
         // post로 이름, 생년월일 제출 함수 작성
         
+        // 제출한 이름, 생년월일이 있으면 아래 링크로 이동
         navigate("/find_id");
+
+        // 없으면 이름, 생년월일 재작성 유도
 
     }
 
@@ -32,8 +35,10 @@ const MemberLoginPage = () => {
 
         // post로 아이디, 이름, 생년월일 제출 함수 작성
         
+        // 제출한 아이디, 이름, 생년월일이 있으면 아래 링크로 이동
         navigate("/find_pw");
 
+        // 없으면 이름, 생년월일 재작성 유도
     }
 
     return (
