@@ -47,11 +47,11 @@ body * {
     margin: 2% 0;
 }
 
-.account_management button {
+.account_management .button {
     color: white;
     background-color: darkblue;
     font-size: 1.875rem;
     width: 100%;
-    padding: 2%;
+    /* padding: 2%; */
     margin-top: 5%;
 }
