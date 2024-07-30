@@ -47,9 +47,11 @@ const MemberSignupPage = () => {
 
         if(memberPw != memberPwConfirm ) {
             alert("비밀번호가 일치하지 않습니다.");
-        } else {
+        } else if (memberBirth.length != 6){
+            alert("생년월일을 6자리 숫자로 입력해주세요.")
+        }
+        else {
 
-            
             axios
             .post("http://localhost:8080/api/member/signup",{
                 memberId : memberId,
