@@ -5,14 +5,73 @@ import {
     FormErrorMessage,
     FormHelperText,
     } from '@chakra-ui/react'
+import { useState } from 'react';
+import axios from 'axios';
 
 const MemberSignupPage = () => {
+
+    const [memberId, setMemberId] = useState("");
+    const [memberPw, setMemberPw] = useState("");
+    const [memberPwConfirm, setMemberPwConfirm] = useState("");
+    const [memberName, setMemberName] = useState("");
+    const [memberBirth, setMemberBirth] = useState("");
+    const [memberRole, setMemberRole] = useState("User");
+
+    const handleMemberId = (e)=>{
+        setMemberId(e.target.value);
+    }
+    const handleMemberPw = (e)=>{
+        setMemberPw(e.target.value);
+    }
+    const handleMemberPwConfirm = (e)=>{
+        setMemberPwConfirm(e.target.value);
+    }
+    const handleMemberName = (e)=>{
+        setMemberName(e.target.value);
+    }
+    const handleMemberBirth = (e)=>{
+        setMemberBirth(e.target.value);
+    }
+    const handleMemberRole = (e)=>{
+        setMemberRole(e.target.value);
+    }
+
+    const onClicksignup = ()=>{
+        console.log("click signup");
+        console.log("ID : " + memberId);
+        console.log("PW : " + memberPw);
+        console.log("PW : " + memberPwConfirm);
+        console.log("PW : " + memberName);
+        console.log("PW : " + memberBirth);
+        console.log("PW : " + memberRole);
+
+        if(memberPw != memberPwConfirm ) {
+            alert("비밀번호가 일치하지 않습니다.");
+        } else {
+
+            
+            axios
+            .post("http://localhost:8080/api/member/signup",{
+                memberId : memberId,
+                memberPw : memberPw,
+                memberName : memberName,
+                memberBirth : memberBirth,
+                memberRole : memberRole
+            })
+            .then((response)=>{
+                console.log(response)
+            })
+            .catch((error)=>{
+                console.error("회원가입 요청 중 오류 발생", error);
+            });
+        }
+    }
 
     return (
         <section className="account_management">
 
         {/* 회원가입 폼 */}
-        <form action="로그인url넣기" method="post">
+        <div>
 
             {/* 회원가입 페이지 */}
             <h1>
@@ -30,42 +89,64 @@ const MemberSignupPage = () => {
                 {/* 아이디 */}
                 <FormControl isRequired>
                     <FormLabel>아이디</FormLabel>
-                    <Input placeholder='아이디를 입력해주세요.' />
+                    <Input 
+                    value={memberId}
+                    onChange={handleMemberId}
+                    placeholder='아이디를 입력해주세요.' />
                 </FormControl>
 
                 {/* 비밀번호 */}
                 <FormControl isRequired>
                     <FormLabel>비밀번호</FormLabel>
-                    <Input type='password' placeholder='비밀번호를 입력해주세요.' />
+                    <Input 
+                    type='password' 
+                    value={memberPw}
+                    onChange={handleMemberPw}
+                    placeholder='비밀번호를 입력해주세요.' />
                 </FormControl>
 
                 {/* 비밀번호 확인 */}
                 <FormControl isRequired>
                     <FormLabel>비밀번호 확인</FormLabel>
-                    <Input type='password' placeholder='비밀번호를 입력해주세요.' />
+                    <Input 
+                    type='password' 
+                    value={memberPwConfirm}
+                    onChange={handleMemberPwConfirm}
+                    placeholder='비밀번호를 입력해주세요.' />
                 </FormControl>
 
                 {/* 이름 */}
                 <FormControl isRequired>
                     <FormLabel>이름</FormLabel>
-                    <Input placeholder='이름을 입력해주세요.' />
+                    <Input 
+                    value={memberName}
+                    onChange={handleMemberName}
+                    placeholder='이름을 입력해주세요.' />
                 </FormControl>
 
                 {/* 생년월일 */}
                 <FormControl isRequired>
                     <FormLabel>생년월일</FormLabel>
-                    <Input placeholder='ex.881225' />
+                    <Input 
+                    value={memberBirth}
+                    onChange={handleMemberBirth}
+                    placeholder='ex.881225' />
                 </FormControl>
 
                 {/* 역할 */}
                 <FormControl isRequired>
-                    <Input placeholder='User' type='hidden'/>
+                    <Input 
+                    placeholder='User' 
+                    value={memberRole}
+                    onChange={handleMemberRole}
+                    // type='hidden'
+                    />
                 </FormControl>
             </div>
 
-            <button type="submit">회원가입</button>
+            <button onClick={onClicksignup}>회원가입</button>
 
-        </form>
+        </div>
     </section>
 
     );
