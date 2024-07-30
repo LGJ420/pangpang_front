@@ -1,4 +1,4 @@
-import { Children, Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import { Navigate } from "react-router-dom";
 
 const Loading = <div>Loading...</div>
@@ -19,7 +19,7 @@ const productRouter = () => {
       element: <Suspense><List /></Suspense>
     },
     {
-      path: "detail/:id",
+      path: "read/:id",
       element: <Suspense fallback={Loading}><Detail /></Suspense>
     }
     
