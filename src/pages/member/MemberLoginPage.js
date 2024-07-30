@@ -21,7 +21,7 @@ const MemberLoginPage = () => {
         console.log("PW : " + memberPw);
 
         axios
-            .post("http://localhost:8080/api/login",{
+            .post("http://localhost:8080/api/member/login",{
                 memberId : memberId,
                 memberPw : memberPw
             })
@@ -65,7 +65,7 @@ const MemberLoginPage = () => {
             <section className="account_management">
 
                 {/* 로그인 폼 */}
-                <form action="로그인url넣기" method="post">
+                <div>
 
                     {/* 로그인 페이지 */}
                     <h1>
@@ -115,7 +115,7 @@ const MemberLoginPage = () => {
                             홈으로 가기
                         </Link>
                     </div>
-                </form>
+                </div>
             </section>
 
     );
