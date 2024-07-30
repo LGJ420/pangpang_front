@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import {
     Input,
     FormControl,
@@ -8,6 +9,32 @@ import {
     } from '@chakra-ui/react'
 
 const MemberLoginPage = () => {
+
+    const navigate = useNavigate();
+
+    // 아이디 찾기 버튼
+    const handleFindId = () => {
+        
+        // 아이디 찾는 조건 작성
+        // ex. 이름, 생년월일 적혀있는가?
+
+        // post로 이름, 생년월일 제출 함수 작성
+        
+        navigate("/find_id");
+
+    }
+
+    // 비밀번호 찾기 버튼
+    const handleFindPw = () => {
+        
+        // 비밀번호 찾는 조건 작성
+        // ex. 아이디, 이름, 생년월일 적혀있는가?
+
+        // post로 아이디, 이름, 생년월일 제출 함수 작성
+        
+        navigate("/find_pw");
+
+    }
 
     return (
             <section className="account_management">
@@ -41,7 +68,11 @@ const MemberLoginPage = () => {
                             </FormControl>
                         </div>
 
-                        <button className="button">아이디 찾기</button>
+                        <button 
+                        onClick={handleFindId}
+                        className="button">
+                            아이디 찾기
+                        </button>
 
                     </div>
 
@@ -63,7 +94,11 @@ const MemberLoginPage = () => {
                             </FormControl>
                         </div>
 
-                        <button className="button">비밀번호 찾기</button>
+                        <button 
+                        onClick={handleFindPw}
+                        className="button">
+                            비밀번호 찾기
+                        </button>
 
                     </div>
 
