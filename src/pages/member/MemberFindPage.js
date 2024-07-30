@@ -41,7 +41,7 @@ const MemberLoginPage = () => {
                             </FormControl>
                         </div>
 
-                        <div className="button">아이디 찾기</div>
+                        <button className="button">아이디 찾기</button>
 
                     </div>
 
