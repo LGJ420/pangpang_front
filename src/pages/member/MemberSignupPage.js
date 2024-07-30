@@ -138,18 +138,23 @@ const MemberSignupPage = () => {
                     placeholder='ex.881225' />
                 </FormControl>
 
-                {/* 역할 */}
+                {/* 역할 (Admin or User)*/}
                 <FormControl isRequired>
                     <Input 
                     placeholder='User' 
                     value={memberRole}
                     onChange={handleMemberRole}
-                    // type='hidden'
+                    type='hidden'
                     />
                 </FormControl>
             </div>
 
-            <button onClick={onClicksignup}>회원가입</button>
+            {/* 회원가입 버튼 */}
+            <div 
+            className="button"
+            onClick={onClicksignup}>
+                회원가입
+            </div>
 
         </div>
     </section>

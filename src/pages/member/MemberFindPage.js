@@ -23,10 +23,11 @@ const MemberLoginPage = () => {
                 </h1>
 
 
+                {/* 아이디, 비밀번호 찾기 컨테이너 */}
                 <div className="form_container">
 
-                    {/* 아이디 찾기 폼 */}
-                    <form action="아이디 찾기 url넣기" method="post">
+                    {/* 아이디 찾기 */}
+                    <div>
                         
                         <div>
                             <FormControl isRequired>
@@ -40,12 +41,12 @@ const MemberLoginPage = () => {
                             </FormControl>
                         </div>
 
-                        <button type="submit">아이디 찾기</button>
+                        <div className="button">아이디 찾기</div>
 
-                    </form>
+                    </div>
 
-                    {/* 비밀번호 찾기 폼 */}
-                    <form action="비밀번호 찾기 url넣기" method="post">
+                    {/* 비밀번호 찾기 */}
+                    <div>
 
                         <div>
                             <FormControl isRequired>
@@ -57,14 +58,14 @@ const MemberLoginPage = () => {
                                 <Input placeholder='이름을 입력해주세요.' />
                             </FormControl>
                             <FormControl isRequired>
-                                <FormLabel>이름</FormLabel>
-                                <Input placeholder='이름을 입력해주세요.' />
+                                <FormLabel>생년월일</FormLabel>
+                                <Input placeholder='ex.881225' />
                             </FormControl>
                         </div>
 
-                        <button type="submit">비밀번호 찾기</button>
+                        <div  className="button">비밀번호 찾기</div>
 
-                    </form>
+                    </div>
 
                 </div>
 

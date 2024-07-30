@@ -11,10 +11,11 @@ const MemberSignupConfirmPage = () => {
                     팡이널팡타지14
                     <br></br>
                     <strong>
-                        회원가입이 
-                        <br></br>
-                        완료되었습니다
+                        회원가입
                     </strong>
+                    이 
+                    <br></br>
+                    완료되었습니다
                 </span>
             </h1>
 

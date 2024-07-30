@@ -98,13 +98,18 @@ const MemberLoginPage = () => {
                             placeholder="비밀번호를 입력해주세요."></input>
                         </div>
                     </div>
-                    <button
-                    onClick={onClickLogin}>로그인</button>
+                    
+                    {/* 로그인 버튼 */}
+                    <div
+                    className="button"
+                    onClick={onClickLogin}>
+                        로그인
+                    </div>
 
                     <hr></hr>
 
                     {/* 링크 이동 */}
-                    <div className="">
+                    <div>
                         <Link to={'/signup'} className="px-5">
                             회원가입
                         </Link>
