@@ -70,7 +70,7 @@ const MemberLoginPage = () => {
                     {/* 로그인 페이지 */}
                     <h1>
                         <span>
-                            팡이널팡타지14
+                            팡팡게임즈
                             <br></br>
                             <strong>로그인</strong>
                         </span>

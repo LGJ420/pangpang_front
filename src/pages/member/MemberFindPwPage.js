@@ -42,7 +42,7 @@ const MemberFindPwPage = () => {
         {/* 아이디 찾기 페이지 */}
         <h1>
             <span>
-                팡이널팡타지14
+                팡팡게임즈
                 <br></br>
                 <strong>비밀번호 찾기</strong>
             </span>

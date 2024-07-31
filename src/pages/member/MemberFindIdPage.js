@@ -8,7 +8,7 @@ const MemberFindIdPage = () => {
             {/* 아이디 찾기 페이지 */}
             <h1>
                 <span>
-                    팡이널팡타지14
+                팡팡게임즈
                     <br></br>
                     <strong>아이디 찾기</strong>
                 </span>

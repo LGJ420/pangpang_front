@@ -8,7 +8,7 @@ const MemberSignupConfirmPage = () => {
             {/* 회원가입 완료 페이지 */}
             <h1>
                 <span>
-                    팡이널팡타지14
+                팡팡게임즈
                     <br></br>
                     <strong>
                         회원가입
