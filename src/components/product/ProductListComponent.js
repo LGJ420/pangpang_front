@@ -35,11 +35,11 @@ const ProductListComponent = () => {
   
   /* serverData에 서버 데이터에서 가져온 상품 목록 데이터 저장 */
   useEffect(() => {
-    getList({ search, page, size }).then(data => {
+    getList({ search:word, page, size }).then(data => {
       console.log(data)
       setServerData(data)
     })
-  }, [search, page, size, refresh])
+  }, [word, page, size, refresh])
 
 
 
@@ -82,7 +82,7 @@ const ProductListComponent = () => {
         value={word} />
         <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
           icon={<SearchIcon />}
-          onClick={() => moveToList({search: word, page: 1})}
+          onClick={() => {moveToList({search: word, size:serveData.dtoList.length}); console.log(word); }}
           />
       </div>
 
