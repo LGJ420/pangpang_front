@@ -18,7 +18,7 @@ const CratListComponent = () => {
         getCartList()
             .then(data=>{
                 setServerData(data)});
-    });
+    },[]);
 
 
     const navigate = useNavigate();
