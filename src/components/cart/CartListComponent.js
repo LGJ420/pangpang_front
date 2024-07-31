@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCartList } from "../../api/cartApi";
+import { deleteCartOne, getCartList } from "../../api/cartApi";
 
 const initState = [{
+    productId: 0,
     productTitle: "",
     productContent: "",
     productPrice: 0,
@@ -23,7 +24,39 @@ const CratListComponent = () => {
 
     const navigate = useNavigate();
 
-    const handleClickPay = () => {
+
+
+    const handleClickOrder = () => {
+
+
+    }
+
+    const handleClickDelete = (cartListObj) => {
+
+        // 지금은 사용자가 1번으로 고정되있음
+        // 프론트에서할지 백에서 할지 고민중
+        // 백이 맞는거같긴함
+        // 일단 지금은 사용자도 보내는중
+
+        // 여유가 되면 모달창을 제작해서 바꿀예정
+        // eslint-disable-next-line no-restricted-globals
+        const ifDel = confirm("정말로 장바구니에서 삭제하시겠습니까?");
+  
+        if (ifDel) {
+        
+            deleteCartOne(cartListObj).then(data => {
+    
+                getCartList().then(data => {
+                    setServerData(data);
+                });
+            });
+        }
+
+    }
+
+
+
+    const handleClickAllOrder = () => {
 
         navigate({pathname: `../../orders/pay`});
     }
@@ -68,8 +101,13 @@ const CratListComponent = () => {
                         </div>
                         <div className="text-3xl">{data.productPrice}원</div>
                         <div className="flex flex-col">
-                            <button className="bg-blue-500 text-white w-32 h-10 m-1">이 상품 주문</button>
-                            <button className="bg-rose-600 text-white w-32 h-10 m-1">이 상품 제거</button>
+                            <button className="bg-blue-500 text-white w-32 h-10 m-1">
+                                이 상품 주문
+                            </button>
+                            <button className="bg-rose-600 text-white w-32 h-10 m-1"
+                                onClick={()=>{handleClickDelete(data)}}>
+                                이 상품 제거
+                            </button>
                         </div>
                     </div>
                 </>
@@ -92,7 +130,7 @@ const CratListComponent = () => {
                     결제금액 : 150000원
                 </div>
                 <button className="bg-black px-10 py-5 text-xl"
-                    onClick={handleClickPay}>
+                    onClick={handleClickAllOrder}>
                     결제하러 가기
                 </button>
             </div>
