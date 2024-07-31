@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, Button, SimpleGrid, Box, Flex, Input } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, Button, SimpleGrid, Box, Flex, Input, IconButton } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
 import { getList } from "../../api/productApi";
@@ -41,12 +41,12 @@ const ProductListComponent = () => {
   // 리턴값 맵으로 반복
   return (
     <section>
-      <h1 className="text-5xl p-10 mb-10 border-b">상점 페이지</h1>
 
-      {/* 검색 */}
-      <div className="absolute right-20 top-44">
-        <Input placeholder="검색어를 입력하세요" width={500} height={50} marginRight={5} />
-        <SearchIcon fontSize="25px" width={50} height={25} bgColor={"lightgray"} />
+      <div className="flex flex-row border-b p-10 mb-10">
+        <h1 className="text-5xl mr-auto">상점 페이지</h1>
+        <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"/>
+        <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
+          icon={<SearchIcon />} />
       </div>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} className="pb-32">
