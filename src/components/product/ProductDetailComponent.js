@@ -38,7 +38,7 @@ const ProductDetailComponent = ({num}) => {
         <Box flex="1" ml={5} textAlign="center" className='border-l'>
           <Text fontSize="4xl" fontWeight='bold' mb={4}>{product.productTitle}</Text>
           <Text fontSize='3xl' mb={4}>{product.productContent}</Text>
-          <Text fontSize='3xl' mb={6}>{product.productPrice}원</Text>
+          <Text fontSize='3xl' mb={6}>{product.productPrice.toLocaleString()}원</Text>
           <ButtonGroup spacing='7' className='mx-auto mt-5'>
             <Button variant='solid' colorScheme='gray' fontSize="xl" size="lg">
               {/* 구매 페이지로 이동하는 링크 */}

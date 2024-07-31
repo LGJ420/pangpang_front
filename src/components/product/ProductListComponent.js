@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, Button, SimpleGrid, Box, Flex } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, Button, SimpleGrid, Box, Flex, Input } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
 import { getList } from "../../api/productApi";
 import { Link } from "react-router-dom";
 import { click } from "@testing-library/user-event/dist/click";
+import { SearchIcon } from "@chakra-ui/icons";
 
 /* 초기값 설정 */
 const initState = {
@@ -41,11 +42,25 @@ const ProductListComponent = () => {
   return (
     <section>
       <h1 className="text-5xl p-10 mb-10 border-b">상점 페이지</h1>
+
+      {/* 검색 */}
+      <div className="absolute right-20 top-44">
+        <Input placeholder="검색어를 입력하세요" width={500} height={50} marginRight={5}></Input>
+        <SearchIcon fontSize="25px" width={50} height={25} bgColor={"lightgray"}></SearchIcon>
+      </div>
+
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} className="pb-32">
         {serveData.dtoList.map(product =>
-          <Card maxW='sm' key={product.id}>
+          <Card maxW='sm' key={product.id} className="hover:shadow-xl">
             <CardBody className='text-center' onClick={() => moveToRead(product.id)}>
               <Image src='/images/chi1.jpg' borderRadius='lg' className='mx-auto w-80' />
+              <div className="absolute top-5 right-5 text-5xl text-gray-300 
+              bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center 
+              hover:bg-gray-300 hover:text-slate-50"
+              // 위시리스트로 이동하는 함수 추가
+              >
+                {'\u2661'}</div>
+
               <Stack mt='5' spacing='3'>
                 <Heading size='md' fontSize="2xl">{product.productTitle}</Heading>
                 <Text fontSize='2xl'>{product.productPrice.toLocaleString()}원</Text>
@@ -71,17 +86,17 @@ const ProductListComponent = () => {
 
       {/* 페이지네이션 */}
 
-      <Flex justifyContent="center" fontSize="25px" paddingBottom={20}>
+      <Flex justifyContent="center" fontSize="25px" className="pb-20 text-gray-700">
         {/* 이전 페이지 */}
-        {serveData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serveData.prevPage })}>{'\u003c'}</Box> : 
-        <></>}
+        {serveData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serveData.prevPage })}>{'\u003c'}</Box> :
+          <></>}
 
         {/* 페이지 넘버 */}
         {serveData.pageNumList.map(pageNum => serveData.dtoList.length > 0 ?
-        (<Box key={pageNum}
-          marginRight={7} cursor={"pointer"}
-          className={`${serveData.current === pageNum ? 'text-gray-500 border-b' : ''}`}
-          onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
+          (<Box key={pageNum}
+            marginRight={7} cursor={"pointer"}
+            className={`${serveData.current === pageNum ? 'text-gray-500 border-b' : ''}`}
+            onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
 
         {/* 다음 페이지 */}
         {serveData.next ? <Box cursor={"pointer"} onClick={() => moveToList({ page: serveData.nextPage })}>{'\u003e'}</Box> : <></>}
