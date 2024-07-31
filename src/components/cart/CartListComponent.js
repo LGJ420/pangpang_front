@@ -75,11 +75,13 @@ const CratListComponent = () => {
                 </>
             ))
         }
+        <div className="h-72"></div>
             
             
 
 
         </section>
+        
 
         <section className="bg-green-600 fixed bottom-0 w-screen h-28">
             <div className="max-w-[1350px] m-auto h-full flex items-center justify-end text-white">

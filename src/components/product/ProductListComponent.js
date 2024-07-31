@@ -5,6 +5,7 @@ import useCustomMove from "../../hooks/useCustomMove"
 import { getList } from "../../api/productApi";
 import { Link } from "react-router-dom";
 import { click } from "@testing-library/user-event/dist/click";
+import { postCartAdd } from "../../api/cartApi";
 
 /* 초기값 설정 */
 const initState = {
@@ -37,6 +38,20 @@ const ProductListComponent = () => {
 
 
 
+  const handleClickCart = (product) => {
+
+    const cartObj = {
+
+      // 멤버는 나중에 로그인한 사람으로 바꿀 예정
+      memberId: 1,
+      productId: product.id,
+      cartCount: 1,
+    }
+
+    postCartAdd(cartObj);
+
+  }
+
   // 리턴값 맵으로 반복
   return (
     <section>
@@ -64,7 +79,8 @@ const ProductListComponent = () => {
                 <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16">
                   구매하기
                 </button>
-                <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36">
+                <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"
+                  onClick={()=>{handleClickCart(product)}}>
                   장바구니 담기
                 </button>
 

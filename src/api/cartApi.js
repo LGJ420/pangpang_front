@@ -13,10 +13,9 @@ export const getCartList = async () => {
 }
 
 
-//변경해야함
-export const postCreate = async (todoObj) => {
+export const postCartAdd = async (cartObj) => {
     
-    const res = await axios.post(`${prefix}/`, todoObj);
+    const res = await axios.post(`${prefix}`, cartObj);
 
     return res.data;
 }
