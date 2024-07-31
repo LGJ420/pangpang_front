@@ -20,11 +20,12 @@ export const postCartAdd = async (cartObj) => {
     return res.data;
 }
 
+// 지금은 사용자가 1번 고정 나중에 로그인한 사용자로 수정할 예정
+export const deleteCartOne = async (cartListObj) => {
 
-//변경해야함
-export const deleteOne = async (ano) => {
-
-    const res = await axios.delete(`${prefix}/${ano}`);
+    console.log(cartListObj);
+    const res = await axios.delete(`${prefix}`, { data: cartListObj });
 
     return res.data;
+
 }
