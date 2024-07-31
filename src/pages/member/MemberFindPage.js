@@ -59,15 +59,22 @@ const MemberLoginPage = () => {
                 memberBirthInFindId : memberBirthInFindId
             })
             
-            // 3-1. 제출한 이름, 생년월일이 있으면 아래 링크로 이동
+            // 3-1. 제출한 이름, 생년월일이 있으면 콘솔창에 출력(확인) 및 아래 링크로 이동하면서 데이터 전달
             .then((response)=>{
-                console.log(response)
-                // navigate("/find_id");
+                const {memberName, memberId} = response.data;
+                // ▼▼▼ 출력 제대로 되는지 확인용 ▼▼▼
+                console.log(response.data)
+                console.log("이름 : " + memberName)
+                console.log("ID : " + memberId)
+                // ▲▲▲ 출력 제대로 되는지 확인용 ▲▲▲
+                navigate("/find_id", {state : {memberName, memberId}});
             })
             
             // 3-2. 없으면 에러 발생
             .catch((error)=>{
-                    console.error("회원가입 요청 중 오류 발생", error);
+                const errorMsg = "회원이 존재하지 않습니다.";
+                alert(errorMsg);
+                console.error(errorMsg);
             });
     }
 
