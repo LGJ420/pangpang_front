@@ -6,6 +6,7 @@ import { getList } from "../../api/productApi";
 import { Link } from "react-router-dom";
 import { click } from "@testing-library/user-event/dist/click";
 import { postCartAdd } from "../../api/cartApi";
+import { SearchIcon } from "@chakra-ui/icons";
 
 /* 초기값 설정 */
 const initState = {
