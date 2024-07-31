@@ -54,7 +54,7 @@ const MemberLoginPage = () => {
         
         // 3. post로 이름, 생년월일 제출 함수 작성
         axios
-        .post("http://localhost:8080/api/member/find",{
+        .post("http://localhost:8080/api/member/find_id",{
                 memberNameInFindId : memberNameInFindId,
                 memberBirthInFindId : memberBirthInFindId
             })
@@ -62,7 +62,7 @@ const MemberLoginPage = () => {
             // 3-1. 제출한 이름, 생년월일이 있으면 아래 링크로 이동
             .then((response)=>{
                 console.log(response)
-                navigate("/find_id");
+                // navigate("/find_id");
             })
             
             // 3-2. 없으면 에러 발생
@@ -117,8 +117,8 @@ const MemberLoginPage = () => {
         
         // 3. post로 아이디, 이름, 생년월일 제출 함수 작성
         axios
-        .post("http://localhost:8080/api/member/find",{
-                memberIdInFindPw : memberNameInFindPw,
+        .post("http://localhost:8080/api/member/find_pw",{
+                memberNameInFindPw : memberNameInFindPw,
                 memberNameInFindPw : memberNameInFindPw,
                 memberBirthInFindPw : memberBirthInFindPw
             })
