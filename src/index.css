@@ -7,8 +7,51 @@ body {
     font-family: 'Noto Sans KR', sans-serif;
 }
 
-/* body * {
+body * {
     border: 1px solid red;
     padding: 1px;
     box-sizing: border-box;
-} */
+}
+
+/* 성빈 css */
+.account_management {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.account_management h1 {
+    text-align: left;
+    font-size: 3rem;
+}
+
+.account_management hr {
+    margin: 5% 0;
+}
+
+.account_management .form_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.account_management input {
+    border: 1px solid rgba(128, 128, 128, 0.288);
+    border-radius: 1%;
+    font-size: 1.5rem;
+    width: 90%;
+    margin: 2% 0;
+}
+
+.account_management .button {
+    color: white;
+    background-color: darkblue;
+    font-size: 1.875rem;
+    width: 100%;
+    /* padding: 2%; */
+    margin-top: 5%;
+}
