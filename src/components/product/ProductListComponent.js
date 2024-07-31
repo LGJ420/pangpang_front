@@ -3,7 +3,7 @@ import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, Butto
 
 import useCustomMove from "../../hooks/useCustomMove"
 import { getList } from "../../api/productApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { click } from "@testing-library/user-event/dist/click";
 import { postCartAdd } from "../../api/cartApi";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -29,6 +29,11 @@ const ProductListComponent = () => {
 
   const [serveData, setServerData] = useState(initState);
 
+  const navigate = useNavigate();
+
+
+
+  
   /* serverData에 서버 데이터에서 가져온 상품 목록 데이터 저장 */
   useEffect(() => {
     getList({ page, size }).then(data => {
@@ -36,6 +41,8 @@ const ProductListComponent = () => {
       setServerData(data)
     })
   }, [page, size, refresh])
+
+
 
 
 
@@ -50,8 +57,21 @@ const ProductListComponent = () => {
     }
 
     postCartAdd(cartObj);
+    alert("장바구니에 상품이 등록되었습니다")
+    
 
+    // 여유가 되면 모달창을 제작해서 바꿀예정
+    // eslint-disable-next-line no-restricted-globals
+    const goToCart = confirm("장바구니 페이지로 이동하시겠습니까?");
+  
+    if (goToCart) {
+      
+      navigate({pathname: '../../cart'});
+    }
   }
+
+
+
 
   // 리턴값 맵으로 반복
   return (
