@@ -67,6 +67,8 @@ const MemberLoginPage = () => {
                 console.log("이름 : " + memberName)
                 console.log("ID : " + memberId)
                 // ▲▲▲ 출력 제대로 되는지 확인용 ▲▲▲
+
+                // 데이터 전달
                 navigate("/find_id", {state : {memberName, memberId}});
             })
             
@@ -133,8 +135,16 @@ const MemberLoginPage = () => {
             
             // 3-1. 제출한 아이디, 이름, 생년월일이 있으면 아래 링크로 이동
             .then((response)=>{
+                const {memberId, memberName, memberBirth} = response.data;
+                // ▼▼▼ 출력 제대로 되는지 확인용 ▼▼▼
                 console.log(response.data)
-                navigate("/find_pw");
+                console.log("ID : " + memberId)
+                console.log("이름 : " + memberName)
+                console.log("생년월일 : " + memberBirth)
+                // ▲▲▲ 출력 제대로 되는지 확인용 ▲▲▲
+
+                // 데이터 전달
+                navigate("/find_pw", {state : {memberId}})
             })
             
             // 3-2. 없으면 에러 발생
