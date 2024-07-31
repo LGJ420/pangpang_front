@@ -81,6 +81,7 @@ const MemberLoginPage = () => {
     // =======================================================================
 
     // ☆★☆★☆★☆★ 비밀번호 ☆★☆★☆★☆★
+
     // 비밀번호 찾기 관련 state, onchange 메소드
     const [memberIdInFindPw, setMemberIdInFindPw] = useState('');
     const [memberNameInFindPw, setMemberNameInFindPw] = useState('');
@@ -118,27 +119,29 @@ const MemberLoginPage = () => {
         }
 
         //    2-2. 생년월일이 6자리로 적혀있는가?
-        if (memberBirthInFindId.length !== 6){
+        if (memberBirthInFindPw.length !== 6){
             alert("생년월일을 6자리 숫자로 입력해주세요.")
         }
         
         // 3. post로 아이디, 이름, 생년월일 제출 함수 작성
         axios
         .post("http://localhost:8080/api/member/find_pw",{
-                memberNameInFindPw : memberNameInFindPw,
+                memberIdInFindPw : memberIdInFindPw,
                 memberNameInFindPw : memberNameInFindPw,
                 memberBirthInFindPw : memberBirthInFindPw
             })
             
             // 3-1. 제출한 아이디, 이름, 생년월일이 있으면 아래 링크로 이동
             .then((response)=>{
-                console.log(response)
+                console.log(response.data)
                 navigate("/find_pw");
             })
             
             // 3-2. 없으면 에러 발생
             .catch((error)=>{
-                    console.error("회원가입 요청 중 오류 발생", error);
+                const errorMsg = "회원이 존재하지 않습니다.(비번찾기오류)";
+                alert(errorMsg);
+                console.error(errorMsg);
             });
     }
                 
