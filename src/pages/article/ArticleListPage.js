@@ -1,27 +1,12 @@
-import { SearchIcon } from '@chakra-ui/icons';
-import {
-    Select,
-    FormControl,
-    Input,
-    Flex,
-    IconButton,
-    Table,
-    Thead,
-    Tbody,
-    //  Tfoot,
-    Tr,
-    Th,
-    Td,
-    //  TableCaption,
-    TableContainer,
-    Text,
-    //  useBreakpoint,
-    Box,
-    Button,
-    HStack,
+import {Select,FormControl,Input,Flex,
+    IconButton,Table,Thead,Tbody,Tr,Th,Td,
+    TableContainer,Text,Box,Button,HStack,
 } from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
 
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getList } from '../../api/articleApi';
 
 const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     return (
@@ -52,15 +37,25 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   };
 
   const ArticleListPage = () => {
+    const [articles, setArticles] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const articlesPerPage = 2;
-    const articles = [
-        { id: 1, title: '오버워치', author: '구인모', date: '2024.07.29', views: 5 },
-        { id: 2, title: '리그 오브 레전드', author: '이기정', date: '2024.07.28', views: 3 },
-        { id: 3, title: '사이퍼즈', author: '노성빈', date: '2024.07.16', views: 23 },
-        { id: 4, title: '마마마', author: '조민지', date: '2024.05.25', views: 14 },
-        // 더 많은 데이터를 추가할 수 있습니다.
-    ];
+    
+    useEffect(() => {
+        const loadArticles = async () => {
+            try {
+                const data = await getList();
+                setArticles(data);
+            }catch(err){
+                setError('글을 불러오는데 실패했습니다.')
+            }finally{
+                setLoading(false);
+            }
+        };
+        loadArticles();
+    }, []);
 
     const totalPages = Math.ceil(articles.length / articlesPerPage);
 
@@ -70,6 +65,8 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
 
     const startIndex = (currentPage - 1) * articlesPerPage;
     const selectedArticles = articles.slice(startIndex, startIndex + articlesPerPage);
+
+    const navigate = useNavigate();
 
     return (
         <>
@@ -94,6 +91,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
                         <Input placeholder='검색어를 입력하세요' width='auto' />
                         <IconButton colorScheme='blue' aria-label='Search database'
                             icon={<SearchIcon />} />
+                            
                     </Flex>
                 </FormControl>
             </Flex>
@@ -131,7 +129,7 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
                 />
 
                 <Flex justifyContent="flex-end">
-                    <Button mt={4} p={4} colorScheme='twitter' variant="outline">
+                    <Button mt={4} p={4} colorScheme='twitter' variant="outline" onClick={() => navigate('../write')}>
                         글쓰기
                     </Button>
                 </Flex>
