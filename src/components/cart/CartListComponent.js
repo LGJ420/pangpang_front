@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteCartOne, getCartList } from "../../api/cartApi";
 
-const initState = [{
-    productId: 0,
-    productTitle: "",
-    productContent: "",
-    productPrice: 0,
-    cartCount: 0
-}]
+// const initState = [{
+//     productId: 0,
+//     productTitle: "",
+//     productContent: "",
+//     productPrice: 0,
+//     cartCount: 0
+// }]
 
 const CratListComponent = () => {
 
-    const [serverData, setServerData] = useState(initState);
+    const [serverData, setServerData] = useState([]);
 
     useEffect(()=>{
 
@@ -79,7 +79,8 @@ const CratListComponent = () => {
             </div>
 
 
-        {
+        { serverData.length > 0 ?
+
             serverData.map(data=>(
                 <>
                     <div className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
@@ -111,7 +112,16 @@ const CratListComponent = () => {
                         </div>
                     </div>
                 </>
+
+            
+
             ))
+
+            :
+            
+            <div className="flex justify-around w-11/12 text-2xl font-semibold mx-auto my-4 py-52 items-center content-center">
+                장바구니가 비어있습니다
+            </div>
         }
         <div className="h-72"></div>
             
