@@ -98,6 +98,7 @@ const useCustomMove = () => {
         navigate({pathname: `../list`, search: queryStr});
     }
 
+
     // 수정화면으로 이동하는 기능
     const moveToModify = (num) => {
 
@@ -105,6 +106,7 @@ const useCustomMove = () => {
 
         navigate({pathname: `../modify/${num}`, search: queryDefault});
     }
+
 
     // 글을 누르면 읽기 화면으로 이동하는 기능
     const moveToRead = (num) => {
@@ -114,7 +116,7 @@ const useCustomMove = () => {
         navigate({pathname: `../read/${num}`, search: queryDefault});
     }
 
-    return {moveToList, moveToModify, moveToRead, page, size, refresh}
+    return {moveToList, moveToModify, moveToRead, page, size, search, refresh}
 }
 
 export default useCustomMove;
