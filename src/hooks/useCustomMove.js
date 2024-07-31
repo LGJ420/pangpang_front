@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 
+// 기본 - 기정오빠가 만든 것
 const getNum = (param, defaultValue) => {
 
     if (!param) {
@@ -8,6 +9,17 @@ const getNum = (param, defaultValue) => {
     }
 
     return parseInt(param);
+}
+
+
+// 상품 목록 - 검색에서 쓸 것 (문자열)
+const getString = (param, defaultValue) => {
+
+    if (!param) {
+        return defaultValue;
+    }
+
+    return param;
 }
 
 
@@ -61,8 +73,9 @@ const useCustomMove = () => {
 
     const page = getNum(queryParams.get('page'), 1);
     const size = getNum(queryParams.get('size'), 12);   // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
+    const search = getString(queryParams.get('search'), '');   // 상품 목록에서 필요한 검색
 
-    const queryDefault = createSearchParams({page, size}).toString();
+    const queryDefault = createSearchParams({search, page, size}).toString();
 
     // 목록화면으로 이동하는 기능
     const moveToList = (pageParam) => {
@@ -73,8 +86,9 @@ const useCustomMove = () => {
             
             const pageNum = getNum(pageParam.page, 1);
             const sizeNum = getNum(pageParam.size, 12); // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
+            const searchNum = getString(pageParam.search, '');
 
-            queryStr = createSearchParams({page: pageNum, size: sizeNum}).toString();
+            queryStr = createSearchParams({search:searchNum, page: pageNum, size: sizeNum}).toString();
         }
         else {
             queryStr = queryDefault;
