@@ -1,4 +1,5 @@
 import BannerComponent from "../components/BannerComponent";
+import MainProductList from "../components/product/MainProductListComponent";
 import BasicLayout from "../layouts/BasicLayout";
 
 const MainPage = () => {
@@ -13,7 +14,7 @@ const MainPage = () => {
             </div>
             <div className="w-1/2">
                 <div className="h-[300px] ml-2 mb-3 border border-solid rounded-md">
-                    크크크
+                    <MainProductList />
                 </div>
                 <div className="h-[300px] ml-2 mt-3 border border-solid rounded-md">
                     캬캬캬

@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, Button, SimpleGrid, Box, Flex, Input, IconButton } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
-import { getList, getSearchList } from "../../api/productApi";
-import { Link, useNavigate } from "react-router-dom";
-import { click } from "@testing-library/user-event/dist/click";
+import { getList } from "../../api/productApi";
+import { useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
 import { SearchIcon } from "@chakra-ui/icons";
 
