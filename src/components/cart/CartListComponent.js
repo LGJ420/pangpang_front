@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteCartOne, getCartList } from "../../api/cartApi";
-import { useRecoilState, useResetRecoilState } from "recoil";
-import { orderState } from "../../atoms/orderState";
 
 // const initState = [{
 //     productId: 0,
@@ -14,12 +12,10 @@ import { orderState } from "../../atoms/orderState";
 
 const CratListComponent = () => {
 
-    const [orderList, setOrderList] = useRecoilState(orderState);
-    const resetOrderList = useResetRecoilState(orderState);
-
+    const [orderList, setOrderList] = useState([]);
+    const [selectAll, setSelectAll] = useState(true);
     const [serverData, setServerData] = useState([]);
     const navigate = useNavigate();
-
 
 
     useEffect(() => {
@@ -27,19 +23,29 @@ const CratListComponent = () => {
             .then(data => {
                 const newData = data.map(item => ({
                     ...item,
-                    checked: false
+                    checked: true  // 모든 항목을 체크된 상태로 초기화
                 }));
                 setServerData(newData);
+                setOrderList(newData);  // 주문 목록도 모든 항목으로 초기화
             });
     }, []);
 
+    useEffect(()=>{
+        console.log(orderList);
+    }, [orderList]);
 
-
+    const handleClickAllCheck = (checked) => {
+        setSelectAll(checked);
+        const updatedData = serverData.map(item => ({
+            ...item,
+            checked: checked
+        }));
+        setServerData(updatedData);
+        setOrderList(updatedData.filter(item => item.checked));
+    };
 
     const handleClickCheck = (id) => {
-
         const updatedData = serverData.map(item => {
-            
             if (item.productId === id) {
                 return { ...item, checked: !item.checked };
             }
@@ -47,21 +53,10 @@ const CratListComponent = () => {
         });
 
         setServerData(updatedData);
-
         const newOrderList = updatedData.filter(item => item.checked);
-
         setOrderList(newOrderList);
-        console.log(newOrderList);
-    }
-
-
-
-
-
-    const handleClickOrder = () => {
-
-
-    }
+        setSelectAll(updatedData.every(item => item.checked));
+    };
 
     const handleClickDelete = (cartListObj) => {
 
@@ -73,24 +68,22 @@ const CratListComponent = () => {
         // 여유가 되면 모달창을 제작해서 바꿀예정
         // eslint-disable-next-line no-restricted-globals
         const ifDel = confirm("정말로 장바구니에서 삭제하시겠습니까?");
-  
         if (ifDel) {
-        
-            deleteCartOne(cartListObj).then(data => {
-    
+            deleteCartOne(cartListObj).then(() => {
                 getCartList().then(data => {
-                    setServerData(data);
+                    const newData = data.map(item => ({
+                        ...item,
+                        checked: true
+                    }));
+                    setServerData(newData);
+                    setOrderList(newData);
                 });
             });
         }
-
     }
 
-
-
     const handleClickAllOrder = () => {
-
-        navigate({pathname: `../../orders/pay`});
+        navigate({pathname: "/orders/pay"});
     }
 
     return (
@@ -101,7 +94,10 @@ const CratListComponent = () => {
             
             <div className="ml-20 inline-block">
                 <label className="flex items-center justify-between text-xl relative select-none w-32">
-                    <input type="checkbox" className="sr-only peer" />
+                    <input type="checkbox"
+                        className="sr-only peer"
+                        checked={selectAll}
+                        onChange={(e)=>handleClickAllCheck(e.target.checked)} />
                     <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-green-500 peer-focus:ring peer-focus:ring-green-500 peer-focus:ring-opacity-50"></div>
                     <svg className="hidden w-10 h-10 text-white pointer-events-none absolute top-0.5 left-0.5 peer-checked:block" fill="none" viewBox="0 0 80 80" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
