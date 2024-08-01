@@ -86,9 +86,9 @@ const useCustomMove = () => {
             
             const pageNum = getNum(pageParam.page, 1);
             const sizeNum = getNum(pageParam.size, 12); // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
-            const searchNum = getString(pageParam.search, '');
+            const searchStr = getString(pageParam.search, search);      // 상품 목록 - 검색에서 사용
 
-            queryStr = createSearchParams({search:searchNum, page: pageNum, size: sizeNum}).toString();
+            queryStr = createSearchParams({ search: searchStr, page: pageNum, size: sizeNum, }).toString();
         }
         else {
             queryStr = queryDefault;
@@ -99,6 +99,7 @@ const useCustomMove = () => {
     }
 
 
+
     // 수정화면으로 이동하는 기능
     const moveToModify = (num) => {
 
@@ -106,6 +107,7 @@ const useCustomMove = () => {
 
         navigate({pathname: `../modify/${num}`, search: queryDefault});
     }
+
 
 
     // 글을 누르면 읽기 화면으로 이동하는 기능

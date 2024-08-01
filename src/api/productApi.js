@@ -9,7 +9,7 @@ export const getList = async (pageParam) => {
 
   const { search, page, size } = pageParam;
 
-  const res = await axios.get(`${prefix}/list`, { params: { search:search, page: page, size: size } });
+  const res = await axios.get(`${prefix}/list`, { params: { search, page, size } });
 
   return res.data;
 }

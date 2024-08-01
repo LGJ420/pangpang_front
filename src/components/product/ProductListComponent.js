@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, Button, SimpleGrid, Box, Flex, Input, IconButton } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
-import { getList } from "../../api/productApi";
+import { getList, getSearchList } from "../../api/productApi";
 import { Link, useNavigate } from "react-router-dom";
 import { click } from "@testing-library/user-event/dist/click";
 import { postCartAdd } from "../../api/cartApi";
@@ -25,7 +25,7 @@ const initState = {
 // 서버에서 데이터 가져오기
 const ProductListComponent = () => {
 
-  const { search, page, size, refresh, moveToRead, moveToList } = useCustomMove();
+  const { search, page, size, refresh, moveToRead, moveToList} = useCustomMove();
 
   const [serveData, setServerData] = useState(initState);
   const [word, setWord] = useState("");   // 상품 검색용
@@ -35,13 +35,25 @@ const ProductListComponent = () => {
   
   /* serverData에 서버 데이터에서 가져온 상품 목록 데이터 저장 */
   useEffect(() => {
-    getList({ search:word, page, size }).then(data => {
+
+    if(search) {    // search에 데이터 있으면 searh, page, size를 전달
+      getList({search, page, size}).then(data => {
+        console.log(data);
+        setServerData(data);
+      });
+    } else {        // search에 데이터 없으면 page, size를 전달
+    getList({ page, size }).then(data => {
       console.log(data)
       setServerData(data)
-    })
-  }, [word, page, size, refresh])
+    });
+  }
+  }, [search, page, size, refresh])
 
 
+  /* 검색 버튼 클릭 시 검색 목록 데이터 저장 */
+  const handleClickSearch = () => {
+    moveToList({search: word})
+  };
 
 
 /* 장바구니 */
@@ -82,7 +94,7 @@ const ProductListComponent = () => {
         value={word} />
         <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
           icon={<SearchIcon />}
-          onClick={() => {moveToList({search: word, size:serveData.dtoList.length}); console.log(word); }}
+          onClick={() => {handleClickSearch({search: word}); console.log(word); }}
           />
       </div>
 
