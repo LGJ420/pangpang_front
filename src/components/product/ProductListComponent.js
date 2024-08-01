@@ -3,8 +3,7 @@ import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, Butto
 
 import useCustomMove from "../../hooks/useCustomMove"
 import { getList } from "../../api/productApi";
-import { Link, useNavigate } from "react-router-dom";
-import { click } from "@testing-library/user-event/dist/click";
+import { useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
 import { SearchIcon } from "@chakra-ui/icons";
 
@@ -25,27 +24,38 @@ const initState = {
 // 서버에서 데이터 가져오기
 const ProductListComponent = () => {
 
-  const { page, size, refresh, moveToRead, moveToList } = useCustomMove();
+  const { search, page, size, refresh, moveToRead, moveToList} = useCustomMove();
 
   const [serveData, setServerData] = useState(initState);
+  const [word, setWord] = useState("");   // 상품 검색용
 
   const navigate = useNavigate();
-
-
 
   
   /* serverData에 서버 데이터에서 가져온 상품 목록 데이터 저장 */
   useEffect(() => {
+
+    if(search) {    // search에 데이터 있으면 searh, page, size를 전달
+      getList({search, page, size}).then(data => {
+        console.log(data);
+        setServerData(data);
+      });
+    } else {        // search에 데이터 없으면 page, size를 전달
     getList({ page, size }).then(data => {
       console.log(data)
       setServerData(data)
-    })
-  }, [page, size, refresh])
+    });
+  }
+  }, [search, page, size, refresh])
 
 
+  /* 검색 버튼 클릭 시 검색 목록 데이터 저장 */
+  const handleClickSearch = () => {
+    moveToList({search: word})
+  };
 
 
-
+/* 장바구니 */
   const handleClickCart = (product) => {
 
     const cartObj = {
@@ -72,16 +82,19 @@ const ProductListComponent = () => {
 
 
 
-
   // 리턴값 맵으로 반복
   return (
     <section>
 
       <div className="flex flex-row border-b p-10 mb-10">
         <h1 className="text-5xl mr-auto">상점 페이지</h1>
-        <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"/>
+        <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
+        onChange={(e) => {setWord(e.target.value); console.log(word)}}
+        value={word} />
         <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
-          icon={<SearchIcon />} />
+          icon={<SearchIcon />}
+          onClick={() => {handleClickSearch({search: word}); console.log(word); }}
+          />
       </div>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} className="pb-32">
