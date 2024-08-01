@@ -60,7 +60,7 @@ const useCustomMove = () => {
     const [queryParams] = useSearchParams();
 
     const page = getNum(queryParams.get('page'), 1);
-    const size = getNum(queryParams.get('size'), 10);
+    const size = getNum(queryParams.get('size'), 12);   // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
 
     const queryDefault = createSearchParams({page, size}).toString();
 
@@ -72,7 +72,7 @@ const useCustomMove = () => {
         if (pageParam) {
             
             const pageNum = getNum(pageParam.page, 1);
-            const sizeNum = getNum(pageParam.size, 10);
+            const sizeNum = getNum(pageParam.size, 12); // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
 
             queryStr = createSearchParams({page: pageNum, size: sizeNum}).toString();
         }
