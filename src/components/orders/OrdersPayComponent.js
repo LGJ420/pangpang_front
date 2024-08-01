@@ -1,31 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { postOrdersAdd } from "../../api/ordersApi";
 
 const initState = {
 
     name: "",
     phone: "",
     address: ""
-}
+}   
 
 
 const OrdersPayComponent = () => {
 
     const [userData, setUserData] = useState(initState);
+    const [productData, setProductData] = useState();
 
     const location = useLocation();
     const navigate = useNavigate();
 
+
+
+    useEffect(()=>{
+
+        setProductData(location.state.orderList);
+
+    }, []);
+
+    
+    
+    const handleChangeUserData = (e) => {
+        
+        userData[e.target.name] = e.target.value;
+        
+        setUserData({...userData});
+    }
+            
+            
     const handleClickPay = () => {
 
-        navigate({pathname: `../result`});
-    }
-    
-    const handleChangeUserData = () => {
+        userData.phone = userData.phone1 + userData.phone2 + userData.phone3;
 
-        
+        console.log({...userData, dtoList: productData});
 
+        postOrdersAdd({...userData, dtoList: productData} );
+
+        // navigate({pathname: `../result`});
     }
+
+
 
     return (
 
@@ -97,6 +119,7 @@ const OrdersPayComponent = () => {
                                 name="address" 
                                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                 placeholder="주소를 입력하세요" 
+                                onChange={handleChangeUserData}
                             />
                         </div>
                     </div>
@@ -105,21 +128,21 @@ const OrdersPayComponent = () => {
                             <h3 className="text-xl font-bold">주문상품</h3>
 
 
-                            { location.state ? 
+                            { productData ? 
 
-                                location.state.orderList.map(order=>
+                                productData.map((product, index)=>
 
                                 <>
                                 <hr className="my-3"/>
-                                <div className="flex items-center">
+                                <div key={index} className="flex items-center">
                                     <img src="/images/chi1.jpg" className="w-24 h-24 border rounded"></img>
                                     <div className="ml-5">
-                                        <h3 className="text-lg font-extrabold">{order.productTitle}</h3>
-                                        <p className="text-xs">{order.productContent}</p>
-                                        <div className="font-bold mt-3">{order.cartCount}개</div>
+                                        <h3 className="text-lg font-extrabold">{product.productTitle}</h3>
+                                        <p className="text-xs">{product.productContent}</p>
+                                        <div className="font-bold mt-3">{product.cartCount}개</div>
                                     </div>
                                     <div className="ml-auto text-3xl font-semibold">
-                                        {order.productPrice}원
+                                        {product.productPrice}원
                                     </div>
                                 </div>
                                 </>
@@ -173,16 +196,16 @@ const OrdersPayComponent = () => {
                             <h3 className="text-xl font-bold">총 결제금액</h3>
                             <hr className="my-3"/>
 
-                            { location.state ? 
+                            { productData ? 
 
-                            location.state.orderList.map(order=>
+                            productData.map((product, index)=>
 
-                            <div className="text-right mb-5 text-gray-400">
+                            <div key={index} className="text-right mb-5 text-gray-400">
                                 <div>
-                                    {order.productTitle}
+                                    {product.productTitle}
                                 </div>
                                 <div>
-                                    {order.productPrice}원 x {order.cartCount}개 = {order.productPrice * order.cartCount}원
+                                    {product.productPrice}원 x {product.cartCount}개 = {product.productPrice * product.cartCount}원
                                 </div>
                             </div>
                             
