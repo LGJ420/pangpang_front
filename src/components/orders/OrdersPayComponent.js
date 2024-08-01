@@ -1,6 +1,17 @@
+import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
+const initState = {
+
+    name: "",
+    phone: "",
+    address: ""
+}
+
+
 const OrdersPayComponent = () => {
+
+    const [userData, setUserData] = useState(initState);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -10,6 +21,11 @@ const OrdersPayComponent = () => {
         navigate({pathname: `../result`});
     }
     
+    const handleChangeUserData = () => {
+
+        
+
+    }
 
     return (
 
@@ -21,7 +37,7 @@ const OrdersPayComponent = () => {
                     </Link>
                     <h1 className="text-white text-4xl font-bold mt-4">결제</h1>
                 </div>
-{console.log(location.state.orderList)}
+
                 <div className="flex">
 
                     <div className="w-2/3 flex flex-col items-center">
@@ -38,6 +54,7 @@ const OrdersPayComponent = () => {
                                 className="mt-1 block w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                 placeholder="이름을 입력하세요" 
                                 maxLength={10}
+                                onChange={handleChangeUserData}
                             />
                         </div>
                         <div className="mb-2">
@@ -50,6 +67,7 @@ const OrdersPayComponent = () => {
                                     className="mt-1 mr-2 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                     placeholder="010" 
                                     maxLength="3"
+                                    onChange={handleChangeUserData}
                                 />
                                 <input 
                                     type="text" 
@@ -58,6 +76,7 @@ const OrdersPayComponent = () => {
                                     className="mt-1 mr-2 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                     placeholder="1234" 
                                     maxLength="4"
+                                    onChange={handleChangeUserData}
                                 />
                                 <input 
                                     type="text" 
@@ -66,6 +85,7 @@ const OrdersPayComponent = () => {
                                     className="mt-1 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                     placeholder="5678" 
                                     maxLength="4"
+                                    onChange={handleChangeUserData}
                                 />
                             </div>
                         </div>
