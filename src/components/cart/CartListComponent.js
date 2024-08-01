@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteCartOne, getCartList } from "../../api/cartApi";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { orderState } from "../../atoms/orderState";
 
 // const initState = [{
 //     productId: 0,
@@ -12,17 +14,47 @@ import { deleteCartOne, getCartList } from "../../api/cartApi";
 
 const CratListComponent = () => {
 
+    const [orderList, setOrderList] = useRecoilState(orderState);
+    const resetOrderList = useResetRecoilState(orderState);
+
     const [serverData, setServerData] = useState([]);
-
-    useEffect(()=>{
-
-        getCartList()
-            .then(data=>{
-                setServerData(data)});
-    },[]);
-
-
     const navigate = useNavigate();
+
+
+
+    useEffect(() => {
+        getCartList()
+            .then(data => {
+                const newData = data.map(item => ({
+                    ...item,
+                    checked: false
+                }));
+                setServerData(newData);
+            });
+    }, []);
+
+
+
+
+    const handleClickCheck = (id) => {
+
+        const updatedData = serverData.map(item => {
+            
+            if (item.productId === id) {
+                return { ...item, checked: !item.checked };
+            }
+            return item;
+        });
+
+        setServerData(updatedData);
+
+        const newOrderList = updatedData.filter(item => item.checked);
+
+        setOrderList(newOrderList);
+        console.log(newOrderList);
+    }
+
+
 
 
 
@@ -68,11 +100,11 @@ const CratListComponent = () => {
             <h1 className="text-5xl m-10">장바구니</h1>
             
             <div className="ml-20 inline-block">
-                <label class="flex items-center justify-between text-xl relative select-none w-32">
-                    <input type="checkbox" class="sr-only peer" />
-                    <div class="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-green-500 peer-focus:ring peer-focus:ring-green-500 peer-focus:ring-opacity-50"></div>
-                    <svg class="hidden w-10 h-10 text-white pointer-events-none absolute top-0.5 left-0.5 peer-checked:block" fill="none" viewBox="0 0 80 80" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="5" d="M22,35 l10,10 l20,-20" />
+                <label className="flex items-center justify-between text-xl relative select-none w-32">
+                    <input type="checkbox" className="sr-only peer" />
+                    <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-green-500 peer-focus:ring peer-focus:ring-green-500 peer-focus:ring-opacity-50"></div>
+                    <svg className="hidden w-10 h-10 text-white pointer-events-none absolute top-0.5 left-0.5 peer-checked:block" fill="none" viewBox="0 0 80 80" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
                     </svg>
                     전체선택
                 </label>
@@ -81,14 +113,16 @@ const CratListComponent = () => {
 
         { serverData.length > 0 ?
 
-            serverData.map(data=>(
-                <>
-                    <div className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
-                        <label class="relative select-none">
-                            <input type="checkbox" class="sr-only peer" />
-                            <div class="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-green-500 peer-focus:ring peer-focus:ring-green-500 peer-focus:ring-opacity-50"></div>
-                            <svg class="hidden w-10 h-10 text-white pointer-events-none absolute top-0.5 left-0.5 peer-checked:block" fill="none" viewBox="0 0 80 80" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="5" d="M22,35 l10,10 l20,-20" />
+            serverData.map((data, index)=>(
+                    <div key={index} className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
+                        <label className="relative select-none">
+                            <input type="checkbox"
+                                className="sr-only peer"
+                                checked={data.checked}
+                                onChange={()=>handleClickCheck(data.productId)} />
+                            <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-green-500 peer-focus:ring peer-focus:ring-green-500 peer-focus:ring-opacity-50"></div>
+                            <svg className="hidden w-10 h-10 text-white pointer-events-none absolute top-0.5 left-0.5 peer-checked:block" fill="none" viewBox="0 0 80 80" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
                             </svg>
                         </label>
                         <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img>
@@ -111,7 +145,6 @@ const CratListComponent = () => {
                             </button>
                         </div>
                     </div>
-                </>
 
             
 
