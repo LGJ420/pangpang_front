@@ -11,7 +11,7 @@ const MemberSignupConfirmPage = () => {
                 팡팡게임즈
                     <br></br>
                     <strong>
-                        회원가입
+                        비밀번호 변경
                     </strong>
                     이 
                     <br></br>

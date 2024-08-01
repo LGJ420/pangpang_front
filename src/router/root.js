@@ -21,13 +21,25 @@ const Game = lazy(()=>import("../pages/game/GameIndexPage"));
 const Cart = lazy(()=>import("../pages/cart/CartIndexPage"));
 const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
 const Orders = lazy(()=>import("../pages/orders/OrdersIndexPage"));
-const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
-const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
-const SignupConfirm = lazy(()=>import("../pages/member/MemberSignupConfirmPage"));
-const Find = lazy(()=>import("../pages/member/MemberFindPage"));
-const FindId = lazy(()=>import("../pages/member/MemberFindIdPage"));
-const FindPw = lazy(()=>import("../pages/member/MemberFindPwPage"));
 
+// 성빈 라우터
+
+// 로그인
+const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
+
+// 회원가입
+const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
+// 회원가입 완료
+const SignupConfirm = lazy(()=>import("../pages/member/MemberSignupConfirmPage"));
+
+// 아이디, 비밀번호 찾기
+const Find = lazy(()=>import("../pages/member/MemberFindPage"));
+// 아이디 찾기(아이디 보여줌)
+const FindId = lazy(()=>import("../pages/member/MemberFindIdPage"));
+// 비밀번호 변경
+const FindPw = lazy(()=>import("../pages/member/MemberFindPwPage"));
+// 비밀번호 변경 완료
+const FindPwConfirm = lazy(()=>import("../pages/member/MemberFindPwConfirmPage"));
 
 /**
  * 
@@ -139,6 +151,11 @@ const root = createBrowserRouter([
     {
         path: "find_pw",
         element: <Suspense><FindPw /></Suspense>
+    },
+
+    {
+        path: "find_pw/confirm",
+        element: <Suspense><FindPwConfirm /></Suspense>
     },
     
 
