@@ -15,7 +15,26 @@ const CratListComponent = () => {
     const [orderList, setOrderList] = useState([]);
     const [selectAll, setSelectAll] = useState(true);
     const [serverData, setServerData] = useState([]);
+    const [totalAmount, setTotalAmount] = useState(0);
     const navigate = useNavigate();
+
+
+
+
+    useEffect(()=>{
+        console.log(orderList);
+    }, [orderList]);
+
+
+
+
+    useEffect(() => {
+        const total = orderList.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0);
+        setTotalAmount(total);
+
+    }, [orderList]);
+
+
 
 
     useEffect(() => {
@@ -30,9 +49,6 @@ const CratListComponent = () => {
             });
     }, []);
 
-    useEffect(()=>{
-        console.log(orderList);
-    }, [orderList]);
 
     const handleClickAllCheck = (checked) => {
         setSelectAll(checked);
@@ -83,7 +99,7 @@ const CratListComponent = () => {
     }
 
     const handleClickAllOrder = () => {
-        navigate({pathname: "/orders/pay"});
+        navigate("/orders/pay", {state : {orderList}});
     }
 
     return (
@@ -163,10 +179,10 @@ const CratListComponent = () => {
         <section className="bg-green-600 fixed bottom-0 w-screen h-28">
             <div className="max-w-[1350px] m-auto h-full flex items-center justify-end text-white">
                 <div className="font-semibold text-3xl">
-                    총 3건
+                    총 {orderList.length}건
                 </div>
                 <div className="mx-10 font-semibold text-3xl">
-                    결제금액 : 150000원
+                    결제금액 : {totalAmount}원
                 </div>
                 <button className="bg-black px-10 py-5 text-xl"
                     onClick={handleClickAllOrder}>

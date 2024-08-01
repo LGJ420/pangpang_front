@@ -1,7 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const OrdersPayComponent = () => {
 
+    const location = useLocation();
     const navigate = useNavigate();
 
     const handleClickPay = () => {
@@ -20,7 +21,7 @@ const OrdersPayComponent = () => {
                     </Link>
                     <h1 className="text-white text-4xl font-bold mt-4">결제</h1>
                 </div>
-
+{console.log(location.state.orderList)}
                 <div className="flex">
 
                     <div className="w-2/3 flex flex-col items-center">
@@ -48,7 +49,7 @@ const OrdersPayComponent = () => {
                                     name="phone1" 
                                     className="mt-1 mr-2 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                     placeholder="010" 
-                                    maxlength="3"
+                                    maxLength="3"
                                 />
                                 <input 
                                     type="text" 
@@ -56,7 +57,7 @@ const OrdersPayComponent = () => {
                                     name="phone2" 
                                     className="mt-1 mr-2 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                     placeholder="1234" 
-                                    maxlength="4"
+                                    maxLength="4"
                                 />
                                 <input 
                                     type="text" 
@@ -64,7 +65,7 @@ const OrdersPayComponent = () => {
                                     name="phone3" 
                                     className="mt-1 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                     placeholder="5678" 
-                                    maxlength="4"
+                                    maxLength="4"
                                 />
                             </div>
                         </div>
@@ -82,43 +83,34 @@ const OrdersPayComponent = () => {
 
                         <div className="bg-white w-11/12 my-2 p-4 rounded-lg">
                             <h3 className="text-xl font-bold">주문상품</h3>
-                            <hr className="my-3"/>
-                            <div className="flex items-center">
-                                <img src="/images/chi1.jpg" className="w-24 h-24 border rounded"></img>
-                                <div className="ml-5">
-                                    <h3 className="text-lg font-extrabold">개쩌는상품</h3>
-                                    <p className="text-xs">이거사세요제발사세요<br/>두번사세요 세번사세요</p>
-                                    <div className="font-bold mt-3">1개</div>
+
+
+                            { location.state ? 
+
+                                location.state.orderList.map(order=>
+
+                                <>
+                                <hr className="my-3"/>
+                                <div className="flex items-center">
+                                    <img src="/images/chi1.jpg" className="w-24 h-24 border rounded"></img>
+                                    <div className="ml-5">
+                                        <h3 className="text-lg font-extrabold">{order.productTitle}</h3>
+                                        <p className="text-xs">{order.productContent}</p>
+                                        <div className="font-bold mt-3">{order.cartCount}개</div>
+                                    </div>
+                                    <div className="ml-auto text-3xl font-semibold">
+                                        {order.productPrice}원
+                                    </div>
                                 </div>
-                                <div className="ml-auto text-3xl font-semibold">
-                                    50,000원
-                                </div>
-                            </div>
-                            <hr className="my-3"/>
-                            <div className="flex items-center">
-                                <img src="/images/chi2.jpg" className="w-24 h-24 border rounded"></img>
-                                <div className="ml-5">
-                                    <h3 className="text-lg font-extrabold">개쩌는상품</h3>
-                                    <p className="text-xs">이거사세요제발사세요<br/>두번사세요 세번사세요</p>
-                                    <div className="font-bold mt-3">1개</div>
-                                </div>
-                                <div className="ml-auto text-3xl font-semibold">
-                                    50,000원
-                                </div>
-                            </div>
-                            <hr className="my-3"/>
-                            <div className="flex items-center">
-                                <img src="/images/chi3.jpg" className="w-24 h-24 border rounded"></img>
-                                <div className="ml-5">
-                                    <h3 className="text-lg font-extrabold">개쩌는상품</h3>
-                                    <p className="text-xs">이거사세요제발사세요<br/>두번사세요 세번사세요</p>
-                                    <div className="font-bold mt-3">1개</div>
-                                </div>
-                                <div className="ml-auto text-3xl font-semibold">
-                                    50,000원
-                                </div>
-                            </div>
-                            
+                                </>
+
+                                )
+
+                            :
+                                <>
+                                </>
+                        
+                            }
                         </div>
 
                         <div className="bg-white w-11/12 my-2 p-4 rounded-lg">
@@ -157,10 +149,35 @@ const OrdersPayComponent = () => {
 
                     <div className="w-1/3 mr-2 flex flex-col items-center">
                     
-                        <div className="bg-white w-11/12 rounded-lg mt-2 p-4 h-[300px] sticky top-3">
+                        <div className="bg-white w-11/12 rounded-lg mt-2 p-4 sticky top-3">
                             <h3 className="text-xl font-bold">총 결제금액</h3>
                             <hr className="my-3"/>
-                            <div className="text-right text-4xl font-extrabold">150,000원</div>
+
+                            { location.state ? 
+
+                            location.state.orderList.map(order=>
+
+                            <div className="text-right mb-5 text-gray-400">
+                                <div>
+                                    {order.productTitle}
+                                </div>
+                                <div>
+                                    {order.productPrice}원 x {order.cartCount}개 = {order.productPrice * order.cartCount}원
+                                </div>
+                            </div>
+                            
+
+                            )
+
+                            :
+                            <>
+                            </>
+
+                            }
+
+                            <div className="h-[120px] text-right text-4xl font-extrabold">
+                                총 {location.state.orderList.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0)}원
+                            </div>
 
                             <button className="bg-green-600 rounded-md text-white h-14 w-52 absolute bottom-3 right-1/2 translate-x-1/2 hover:opacity-80"
                                 onClick={handleClickPay}>
