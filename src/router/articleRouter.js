@@ -2,7 +2,7 @@ import { Suspense, lazy } from "react";
 import { Navigate } from "react-router-dom";
 
 const List = lazy(()=>import("../pages/article/ArticleListPage"));
-const Write = lazy(()=>import("../pages/article/ArticleWritePage"));
+const Create = lazy(()=>import("../pages/article/ArticleWritePage"));
 // const Read = lazy(()=>import("../내가 만든 경로 쓰기"));
 // const Create = lazy(()=>import("../내가 만든 경로 쓰기"));
 // const Modify = lazy(()=>import("../내가 만든 경로 쓰기"));
@@ -22,8 +22,8 @@ const articleRouter = () => {
         },
 
         {
-            path: "write",
-            element: <Suspense><Write /></Suspense>
+            path: "create",
+            element: <Suspense><Create /></Suspense>
         }
 
         // {

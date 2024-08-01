@@ -1,164 +1,151 @@
-import { Box, Button, Flex, Heading, HStack, IconButton, Input, Select, Text, VStack, useColorMode, useColorModeValue, Switch } from '@chakra-ui/react';
+import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, HStack, useColorModeValue } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getList } from '../../api/articleApi';
 
-const Pagination = ({ totalPages, currentPage, onPageChange }) => (
-  <HStack spacing={2} justify="center" mt={6}>
-    <Button
-      onClick={() => onPageChange(currentPage - 1)}
-      disabled={currentPage === 1}
-      variant="outline"
-      colorScheme="teal"
-      size="sm"
-    >
-      이전
-    </Button>
-    {[...Array(totalPages)].map((_, index) => (
-      <Button
-        key={index}
-        onClick={() => onPageChange(index + 1)}
-        variant={index + 1 === currentPage ? "solid" : "outline"}
-        colorScheme="teal"
-        size="sm"
-      >
-        {index + 1}
-      </Button>
-    ))}
-    <Button
-      onClick={() => onPageChange(currentPage + 1)}
-      disabled={currentPage === totalPages}
-      variant="outline"
-      colorScheme="teal"
-      size="sm"
-    >
-      다음
-    </Button>
-  </HStack>
-);
-
-const ArticleCard = ({ article }) => {
-  const cardBg = useColorModeValue('white', 'gray.800'); // 라이트 모드에서는 흰색, 다크 모드에서는 회색
-  const cardBorder = useColorModeValue('gray.200', 'gray.700'); // 라이트 모드에서는 밝은 회색, 다크 모드에서는 짙은 회색
-
-  return (
-    <Box
-      bg={cardBg}
-      p={4}
-      borderWidth={1}
-      borderRadius="lg"
-      borderColor={cardBorder}
-      boxShadow="sm"
-      w="full"
-    >
-      <Heading size="md" mb={2}>{article.title}</Heading>
-      <Text fontSize="sm" color="gray.500">
-        {article.author} - {article.date}
-      </Text>
-      <Text mt={2} noOfLines={2}>{article.content}</Text>
-      <Text mt={2} fontSize="sm" color="gray.600">조회수: {article.views}</Text>
-    </Box>
-  );
+const Pagination = ({ totalPages, currentPage, onPageChange }) => {
+    return (
+        <HStack spacing={4} justify="center" mt={4}>
+            <Button
+                onClick={() => onPageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                variant="outline"
+                colorScheme="teal"
+            >
+                이전
+            </Button>
+            {[...Array(totalPages)].map((_, index) => (
+                <Button
+                    key={index}
+                    onClick={() => onPageChange(index + 1)}
+                    variant={index + 1 === currentPage ? "solid" : "outline"}
+                    colorScheme="teal"
+                >
+                    {index + 1}
+                </Button>
+            ))}
+            <Button
+                onClick={() => onPageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                variant="outline"
+                colorScheme="teal"
+            >
+                다음
+            </Button>
+        </HStack>
+    );
 };
 
 const ArticleListPage = () => {
-  const { colorMode, toggleColorMode } = useColorMode(); // 현재 모드와 토글 함수 가져오기
-  const [articles, setArticles] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const articlesPerPage = 5;
+    const [articles, setArticles] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const articlesPerPage = 2;
 
-  useEffect(() => {
-    const loadArticles = async () => {
-      try {
-        const data = await getList();
-        setArticles(data);
-      } catch (err) {
-        setError('글을 불러오는데 실패했습니다.');
-      } finally {
-        setLoading(false);
-      }
+    useEffect(() => {
+        const loadArticles = async () => {
+            try {
+                const data = await getList();
+                setArticles(data);
+            } catch (err) {
+                setError('글을 불러오는데 실패했습니다.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadArticles();
+    }, []);
+
+    const totalPages = Math.ceil(articles.length / articlesPerPage);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
     };
-    loadArticles();
-  }, []);
 
-  const totalPages = Math.ceil(articles.length / articlesPerPage);
+    const startIndex = (currentPage - 1) * articlesPerPage;
+    const selectedArticles = articles.slice(startIndex, startIndex + articlesPerPage);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+    const navigate = useNavigate();
+    const bgColor = useColorModeValue('gray.50', 'gray.800');
+    const borderColor = useColorModeValue('gray.200', 'gray.700');
 
-  const startIndex = (currentPage - 1) * articlesPerPage;
-  const selectedArticles = articles.slice(startIndex, startIndex + articlesPerPage);
+    return (
+        <>
+            {/* <Box p={4} bg="white" borderBottom="1px" borderColor={borderColor} boxShadow="sm">
+                <Text fontSize="2xl" fontWeight="bold" textAlign="center" color="teal.500">
+                    자유게시판
+                </Text>
+                <Text fontSize="md" textAlign="center" color="gray.600">
+                    자유롭게 의견을 나누는 공간입니다!
+                </Text>
+            </Box> */}
 
-  const navigate = useNavigate();
+            <Flex justify="center" p={4} bg="white" borderBottom="1px" borderColor={borderColor} boxShadow="sm" marginTop="100px">
+                <FormControl>
+                    <Flex alignItems="center" justifyContent="center">
+                        <Select placeholder='제목' w="150px" mr={2}>
+                            <option>내용</option>
+                            <option>등록자명</option>
+                        </Select>
+                        <Input placeholder='검색어를 입력하세요' w="70%" mr={2} />
+                        <IconButton
+                            colorScheme='teal'
+                            aria-label='Search database'
+                            icon={<SearchIcon />}
+                        />
+                    </Flex>
+                </FormControl>
+            </Flex>
 
-  return (
-    <VStack spacing={8} p={8} bg={useColorModeValue('gray.50', 'gray.900')} minH="100vh">
-      <Flex
-        w="full"
-        justify="center"
-        align="center"
-        mb={6}
-        position="relative"
-      >
-        <Box textAlign="center" flex="1">
-          <Heading color="teal.500" mb={2}>자유게시판</Heading>
-          <Text color="gray.600">자유롭게 의견을 나누는 공간입니다!</Text>
-        </Box>
-        <Box position="absolute" right={4}>
-          <Switch
-            isChecked={colorMode === 'dark'}
-            onChange={toggleColorMode}
-            size="lg"
-            colorScheme="teal"
-            aria-label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`}
-          />
-        </Box>
-      </Flex>
+            <Box p={4} bg={bgColor} borderWidth={1} borderRadius="md" boxShadow="md" className='w-11/12 m-auto' marginTop="20px">
+                {loading ? (
+                    <Text textAlign="center">Loading...</Text>
+                ) : error ? (
+                    <Text color="red.500" textAlign="center">{error}</Text>
+                ) : (
+                    <TableContainer>
+                        <Table variant='simple' colorScheme='blue'>
+                            <Thead>
+                                <Tr>
+                                    <Th textAlign="center">글번호</Th>
+                                    <Th textAlign="center">제목</Th>
+                                    <Th textAlign="center">등록자명</Th>
+                                    <Th textAlign="center">등록일</Th>
+                                    <Th textAlign="center">조회수</Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {selectedArticles.map(article => (
+                                    <Tr key={article.id} _hover={{ bg: 'gray.100' }}>
+                                        <Td textAlign="center">{article.id}</Td>
+                                        <Td textAlign="center">{article.title}</Td>
+                                        <Td textAlign="center">{article.author}</Td>
+                                        <Td textAlign="center">{article.date}</Td>
+                                        <Td textAlign="center">{article.views}</Td>
+                                    </Tr>
+                                ))}
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
+                )}
 
-      <Flex justify="center" w="full">
-        <Box as="form" display="flex" gap={4} w="full" maxW="800px">
-          <Select placeholder='제목' flex="1" size="sm">
-            <option>내용</option>
-            <option>등록자명</option>
-          </Select>
-          <Input placeholder='검색어를 입력하세요' flex="2" size="sm" />
-          <IconButton
-            colorScheme='teal'
-            aria-label='Search database'
-            icon={<SearchIcon />}
-            size="sm"
-            type="submit"
-          />
-        </Box>
-      </Flex>
+                <Pagination
+                    totalPages={totalPages}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange}
+                />
 
-      <VStack spacing={4} w="full" maxW="800px" align="center">
-        {loading ? (
-          <Text>Loading...</Text>
-        ) : error ? (
-          <Text color="red.500">{error}</Text>
-        ) : (
-          selectedArticles.map(article => (
-            <ArticleCard key={article.id} article={article} />
-          ))
-        )}
-      </VStack>
-
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-
-      <Button colorScheme='teal' size="sm" onClick={() => navigate('../write')}>
-        글쓰기
-      </Button>
-    </VStack>
-  );
+                <Flex justifyContent="flex-end">
+                    <Button mt={4} colorScheme='teal' onClick={() => navigate('../create')}>
+                        글쓰기
+                    </Button>
+                </Flex>
+            </Box>
+        </>
+    );
 }
 
 export default ArticleListPage;
