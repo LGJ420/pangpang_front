@@ -13,7 +13,7 @@ const MemberFindPwPage = () => {
     const navigate = useNavigate();
 
     const location = useLocation();
-    const {memberId} = location.state || {};
+    const {id} = location.state || {};
 
     const [memberPwInFindPwForReset, setMemberPwInFindPwForReset] = useState("");
     const [memberPwConfirmInFindPwForReset, setMemberPwConfirmInFindPwForReset] = useState("");
@@ -46,8 +46,8 @@ const MemberFindPwPage = () => {
         // 3. axios 포스트 하기
         axios
         .post("http://localhost:8080/api/member/find_pw/reset",{
-            // 비밀번호만 보내려고 했는데 Repository.findByMemberId()<-이걸로 데이터 찾고 비번 바꿔야해서 멤버아이디도 같이 전송해야됨
-            memberIdInFindPwForReset : memberId,
+            // 비밀번호만 보내려고 했는데 Repository.findByMemberId()<-이걸로 데이터 찾고 비번 바꿔야해서 회원번호(id)도 같이 전송해야됨
+            idInFindPwForReset : id,
             memberPwInFindPwForReset : memberPwInFindPwForReset
         })
 
@@ -59,15 +59,6 @@ const MemberFindPwPage = () => {
         .catch((error)=>{
             console.error("비밀번호 변경 중 오류 발생", error);
         });
-
-        // 4. 스프링에 포스트 매핑 만들기
-        // 5. 비밀번호 리셋 메소드 만들기 
-        //      -1. findByMemberId(memberId) 해서
-        //      -2. 비밀번호 암호화 하고
-        //      -3. member.build()
-        //           .memberPw(암호화한 비번)
-        //           .build()
-        //      -4. memberRepository.save(member)
     }
 
     return (
