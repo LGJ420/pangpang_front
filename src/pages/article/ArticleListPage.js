@@ -1,10 +1,11 @@
 import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, HStack, useColorModeValue } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-
 import React, { useEffect, useState } from 'react';
+import { getList } from '../../api/articleApi'; // getList 함수를 import 합니다.
+import useCustomMove from '../../hooks/useCustomMove';
 import { useNavigate } from 'react-router-dom';
-import { getList } from '../../api/articleApi';
 
+// 페이지네이션 컴포넌트
 const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     return (
         <HStack spacing={4} justify="center" mt={4}>
@@ -38,18 +39,23 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     );
 };
 
+// 게시글 목록 페이지 컴포넌트
 const ArticleListPage = () => {
     const [articles, setArticles] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
+    const [totalPages, setTotalPages] = useState(0); // 초기 상태값을 0으로 설정
     const [error, setError] = useState(null);
-    const articlesPerPage = 2;
+    const { page, size, moveToList, moveToRead } = useCustomMove();
+    const articlesPerPage = size; // useCustomMove에서 가져온 size 사용
 
     useEffect(() => {
         const loadArticles = async () => {
+            setLoading(true);
             try {
-                const data = await getList();
-                setArticles(data);
+                const data = await getList({ page, size: articlesPerPage });
+                console.log('API Response:', data);
+                setArticles(data.articles);
+                setTotalPages(data.totalPages); // 서버에서 반환된 총 페이지 수
             } catch (err) {
                 setError('글을 불러오는데 실패했습니다.');
             } finally {
@@ -57,32 +63,19 @@ const ArticleListPage = () => {
             }
         };
         loadArticles();
-    }, []);
+    }, [page, articlesPerPage]);
 
-    const totalPages = Math.ceil(articles.length / articlesPerPage);
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
+    const handlePageChange = (newPage) => {
+        moveToList({ page: newPage, size: articlesPerPage });
     };
 
-    const startIndex = (currentPage - 1) * articlesPerPage;
-    const selectedArticles = articles.slice(startIndex, startIndex + articlesPerPage);
-
     const navigate = useNavigate();
+
     const bgColor = useColorModeValue('gray.50', 'gray.800');
     const borderColor = useColorModeValue('gray.200', 'gray.700');
 
     return (
         <>
-            {/* <Box p={4} bg="white" borderBottom="1px" borderColor={borderColor} boxShadow="sm">
-                <Text fontSize="2xl" fontWeight="bold" textAlign="center" color="teal.500">
-                    자유게시판
-                </Text>
-                <Text fontSize="md" textAlign="center" color="gray.600">
-                    자유롭게 의견을 나누는 공간입니다!
-                </Text>
-            </Box> */}
-
             <Flex justify="center" p={4} bg="white" borderBottom="1px" borderColor={borderColor} boxShadow="sm" marginTop="100px">
                 <FormControl>
                     <Flex alignItems="center" justifyContent="center">
@@ -118,13 +111,12 @@ const ArticleListPage = () => {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {selectedArticles.map(article => (
-                                    <Tr key={article.id} _hover={{ bg: 'gray.100' }}>
+                                {articles.map(article => (
+                                    <Tr key={article.id} _hover={{ bg: 'gray.100' }} onClick={() => moveToRead(article.id)}>
                                         <Td textAlign="center">{article.id}</Td>
-                                        <Td textAlign="center">{article.title}</Td>
-                                        <Td textAlign="center">{article.author}</Td>
-                                        <Td textAlign="center">{article.date}</Td>
-                                        <Td textAlign="center">{article.views}</Td>
+                                        <Td textAlign="center">{article.articleTitle}</Td>
+                                        <Td textAlign="center">{article.articleAuthor}</Td>
+                                        <Td textAlign="center">{new Date(article.articleCreated).toLocaleDateString()}</Td>
                                     </Tr>
                                 ))}
                             </Tbody>
@@ -134,12 +126,12 @@ const ArticleListPage = () => {
 
                 <Pagination
                     totalPages={totalPages}
-                    currentPage={currentPage}
+                    currentPage={page}
                     onPageChange={handlePageChange}
                 />
 
                 <Flex justifyContent="flex-end">
-                    <Button mt={4} colorScheme='teal' onClick={() => navigate('../create')}>
+                    <Button mt={4} colorScheme='teal' onClick={() => navigate("../create")}>
                         글쓰기
                     </Button>
                 </Flex>
