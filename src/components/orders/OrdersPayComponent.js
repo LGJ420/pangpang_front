@@ -51,20 +51,20 @@ const OrdersPayComponent = () => {
 
     return (
 
-        <div className="bg-green-700 min-w-[768px] min-h-screen">
+        <div className="bg-slate-50 min-w-[768px] min-h-screen">
             <div className="max-w-[1350px] min-w-[768px] m-auto">
                 <div className="pt-10 pl-10 pb-4">
                     <Link to={'/'}>
-                        <img src="/images/b_logo_r2.png" className="w-56"></img>
+                        <img src="/images/logo_r2.png" className="w-56"></img>
                     </Link>
-                    <h1 className="text-white text-4xl font-bold mt-4">결제</h1>
+                    <h1 className=" text-4xl font-bold mt-4">결제</h1>
                 </div>
 
                 <div className="flex">
 
                     <div className="w-2/3 flex flex-col items-center">
 
-                    <div className="bg-white w-11/12 my-2 p-4 rounded-lg">
+                    <div className="bg-white w-11/12 my-2 p-7 rounded-lg shadow">
                         <h3 className="text-xl font-bold">배송지</h3>
                         <hr className="my-3"/>
                         <div className="mb-2">
@@ -124,7 +124,7 @@ const OrdersPayComponent = () => {
                         </div>
                     </div>
 
-                        <div className="bg-white w-11/12 my-2 p-4 rounded-lg">
+                        <div className="bg-white w-11/12 my-2 p-7 rounded-lg shadow">
                             <h3 className="text-xl font-bold">주문상품</h3>
 
 
@@ -156,10 +156,10 @@ const OrdersPayComponent = () => {
                             }
                         </div>
 
-                        <div className="bg-white w-11/12 my-2 p-4 rounded-lg">
+                        <div className="bg-white w-11/12 my-2 p-7 rounded-lg shadow">
                             <h3 className="text-xl font-bold">결제수단</h3>
                             <hr className="my-3"/>
-                            <div className="flex items-center mb-4">
+                            <div className="flex items-center my-7">
                                 <input 
                                     type="radio" 
                                     id="payment-card" 
@@ -171,7 +171,7 @@ const OrdersPayComponent = () => {
                                     카드결제
                                 </label>
                             </div>
-                            <div className="flex items-center mb-4">
+                            <div className="flex items-center my-7">
                                 <input 
                                     type="radio" 
                                     id="payment-account" 
@@ -192,7 +192,7 @@ const OrdersPayComponent = () => {
 
                     <div className="w-1/3 mr-2 flex flex-col items-center">
                     
-                        <div className="bg-white w-11/12 rounded-lg mt-2 p-4 sticky top-3">
+                        <div className="bg-white w-11/12 rounded-lg mt-2 p-7 sticky top-3 shadow">
                             <h3 className="text-xl font-bold">총 결제금액</h3>
                             <hr className="my-3"/>
 
@@ -218,11 +218,11 @@ const OrdersPayComponent = () => {
 
                             }
 
-                            <div className="h-[120px] text-right text-4xl font-extrabold">
+                            <div className="pt-[40px] h-[220px] text-right text-4xl font-extrabold">
                                 총 {location.state.orderList.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0).toLocaleString()}원
                             </div>
 
-                            <button className="bg-green-600 rounded-md text-white h-14 w-52 absolute bottom-3 right-1/2 translate-x-1/2 hover:opacity-80"
+                            <button className="bg-blue-500 rounded-md text-white h-14 w-52 absolute bottom-7 right-1/2 translate-x-1/2 hover:opacity-80"
                                 onClick={handleClickPay}>
                                 결제하기
                             </button>

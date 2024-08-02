@@ -114,7 +114,7 @@ const CratListComponent = () => {
                         className="sr-only peer"
                         checked={selectAll}
                         onChange={(e)=>handleClickAllCheck(e.target.checked)} />
-                    <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-green-500 peer-focus:ring peer-focus:ring-green-500 peer-focus:ring-opacity-50"></div>
+                    <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-blue-500 peer-focus:ring peer-focus:ring-blbg-blue-500 peer-focus:ring-opacity-50"></div>
                     <svg className="hidden w-10 h-10 text-white pointer-events-none absolute top-0.5 left-0.5 peer-checked:block" fill="none" viewBox="0 0 80 80" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
                     </svg>
@@ -126,13 +126,13 @@ const CratListComponent = () => {
         { serverData.length > 0 ?
 
             serverData.map((data, index)=>(
-                    <div key={index} className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
+                    <div key={index} className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center shadow ">
                         <label className="relative select-none">
                             <input type="checkbox"
                                 className="sr-only peer"
                                 checked={data.checked}
                                 onChange={()=>handleClickCheck(data.productId)} />
-                            <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-green-500 peer-focus:ring peer-focus:ring-green-500 peer-focus:ring-opacity-50"></div>
+                            <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-blue-500 peer-focus:ring peer-focus:ring-blbg-blue-500 peer-focus:ring-opacity-50"></div>
                             <svg className="hidden w-10 h-10 text-white pointer-events-none absolute top-0.5 left-0.5 peer-checked:block" fill="none" viewBox="0 0 80 80" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
                             </svg>
@@ -176,7 +176,7 @@ const CratListComponent = () => {
         </section>
         
 
-        <section className="bg-green-600 fixed bottom-0 w-screen h-28">
+        <section className="bg-black fixed bottom-0 w-screen h-28">
             <div className="max-w-[1350px] m-auto h-full flex items-center justify-end text-white">
                 <div className="font-semibold text-3xl">
                     총 {orderList.length}건
@@ -184,7 +184,7 @@ const CratListComponent = () => {
                 <div className="mx-10 font-semibold text-3xl">
                     결제금액 : {totalAmount.toLocaleString()}원
                 </div>
-                <button className="bg-black px-10 py-5 text-xl"
+                <button className="bg-zinc-400 px-10 py-5 text-xl hover:bg-blue-500"
                     onClick={handleClickAllOrder}>
                     결제하러 가기
                 </button>
