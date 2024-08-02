@@ -49,11 +49,6 @@ const ProductListComponent = () => {
   }, [search, page, size, refresh])
 
 
-  /* 검색 버튼 클릭 시 검색 목록 데이터 저장 */
-  const handleClickSearch = () => {
-    moveToList({search: word})
-  };
-
 
 /* 장바구니 */
   const handleClickCart = (product) => {
@@ -93,7 +88,7 @@ const ProductListComponent = () => {
         value={word} />
         <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
           icon={<SearchIcon />}
-          onClick={() => {handleClickSearch({search: word}); console.log(word); }}
+          onClick={() => {moveToList({search:word}); console.log(word); }}
           />
       </div>
 

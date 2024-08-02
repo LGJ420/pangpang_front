@@ -7,3 +7,4 @@ export const getProductList = async () => {
   const res = await axios.get(`${API_SERVER_HOST}/`);
   return res.data;
 }
+

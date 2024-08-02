@@ -9,12 +9,13 @@ import { getProductList } from "../../api/MainPageApi";
 
 /* 초기값 설정 */
 const initState = {
-  dtoList : []
+  dtoList: [],
 };
 
 const MainProductList = () => {
 
   const { moveToRead } = useCustomMove();
+
   const navigate = useNavigate();
 
   const [serverData, setServerData] = useState(initState);
@@ -59,83 +60,39 @@ const MainProductList = () => {
 
   return (
     <Carousel>
+
       <Carousel.Item>
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5} className="pb-32">
-          <Card maxW='sm' className="text-center">
-            <CardBody>
-              <div className="relative z-10 overflow-hidden">
-                <Image onClick={() => moveToRead()}
-                  src='/images/chi1.jpg'
-                  className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
-              </div>
-              <Stack mt='3' spacing='3'>
-                <Heading size='md' fontSize="xl">상품명</Heading>
-                <Text fontSize='xl'>가격</Text>
-              </Stack>
 
-              <CardFooter>
-                <ButtonGroup spacing='5' className='mx-auto'>
-                  <button className="text-xl font-extrabold hover:opacity-70 bg-stone-700 rounded-lg w-14 h-14">
-                    <img src="/images/credit-card-regular.svg" className="w-9 h-9 mx-auto" />
-                  </button>
-                  <button className="text-xl border hover:opacity-70 border-stone-700 rounded-lg w-14 h-14"
-                    onClick={() => { handleClickCart() }}>
-                    <img src="/images/cart-shopping-solid.svg" className="w-9 h-9 mx-auto" />
-                  </button>
-                </ButtonGroup>
-              </CardFooter>
-            </CardBody>
-          </Card>
-          <Card maxW='sm' className="text-center">
-            <CardBody>
-              <div className="relative z-10 overflow-hidden">
-                <Image onClick={() => moveToRead()}
-                  src='/images/chi1.jpg'
-                  className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
-              </div>
-              <Stack mt='3' spacing='3'>
-                <Heading size='md' fontSize="xl">상품명</Heading>
-                <Text fontSize='xl'>가격</Text>
-              </Stack>
+          {serverData.dtoList.map(product =>
+            <Card maxW='sm' className="text-center" key={product.id}>
+              <CardBody>
+                <div className="relative z-10 overflow-hidden">
+                  <Image onClick={() => navigate({pathname: `product/read/${product.id}`})}
+                    src='/images/chi1.jpg'
+                    className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
+                </div>
+                <Stack mt='3' spacing='3'>
+                  <Heading size='md' fontSize="lg"> {product.productTitle.length > 9
+                    ? product.productTitle.substring(0, 9) + '...'
+                    : product.productTitle}</Heading>
+                  <Text fontSize='xl'>{product.productPrice.toLocaleString()}원</Text>
+                </Stack>
 
-              <CardFooter>
-                <ButtonGroup spacing='5' className='mx-auto'>
-                  <button className="text-xl font-extrabold hover:opacity-70 bg-stone-700 rounded-lg w-14 h-14">
-                    <img src="/images/credit-card-regular.svg" className="w-9 h-9 mx-auto" />
-                  </button>
-                  <button className="text-xl border hover:opacity-70 border-stone-700 rounded-lg w-14 h-14"
-                    onClick={() => { handleClickCart() }}>
-                    <img src="/images/cart-shopping-solid.svg" className="w-9 h-9 mx-auto" />
-                  </button>
-                </ButtonGroup>
-              </CardFooter>
-            </CardBody>
-          </Card>
-          <Card maxW='sm' className="text-center">
-            <CardBody>
-              <div className="relative z-10 overflow-hidden">
-                <Image onClick={() => moveToRead()}
-                  src='/images/chi1.jpg'
-                  className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
-              </div>
-              <Stack mt='3' spacing='3'>
-                <Heading size='md' fontSize="xl">상품명</Heading>
-                <Text fontSize='xl'>가격</Text>
-              </Stack>
-
-              <CardFooter>
-                <ButtonGroup spacing='5' className='mx-auto'>
-                  <button className="text-xl font-extrabold hover:opacity-70 bg-stone-700 rounded-lg w-14 h-14">
-                    <img src="/images/credit-card-regular.svg" className="w-9 h-9 mx-auto" />
-                  </button>
-                  <button className="text-xl border hover:opacity-70 border-stone-700 rounded-lg w-14 h-14"
-                    onClick={() => { handleClickCart() }}>
-                    <img src="/images/cart-shopping-solid.svg" className="w-9 h-9 mx-auto" />
-                  </button>
-                </ButtonGroup>
-              </CardFooter>
-            </CardBody>
-          </Card>
+                <CardFooter>
+                  <ButtonGroup spacing='5' className='mx-auto'>
+                    <button className="text-xl font-extrabold hover:opacity-70 bg-stone-700 rounded-lg w-14 h-14">
+                      <img src="/images/credit-card-regular.svg" className="w-9 h-9 mx-auto" />
+                    </button>
+                    <button className="text-xl border hover:opacity-70 border-stone-700 rounded-lg w-14 h-14"
+                      onClick={() => { handleClickCart(product) }}>
+                      <img src="/images/cart-shopping-solid.svg" className="w-9 h-9 mx-auto" />
+                    </button>
+                  </ButtonGroup>
+                </CardFooter>
+              </CardBody>
+            </Card>
+          )}
         </SimpleGrid>
       </Carousel.Item>
     </Carousel>

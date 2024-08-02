@@ -21,6 +21,7 @@ const Game = lazy(()=>import("../pages/game/GameIndexPage"));
 const Cart = lazy(()=>import("../pages/cart/CartIndexPage"));
 const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
 const Orders = lazy(()=>import("../pages/orders/OrdersIndexPage"));
+const ReadProduct = lazy(()=>import("../pages/product/ProductDetailPage"));     // 메인페이지에서 상품 상세 페이지로 이동할 때 사용
 
 // 성빈 라우터
 
@@ -72,7 +73,7 @@ const root = createBrowserRouter([
         path: "",
         element: <Suspense><Main /></Suspense>
     },
-    
+
     {
         path: "notice",
         element: <Suspense><Notice /></Suspense>
