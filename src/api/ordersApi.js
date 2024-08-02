@@ -7,7 +7,7 @@ const prefix = `${API_SERVER_HOST}/api/orders`;
 
 export const getOrdersList = async () => {
     
-    const res = await axios.get(`${prefix}`);
+    const res = await axios.get(`${prefix}/list`);
     
     return res.data;
 }

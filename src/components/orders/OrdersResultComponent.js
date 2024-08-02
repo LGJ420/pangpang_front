@@ -1,4 +1,33 @@
+import { useEffect, useState } from "react";
+import { getOrdersList } from "../../api/ordersApi";
+
+const initData = [{
+    name: "",
+    address: "",
+    phone: "",
+    memberId: 0,
+    dtoList: [{
+        productId: 0,
+        productTitle: "",
+        productContent: "",
+        productPrice: 0,
+        cartCount: 0
+    }]
+}]
+
+
 const OrdersResultComponent = () => {
+
+    const [serverData, setServerData] = useState(initData);
+
+    useEffect(()=>{
+        
+        getOrdersList().then(data=>{
+
+            setServerData(data);
+        })
+    },[]);
+
 
     return (
         <section className="w-[1350px] m-auto">
@@ -16,47 +45,37 @@ const OrdersResultComponent = () => {
                 </div>
             </div>
     
-            <div className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
-                <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img>
-                <div className="w-1/3">
-                    <h3 className="font-extrabold text-2xl">개쩌는상품</h3>
-                    <p className="mt-3">이거사세요제발사세요<br/>두번사세요 세번사세요</p>
-                </div>
-                <div className="text-center text-2xl">
-                    <h3>수량</h3>
-                    <div>1개</div>
-                </div>
-                <div className="text-3xl">50000원</div>
-                <div className="">주문완료</div>
-            </div>
-            <div className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
-                <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img>
-                <div className="w-1/3">
-                    <h3 className="font-extrabold text-2xl">개쩌는상품</h3>
-                    <p className="mt-3">이거사세요제발사세요<br/>두번사세요 세번사세요</p>
-                </div>
-                <div className="text-center text-2xl">
-                    <h3>수량</h3>
-                    <div>1개</div>
-                </div>
-                <div className="text-3xl">50000원</div>
-                <div className="">주문완료</div>
-            </div>
-            <div className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
-                <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img>
-                <div className="w-1/3">
-                    <h3 className="font-extrabold text-2xl">개쩌는상품</h3>
-                    <p className="mt-3">이거사세요제발사세요<br/>두번사세요 세번사세요</p>
-                </div>
-                <div className="text-center text-2xl">
-                    <h3>수량</h3>
-                    <div>1개</div>
-                </div>
-                <div className="text-3xl">50000원</div>
-                <div className="">주문완료</div>
-            </div>
 
-            
+        {
+            serverData ? 
+
+            serverData.map(data=>
+
+                data.dtoList.map(dto=>
+
+                    <div className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
+                        <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img>
+                        <div className="w-1/3">
+                            <h3 className="font-extrabold text-2xl">{dto.productTitle}</h3>
+                            <p className="mt-3">{dto.productContent}</p>
+                        </div>
+                        <div className="text-center text-2xl">
+                            <h3>수량</h3>
+                            <div>{dto.cartCount}개</div>
+                        </div>
+                        <div className="text-3xl">{dto.productPrice}원</div>
+                        <div className="">주문완료</div>
+                    </div>
+                )
+
+            )
+
+            :
+
+            <>
+            </>
+        }
+
         </section>
     );
 }
