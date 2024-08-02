@@ -76,6 +76,14 @@ const ProductListComponent = () => {
   }
 
 
+  /* 검색 인풋창 엔터키만 눌러도 검색 */
+  const handleKeyDown = (e) => {
+    if(e.key === "Enter") {
+      moveToList({search:word});
+    }
+  }
+
+
 
   // 리턴값 맵으로 반복
   return (
@@ -85,6 +93,7 @@ const ProductListComponent = () => {
         <h1 className="text-5xl mr-auto">상점 페이지</h1>
         <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
         onChange={(e) => {setWord(e.target.value); console.log(word)}}
+          onKeyDown={handleKeyDown}
         value={word} />
         <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
           icon={<SearchIcon />}
