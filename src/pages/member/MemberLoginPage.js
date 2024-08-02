@@ -84,14 +84,16 @@ const MemberLoginPage = () => {
                             <input 
                             value={memberId}
                             onChange={handleMemberId}
-                            placeholder="아이디를 입력해주세요."></input>
+                            placeholder="아이디를 입력해주세요."
+                            className="h-12 px-3 placeholder-shown:text-base"></input>
                         </div>
                         <div>
                             <input 
                             value={memberPw}
                             onChange={handleMemberPw}
                             type="password" 
-                            placeholder="비밀번호를 입력해주세요."></input>
+                            placeholder="비밀번호를 입력해주세요."
+                            className="h-12 px-3 placeholder-shown:text-base"></input>
                         </div>
                     </div>
                     
