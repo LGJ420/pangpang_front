@@ -58,12 +58,13 @@ const OrdersResultComponent = () => {
                         <div className="w-1/3">
                             <h3 className="font-extrabold text-2xl">{dto.productTitle}</h3>
                             <p className="mt-3">{dto.productContent}</p>
+                            <div className="text-blue-700 cursor-pointer hover:opacity-50">자세히보기</div>
                         </div>
                         <div className="text-center text-2xl">
                             <h3>수량</h3>
                             <div>{dto.cartCount}개</div>
                         </div>
-                        <div className="text-3xl">{dto.productPrice}원</div>
+                        <div className="text-3xl">{dto.productPrice.toLocaleString()}원</div>
                         <div className="">주문완료</div>
                     </div>
                 )

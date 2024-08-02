@@ -44,7 +44,7 @@ const OrdersPayComponent = () => {
 
         postOrdersAdd({...userData, dtoList: productData} );
 
-        // navigate({pathname: `../result`});
+        navigate({pathname: `../result`});
     }
 
 
@@ -142,7 +142,7 @@ const OrdersPayComponent = () => {
                                         <div className="font-bold mt-3">{product.cartCount}개</div>
                                     </div>
                                     <div className="ml-auto text-3xl font-semibold">
-                                        {product.productPrice}원
+                                        {product.productPrice.toLocaleString()}원
                                     </div>
                                 </div>
                                 </>
@@ -205,7 +205,7 @@ const OrdersPayComponent = () => {
                                     {product.productTitle}
                                 </div>
                                 <div>
-                                    {product.productPrice}원 x {product.cartCount}개 = {product.productPrice * product.cartCount}원
+                                    {product.productPrice.toLocaleString()}원 x {product.cartCount}개 = {(product.productPrice * product.cartCount).toLocaleString()}원
                                 </div>
                             </div>
                             
@@ -219,7 +219,7 @@ const OrdersPayComponent = () => {
                             }
 
                             <div className="h-[120px] text-right text-4xl font-extrabold">
-                                총 {location.state.orderList.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0)}원
+                                총 {location.state.orderList.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0).toLocaleString()}원
                             </div>
 
                             <button className="bg-green-600 rounded-md text-white h-14 w-52 absolute bottom-3 right-1/2 translate-x-1/2 hover:opacity-80"

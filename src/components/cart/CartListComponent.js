@@ -146,7 +146,7 @@ const CratListComponent = () => {
                             <h3>수량</h3>
                             <div>{data.cartCount}개</div>
                         </div>
-                        <div className="text-3xl">{data.productPrice}원</div>
+                        <div className="text-3xl">{data.productPrice.toLocaleString()}원</div>
                         <div className="flex flex-col">
                             <button className="bg-blue-500 text-white w-32 h-10 m-1">
                                 이 상품 주문
@@ -182,7 +182,7 @@ const CratListComponent = () => {
                     총 {orderList.length}건
                 </div>
                 <div className="mx-10 font-semibold text-3xl">
-                    결제금액 : {totalAmount}원
+                    결제금액 : {totalAmount.toLocaleString()}원
                 </div>
                 <button className="bg-black px-10 py-5 text-xl"
                     onClick={handleClickAllOrder}>
