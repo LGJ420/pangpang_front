@@ -65,9 +65,12 @@ const MemberLoginPage = () => {
             <section className="account_management">
 
                 {/* 로그인 폼 */}
-                <div>
+                <div className="w-[25rem]">
 
                     {/* 로그인 페이지 */}
+                    <Link to={'/'}>
+                        <img src="/images/logo.png" className="w-20 mb-3"/>
+                    </Link>
                     <h1>
                         <span>
                             팡팡게임즈
@@ -107,14 +110,14 @@ const MemberLoginPage = () => {
                     <hr></hr>
 
                     {/* 링크 이동 */}
-                    <div>
-                        <Link to={'/signup'} className="px-5">
+                    <div className="flex justify-between">
+                        <Link to={'/signup'}>
                             회원가입
                         </Link>
-                        <Link to={'/find'} className="px-5">
+                        <Link to={'/find'}>
                             아이디/비밀번호 찾기
                         </Link>
-                        <Link to={'/'} className="px-5">
+                        <Link to={'/'}>
                             홈으로 가기
                         </Link>
                     </div>

@@ -163,6 +163,9 @@ const MemberLoginPage = () => {
         <section className="account_management">
 
             {/* 아이디/비밀번호 찾기 페이지 */}
+            <Link to={'/'}>
+                <img src="/images/logo.png" className="w-20 mb-3"/>
+            </Link>
             <h1>
                 <span>
                 팡팡게임즈

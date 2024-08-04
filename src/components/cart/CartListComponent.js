@@ -164,7 +164,7 @@ const CratListComponent = () => {
 
             :
             
-            <div className="flex justify-around w-11/12 text-2xl font-semibold mx-auto my-4 py-52 items-center content-center">
+            <div className="flex justify-around w-11/12 text-2xl font-semibold mx-auto py-40 items-center content-center">
                 장바구니가 비어있습니다
             </div>
         }
@@ -176,15 +176,15 @@ const CratListComponent = () => {
         </section>
         
 
-        <section className="bg-black fixed bottom-0 w-screen h-28">
+        <section className="bg-blue-600 fixed bottom-0 w-screen h-20">
             <div className="max-w-[1350px] m-auto h-full flex items-center justify-end text-white">
-                <div className="font-semibold text-3xl">
+                <div className="font-semibold text-2xl">
                     총 {orderList.length}건
                 </div>
                 <div className="mx-10 font-semibold text-3xl">
                     결제금액 : {totalAmount.toLocaleString()}원
                 </div>
-                <button className="bg-zinc-400 px-10 h-full text-xl hover:bg-blue-500"
+                <button className="bg-slate-950 px-10 h-full text-xl hover:bg-neutral-700"
                     onClick={handleClickAllOrder}>
                     결제하러 가기
                 </button>

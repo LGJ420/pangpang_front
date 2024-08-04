@@ -73,7 +73,7 @@ const OrdersPayComponent = () => {
                                 type="text" 
                                 id="name" 
                                 name="name" 
-                                className="mt-1 block w-40 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                className="mt-1 block w-48 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                 placeholder="이름을 입력하세요" 
                                 maxLength={10}
                                 onChange={handleChangeUserData}
@@ -95,7 +95,7 @@ const OrdersPayComponent = () => {
                                     type="text" 
                                     id="phone2" 
                                     name="phone2" 
-                                    className="mt-1 mr-2 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                    className="mt-1 mr-2 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                     placeholder="1234" 
                                     maxLength="4"
                                     onChange={handleChangeUserData}
@@ -104,7 +104,7 @@ const OrdersPayComponent = () => {
                                     type="text" 
                                     id="phone3" 
                                     name="phone3" 
-                                    className="mt-1 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                    className="mt-1 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
                                     placeholder="5678" 
                                     maxLength="4"
                                     onChange={handleChangeUserData}
@@ -218,7 +218,7 @@ const OrdersPayComponent = () => {
 
                             }
 
-                            <div className="pt-[40px] h-[220px] text-right text-4xl font-extrabold">
+                            <div className="pt-[40px] h-[180px] text-right text-4xl font-extrabold">
                                 총 {location.state.orderList.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0).toLocaleString()}원
                             </div>
 

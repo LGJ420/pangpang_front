@@ -6,7 +6,7 @@ import {
 
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 const MemberFindPwPage = () => {
@@ -66,6 +66,9 @@ const MemberFindPwPage = () => {
         <section className="account_management">
 
         {/* 아이디 찾기 페이지 */}
+        <Link to={'/'}>
+            <img src="/images/logo.png" className="w-20 mb-3"/>
+        </Link>
         <h1>
             <span>
                 팡팡게임즈
