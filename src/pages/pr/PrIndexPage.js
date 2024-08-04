@@ -1,15 +1,14 @@
-import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+import PrComponent from "../../components/pr/PrComponent";
+import BasicLayout from "../../layouts/BasicLayout";
 
 const PrIndexPage = () => {
 
     return (
-        <BasicWidthLimitLayout>
+        <BasicLayout>
 
-        <section>
-            여긴 게임소개다냥
-        </section>
+            <PrComponent />
         
-        </BasicWidthLimitLayout>
+        </BasicLayout>
     );
 }
 

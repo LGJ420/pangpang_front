@@ -32,9 +32,9 @@ const NavLayout2 = () => {
                         </Link>
                     </li>
                 </ul>
-                <Link to={'/game'} className="flex items-center text-2xl h-[70px] text-white bg-blue-600 mx-7 px-12 hover:bg-indigo-500">
+                <a href="/game" className="flex items-center text-2xl h-[70px] text-white bg-blue-600 mx-7 px-12 hover:bg-indigo-500">
                     GAME START
-                </Link>
+                </a>
 
             </div>
         </nav>
