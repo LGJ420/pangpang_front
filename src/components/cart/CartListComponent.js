@@ -144,7 +144,11 @@ const CratListComponent = () => {
                         </div>
                         <div className="text-center text-2xl">
                             <h3>수량</h3>
-                            <div>{data.cartCount}개</div>
+                            <div className="flex justify-between items-center">
+                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30">-</button>
+                                <div className="mx-2">{data.cartCount}개</div>
+                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30">+</button>
+                            </div>
                         </div>
                         <div className="text-3xl">{data.productPrice.toLocaleString()}원</div>
                         <div className="flex flex-col">
@@ -169,12 +173,10 @@ const CratListComponent = () => {
             </div>
         }
         <div className="h-72"></div>
-            
-            
-
 
         </section>
         
+        { serverData.length > 0 ?
 
         <section className="bg-blue-600 fixed bottom-0 w-screen h-20">
             <div className="max-w-[1350px] m-auto h-full flex items-center justify-end text-white">
@@ -190,6 +192,13 @@ const CratListComponent = () => {
                 </button>
             </div>
         </section>
+
+        :
+
+        <></>
+
+        }
+
         </>
     );
 }
