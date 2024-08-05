@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, Button, SimpleGrid, Box, Flex, Input, IconButton } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
 import { getList } from "../../api/productApi";
@@ -49,11 +49,6 @@ const ProductListComponent = () => {
   }, [search, page, size, refresh])
 
 
-  /* 검색 버튼 클릭 시 검색 목록 데이터 저장 */
-  const handleClickSearch = () => {
-    moveToList({search: word})
-  };
-
 
 /* 장바구니 */
   const handleClickCart = (product) => {
@@ -81,6 +76,14 @@ const ProductListComponent = () => {
   }
 
 
+  /* 검색 인풋창 엔터키만 눌러도 검색 */
+  const handleKeyDown = (e) => {
+    if(e.key === "Enter") {
+      moveToList({search:word});
+    }
+  }
+
+
 
   // 리턴값 맵으로 반복
   return (
@@ -90,10 +93,11 @@ const ProductListComponent = () => {
         <h1 className="text-5xl mr-auto">상점 페이지</h1>
         <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
         onChange={(e) => {setWord(e.target.value); console.log(word)}}
+          onKeyDown={handleKeyDown}
         value={word} />
         <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
           icon={<SearchIcon />}
-          onClick={() => {handleClickSearch({search: word}); console.log(word); }}
+          onClick={() => {moveToList({search:word}); console.log(word); }}
           />
       </div>
 
