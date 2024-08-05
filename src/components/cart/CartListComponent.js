@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteCartOne, getCartList } from "../../api/cartApi";
+import { deleteCartOne, getCartList, putCartOne } from "../../api/cartApi";
 
 // const initState = [{
 //     productId: 0,
@@ -78,27 +78,32 @@ const CratListComponent = () => {
 
     const handleClickAmount = (productId, delta) => {
 
-        const updatedData = serverData.map(item => {
+        serverData.map(item => {
             if (item.productId === productId) {
                 const newCount = item.cartCount + delta;
     
                 if (newCount < 1) {
-
                     return item;
-
                 } else if (newCount > 10) {
-
                     alert("상품의 최대 수량은 10개입니다.");
                     return item;
                 }
     
-                return { ...item, cartCount: newCount };
-            }
-            return item;
-        });
+
+                putCartOne({ ...item, cartCount: newCount }).then(() => {
+
+                    const newServerData = serverData.map(subItem =>
+                        subItem.productId === productId ? { ...subItem, cartCount: newCount } : subItem
+                    );
     
-        setServerData(updatedData);
-        setOrderList(updatedData.filter(item => item.checked));
+                    setServerData(newServerData);
+                    setOrderList(newServerData.filter(item => item.checked));
+                });
+    
+                return;
+            }
+            return;
+        });
     };
     
 
