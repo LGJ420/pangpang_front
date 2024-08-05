@@ -61,9 +61,9 @@ export const getOne = async (ano) => {
 /**
  * 제가 만든거 저장해주세염
  */
-export const postCreate = async (todoObj) => {
+export const postCreate = async (articleObj) => {
     
-    const res = await axios.post(`${prefix}/`, todoObj);
+    const res = await axios.post(`${prefix}/create`, articleObj);
 
     return res.data;
 }
