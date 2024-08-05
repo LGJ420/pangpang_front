@@ -57,13 +57,12 @@ const ArticleListPage = () => {
         fetchArticles();
     },[search, page, size, refresh]);
 
-
     const bgColor = useColorModeValue('gray.50', 'gray.800');
-    const borderColor = useColorModeValue('gray.200', 'gray.700');
 
     return (
         <>
-            <Flex justify="center" p={4} bg="white" borderBottom="1px" borderColor={borderColor} boxShadow="sm" marginTop="100px">
+        <div className='my-7'>
+            <Flex justify="center" p={4} bg="white">
                 <FormControl>
                     <Flex alignItems="center" justifyContent="center">
                         <Select placeholder='제목' w="150px" mr={2}>
@@ -99,12 +98,12 @@ const ArticleListPage = () => {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {(serverData.articleList || []).map((article, index) => (
-                                    <Tr key={index} _hover={{ bg: 'gray.100' }} onClick={() => moveToRead(article.id)}>
+                                {(serverData.articleList || []).map((article) => (
+                                    <Tr key={article.id} _hover={{ bg: 'gray.100' }} onClick={() => moveToRead(article.id)}>
                                         <Td textAlign="center">{article.id}</Td>
                                         <Td textAlign="center">{article.articleTitle}</Td>
                                         <Td textAlign="center">{article.articleAuthor}</Td>
-                                        <Td textAlign="center">{new Date(article.articleCreated).toLocaleDateString()}</Td>
+                                        <Td textAlign="center">{article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : '날짜 형식이 맞지 않음'}</Td>
                                     </Tr>
                                 ))}
                             </Tbody>
@@ -113,7 +112,7 @@ const ArticleListPage = () => {
                 )}
 
                 {/* 페이지네이션*/}
-                <Flex justifyContent="center" fontSize="25px" className='pb-20 text-gray-700'>
+                <Flex justifyContent="center" fontSize="25px" className='mt-5 text-gray-700'>
                     {/*이전 페이지*/}
                     {serverData.prev ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage})}>{'\u003c'}</Box> :<></>}
 
@@ -133,11 +132,12 @@ const ArticleListPage = () => {
                 </Flex>
 
                 <Flex justifyContent="flex-end">
-                    <Button mt={4} colorScheme='teal' onClick={() => navigate("../create")}>
+                    <Button colorScheme='teal' onClick={() => navigate("../create")}>
                         글쓰기
                     </Button>
                 </Flex>
             </Box>
+        </div>
         </>
     );
 }

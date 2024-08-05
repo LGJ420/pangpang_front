@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+import BasicNoHeightLayout from "../../layouts/BasicNoHeightLayout";
 
 const ArticleIndexPage = () => {
 
     return (
-        <BasicWidthLimitLayout>
+        <BasicNoHeightLayout>
             <Outlet/>
-        </BasicWidthLimitLayout>
+        </BasicNoHeightLayout>
     );
 }
 
