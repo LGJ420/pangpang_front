@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import axios from 'axios';
 
 const NavLayout1 = () => {
 
@@ -7,11 +8,22 @@ const NavLayout1 = () => {
 
     // 로그아웃
     const handleLogout = () => {
-        localStorage.removeItem("memberId");
-        localStorage.removeItem("token");
+        axios.post("http://localhost:8080/api/member/logout")
+            .then((response)=>{
+                // 로그아웃 성공 메세지 출력
+                console.log("로그아웃 성공");
 
-        // 페이지 새로고침
-        window.location.reload();
+                // 로컬 스토리지에서 사용자 정보 및 토큰 삭제
+                localStorage.removeItem("memberId");
+                localStorage.removeItem("token");
+                
+                // // 페이지 새로고침
+                window.location.reload();
+            })
+
+            .catch((error)=>{
+                console.error("로그아웃 실패", error);
+            });
     }
     
     return (
