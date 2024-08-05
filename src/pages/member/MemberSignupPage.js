@@ -61,11 +61,14 @@ const MemberSignupPage = () => {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
             console.error(errorMsg);
             alert(errorMsg);
+
+            return;
         }
         
         // 생년월일이 6자리인지 체크
         if (memberBirth.length !== 6){
-            alert("생년월일을 6자리 숫자로 입력해주세요.")
+            alert("생년월일을 6자리 숫자로 입력해주세요.");
+            return;
         }
 
 
