@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const MemberLoginPage = () => {
@@ -7,6 +7,16 @@ const MemberLoginPage = () => {
     {/* 아이디/비밀번호 state */}
     const [memberId, setMemberId] = useState("");
     const [memberPw, setMemberPw] = useState("");
+    const navigate = useNavigate();
+
+    // 컴포넌트가 마운트될 때 토큰 확인
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            // 이미 로그인된 상태라면 홈으로 리다이렉트
+            navigate("/");
+        }
+    }, [navigate]);
     
     const handleMemberId = (e)=>{
         setMemberId(e.target.value);
@@ -16,53 +26,39 @@ const MemberLoginPage = () => {
     }
 
     const onClickLogin = ()=>{
+        
         console.log("click login");
         console.log("ID : " + memberId);
         console.log("PW : " + memberPw);
-
+        
         axios
-            .post("http://localhost:8080/api/member/login",{
-                memberIdInLogin : memberId,
-                memberPwInLogin : memberPw
-            }, {
-                // headers : {
-                //     'Content-Type': 'application/json'
-                // }
-            })
+        .post("http://localhost:8080/api/member/login",{
+            memberIdInLogin : memberId,
+            memberPwInLogin : memberPw
+        })
             .then((response)=>{
                 console.log(response.data);
+                console.log("======================", "로그인 성공");
+                
+                if (response.data.token) {
+                    localStorage.setItem("memberId", memberId);
+                    localStorage.setItem("token", response.data.token);
+                    console.log("로그인 성공, 로컬 스토리지에 저장됨");
+                    
+                    sessionStorage.setItem("memberId", memberId);
+                    sessionStorage.setItem("token", response.data.token);
+                    console.log("로그인 성공, 세션 스토리지에 저장됨");
 
-                // 첫 번째 조건 : 응답 데이터에 memberId가 정의되지 않은 경우
-                // ID가 일치하지 않는 경우
-                if(response.data.memberId === undefined){
-                    console.log("===========아이디 일치 X===========" + response.data.msg);
-                    alert("입력하신 ID가 일치하지 않습니다.")
-                } 
-
-                // 두 번째 조건 : 응답 데이터에 memberId가 null인 경우
-                // ID는 일치하지만, 비밀번호가 일치하지 않는 경우
-                else if (response.data.memberId === null){
-                    console.log(
-                        "===========비밀번호 일치 X===========",
-                        "입력하신 비밀번호 가 일치하지 않습니다."
-                    );
-                    alert("입력하신 비밀번호 가 일치하지 않습니다.");
-                } 
-
-                // 세 번째 조건 : 응답 데이터에 memberId가 일치하는 경우
-                // ID와 비밀번호 모두 일치하는 경우
-                else if (response.data.memberId === memberId) {
-                    console.log("===========로그인 성공===========", "로그인 성공");
-                    // sessionStorage에 memberId, memberName 저장
-                    sessionStorage.setItem("memberId", memberId); 
-                    sessionStorage.setItem("name", response.data.name); 
+                } else {
+                    alert("토큰이 응답에 없습니다.");
                 }
 
-                // 작업 완료 되면 페이지 이동(새로고침)
-                document.location.href="/";
+                // 로그인 후 홈으로 리다이렉트
+                navigate("/");
             })
             .catch((error)=>{
                 console.error("로그인 요청 중 오류 발생", error);
+                alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.")
             });
     }
     return (
@@ -127,7 +123,6 @@ const MemberLoginPage = () => {
                     </div>
                 </div>
             </section>
-
     );
 }
 
