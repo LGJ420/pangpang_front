@@ -14,8 +14,6 @@ const initState = {
 
 const MainProductList = () => {
 
-  const { moveToRead } = useCustomMove();
-
   const navigate = useNavigate();
 
   const [serverData, setServerData] = useState(initState);
@@ -23,7 +21,7 @@ const MainProductList = () => {
 
   useEffect(() => {
     getProductList().then(data => {
-      console.log(data);
+      // console.log(data);
       setServerData(data);
     });
   }, [])

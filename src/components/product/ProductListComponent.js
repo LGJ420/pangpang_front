@@ -37,12 +37,12 @@ const ProductListComponent = () => {
 
     if (search) {    // search에 데이터 있으면 searh, page, size를 전달
       getList({ search, page, size }).then(data => {
-        console.log(data);
+        // console.log(data);
         setServerData(data);
       });
     } else {        // search에 데이터 없으면 page, size를 전달
       getList({ page, size }).then(data => {
-        console.log(data)
+        // console.log(data);
         setServerData(data)
       });
     }

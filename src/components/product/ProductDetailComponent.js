@@ -18,7 +18,7 @@ const ProductDetailComponent = ({num}) => {
 
   useEffect(() => {
     getOne(num).then(data => {
-      console.log(data)
+      // console.log(data)
       setProduct(data)
     })
   }, [num])

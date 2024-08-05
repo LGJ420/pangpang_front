@@ -113,7 +113,7 @@ const useCustomMove = () => {
     // 글을 누르면 읽기 화면으로 이동하는 기능
     const moveToRead = (num) => {
 
-        console.log(queryDefault);
+        // console.log(queryDefault);
 
         navigate({ pathname: `../read/${num}`, search: queryDefault });
     }
