@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton, CardHeader } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
 import { getList } from "../../api/productApi";
@@ -104,34 +104,33 @@ const ProductListComponent = () => {
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} className="pb-32">
         {serveData.dtoList.map(product =>
           <Card maxW='sm' key={product.id}>
+            <CardBody>
+              <div className="relative z-10 overflow-hidden">
+                <Image onClick={() => moveToRead(product.id)}
+                  src='/images/chi1.jpg'
+                  borderRadius='lg'
+                  className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
+              </div>
+              <Stack mt='5' spacing='3'>
+                <Heading size='md' fontSize="2xl">{product.productTitle}</Heading>
+                <Text fontSize='2xl'>{product.productPrice.toLocaleString()}원</Text>
+              </Stack>
+            </CardBody>
+            <Divider borderColor='gray.400' />
 
-            <div className="relative z-10 overflow-hidden">
-              <Image onClick={() => moveToRead(product.id)}
-                src='/images/chi1.jpg'
-                borderRadius='lg'
-                className='mx-auto w-72 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
-            </div>
+            <CardFooter>
+              <ButtonGroup spacing='8' className='mx-auto'>
 
+                <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16">
+                  구매하기
+                </button>
+                <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"
+                  onClick={() => { handleClickCart(product) }}>
+                  장바구니 담기
+                </button>
 
-            <Stack className="m-4 border-b border-gray-400 h-36 justify-center">
-              <Heading fontSize="2xl" whiteSpace={"pre-line"}>{product.productTitle}</Heading>
-              <Text fontSize='2xl'>{product.productPrice.toLocaleString()}원</Text>
-            </Stack>
-
-            {/* <Divider borderColor='gray.400' /> */}
-
-            <ButtonGroup spacing='8' className='mx-auto pb-4'>
-
-              <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16">
-                구매하기
-              </button>
-              <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"
-                onClick={() => { handleClickCart(product) }}>
-                장바구니 담기
-              </button>
-
-            </ButtonGroup>
-
+              </ButtonGroup>
+            </CardFooter>
           </Card>
         )}
       </SimpleGrid>
