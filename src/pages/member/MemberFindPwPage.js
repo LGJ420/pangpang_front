@@ -41,6 +41,7 @@ const MemberFindPwPage = () => {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
             console.error(errorMsg);
             alert(errorMsg);
+            return;
         }
 
         // 3. axios 포스트 하기

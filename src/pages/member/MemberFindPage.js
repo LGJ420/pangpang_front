@@ -41,15 +41,15 @@ const MemberLoginPage = () => {
         //    2-1. input에 빠짐없이 다 적혀있는가?
         if([memberNameInFindId, memberBirthInFindId].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
-            console.error(errorMsg)
+            console.error(errorMsg);
             alert(errorMsg);
-
             return;
         }
 
         //    2-2. 생년월일이 6자리로 적혀있는가?
         if (memberBirthInFindId.length !== 6){
-            alert("생년월일을 6자리 숫자로 입력해주세요.")
+            alert("생년월일을 6자리 숫자로 입력해주세요.");
+            return;
         }
         
         // 3. post로 이름, 생년월일 제출 함수 작성
@@ -114,15 +114,15 @@ const MemberLoginPage = () => {
         //    2-1. input에 빠짐없이 다 적혀있는가?
         if([memberIdInFindPw, memberNameInFindPw, memberBirthInFindPw].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
-            console.error(errorMsg)
+            console.error(errorMsg);
             alert(errorMsg);
-
             return;
         }
 
         //    2-2. 생년월일이 6자리로 적혀있는가?
         if (memberBirthInFindPw.length !== 6){
-            alert("생년월일을 6자리 숫자로 입력해주세요.")
+            alert("생년월일을 6자리 숫자로 입력해주세요.");
+            return;
         }
         
         // 3. post로 아이디, 이름, 생년월일 제출 함수 작성
