@@ -45,9 +45,10 @@ const MemberLoginPage = () => {
                     localStorage.setItem("token", response.data.token);
                     console.log("로그인 성공, 로컬 스토리지에 저장됨");
                     
-                    sessionStorage.setItem("memberId", memberId);
-                    sessionStorage.setItem("token", response.data.token);
-                    console.log("로그인 성공, 세션 스토리지에 저장됨");
+                    // // ▼로컬스토리지 저장하는데 굳이 세션스토리지까지 저장안해도 될듯?!▼
+                    // sessionStorage.setItem("memberId", memberId);
+                    // sessionStorage.setItem("token", response.data.token);
+                    // console.log("로그인 성공, 세션 스토리지에 저장됨");
 
                 } else {
                     alert("토큰이 응답에 없습니다.");
