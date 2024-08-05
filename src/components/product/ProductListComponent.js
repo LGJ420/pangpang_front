@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton, CardHeader } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
 import { getList } from "../../api/productApi";
@@ -24,33 +24,33 @@ const initState = {
 // 서버에서 데이터 가져오기
 const ProductListComponent = () => {
 
-  const { search, page, size, refresh, moveToRead, moveToList} = useCustomMove();
+  const { search, page, size, refresh, moveToRead, moveToList } = useCustomMove();
 
   const [serveData, setServerData] = useState(initState);
   const [word, setWord] = useState("");   // 상품 검색용
 
   const navigate = useNavigate();
 
-  
+
   /* serverData에 서버 데이터에서 가져온 상품 목록 데이터 저장 */
   useEffect(() => {
 
-    if(search) {    // search에 데이터 있으면 searh, page, size를 전달
-      getList({search, page, size}).then(data => {
+    if (search) {    // search에 데이터 있으면 searh, page, size를 전달
+      getList({ search, page, size }).then(data => {
         console.log(data);
         setServerData(data);
       });
     } else {        // search에 데이터 없으면 page, size를 전달
-    getList({ page, size }).then(data => {
-      console.log(data)
-      setServerData(data)
-    });
-  }
+      getList({ page, size }).then(data => {
+        console.log(data)
+        setServerData(data)
+      });
+    }
   }, [search, page, size, refresh])
 
 
 
-/* 장바구니 */
+  /* 장바구니 */
   const handleClickCart = (product) => {
 
     const cartObj = {
@@ -63,23 +63,23 @@ const ProductListComponent = () => {
 
     postCartAdd(cartObj);
     alert("장바구니에 상품이 등록되었습니다")
-    
+
 
     // 여유가 되면 모달창을 제작해서 바꿀예정
     // eslint-disable-next-line no-restricted-globals
     const goToCart = confirm("장바구니 페이지로 이동하시겠습니까?");
-  
+
     if (goToCart) {
-      
-      navigate({pathname: '../../cart'});
+
+      navigate({ pathname: '../../cart' });
     }
   }
 
 
   /* 검색 인풋창 엔터키만 눌러도 검색 */
   const handleKeyDown = (e) => {
-    if(e.key === "Enter") {
-      moveToList({search:word});
+    if (e.key === "Enter") {
+      moveToList({ search: word });
     }
   }
 
@@ -92,45 +92,46 @@ const ProductListComponent = () => {
       <div className="flex flex-row border-b p-10 mb-10">
         <h1 className="text-5xl mr-auto">상점 페이지</h1>
         <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
-        onChange={(e) => {setWord(e.target.value); console.log(word)}}
+          onChange={(e) => { setWord(e.target.value); console.log(word) }}
           onKeyDown={handleKeyDown}
-        value={word} />
+          value={word} />
         <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
           icon={<SearchIcon />}
-          onClick={() => {moveToList({search:word}); console.log(word); }}
-          />
+          onClick={() => { moveToList({ search: word }); console.log(word); }}
+        />
       </div>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} className="pb-32">
         {serveData.dtoList.map(product =>
           <Card maxW='sm' key={product.id}>
-            <CardBody>
-              <div className="relative z-10 overflow-hidden">
-                <Image onClick={() => moveToRead(product.id)} 
-                  src='/images/chi1.jpg' 
-                  borderRadius='lg' 
-                  className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
-              </div>
-              <Stack mt='5' spacing='3'>
-                <Heading size='md' fontSize="2xl">{product.productTitle}</Heading>
-                <Text fontSize='2xl'>{product.productPrice.toLocaleString()}원</Text>
-              </Stack>
-            </CardBody>
-            <Divider borderColor='gray.400' />
 
-            <CardFooter>
-              <ButtonGroup spacing='8' className='mx-auto'>
+            <div className="relative z-10 overflow-hidden">
+              <Image onClick={() => moveToRead(product.id)}
+                src='/images/chi1.jpg'
+                borderRadius='lg'
+                className='mx-auto w-72 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
+            </div>
 
-                <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16">
-                  구매하기
-                </button>
-                <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"
-                  onClick={()=>{handleClickCart(product)}}>
-                  장바구니 담기
-                </button>
 
-              </ButtonGroup>
-            </CardFooter>
+            <Stack className="m-4 border-b border-gray-400 h-36 justify-center">
+              <Heading fontSize="2xl" whiteSpace={"pre-line"}>{product.productTitle}</Heading>
+              <Text fontSize='2xl'>{product.productPrice.toLocaleString()}원</Text>
+            </Stack>
+
+            {/* <Divider borderColor='gray.400' /> */}
+
+            <ButtonGroup spacing='8' className='mx-auto pb-4'>
+
+              <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16">
+                구매하기
+              </button>
+              <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"
+                onClick={() => { handleClickCart(product) }}>
+                장바구니 담기
+              </button>
+
+            </ButtonGroup>
+
           </Card>
         )}
       </SimpleGrid>
