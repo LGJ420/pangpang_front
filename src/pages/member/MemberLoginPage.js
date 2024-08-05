@@ -24,6 +24,10 @@ const MemberLoginPage = () => {
             .post("http://localhost:8080/api/member/login",{
                 memberIdInLogin : memberId,
                 memberPwInLogin : memberPw
+            }, {
+                // headers : {
+                //     'Content-Type': 'application/json'
+                // }
             })
             .then((response)=>{
                 console.log(response.data);
@@ -31,7 +35,7 @@ const MemberLoginPage = () => {
                 // 첫 번째 조건 : 응답 데이터에 memberId가 정의되지 않은 경우
                 // ID가 일치하지 않는 경우
                 if(response.data.memberId === undefined){
-                    console.log("============================" + response.data.msg);
+                    console.log("===========아이디 일치 X===========" + response.data.msg);
                     alert("입력하신 ID가 일치하지 않습니다.")
                 } 
 
@@ -39,7 +43,7 @@ const MemberLoginPage = () => {
                 // ID는 일치하지만, 비밀번호가 일치하지 않는 경우
                 else if (response.data.memberId === null){
                     console.log(
-                        "======================",
+                        "===========비밀번호 일치 X===========",
                         "입력하신 비밀번호 가 일치하지 않습니다."
                     );
                     alert("입력하신 비밀번호 가 일치하지 않습니다.");
@@ -48,7 +52,7 @@ const MemberLoginPage = () => {
                 // 세 번째 조건 : 응답 데이터에 memberId가 일치하는 경우
                 // ID와 비밀번호 모두 일치하는 경우
                 else if (response.data.memberId === memberId) {
-                    console.log("======================", "로그인 성공");
+                    console.log("===========로그인 성공===========", "로그인 성공");
                     // sessionStorage에 memberId, memberName 저장
                     sessionStorage.setItem("memberId", memberId); 
                     sessionStorage.setItem("name", response.data.name); 
