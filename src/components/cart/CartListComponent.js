@@ -60,6 +60,7 @@ const CratListComponent = () => {
         setOrderList(updatedData.filter(item => item.checked));
     };
 
+
     const handleClickCheck = (id) => {
         const updatedData = serverData.map(item => {
             if (item.productId === id) {
@@ -73,6 +74,33 @@ const CratListComponent = () => {
         setOrderList(newOrderList);
         setSelectAll(updatedData.every(item => item.checked));
     };
+
+
+    const handleClickAmount = (productId, delta) => {
+
+        const updatedData = serverData.map(item => {
+            if (item.productId === productId) {
+                const newCount = item.cartCount + delta;
+    
+                if (newCount < 1) {
+
+                    return item;
+
+                } else if (newCount > 10) {
+
+                    alert("상품의 최대 수량은 10개입니다.");
+                    return item;
+                }
+    
+                return { ...item, cartCount: newCount };
+            }
+            return item;
+        });
+    
+        setServerData(updatedData);
+        setOrderList(updatedData.filter(item => item.checked));
+    };
+    
 
     const handleClickDelete = (cartListObj) => {
 
@@ -142,15 +170,23 @@ const CratListComponent = () => {
                             <h3 className="font-extrabold text-2xl">{data.productTitle}</h3>
                             <p className="mt-3">{data.productContent}</p>
                         </div>
-                        <div className="text-center text-2xl">
+                        <div className="text-center text-2xl w-40">
                             <h3>수량</h3>
                             <div className="flex justify-between items-center">
-                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30">-</button>
+                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30"
+                                    onClick={()=>handleClickAmount(data.productId, -1)}>
+                                    -
+                                </button>
                                 <div className="mx-2">{data.cartCount}개</div>
-                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30">+</button>
+                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30"
+                                    onClick={()=>handleClickAmount(data.productId, 1)}>
+                                    +
+                                </button>
                             </div>
                         </div>
-                        <div className="text-3xl">{data.productPrice.toLocaleString()}원</div>
+                        <div className="text-3xl text-center w-40">
+                            {(data.productPrice * data.cartCount).toLocaleString()}원
+                        </div>
                         <div className="flex flex-col">
                             <button className="bg-blue-500 text-white w-32 h-10 m-1">
                                 이 상품 주문
