@@ -59,9 +59,7 @@ const MainProductList = () => {
 
 
   return (
-    <Carousel>
 
-      <Carousel.Item>
         <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5} className="pb-32">
 
           {serverData.dtoList.map(product =>
@@ -94,8 +92,7 @@ const MainProductList = () => {
             </Card>
           )}
         </SimpleGrid>
-      </Carousel.Item>
-    </Carousel>
+
   )
 
 }
