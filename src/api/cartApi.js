@@ -30,9 +30,9 @@ export const deleteCartOne = async (cartObj) => {
 
 }
 
-export const deleteCarts = async (dtoList) => {
+export const putCartOne = async (cartObj) => {
 
-    const res = await axios.delete(`${prefix}`, { data: dtoList });
+    const res = await axios.put(`${prefix}`, cartObj);
 
     return res.data;
 }

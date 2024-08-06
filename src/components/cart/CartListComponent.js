@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteCartOne, getCartList } from "../../api/cartApi";
+import { deleteCartOne, getCartList, putCartOne } from "../../api/cartApi";
 
 // const initState = [{
 //     productId: 0,
@@ -60,6 +60,7 @@ const CratListComponent = () => {
         setOrderList(updatedData.filter(item => item.checked));
     };
 
+
     const handleClickCheck = (id) => {
         const updatedData = serverData.map(item => {
             if (item.productId === id) {
@@ -73,6 +74,38 @@ const CratListComponent = () => {
         setOrderList(newOrderList);
         setSelectAll(updatedData.every(item => item.checked));
     };
+
+
+    const handleClickAmount = (productId, delta) => {
+
+        serverData.map(item => {
+            if (item.productId === productId) {
+                const newCount = item.cartCount + delta;
+    
+                if (newCount < 1) {
+                    return item;
+                } else if (newCount > 10) {
+                    alert("상품의 최대 수량은 10개입니다.");
+                    return item;
+                }
+    
+
+                putCartOne({ ...item, cartCount: newCount }).then(() => {
+
+                    const newServerData = serverData.map(subItem =>
+                        subItem.productId === productId ? { ...subItem, cartCount: newCount } : subItem
+                    );
+    
+                    setServerData(newServerData);
+                    setOrderList(newServerData.filter(item => item.checked));
+                });
+    
+                return;
+            }
+            return;
+        });
+    };
+    
 
     const handleClickDelete = (cartListObj) => {
 
@@ -98,7 +131,18 @@ const CratListComponent = () => {
         }
     }
 
+
+    const handleClickOrder = (order) => {
+
+        console.log(order);
+        navigate("/orders/pay", {state : {order}});
+    }
+
+
+
     const handleClickAllOrder = () => {
+
+        console.log(orderList);
         navigate("/orders/pay", {state : {orderList}});
     }
 
@@ -142,13 +186,26 @@ const CratListComponent = () => {
                             <h3 className="font-extrabold text-2xl">{data.productTitle}</h3>
                             <p className="mt-3">{data.productContent}</p>
                         </div>
-                        <div className="text-center text-2xl">
+                        <div className="text-center text-2xl w-40">
                             <h3>수량</h3>
-                            <div>{data.cartCount}개</div>
+                            <div className="flex justify-between items-center">
+                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30"
+                                    onClick={()=>handleClickAmount(data.productId, -1)}>
+                                    -
+                                </button>
+                                <div className="mx-2">{data.cartCount}개</div>
+                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30"
+                                    onClick={()=>handleClickAmount(data.productId, 1)}>
+                                    +
+                                </button>
+                            </div>
                         </div>
-                        <div className="text-3xl">{data.productPrice.toLocaleString()}원</div>
+                        <div className="text-3xl text-center w-40">
+                            {(data.productPrice * data.cartCount).toLocaleString()}원
+                        </div>
                         <div className="flex flex-col">
-                            <button className="bg-blue-500 text-white w-32 h-10 m-1">
+                            <button className="bg-blue-500 text-white w-32 h-10 m-1"
+                                onClick={()=>{handleClickOrder(data)}}>
                                 이 상품 주문
                             </button>
                             <button className="bg-rose-600 text-white w-32 h-10 m-1"
@@ -169,12 +226,10 @@ const CratListComponent = () => {
             </div>
         }
         <div className="h-72"></div>
-            
-            
-
 
         </section>
         
+        { serverData.length > 0 ?
 
         <section className="bg-blue-600 fixed bottom-0 w-screen h-20">
             <div className="max-w-[1350px] m-auto h-full flex items-center justify-end text-white">
@@ -190,6 +245,13 @@ const CratListComponent = () => {
                 </button>
             </div>
         </section>
+
+        :
+
+        <></>
+
+        }
+
         </>
     );
 }

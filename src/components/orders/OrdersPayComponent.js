@@ -13,21 +13,29 @@ const initState = {
 const OrdersPayComponent = () => {
 
     const [userData, setUserData] = useState(initState);
-    const [productData, setProductData] = useState();
+    const [productData, setProductData] = useState([]);
 
     const location = useLocation();
     const navigate = useNavigate();
 
 
+    
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        setProductData(location.state.orderList);
-
-    }, []);
+        if (location.state.orderList) {
+            console.log(location.state.orderList);
+            setProductData(location.state.orderList);
+        }
+        else if (location.state.order) {
+            console.log(location.state.order);
+            setProductData([location.state.order]);
+        }
+    }, [location.state]);
 
     
     
+
     const handleChangeUserData = (e) => {
         
         userData[e.target.name] = e.target.value;
@@ -36,15 +44,60 @@ const OrdersPayComponent = () => {
     }
             
             
+
+
+    // 값 검증 메서드
+    const validateInputs = () => {
+
+        const { name, phone1, phone2, phone3, address } = userData;
+
+        const regexName = /^[가-힣]+$/;  // 한글 이름 검증
+        const regexPhone23 = /^\d{2,3}$/; // 숫자 3자리 검증
+        const regexPhone34 = /^\d{3,4}$/; // 숫자 4자리 검증
+
+        if (!regexName.test(name)) {
+            alert("이름이 올바르지 않습니다.");
+            return false;
+        }
+        if (!(regexPhone23.test(phone1))) {
+            alert("전화번호가 올바르지 않습니다.");
+            return false;
+        }
+        if (!(regexPhone34.test(phone2) && regexPhone34.test(phone3))) {
+            alert("전화번호가 올바르지 않습니다.");
+            return false;
+        }
+        if (address.length < 5) {
+            alert("주소가 올바르지 않습니다.");
+            return false;
+        }
+        return true;
+
+    }
+
+
+
+
     const handleClickPay = () => {
 
-        userData.phone = userData.phone1 + userData.phone2 + userData.phone3;
+        if (!validateInputs()) {
 
-        console.log({...userData, dtoList: productData});
+            return;
+        }
 
-        postOrdersAdd({...userData, dtoList: productData} );
 
-        navigate({pathname: `../result`});
+        // 여유가 되면 모달창을 제작해서 바꿀예정
+        // eslint-disable-next-line no-restricted-globals
+        const payConfirm = confirm("정말로 결제하시겠습니까?");
+    
+        if (payConfirm) {
+            
+            userData.phone = userData.phone1 + userData.phone2 + userData.phone3;
+    
+            console.log({...userData, dtoList: productData});
+    
+            postOrdersAdd({...userData, dtoList: productData}).then(()=>navigate({pathname: `../result`}));
+        }
     }
 
 
@@ -73,7 +126,7 @@ const OrdersPayComponent = () => {
                                 type="text" 
                                 id="name" 
                                 name="name" 
-                                className="mt-1 block w-48 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                className="mt-1 block w-48 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                 placeholder="이름을 입력하세요" 
                                 maxLength={10}
                                 onChange={handleChangeUserData}
@@ -86,7 +139,7 @@ const OrdersPayComponent = () => {
                                     type="text" 
                                     id="phone1" 
                                     name="phone1" 
-                                    className="mt-1 mr-2 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                    className="mt-1 mr-2 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                     placeholder="010" 
                                     maxLength="3"
                                     onChange={handleChangeUserData}
@@ -95,7 +148,7 @@ const OrdersPayComponent = () => {
                                     type="text" 
                                     id="phone2" 
                                     name="phone2" 
-                                    className="mt-1 mr-2 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                    className="mt-1 mr-2 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                     placeholder="1234" 
                                     maxLength="4"
                                     onChange={handleChangeUserData}
@@ -104,7 +157,7 @@ const OrdersPayComponent = () => {
                                     type="text" 
                                     id="phone3" 
                                     name="phone3" 
-                                    className="mt-1 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                    className="mt-1 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                     placeholder="5678" 
                                     maxLength="4"
                                     onChange={handleChangeUserData}
@@ -117,7 +170,7 @@ const OrdersPayComponent = () => {
                                 type="text" 
                                 id="address" 
                                 name="address" 
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                 placeholder="주소를 입력하세요" 
                                 onChange={handleChangeUserData}
                             />
@@ -142,7 +195,7 @@ const OrdersPayComponent = () => {
                                         <div className="font-bold mt-3">{product.cartCount}개</div>
                                     </div>
                                     <div className="ml-auto text-3xl font-semibold">
-                                        {product.productPrice.toLocaleString()}원
+                                        {(product.productPrice * product.cartCount).toLocaleString()}원
                                     </div>
                                 </div>
                                 </>
@@ -219,7 +272,7 @@ const OrdersPayComponent = () => {
                             }
 
                             <div className="pt-[40px] h-[180px] text-right text-4xl font-extrabold">
-                                총 {location.state.orderList.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0).toLocaleString()}원
+                                총 {productData.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0).toLocaleString()}원
                             </div>
 
                             <button className="bg-blue-500 rounded-md text-white h-14 w-52 absolute bottom-7 right-1/2 translate-x-1/2 hover:opacity-80"
