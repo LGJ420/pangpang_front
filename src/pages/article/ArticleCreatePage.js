@@ -1,43 +1,72 @@
 import React, { useState } from 'react';
 import { Box, Button, FormControl, Input, Textarea, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import useCustomMove from "../../hooks/useCustomMove"
+import {postCreate} from "../../api/articleApi"
+
+const initState ={
+  articleTitle: '',
+  articleContent: '',
+  articleAuthor: ''
+}
 
 const ArticleCreatePage = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const navigate = useNavigate();
+  const [article, setArticle] = useState({...initState})
+  const [result, setResult] = useState(null)
+ 
+  const {moveToList} = useCustomMove()
 
-  const handleSubmit = () => {
-    // 여기에 API 요청을 추가하여 데이터를 서버에 전송합니다.
+  const handleChangeArticle = (e) => {
+    article[e.target.name] = e.target.value
 
-    // 예를 들어, console.log로 제목과 내용을 출력
-    console.log('제목:', title);
-    console.log('내용:', content);
+    setArticle({...article})
+  }
 
-    // 글쓰기 후 리스트 페이지로 이동
-    navigate('/article/list');
-  };
+  const handleClickCreate = () => {
+    postCreate(article)
+    .then(result => {
+      setResult(result.id)
+      setArticle({...initState})
+      moveToList()
+    }).catch(e => {
+      console.error(e)
+    })
+  }
 
   return (
     <Box p={4} maxW="md" borderWidth={1} borderRadius="md" boxShadow="md" m="auto">
       <Text fontSize="2xl" fontWeight="bold" mb={4}>글쓰기</Text>
       <FormControl mb={4}>
         <Input
+          name="articleTitle"
           placeholder="제목"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={article.articleTitle}
+          onChange={handleChangeArticle}
         />
       </FormControl>
       <FormControl mb={4}>
-        <Textarea
-          placeholder="내용"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+      <FormControl mb={4}>
+        <Input
+          name="articleAuthor"
+          placeholder="작성자"
+          value={article.articleAuthor}
+          onChange={handleChangeArticle}
         />
       </FormControl>
-      <Button colorScheme="blue" onClick={handleSubmit}>
+        <Textarea
+          name="articleContent"
+          placeholder="내용"
+          value={article.articleContent}
+          onChange={handleChangeArticle}
+        />
+      </FormControl>
+      <Button colorScheme="blue" onClick={handleClickCreate}>
         작성하기
       </Button>
+      {result && (
+        <Text mt={4} color="green.500">
+          글이 성공적으로 작성되었습니다! ID: {result}
+        </Text>
+      )}
     </Box>
   );
 };
