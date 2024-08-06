@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Button, FormControl, Input, Textarea, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
-const ArticleWritePage = () => {
+const ArticleCreatePage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const navigate = useNavigate();
@@ -42,4 +42,4 @@ const ArticleWritePage = () => {
   );
 };
 
-export default ArticleWritePage;
+export default ArticleCreatePage;

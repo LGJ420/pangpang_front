@@ -1,5 +1,5 @@
 import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, useColorModeValue } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
 
 import { getList } from '../../api/articleApi'; 
 import { useNavigate } from 'react-router-dom';
@@ -99,9 +99,17 @@ const ArticleListPage = () => {
                             </Thead>
                             <Tbody>
                                 {(serverData.articleList || []).map((article) => (
-                                    <Tr key={article.id} _hover={{ bg: 'gray.100' }} onClick={() => moveToRead(article.id)}>
+                                    <Tr key={article.id} _hover={{ bg: 'gray.100' }} >
                                         <Td textAlign="center">{article.id}</Td>
-                                        <Td textAlign="center">{article.articleTitle}</Td>
+                                        <Td textAlign="center" cursor='pointer' textColor="blue" onClick={() => 
+                                        moveToRead(article.id)} 
+                                        _hover={{
+                                            textDecoration: 'underline',
+                                            transform: 'scale(1.05)',
+                                            transition: 'transform 0.2s ease, text-decoration 0.2s ease'
+                                        }} 
+                                        >
+                                        {article.articleTitle}</Td>
                                         <Td textAlign="center">{article.articleAuthor}</Td>
                                         <Td textAlign="center">{article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : '날짜 형식이 맞지 않음'}</Td>
                                     </Tr>
@@ -111,25 +119,45 @@ const ArticleListPage = () => {
                     </TableContainer>
                 )}
 
-                {/* 페이지네이션*/}
-                <Flex justifyContent="center" fontSize="25px" className='mt-5 text-gray-700'>
-                    {/*이전 페이지*/}
-                    {serverData.prev ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage})}>{'\u003c'}</Box> :<></>}
+                {/* 페이지네이션 */}
+                <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
+                        {/* 이전 페이지 */}
+                        <IconButton
+                            aria-label="Previous Page"
+                            icon={<ChevronLeftIcon />}
+                            isDisabled={!serverData.prev}
+                            onClick={() => moveToList({ page: serverData.prevPage })}
+                            mr={3}
+                            _hover={{ bg: 'teal.100', color: 'teal.700' }}
+                            _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
+                        />
 
-                {/* 페이지 넘버 */}
-                {serverData.pageNumList.map(pageNum => 
-                (<Box key={pageNum}
-                marginRight={7} 
-                cursor={"pointer"}
-                className={serverData.current === pageNum ? 'text-gray-500 border-b' : ''}
-                onClick={() => moveToList({ page: pageNum })}>
-                {pageNum}
-                </Box>
-                ))}
+                        {/* 페이지 넘버 */}
+                        {serverData.pageNumList.map(pageNum => (
+                            <Button
+                                key={pageNum}
+                                mx={1}
+                                size="sm"
+                                variant={serverData.current === pageNum ? 'solid' : 'outline'}
+                                colorScheme={serverData.current === pageNum ? 'teal' : 'gray'}
+                                onClick={() => moveToList({ page: pageNum })}
+                                _hover={{ bg: 'teal.100', color: 'teal.700' }}
+                            >
+                                {pageNum}
+                            </Button>
+                        ))}
 
-                {/* 다음 페이지 */}
-                {serverData.next ? <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.nextPage })}>{'\u003e'}</Box> : <></>}
-                </Flex>
+                        {/* 다음 페이지 */}
+                        <IconButton
+                            aria-label="Next Page"
+                            icon={<ChevronRightIcon />}
+                            isDisabled={!serverData.next}
+                            onClick={() => moveToList({ page: serverData.nextPage })}
+                            ml={3}
+                            _hover={{ bg: 'teal.100', color: 'teal.700' }}
+                            _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
+                        />
+                    </Flex>
 
                 <Flex justifyContent="flex-end">
                     <Button colorScheme='teal' onClick={() => navigate("../create")}>

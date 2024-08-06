@@ -20,7 +20,7 @@ export const getList = async (pageParam) => {
 // 글 상세 보기
 export const getOne = async (id) => {
 
-    const res = await axios.get(`${prefix}/list/${id}`);
+    const res = await axios.get(`${prefix}/read/${id}`);
 
     return res.data;
 }
@@ -34,9 +34,9 @@ export const postCreate = async (articleObj) => {
 }
 
 //글 삭제하기
-export const deleteOne = async (ano) => {
+export const deleteOne = async (id) => {
 
-    const res = await axios.delete(`${prefix}/${ano}`);
+    const res = await axios.delete(`${prefix}/${id}`);
 
     return res.data;
 }
@@ -44,7 +44,7 @@ export const deleteOne = async (ano) => {
 //글 수정하기
 export const putOne = async (article) => {
 
-    const res = await axios.put(`${prefix}/${article.ano}`, article);
+    const res = await axios.put(`${prefix}/${article.id}`, article);
 
     return res.data;
 }
