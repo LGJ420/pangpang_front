@@ -53,6 +53,14 @@ const ProductListComponent = () => {
   /* 구매하기 */
   const handleClickBuy = (product) => {
 
+    // eslint-disable-next-line no-restricted-globals
+    const goBuy = confirm("구매하시겠습니까?");
+  
+    if (!goBuy) {
+      
+      return;
+    }
+
     const order = {
 
       productId: product.id,
