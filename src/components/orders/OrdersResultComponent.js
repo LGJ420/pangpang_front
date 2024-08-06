@@ -32,6 +32,26 @@ const OrdersResultComponent = () => {
     return (
         <section className="w-[1350px] m-auto">
 
+            <div className="fixed w-full h-full top-0 left-0 z-20 bg-white/90 flex justify-center items-center">
+                <div className="w-1/2 h-1/2 min-w-[675px] bg-white border rounded-lg shadow-md flex flex-col justify-center">
+                    <div className="flex justify-between">
+                        <img src="/images/chi1.jpg" className="w-52"></img>
+                        <div>
+                            <div>{serverData[0].dtoList[0].productTitle}</div>
+                            <div>{serverData[0].dtoList[0].productContent}</div>
+                            <div>{serverData[0].dtoList[0].productPrice}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>주문 정보</h3>
+                        <div>이름 : 개똥이</div>
+                        <div>전화번호 : 01012341234</div>
+                        <div>주소 : 개똥집에 삽니다</div>
+                        <div>결제일자 : 2024-08-06</div>
+                    </div>
+                </div>
+            </div>
+
             <h1 className="text-5xl m-10">주문내역</h1>
 
             <div className="flex justify-center">
