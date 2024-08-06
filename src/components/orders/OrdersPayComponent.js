@@ -52,18 +52,18 @@ const OrdersPayComponent = () => {
         const { name, phone1, phone2, phone3, address } = userData;
 
         const regexName = /^[가-힣]+$/;  // 한글 이름 검증
-        const regexPhone3 = /^\d{3}$/; // 숫자 3자리 검증
-        const regexPhone4 = /^\d{4}$/; // 숫자 4자리 검증
+        const regexPhone23 = /^\d{2,3}$/; // 숫자 3자리 검증
+        const regexPhone34 = /^\d{3,4}$/; // 숫자 4자리 검증
 
         if (!regexName.test(name)) {
             alert("이름이 올바르지 않습니다.");
             return false;
         }
-        if (!(regexPhone3.test(phone1))) {
+        if (!(regexPhone23.test(phone1))) {
             alert("전화번호가 올바르지 않습니다.");
             return false;
         }
-        if (!(regexPhone4.test(phone2) && regexPhone4.test(phone3))) {
+        if (!(regexPhone34.test(phone2) && regexPhone34.test(phone3))) {
             alert("전화번호가 올바르지 않습니다.");
             return false;
         }
