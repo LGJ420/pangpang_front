@@ -50,6 +50,22 @@ const ProductListComponent = () => {
 
 
 
+  /* 구매하기 */
+  const handleClickBuy = (product) => {
+
+    const order = {
+
+      productId: product.productId,
+      productTitle: product.productTitle,
+      productContent: product.productContent,
+      productPrice: product.productPrice,
+      cartCount: 1
+    }
+
+    navigate("/orders/pay", {state : {order}});
+  }
+
+
 /* 장바구니 */
   const handleClickCart = (product) => {
 
@@ -121,7 +137,8 @@ const ProductListComponent = () => {
             <CardFooter>
               <ButtonGroup spacing='8' className='mx-auto'>
 
-                <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16">
+                <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16"
+                  onClick={()=>{handleClickBuy(product)}}>
                   구매하기
                 </button>
                 <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"

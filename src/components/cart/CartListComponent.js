@@ -131,7 +131,18 @@ const CratListComponent = () => {
         }
     }
 
+
+    const handleClickOrder = (order) => {
+
+        console.log(order);
+        navigate("/orders/pay", {state : {order}});
+    }
+
+
+
     const handleClickAllOrder = () => {
+
+        console.log(orderList);
         navigate("/orders/pay", {state : {orderList}});
     }
 
@@ -193,7 +204,8 @@ const CratListComponent = () => {
                             {(data.productPrice * data.cartCount).toLocaleString()}원
                         </div>
                         <div className="flex flex-col">
-                            <button className="bg-blue-500 text-white w-32 h-10 m-1">
+                            <button className="bg-blue-500 text-white w-32 h-10 m-1"
+                                onClick={()=>{handleClickOrder(data)}}>
                                 이 상품 주문
                             </button>
                             <button className="bg-rose-600 text-white w-32 h-10 m-1"

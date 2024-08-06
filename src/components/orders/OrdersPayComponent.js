@@ -13,21 +13,27 @@ const initState = {
 const OrdersPayComponent = () => {
 
     const [userData, setUserData] = useState(initState);
-    const [productData, setProductData] = useState();
+    const [productData, setProductData] = useState([]);
 
     const location = useLocation();
     const navigate = useNavigate();
 
 
+    
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        setProductData(location.state.orderList);
-
-    }, []);
+        if (location.state.orderList) {
+            setProductData(location.state.orderList);
+        }
+        else if (location.state.order) {
+            setProductData([location.state.order]);
+        }
+    }, [location.state]);
 
     
     
+
     const handleChangeUserData = (e) => {
         
         userData[e.target.name] = e.target.value;
@@ -264,7 +270,7 @@ const OrdersPayComponent = () => {
                             }
 
                             <div className="pt-[40px] h-[180px] text-right text-4xl font-extrabold">
-                                총 {location.state.orderList.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0).toLocaleString()}원
+                                총 {productData.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0).toLocaleString()}원
                             </div>
 
                             <button className="bg-blue-500 rounded-md text-white h-14 w-52 absolute bottom-7 right-1/2 translate-x-1/2 hover:opacity-80"
