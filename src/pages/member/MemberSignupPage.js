@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const MemberSignupPage = () => {
 
+    const [checkMemberId, setCheckMemberId] = useState("");
     const [memberId, setMemberId] = useState("");
     const [memberPw, setMemberPw] = useState("");
     const [memberPwConfirm, setMemberPwConfirm] = useState("");
@@ -38,6 +39,20 @@ const MemberSignupPage = () => {
 
     const nevigate = useNavigate();
 
+    const clickCheckMemberId = () => {
+        axios.post("http://localhost:8080/api/member/signup/checkMemberId",{memberId : memberId})
+        .then((response)=>{
+            console.log(response.data);
+            setCheckMemberId(true);
+            alert("사용 가능한 아이디입니다.")
+        })
+        .catch((error)=>{
+            console.error(error);
+            setCheckMemberId(false);
+            alert("사용할 수 없는 아이디입니다.")
+        })
+    }
+
     const onClicksignup = ()=>{
         console.log("click signup");
         console.log("ID : " + memberId);
@@ -52,6 +67,15 @@ const MemberSignupPage = () => {
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg)
             alert(errorMsg);
+
+            return;
+        }
+
+        // 아이디 중복 확인 (false면 중복확인 안한 것으로 간주)
+        if(checkMemberId == false){
+            const errorMsg = "아이디 중복 확인은 필수입니다.";
+            console.error(errorMsg);
+            alert("아이디 중복 확인은 필수입니다."); 
 
             return;
         }
@@ -118,6 +142,8 @@ const MemberSignupPage = () => {
                     value={memberId}
                     onChange={handleMemberId}
                     placeholder='아이디를 입력해주세요.' />
+                    <button
+                    onClick={clickCheckMemberId}>중복확인</button>
                 </FormControl>
                 {/* <p>아이디는 4~12자의 영문, 숫자만 사용 가능합니다</p> */}
 
