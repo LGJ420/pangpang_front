@@ -36,15 +36,15 @@ export const postCreate = async (articleObj) => {
 //글 삭제하기
 export const deleteOne = async (id) => {
 
-    const res = await axios.delete(`${prefix}/${id}`);
+    const res = await axios.delete(`${prefix}/list/${id}`);
 
     return res.data;
 }
 
 //글 수정하기
-export const putOne = async (article) => {
+export const putOne = async (id, article) => {
 
-    const res = await axios.put(`${prefix}/${article.id}`, article);
+    const res = await axios.put(`${prefix}/modify/${id}`, article);
 
     return res.data;
 }

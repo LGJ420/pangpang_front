@@ -53,7 +53,7 @@ const ArticleReadPage = () => {
         <Button colorScheme="teal" onClick={() => moveToList()}>
           목록으로 돌아가기
         </Button>
-        <Button colorScheme="orange" onClick={() => moveToModify(serverData.id)}>
+        <Button colorScheme="orange" onClick={() => moveToModify(id)}>
           수정하기
         </Button>
       </Flex>

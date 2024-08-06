@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 const List = lazy(()=>import("../pages/article/ArticleListPage"));
 const Create = lazy(()=>import("../pages/article/ArticleCreatePage"));
 const Read = lazy(()=>import("../pages/article/ArticleReadPage"));
-// const Modify = lazy(()=>import("../내가 만든 경로 쓰기"));
+const Modify = lazy(()=>import("../pages/article/ArticleModifyPage"));
 
 const articleRouter = () => {
 
@@ -30,10 +30,10 @@ const articleRouter = () => {
             element: <Suspense><Read /></Suspense>
         },
 
-        // {
-        //     path: "modify/:ano",
-        //     element: <Suspense><Modify /></Suspense>
-        // }
+        {
+            path: "modify/:id",
+            element: <Suspense><Modify /></Suspense>
+        }
 
 
     ]
