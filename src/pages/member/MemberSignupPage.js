@@ -138,12 +138,15 @@ const MemberSignupPage = () => {
                 {/* 아이디 */}
                 <FormControl isRequired>
                     <FormLabel>아이디</FormLabel>
-                    <Input 
-                    value={memberId}
-                    onChange={handleMemberId}
-                    placeholder='아이디를 입력해주세요.' />
-                    <button
-                    onClick={clickCheckMemberId}>중복확인</button>
+                    <div className='outer'>
+                        <Input 
+                        value={memberId}
+                        onChange={handleMemberId}
+                        placeholder='아이디를 입력해주세요.'/>
+                        <button
+                        className='inner_button'
+                        onClick={clickCheckMemberId}>중복확인</button>
+                    </div>
                 </FormControl>
                 {/* <p>아이디는 4~12자의 영문, 숫자만 사용 가능합니다</p> */}
 

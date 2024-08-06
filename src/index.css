@@ -65,3 +65,16 @@ body {
     cursor: pointer;
     border-radius: 0.25rem;
 }
+
+.inner_button {
+    position: absolute;
+    right: 10px;
+    top: calc(100%/2 - 2px);
+    padding: 5px;    
+
+    color: white;
+    background-color: darkblue;
+    font-size: 1.0rem;
+    font-weight: bold;
+    border-radius: 0.25rem;
+}
