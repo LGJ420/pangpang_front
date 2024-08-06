@@ -39,7 +39,8 @@ const MemberSignupPage = () => {
 
     const nevigate = useNavigate();
 
-    const clickCheckMemberId = () => {
+    // 아이디 중복확인 버튼
+    const onClickCheckMemberId = () => {
         axios.post("http://localhost:8080/api/member/signup/checkMemberId",{memberId : memberId})
         .then((response)=>{
             console.log(response.data);
@@ -53,6 +54,7 @@ const MemberSignupPage = () => {
         })
     }
 
+    // 회원가입 버튼
     const onClicksignup = ()=>{
         console.log("click signup");
         console.log("ID : " + memberId);
@@ -145,7 +147,7 @@ const MemberSignupPage = () => {
                         placeholder='아이디를 입력해주세요.'/>
                         <button
                         className='inner_button'
-                        onClick={clickCheckMemberId}>중복확인</button>
+                        onClick={onClickCheckMemberId}>중복확인</button>
                     </div>
                 </FormControl>
                 {/* <p>아이디는 4~12자의 영문, 숫자만 사용 가능합니다</p> */}
