@@ -36,15 +36,60 @@ const OrdersPayComponent = () => {
     }
             
             
+
+
+    // 값 검증 메서드
+    const validateInputs = () => {
+
+        const { name, phone1, phone2, phone3, address } = userData;
+
+        const regexName = /^[가-힣]+$/;  // 한글 이름 검증
+        const regexPhone3 = /^\d{3}$/; // 숫자 3자리 검증
+        const regexPhone4 = /^\d{4}$/; // 숫자 4자리 검증
+
+        if (!regexName.test(name)) {
+            alert("이름이 올바르지 않습니다.");
+            return false;
+        }
+        if (!(regexPhone3.test(phone1))) {
+            alert("전화번호가 올바르지 않습니다.");
+            return false;
+        }
+        if (!(regexPhone4.test(phone2) && regexPhone4.test(phone3))) {
+            alert("전화번호가 올바르지 않습니다.");
+            return false;
+        }
+        if (address.length < 5) {
+            alert("주소가 올바르지 않습니다.");
+            return false;
+        }
+        return true;
+
+    }
+
+
+
+
     const handleClickPay = () => {
 
-        userData.phone = userData.phone1 + userData.phone2 + userData.phone3;
+        if (!validateInputs()) {
 
-        console.log({...userData, dtoList: productData});
+            return;
+        }
 
-        postOrdersAdd({...userData, dtoList: productData} );
 
-        navigate({pathname: `../result`});
+        // 여유가 되면 모달창을 제작해서 바꿀예정
+        // eslint-disable-next-line no-restricted-globals
+        const payConfirm = confirm("정말로 결제하시겠습니까?");
+    
+        if (payConfirm) {
+            
+            userData.phone = userData.phone1 + userData.phone2 + userData.phone3;
+    
+            console.log({...userData, dtoList: productData});
+    
+            postOrdersAdd({...userData, dtoList: productData}).then(()=>navigate({pathname: `../result`}));
+        }
     }
 
 
@@ -73,7 +118,7 @@ const OrdersPayComponent = () => {
                                 type="text" 
                                 id="name" 
                                 name="name" 
-                                className="mt-1 block w-48 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                className="mt-1 block w-48 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                 placeholder="이름을 입력하세요" 
                                 maxLength={10}
                                 onChange={handleChangeUserData}
@@ -86,7 +131,7 @@ const OrdersPayComponent = () => {
                                     type="text" 
                                     id="phone1" 
                                     name="phone1" 
-                                    className="mt-1 mr-2 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                    className="mt-1 mr-2 w-16 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                     placeholder="010" 
                                     maxLength="3"
                                     onChange={handleChangeUserData}
@@ -95,7 +140,7 @@ const OrdersPayComponent = () => {
                                     type="text" 
                                     id="phone2" 
                                     name="phone2" 
-                                    className="mt-1 mr-2 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                    className="mt-1 mr-2 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                     placeholder="1234" 
                                     maxLength="4"
                                     onChange={handleChangeUserData}
@@ -104,7 +149,7 @@ const OrdersPayComponent = () => {
                                     type="text" 
                                     id="phone3" 
                                     name="phone3" 
-                                    className="mt-1 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                    className="mt-1 w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                     placeholder="5678" 
                                     maxLength="4"
                                     onChange={handleChangeUserData}
@@ -117,7 +162,7 @@ const OrdersPayComponent = () => {
                                 type="text" 
                                 id="address" 
                                 name="address" 
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-emerald-500"
+                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                 placeholder="주소를 입력하세요" 
                                 onChange={handleChangeUserData}
                             />
@@ -142,7 +187,7 @@ const OrdersPayComponent = () => {
                                         <div className="font-bold mt-3">{product.cartCount}개</div>
                                     </div>
                                     <div className="ml-auto text-3xl font-semibold">
-                                        {product.productPrice.toLocaleString()}원
+                                        {(product.productPrice * product.cartCount).toLocaleString()}원
                                     </div>
                                 </div>
                                 </>
