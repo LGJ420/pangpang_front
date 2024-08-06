@@ -24,9 +24,11 @@ const OrdersPayComponent = () => {
     useEffect(() => {
 
         if (location.state.orderList) {
+            console.log(location.state.orderList);
             setProductData(location.state.orderList);
         }
         else if (location.state.order) {
+            console.log(location.state.order);
             setProductData([location.state.order]);
         }
     }, [location.state]);

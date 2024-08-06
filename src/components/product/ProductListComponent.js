@@ -55,7 +55,7 @@ const ProductListComponent = () => {
 
     const order = {
 
-      productId: product.productId,
+      productId: product.id,
       productTitle: product.productTitle,
       productContent: product.productContent,
       productPrice: product.productPrice,
