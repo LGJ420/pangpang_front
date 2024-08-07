@@ -29,7 +29,7 @@ const OrdersResultComponent = () => {
 
     useEffect(()=>{
         
-        getOrdersList().then(data=>{
+        getOrdersList(word).then(data=>{
 
             setServerData(data);
         });
@@ -55,9 +55,6 @@ const OrdersResultComponent = () => {
 
     const handleClickSearch = () => {
 
-        let queryStr = createSearchParams({search: word}).toString();
-
-        navigate({pathname: `../result`, search: queryStr});
         setRefresh(!refresh);
     }
 
