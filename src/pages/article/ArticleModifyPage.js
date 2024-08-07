@@ -114,6 +114,7 @@ const ArticleModifyPage = () => {
           size="lg"
           minHeight="200px"
           variant="flushed"
+          style={{whiteSpace: 'pre-wrap'}}
         />
       </Box>
       <Flex justify="space-between">
