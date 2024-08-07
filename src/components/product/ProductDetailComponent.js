@@ -34,7 +34,7 @@ const ProductDetailComponent = ({num}) => {
 
         <Box flex="1" ml={5} textAlign="center" className='border-l'>
           <Text fontSize="4xl" fontWeight='bold' mb={4}>{product.productTitle}</Text>
-          <Text fontSize='3xl' mb={4}>{product.productContent}</Text>
+          <Text fontSize='3xl' mb={4} >{product.productContent}</Text>
           <Text fontSize='3xl' mb={6}>{product.productPrice.toLocaleString()}원</Text>
           <ButtonGroup spacing='7' className='mx-auto mt-5'>
             <Button variant='solid' colorScheme='gray' fontSize="xl" size="lg">
@@ -49,6 +49,10 @@ const ProductDetailComponent = ({num}) => {
           </ButtonGroup>
         </Box>
       </Flex>
+      <div className="m-20 bg-red-50 h-16 text-center">
+        <h4 className="p-3">판매자가 타 사이트 안내 및 현금 결제, 개인정보 유도 시 결제/입력 마시고 즉시 고객센터로 신고해주세요.</h4>
+      </div>
+
     </section>
   )
 }
