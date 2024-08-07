@@ -23,3 +23,12 @@ export const getOne = async (id) => {
   return res.data;
 }
 
+
+
+/* 이미지 조회 */
+export const getImage = async (fileName) => {
+  const res = await axios.get(`${prefix}/view/${fileName}`, { responseType: 'blob' });
+  return URL.createObjectURL(new Blob([res.data]));
+};
+
+
