@@ -80,40 +80,53 @@ const MainProductList = () => {
 
 
   return (
+    <> 
+    {serverData.dtoList.length > 0 ? 
+      
+      <SimpleGrid columns={3} spacing={5}>
 
-        <SimpleGrid columns={3} spacing={5}>
+        {serverData.dtoList.map(product =>
+          <Card maxW='sm' className="text-center border-3 border-stone-900/30" key={product.id}>
+            <CardBody className="flex flex-col">
+              <div className="relative z-10 overflow-hidden">
+                <Image onClick={() => navigate({pathname: `product/read/${product.id}`})}
+                  src='/images/chi1.jpg'
+                  className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
+              </div>
+              <Stack mt='3' spacing='3' className="border-b border-gray-300">
+                <Heading size='md' fontSize="1.1rem"> {product.productTitle.length > 8
+                  ? product.productTitle.substring(0, 8) + '...'
+                  : product.productTitle}</Heading>
+                <Text fontSize='20px'>{product.productPrice.toLocaleString()}원</Text>
+              </Stack>
+              {/* <Divider borderColor='gray.400' /> */}
 
-          {serverData.dtoList.map(product =>
-            <Card maxW='sm' className="text-center border-3 border-stone-900/30" key={product.id}>
-              <CardBody className="flex flex-col">
-                <div className="relative z-10 overflow-hidden">
-                  <Image onClick={() => navigate({pathname: `product/read/${product.id}`})}
-                    src='/images/chi1.jpg'
-                    className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
-                </div>
-                <Stack mt='3' spacing='3' className="border-b border-gray-300">
-                  <Heading size='md' fontSize="1.1rem"> {product.productTitle.length > 8
-                    ? product.productTitle.substring(0, 8) + '...'
-                    : product.productTitle}</Heading>
-                  <Text fontSize='20px'>{product.productPrice.toLocaleString()}원</Text>
-                </Stack>
-                {/* <Divider borderColor='gray.400' /> */}
+              <ButtonGroup spacing='5' className='mx-auto mt-3'>
+                <button className="text-xl font-extrabold hover:opacity-70 bg-stone-700 rounded-lg w-14 h-12"
+                  onClick={()=>{handleClickBuy(product)}}>
+                  <img src="/images/credit-card-regular.svg" className="w-8 h-8 mx-auto" />
+                </button>
+                <button className="text-xl border hover:opacity-70 border-stone-700 rounded-lg w-14 h-12"
+                  onClick={() => { handleClickCart(product) }}>
+                  <img src="/images/cart-shopping-solid.svg" className="w-8 h-8 mx-auto" />
+                </button>
+              </ButtonGroup>
 
-                <ButtonGroup spacing='5' className='mx-auto mt-3'>
-                  <button className="text-xl font-extrabold hover:opacity-70 bg-stone-700 rounded-lg w-14 h-12"
-                    onClick={()=>{handleClickBuy(product)}}>
-                    <img src="/images/credit-card-regular.svg" className="w-8 h-8 mx-auto" />
-                  </button>
-                  <button className="text-xl border hover:opacity-70 border-stone-700 rounded-lg w-14 h-12"
-                    onClick={() => { handleClickCart(product) }}>
-                    <img src="/images/cart-shopping-solid.svg" className="w-8 h-8 mx-auto" />
-                  </button>
-                </ButtonGroup>
+            </CardBody>
+          </Card>
+        )}
+      </SimpleGrid>
 
-              </CardBody>
-            </Card>
-          )}
-        </SimpleGrid>
+      :
+
+      <div className="p-4 flex flex-col items-center justify-center text-2xl font-semibold">
+        <img src="/images/product_none.png" className="w-60"/>
+        <div>
+          지금은 상품 준비중입니다
+        </div>
+      </div>
+    }
+    </>
 
   )
 
