@@ -1,5 +1,5 @@
 import BannerComponent from "../components/BannerComponent";
-import MainProductList from "../components/mainpage/MainProductListComponent";
+import MainProductList from "../components/main/MainProductListComponent";
 import BasicLayout from "../layouts/BasicLayout";
 
 const MainPage = () => {

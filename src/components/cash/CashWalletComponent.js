@@ -1,4 +1,4 @@
-const CartWalletComponent = () => {
+const CashWalletComponent = () => {
 
     return (
         <section className="h-[500px]">
@@ -22,4 +22,4 @@ const CartWalletComponent = () => {
     );
 }
 
-export default CartWalletComponent;
+export default CashWalletComponent;
