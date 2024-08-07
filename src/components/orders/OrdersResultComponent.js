@@ -19,7 +19,7 @@ const initData = [{
 const OrdersResultComponent = () => {
 
     const [serverData, setServerData] = useState(initData);
-    const [modal, setModal] = useState(false);
+    const [modal, setModal] = useState(null);
 
     useEffect(()=>{
         
@@ -29,16 +29,26 @@ const OrdersResultComponent = () => {
         })
     },[]);
 
-    const handleClickInfo = () => {
 
-        setModal(true);
+    const handleClickInfo = (data, dto) => {
+
+        const modalData = {
+
+            name: data.name,
+            address: data.address,
+            phone: data.phone,
+            ...dto
+        }
+
+        setModal(modalData);
     }
+
 
     const handleClickClose = (e) => {
 
         if (e.target.className.includes("close")){
             
-            setModal(false);
+            setModal(null);
         }
     }
 
@@ -59,16 +69,16 @@ const OrdersResultComponent = () => {
                                 onClick={handleClickClose}>
                                 X
                             </button>
-                            <div className="text-3xl font-bold">{serverData[0].dtoList[0].productTitle}</div>
-                            <div className="my-3">{serverData[0].dtoList[0].productContent}</div>
-                            <div className="text-2xl">{serverData[0].dtoList[0].productPrice.toLocaleString()}원</div>
+                            <div className="text-3xl font-bold">{modal.productTitle}</div>
+                            <div className="my-3">{modal.productContent}</div>
+                            <div className="text-2xl">{modal.productPrice.toLocaleString()}원</div>
                         </div>
                     </div>
                     <div className="mx-3 border rounded p-3">
                         <h3 className="text-xl font-extrabold">주문 정보</h3>
-                        <div className="mb-1">이름 : 개똥이</div>
-                        <div className="mb-1">전화번호 : 01012341234</div>
-                        <div>주소 : 개똥집에 삽니다</div>
+                        <div className="mb-1">이름 : {modal.name}</div>
+                        <div className="mb-1">전화번호 : {modal.phone}</div>
+                        <div>주소 : {modal.address}</div>
                     </div>
                     <div className="text-right my-2 mr-3">2024-08-06</div>
                 </div>
@@ -107,7 +117,7 @@ const OrdersResultComponent = () => {
                             <h3 className="font-extrabold text-2xl">{dto.productTitle}</h3>
                             <p className="mt-3">{dto.productContent}</p>
                             <span className="text-blue-700 cursor-pointer hover:opacity-50"
-                                onClick={handleClickInfo}>
+                                onClick={()=>handleClickInfo(data, dto)}>
                                 자세히보기
                             </span>
                         </div>
