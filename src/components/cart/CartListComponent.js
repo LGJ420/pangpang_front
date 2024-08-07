@@ -142,7 +142,12 @@ const CratListComponent = () => {
 
     const handleClickAllOrder = () => {
 
-        console.log(orderList);
+        if(orderList.length === 0){
+            
+            alert("선택한 상품이 없습니다");
+            return;
+        }
+
         navigate("/orders/pay", {state : {orderList}});
     }
 
