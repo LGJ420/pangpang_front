@@ -14,11 +14,11 @@ const NavLayout1 = () => {
                             장바구니
                         </Link>
                     </li>
-                    <li className="border-r border-r-black">
+                    {/* <li className="border-r border-r-black">
                         <Link to={'/cash'} className="px-3">
                             골드 충전소
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="border-r border-r-black">
                         <Link to={'/login'} className="px-3">
                             로그인
