@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getOrdersList } from "../../api/ordersApi";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 const initData = [{
     name: "",
@@ -18,16 +19,47 @@ const initData = [{
 
 const OrdersResultComponent = () => {
 
-    const [serverData, setServerData] = useState(initData);
-    const [modal, setModal] = useState(null);
+    const [serverData, setServerData] = useState(initData); // 데이터
+    const [modal, setModal] = useState(null); // 모달창
+    const [refresh, setRefresh] = useState(false); // 새로고침용
+    const [word, setWord] = useState(""); // 검색창 글
+
+    const navigate = useNavigate();
+
 
     useEffect(()=>{
         
         getOrdersList().then(data=>{
 
             setServerData(data);
-        })
-    },[]);
+        });
+
+    },[refresh]);
+
+
+    const handleChangeSearch = (e) => {
+
+        setWord(e.target.value);
+    }
+
+
+    /* 검색 인풋창 엔터키만 눌러도 검색 */
+    const handleKeyDown = (e) => {
+
+        if (e.key === "Enter") {
+
+            handleClickSearch();
+        }
+    }
+
+
+    const handleClickSearch = () => {
+
+        let queryStr = createSearchParams({search: word}).toString();
+
+        navigate({pathname: `../result`, search: queryStr});
+        setRefresh(!refresh);
+    }
 
 
     const handleClickInfo = (data, dto) => {
@@ -94,8 +126,11 @@ const OrdersResultComponent = () => {
 
             <div className="flex justify-center">
                 <div className="flex justify-around border-2 rounded-3xl w-3/4 overflow-hidden focus-within:border-blue-500 focus-within:shadow-outline">
-                    <input className="px-4 py-2 w-11/12 focus:outline-none" type="text" placeholder="검색" />
-                    <button className="flex items-center justify-center px-4 border-l">
+                    <input className="px-4 py-2 w-11/12 focus:outline-none" type="text" placeholder="검색"
+                        onChange={(e)=>handleChangeSearch(e)}
+                        onKeyDown={handleKeyDown} />
+                    <button className="flex items-center justify-center px-4 border-l"
+                        onClick={handleClickSearch}>
                         <svg className="w-6 h-6 text-gray-600" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                             <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
