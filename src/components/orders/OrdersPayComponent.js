@@ -253,7 +253,7 @@ const OrdersPayComponent = () => {
 
                             productData.map((product, index)=>
 
-                            <div key={index} className="text-right mb-5 text-gray-400">
+                            <div key={index} className="text-right text-sm mb-2 text-gray-400">
                                 <div>
                                     {product.productTitle}
                                 </div>

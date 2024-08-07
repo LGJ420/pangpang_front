@@ -63,15 +63,15 @@ const OrdersResultComponent = () => {
                 <div className="w-[720px] bg-white border rounded-lg shadow-md flex flex-col justify-center">
 
                     <div className="flex">
-                        <img src="/images/chi1.jpg" className="w-52 border rounded m-3"></img>
+                        <img src="/images/chi1.jpg" className="w-56 border rounded m-3"></img>
                         <div className="flex flex-col flex-1">
                             <button className="self-end m-3 bg-red-500 px-3 py-2 text-white rounded-sm close"
                                 onClick={handleClickClose}>
                                 X
                             </button>
-                            <div className="text-3xl font-bold">{modal.productTitle}</div>
+                            <div className="w-4/5 text-3xl font-bold">{modal.productTitle}</div>
                             <div className="my-3">{modal.productContent}</div>
-                            <div className="text-2xl">{modal.productPrice.toLocaleString()}원</div>
+                            <div className="text-2xl mb-5">{modal.productPrice.toLocaleString()}원</div>
                         </div>
                     </div>
                     <div className="mx-3 border rounded p-3">
@@ -111,7 +111,7 @@ const OrdersResultComponent = () => {
 
                 data.dtoList.map(dto=>
 
-                    <div className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center shadow">
+                    <div className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
                         <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img>
                         <div className="w-1/3">
                             <h3 className="font-extrabold text-2xl">{dto.productTitle}</h3>
