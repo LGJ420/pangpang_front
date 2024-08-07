@@ -1,19 +1,27 @@
-import BasicNoHeightLayout from "../../layouts/BasicNoHeightLayout";
+import BasicLayout from "../../layouts/BasicLayout";
 
 const GameIndexPage = () => {
 
     return (
-        <BasicNoHeightLayout>
+        <BasicLayout>
+            <div className="bg-black">
+                <iframe src="https://jcw87.github.io/c2-smb1/" 
+                    className="w-[1350px] h-[800px] m-auto" />
 
-            <iframe src="https://plicy.net/GameEmbed/181045"
-                className="w-[1350px] h-[700px]"/>
-
-            <div className="flex flex-col items-center justify-center p-3">
-                <h3>조작키</h3>
-                <p>이동 : WASD<br/>공격 : ←↑↓→</p>
+                <div className="flex w-[750px] m-auto items-center justify-around pb-5 text-3xl text-white ">
+                    <div className="">
+                        조작키
+                    </div>
+                    <div>
+                        이동 : ←↑↓→
+                    </div>
+                    <div>
+                        점프 : 스페이스바
+                    </div>
+                </div>
             </div>
 
-        </BasicNoHeightLayout>
+        </BasicLayout>
     );
 }
 
