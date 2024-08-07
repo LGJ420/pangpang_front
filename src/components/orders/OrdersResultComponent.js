@@ -19,6 +19,7 @@ const initData = [{
 const OrdersResultComponent = () => {
 
     const [serverData, setServerData] = useState(initData);
+    const [modal, setModal] = useState(false);
 
     useEffect(()=>{
         
@@ -28,29 +29,56 @@ const OrdersResultComponent = () => {
         })
     },[]);
 
+    const handleClickInfo = () => {
+
+        setModal(true);
+    }
+
+    const handleClickClose = (e) => {
+
+        if (e.target.className.includes("close")){
+            
+            setModal(false);
+        }
+    }
+
 
     return (
         <section className="w-[1350px] m-auto">
 
-            <div className="fixed w-full h-full top-0 left-0 z-20 bg-white/90 flex justify-center items-center">
-                <div className="w-1/2 h-1/2 min-w-[675px] bg-white border rounded-lg shadow-md flex flex-col justify-center">
-                    <div className="flex justify-between">
-                        <img src="/images/chi1.jpg" className="w-52"></img>
-                        <div>
-                            <div>{serverData[0].dtoList[0].productTitle}</div>
-                            <div>{serverData[0].dtoList[0].productContent}</div>
-                            <div>{serverData[0].dtoList[0].productPrice}</div>
+        { modal ? 
+        
+            <div className="fixed w-full h-full top-0 left-0 z-20 bg-white/90 flex justify-center items-center close"
+                onClick={handleClickClose}>
+                <div className="w-[720px] bg-white border rounded-lg shadow-md flex flex-col justify-center">
+
+                    <div className="flex">
+                        <img src="/images/chi1.jpg" className="w-52 border rounded m-3"></img>
+                        <div className="flex flex-col flex-1">
+                            <button className="self-end m-3 bg-red-500 px-3 py-2 text-white rounded-sm close"
+                                onClick={handleClickClose}>
+                                X
+                            </button>
+                            <div className="text-3xl font-bold">{serverData[0].dtoList[0].productTitle}</div>
+                            <div className="my-3">{serverData[0].dtoList[0].productContent}</div>
+                            <div className="text-2xl">{serverData[0].dtoList[0].productPrice.toLocaleString()}원</div>
                         </div>
                     </div>
-                    <div>
-                        <h3>주문 정보</h3>
-                        <div>이름 : 개똥이</div>
-                        <div>전화번호 : 01012341234</div>
+                    <div className="mx-3 border rounded p-3">
+                        <h3 className="text-xl font-extrabold">주문 정보</h3>
+                        <div className="mb-1">이름 : 개똥이</div>
+                        <div className="mb-1">전화번호 : 01012341234</div>
                         <div>주소 : 개똥집에 삽니다</div>
-                        <div>결제일자 : 2024-08-06</div>
                     </div>
+                    <div className="text-right my-2 mr-3">2024-08-06</div>
                 </div>
             </div>
+
+        :
+
+            <></>
+
+        }
 
             <h1 className="text-5xl m-10">주문내역</h1>
 
@@ -78,7 +106,10 @@ const OrdersResultComponent = () => {
                         <div className="w-1/3">
                             <h3 className="font-extrabold text-2xl">{dto.productTitle}</h3>
                             <p className="mt-3">{dto.productContent}</p>
-                            <span className="text-blue-700 cursor-pointer hover:opacity-50">자세히보기</span>
+                            <span className="text-blue-700 cursor-pointer hover:opacity-50"
+                                onClick={handleClickInfo}>
+                                자세히보기
+                            </span>
                         </div>
                         <div className="text-center">
                             <h3 className="mb-3">수량</h3>
