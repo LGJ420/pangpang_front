@@ -46,7 +46,7 @@ const CratListComponent = () => {
                 }));
                 setServerData(newData);
                 setOrderList(newData);  // 주문 목록도 모든 항목으로 초기화
-            });
+            }).catch(e=>console.log(e));
     }, []);
 
 

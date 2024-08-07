@@ -23,7 +23,7 @@ const MainProductList = () => {
     getProductList().then(data => {
       // console.log(data);
       setServerData(data);
-    });
+    }).catch(e=>console.log(e));
   }, [])
 
 

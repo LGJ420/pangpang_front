@@ -2,24 +2,24 @@ import { useEffect, useState } from "react";
 import { getOrdersList } from "../../api/ordersApi";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
-const initData = [{
-    name: "",
-    address: "",
-    phone: "",
-    memberId: 0,
-    dtoList: [{
-        productId: 0,
-        productTitle: "",
-        productContent: "",
-        productPrice: 0,
-        cartCount: 0
-    }]
-}]
+// const initData = [{
+//     name: "",
+//     address: "",
+//     phone: "",
+//     memberId: 0,
+//     dtoList: [{
+//         productId: 0,
+//         productTitle: "",
+//         productContent: "",
+//         productPrice: 0,
+//         cartCount: 0
+//     }]
+// }]
 
 
 const OrdersResultComponent = () => {
 
-    const [serverData, setServerData] = useState(initData); // 데이터
+    const [serverData, setServerData] = useState([]); // 데이터
     const [modal, setModal] = useState(null); // 모달창
     const [refresh, setRefresh] = useState(false); // 새로고침용
     const [word, setWord] = useState(""); // 검색창 글
@@ -32,7 +32,7 @@ const OrdersResultComponent = () => {
         getOrdersList(word).then(data=>{
 
             setServerData(data);
-        });
+        }).catch(e=>console.log(e));
 
     },[refresh]);
 
@@ -137,7 +137,7 @@ const OrdersResultComponent = () => {
     
 
         {
-            serverData ? 
+            serverData.length > 0 ? 
 
             serverData.map(data=>
 
@@ -166,8 +166,9 @@ const OrdersResultComponent = () => {
 
             :
 
-            <>
-            </>
+            <div className="text-center m-32">
+                주문 내역이 없습니다
+            </div>
         }
 
         </section>

@@ -39,12 +39,12 @@ const ProductListComponent = () => {
       getList({ search, page, size }).then(data => {
         // console.log(data);
         setServerData(data);
-      });
+      }).catch(e=>console.log(e));
     } else {        // search에 데이터 없으면 page, size를 전달
       getList({ page, size }).then(data => {
         // console.log(data);
         setServerData(data)
-      });
+      }).catch(e=>console.log(e));
     }
   }, [search, page, size, refresh])
 
