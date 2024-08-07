@@ -9,11 +9,11 @@ const MainPage = () => {
         <BannerComponent />
         
         <section className="w-[1350px] my-5 mx-auto flex">
-            <div className="w-1/2 mr-2 pb-2 flex flex-col">
+            <div className="w-1/2 mr-2 flex flex-col">
                 <div className="text-2xl m-4">
                     공지사항
                 </div>
-                <div className="border border-solid rounded-md h-full">
+                <div className="border-3 border-stone-900/30 rounded-md h-full">
                     풉키풉스
                 </div>
             </div>
