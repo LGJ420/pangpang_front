@@ -1,9 +1,8 @@
-import { ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import { Carousel, CarouselItem } from "react-bootstrap";
-import useCustomMove from "../../hooks/useCustomMove";
+import { ButtonGroup, Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { postCartAdd } from "../../api/cartApi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getMainList } from "../../api/productApi";
 import { getProductList } from "../../api/MainPageApi";
 
 
@@ -17,14 +16,35 @@ const MainProductList = () => {
   const navigate = useNavigate();
 
   const [serverData, setServerData] = useState(initState);
+  const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+
+  const size = 3;
 
 
   useEffect(() => {
-    getProductList().then(data => {
-      // console.log(data);
-      setServerData(data);
-    }).catch(e=>console.log(e));
-  }, [])
+    const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
+      try {
+        // 상품 목록 데이터 가져오기
+        const data = await getMainList({ size });
+        setServerData(data);
+
+        // 이미지 URL 설정하기
+        const imageUrls = {};
+        for (const product of data.dtoList) {
+          if (product.uploadFileNames[0]) {
+            const fileName = product.uploadFileNames[0];
+            const url = `http://localhost:8080/api/product/view/${fileName}`;
+            imageUrls[product.id] = url;
+          }
+        }
+        setImages(imageUrls);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
 
   /* 구매하기 */
@@ -90,7 +110,8 @@ const MainProductList = () => {
             <CardBody className="flex flex-col">
               <div className="relative z-10 overflow-hidden">
                 <Image onClick={() => navigate({pathname: `product/read/${product.id}`})}
-                  src='/images/chi1.jpg'
+                  src={images[product.id] || '/images/chi1.jpg'}
+                  alt={product.productTitle}
                   className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
               </div>
               <Stack mt='3' spacing='3' className="border-b border-gray-300">
