@@ -36,7 +36,7 @@ const ProductListComponent = () => {
   useEffect(() => {
     const fetchImages = async () => {
       const imageUrls = {};
-      for (const product of serveData.dtoList) {
+      for (const product of serverData.dtoList) {
         if (product.uploadFileNames[0]) {
           const fileName = product.uploadFileNames[0];
           const url = `http://localhost:8080/api/product/view/${fileName}`;
@@ -47,7 +47,7 @@ const ProductListComponent = () => {
     };
 
     fetchImages();
-  }, [serveData]);
+  }, [serverData]);
 
 
 
@@ -147,7 +147,7 @@ const ProductListComponent = () => {
       </div>
 
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} className="pb-32">
-        {serveData.dtoList.map(product =>
+        {serverData.dtoList.map(product =>
           <Card maxW='sm' key={product.id}>
             <CardBody>
               <div className="relative z-10 overflow-hidden">
@@ -186,18 +186,18 @@ const ProductListComponent = () => {
 
       <Flex justifyContent="center" fontSize="25px" className="pb-20 text-gray-700">
         {/* 이전 페이지 */}
-        {serveData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serveData.prevPage })}>{'\u003c'}</Box> :
+        {serverData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage })}>{'\u003c'}</Box> :
           <></>}
 
         {/* 페이지 넘버 */}
-        {serveData.pageNumList.map(pageNum => serveData.dtoList.length > 0 ?
+        {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
           (<Box key={pageNum}
             marginRight={7} cursor={"pointer"}
             className={serverData.current === pageNum ? 'text-gray-500 border-b' : ''}
             onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
 
         {/* 다음 페이지 */}
-        {serveData.next ? <Box cursor={"pointer"} onClick={() => moveToList({ page: serveData.nextPage })}>{'\u003e'}</Box> : <></>}
+        {serverData.next ? <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.nextPage })}>{'\u003e'}</Box> : <></>}
       </Flex>
     </section>
   );
