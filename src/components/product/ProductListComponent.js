@@ -43,15 +43,15 @@ const ProductListComponent = () => {
         setServerData(data);
 
         // 이미지 URL 설정하기
-        const imageUrls = {};
-        for (const product of data.dtoList) {
-          if (product.uploadFileNames[0]) {
-            const fileName = product.uploadFileNames[0];
-            const url = `http://localhost:8080/api/product/view/${fileName}`;
-            imageUrls[product.id] = url;
+        const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성
+        for (const product of data.dtoList) {   // 상품 목록 반복
+          if (product.uploadFileNames[0]) {     // 상품이 이미지 파일을 가지고 있는지 확인
+            const fileName = product.uploadFileNames[0];    // 첫 번쩨 이미지 파일 이름을 가져옴
+            const url = `http://localhost:8080/api/product/view/${fileName}`;   // 이미지 url 만듦
+            imageUrls[product.id] = url;    // 상품 id를 키로, 이미지 url을 값으로 설정
           }
         }
-        setImages(imageUrls);
+        setImages(imageUrls);   // 상태를 업데이트하여 이미지 url 저장
       } catch (error) {
         console.error(error);
       }
@@ -145,7 +145,7 @@ const ProductListComponent = () => {
               <CardBody>
                 <div className="relative z-10 overflow-hidden">
                   <Image onClick={() => moveToRead(product.id)}
-                    src={images[product.id] || '/images/chi1.jpg'}
+                    src={images[product.id] || '/images/chi1.jpg'}    // 저장된 이밎 url 또는 기본 이미지 사용
                     alt={product.productTitle}
                     borderRadius='lg'
                     className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />

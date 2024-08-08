@@ -25,7 +25,7 @@ const MainProductList = () => {
     const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
       try {
         // 상품 목록 데이터 가져오기
-        const data = await getMainList({ size });
+        const data = await getProductList();
         setServerData(data);
 
         // 이미지 URL 설정하기

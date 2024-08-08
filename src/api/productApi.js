@@ -16,9 +16,9 @@ export const getList = async (pageParam) => {
 
 
 /* 메인 페이지 상품 목록 보기 */
-export const getMainList = async (size) => {
-  const res = await axios.get(`${API_SERVER_HOST}/`, {params : {size}});
-  return res.data
+export const getMainList = async () => {
+  const res = await axios.get(`${API_SERVER_HOST}/`);
+  return res.data;
 }
 
 
