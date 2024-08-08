@@ -20,7 +20,7 @@ const ProductDetailComponent = ({num}) => {
     getOne(num).then(data => {
       // console.log(data)
       setProduct(data)
-    })
+    }).catch(e=>console.log(e));
   }, [num])
 
 

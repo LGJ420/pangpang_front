@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const NavLayout2 = () => {
 
     return (
-        <nav id="navbar2" className="flex items-center bg-black h-[70px] min-w-[1350px] sticky top-0 z-50">
+        <nav id="navbar2" className="flex items-center bg-black h-[70px] min-w-[1350px] sticky top-0 z-20">
             <div className="flex justify-between w-[1350px] m-auto">
                 <ul className="flex items-center text-white text-xl ml-5">
                     <li className="ml-3 mr-10">

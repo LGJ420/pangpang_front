@@ -5,9 +5,9 @@ export const API_SERVER_HOST = 'http://localhost:8080';
 const prefix = `${API_SERVER_HOST}/api/orders`;
 
 
-export const getOrdersList = async () => {
+export const getOrdersList = async (search) => {
     
-    const res = await axios.get(`${prefix}/list`);
+    const res = await axios.get(`${prefix}/list`, {params: {search}});
     
     return res.data;
 }

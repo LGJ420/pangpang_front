@@ -26,7 +26,7 @@ const ProductListComponent = () => {
 
   const { search, page, size, refresh, moveToRead, moveToList } = useCustomMove();
 
-  const [serveData, setServerData] = useState(initState);
+  const [serverData, setServerData] = useState(initState);
   const [word, setWord] = useState("");   // 상품 검색용
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
 
@@ -60,12 +60,12 @@ const ProductListComponent = () => {
       getList({ search, page, size }).then(data => {
         // console.log(data);
         setServerData(data);
-      });
+      }).catch(e=>console.log(e));
     } else {        // search에 데이터 없으면 page, size를 전달
       getList({ page, size }).then(data => {
         // console.log(data);
         setServerData(data)
-      });
+      }).catch(e=>console.log(e));
     }
   }, [search, page, size, refresh]);
 
@@ -145,18 +145,16 @@ const ProductListComponent = () => {
           icon={<SearchIcon />}
           onClick={() => moveToList({ search: word })} />
       </div>
+
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} className="pb-32">
         {serveData.dtoList.map(product =>
           <Card maxW='sm' key={product.id}>
             <CardBody>
               <div className="relative z-10 overflow-hidden">
-                <Image
-                  onClick={() => moveToRead(product.id)}
-                  src={images[product.id] || '/images/chi1.jpg'}
-                  alt={product.productTitle}
+                <Image onClick={() => moveToRead(product.id)}
+                  src='/images/chi1.jpg'
                   borderRadius='lg'
-                  className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125'
-                />
+                  className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
               </div>
               <Stack mt='5' spacing='3'>
                 <Heading size='md' fontSize="2xl">{product.productTitle}</Heading>
@@ -164,28 +162,41 @@ const ProductListComponent = () => {
               </Stack>
             </CardBody>
             <Divider borderColor='gray.400' />
+
             <CardFooter>
               <ButtonGroup spacing='8' className='mx-auto'>
+
                 <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16"
-                  onClick={() => handleClickBuy(product)}>
+                  onClick={()=>{handleClickBuy(product)}}>
                   구매하기
                 </button>
                 <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"
-                  onClick={() => handleClickCart(product)}>
+                  onClick={() => { handleClickCart(product) }}>
                   장바구니 담기
                 </button>
+
               </ButtonGroup>
             </CardFooter>
           </Card>
         )}
       </SimpleGrid>
+
+
+      {/* 페이지네이션 */}
+
       <Flex justifyContent="center" fontSize="25px" className="pb-20 text-gray-700">
-        {serveData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serveData.prevPage })}>{'\u003c'}</Box> : <></>}
+        {/* 이전 페이지 */}
+        {serveData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serveData.prevPage })}>{'\u003c'}</Box> :
+          <></>}
+
+        {/* 페이지 넘버 */}
         {serveData.pageNumList.map(pageNum => serveData.dtoList.length > 0 ?
           (<Box key={pageNum}
             marginRight={7} cursor={"pointer"}
-            className={serveData.current === pageNum ? 'text-gray-500 border-b' : ''}
+            className={serverData.current === pageNum ? 'text-gray-500 border-b' : ''}
             onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
+
+        {/* 다음 페이지 */}
         {serveData.next ? <Box cursor={"pointer"} onClick={() => moveToList({ page: serveData.nextPage })}>{'\u003e'}</Box> : <></>}
       </Flex>
     </section>

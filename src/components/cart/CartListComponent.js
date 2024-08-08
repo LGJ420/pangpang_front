@@ -46,7 +46,7 @@ const CratListComponent = () => {
                 }));
                 setServerData(newData);
                 setOrderList(newData);  // 주문 목록도 모든 항목으로 초기화
-            });
+            }).catch(e=>console.log(e));
     }, []);
 
 
@@ -142,7 +142,12 @@ const CratListComponent = () => {
 
     const handleClickAllOrder = () => {
 
-        console.log(orderList);
+        if(orderList.length === 0){
+            
+            alert("선택한 상품이 없습니다");
+            return;
+        }
+
         navigate("/orders/pay", {state : {orderList}});
     }
 
@@ -152,6 +157,8 @@ const CratListComponent = () => {
 
             <h1 className="text-5xl m-10">장바구니</h1>
             
+        { serverData.length > 0 ?
+
             <div className="ml-20 inline-block">
                 <label className="flex items-center justify-between text-xl relative select-none w-32">
                     <input type="checkbox"
@@ -166,6 +173,12 @@ const CratListComponent = () => {
                 </label>
             </div>
 
+            :
+
+            <>
+            </>
+
+        }
 
         { serverData.length > 0 ?
 
@@ -221,8 +234,11 @@ const CratListComponent = () => {
 
             :
             
-            <div className="flex justify-around w-11/12 text-2xl font-semibold mx-auto py-40 items-center content-center">
-                장바구니가 비어있습니다
+            <div className="flex flex-col w-11/12 text-2xl font-semibold mx-auto py-40 items-center">
+                <img src="/images/cart_none.png" className="w-40" />
+                <div className="m-10">
+                    장바구니가 비어있습니다
+                </div>
             </div>
         }
         <div className="h-72"></div>

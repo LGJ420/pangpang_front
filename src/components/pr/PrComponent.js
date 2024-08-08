@@ -6,7 +6,7 @@ const PrComponent = () => {
             <div className="flex flex-col items-center">
                 <div className="relative">
                     <img src="/images/pr_bg1.jpg"></img>
-                    <p className="absolute top-1/3 -translate-y-1/2 w-full text-center text-2xl leading-relaxed text-zinc-300">
+                    <p className="absolute top-1/3 -translate-y-1/2 w-full text-center text-2xl leading-relaxed text-zinc-300 overflow-hidden">
 파이널판타지14는 2015년 &lt;신생 에오르제아&gt; 를 시작으로<br />
 &lt;창천의 이슈가르드&gt;, &lt;홍련의 해방자&gt;, &lt;칠흑의 반역자&gt;에 이어<br />
 네번째 확장팩 &lt;효월의 종언&gt;을 선보인 정통 온라인 MMORPG입니다.<br />
@@ -27,7 +27,7 @@ const PrComponent = () => {
 
 
 
-                <p className="mb-32 w-full text-center text-2xl leading-relaxed text-zinc-300">
+                <p className="mb-32 w-full text-center text-2xl leading-relaxed text-zinc-300 overflow-hidden">
 8개의 종족과 각 2개의 부족, 총 16개의 캐릭터로 다양한 커스터마이징이 가능합니다.<br />
 <br />
 당신만의 캐릭터로 파이널판타지14에서 모험을 시작해보세요!
@@ -36,7 +36,7 @@ const PrComponent = () => {
 
                 <div className="relative">
                     <img src="/images/pr_bg2.jpg"></img>
-                    <p className="absolute top-1/3 -translate-y-1/2 w-full text-center text-2xl leading-relaxed text-zinc-300">
+                    <p className="absolute top-1/3 -translate-y-1/2 w-full text-center text-2xl leading-relaxed text-zinc-300 overflow-hidden">
 예측을 뒤엎는 세계관 속에 새롭게 펼쳐지는 대서사시<br />
 제7재해로 폐허가 된 에오르제아의 5년 후의 세계로 날아간 모험가는<br />
 폐허를 딛고 새로운 희망을 품은 땅 “에오르제아”에서 새로운 모험을 시작하게 됩니다.<br />
