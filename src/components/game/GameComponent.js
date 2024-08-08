@@ -13,7 +13,10 @@ const GameComponent = () => {
                     이동 : ←↑↓→
                 </div>
                 <div>
-                    점프 : 스페이스바
+                    점프 : Space bar
+                </div>
+                <div>
+                    공격 : Shift
                 </div>
             </div>
         </div>
