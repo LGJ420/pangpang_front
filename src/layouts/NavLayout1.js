@@ -12,6 +12,8 @@ const NavLayout1 = () => {
     useEffect(() => {
         // 로그인해야 로컬스토리지에 토큰이 저장됨
         const token = localStorage.getItem("token");
+        console.log(token);
+        
         if (token) {
             // 토큰이 있으면 state를 true로 바꿈
             setIsToken(true);
