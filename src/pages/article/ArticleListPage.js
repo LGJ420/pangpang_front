@@ -1,82 +1,68 @@
-import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, HStack, useColorModeValue } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
-import React, { useEffect, useState } from 'react';
-import { getList } from '../../api/articleApi'; // getList 함수를 import 합니다.
-import useCustomMove from '../../hooks/useCustomMove';
-import { useNavigate } from 'react-router-dom';
+import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, useColorModeValue } from '@chakra-ui/react';
+import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
 
-// 페이지네이션 컴포넌트
-const Pagination = ({ totalPages, currentPage, onPageChange }) => {
-    return (
-        <HStack spacing={4} justify="center" mt={4}>
-            <Button
-                onClick={() => onPageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                variant="outline"
-                colorScheme="teal"
-            >
-                이전
-            </Button>
-            {[...Array(totalPages)].map((_, index) => (
-                <Button
-                    key={index}
-                    onClick={() => onPageChange(index + 1)}
-                    variant={index + 1 === currentPage ? "solid" : "outline"}
-                    colorScheme="teal"
-                >
-                    {index + 1}
-                </Button>
-            ))}
-            <Button
-                onClick={() => onPageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                variant="outline"
-                colorScheme="teal"
-            >
-                다음
-            </Button>
-        </HStack>
-    );
-};
+import { getList } from '../../api/articleApi'; 
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import useCustomMove from '../../hooks/useCustomMove';
+
+const initState = {
+    articleList: [],
+    pageNumList: [],
+    pageRequestDTO: null,
+    prev: false,
+    next: false,
+    totalCount: 0,
+    prevPage: 0,
+    nextPage: 0,
+    totalPage: 0,
+    current: 1
+}
 
 // 게시글 목록 페이지 컴포넌트
 const ArticleListPage = () => {
-    const [articles, setArticles] = useState([]);
+    const {page, size, search, refresh, moveToList, moveToRead} = useCustomMove();
+
+    const [serverData, setServerData] = useState(initState);
     const [loading, setLoading] = useState(true);
-    const [totalPages, setTotalPages] = useState(0); // 초기 상태값을 0으로 설정
     const [error, setError] = useState(null);
-    const { page, size, moveToList, moveToRead } = useCustomMove();
-    const articlesPerPage = size; // useCustomMove에서 가져온 size 사용
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const loadArticles = async () => {
+        const fetchArticles = async() => {
             setLoading(true);
+            setError(null);
             try {
-                const data = await getList({ page, size: articlesPerPage });
-                console.log('API Response:', data);
-                setArticles(data.articles);
-                setTotalPages(data.totalPages); // 서버에서 반환된 총 페이지 수
-            } catch (err) {
-                setError('글을 불러오는데 실패했습니다.');
-            } finally {
+                const data =await getList({ page, size, search });
+                console.log('Fetched articles', data);
+                setServerData({
+                    articleList: data.dtoList,
+                    pageNumList: data.pageNumList,
+                    pageRequestDTO: data.pageRequestDTO,
+                    prev: data.prev,
+                    next: data.next,
+                    totalCount: data.totalCount,
+                    prevPage: data.prevPage,
+                    nextPage: data.nextPage,
+                    totalPage: data.totalPage,
+                    current: data.current
+                });
+            }catch (err) {
+                console.error("글을 불러오는데 실패했습니다.", err);
+                setError("글을 불러오는데 실패했습니다.");
+            }finally{
                 setLoading(false);
             }
         };
-        loadArticles();
-    }, [page, articlesPerPage]);
-
-    const handlePageChange = (newPage) => {
-        moveToList({ page: newPage, size: articlesPerPage });
-    };
-
-    const navigate = useNavigate();
+        fetchArticles();
+    },[search, page, size, refresh]);
 
     const bgColor = useColorModeValue('gray.50', 'gray.800');
-    const borderColor = useColorModeValue('gray.200', 'gray.700');
 
     return (
         <>
-            <Flex justify="center" p={4} bg="white" borderBottom="1px" borderColor={borderColor} boxShadow="sm" marginTop="100px">
+        <div className='my-7'>
+            <Flex justify="center" p={4} bg="white">
                 <FormControl>
                     <Flex alignItems="center" justifyContent="center">
                         <Select placeholder='제목' w="150px" mr={2}>
@@ -88,6 +74,7 @@ const ArticleListPage = () => {
                             colorScheme='teal'
                             aria-label='Search database'
                             icon={<SearchIcon />}
+                            onClick={() => moveToList({page: 1})}
                         />
                     </Flex>
                 </FormControl>
@@ -111,12 +98,20 @@ const ArticleListPage = () => {
                                 </Tr>
                             </Thead>
                             <Tbody>
-                                {articles.map(article => (
-                                    <Tr key={article.id} _hover={{ bg: 'gray.100' }} onClick={() => moveToRead(article.id)}>
+                                {(serverData.articleList || []).map((article) => (
+                                    <Tr key={article.id} _hover={{ bg: 'gray.100' }} >
                                         <Td textAlign="center">{article.id}</Td>
-                                        <Td textAlign="center">{article.articleTitle}</Td>
+                                        <Td textAlign="center" cursor='pointer' textColor="blue" onClick={() => 
+                                        moveToRead(article.id)} 
+                                        _hover={{
+                                            textDecoration: 'underline',
+                                            transform: 'scale(1.05)',
+                                            transition: 'transform 0.2s ease, text-decoration 0.2s ease'
+                                        }} 
+                                        >
+                                        {article.articleTitle}</Td>
                                         <Td textAlign="center">{article.articleAuthor}</Td>
-                                        <Td textAlign="center">{new Date(article.articleCreated).toLocaleDateString()}</Td>
+                                        <Td textAlign="center">{article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : '날짜 형식이 맞지 않음'}</Td>
                                     </Tr>
                                 ))}
                             </Tbody>
@@ -124,18 +119,53 @@ const ArticleListPage = () => {
                     </TableContainer>
                 )}
 
-                <Pagination
-                    totalPages={totalPages}
-                    currentPage={page}
-                    onPageChange={handlePageChange}
-                />
+                {/* 페이지네이션 */}
+                <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
+                        {/* 이전 페이지 */}
+                        <IconButton
+                            aria-label="Previous Page"
+                            icon={<ChevronLeftIcon />}
+                            isDisabled={!serverData.prev}
+                            onClick={() => moveToList({ page: serverData.prevPage })}
+                            mr={3}
+                            _hover={{ bg: 'teal.100', color: 'teal.700' }}
+                            _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
+                        />
+
+                        {/* 페이지 넘버 */}
+                        {serverData.pageNumList.map(pageNum => (
+                            <Button
+                                key={pageNum}
+                                mx={1}
+                                size="sm"
+                                variant={serverData.current === pageNum ? 'solid' : 'outline'}
+                                colorScheme={serverData.current === pageNum ? 'teal' : 'gray'}
+                                onClick={() => moveToList({ page: pageNum })}
+                                _hover={{ bg: 'teal.100', color: 'teal.700' }}
+                            >
+                                {pageNum}
+                            </Button>
+                        ))}
+
+                        {/* 다음 페이지 */}
+                        <IconButton
+                            aria-label="Next Page"
+                            icon={<ChevronRightIcon />}
+                            isDisabled={!serverData.next}
+                            onClick={() => moveToList({ page: serverData.nextPage })}
+                            ml={3}
+                            _hover={{ bg: 'teal.100', color: 'teal.700' }}
+                            _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
+                        />
+                    </Flex>
 
                 <Flex justifyContent="flex-end">
-                    <Button mt={4} colorScheme='teal' onClick={() => navigate("../create")}>
+                    <Button colorScheme='teal' onClick={() => navigate("../create")}>
                         글쓰기
                     </Button>
                 </Flex>
             </Box>
+        </div>
         </>
     );
 }
