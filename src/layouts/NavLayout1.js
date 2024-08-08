@@ -49,7 +49,10 @@ const NavLayout1 = () => {
                         </li> */}
                         <li className="border-r border-r-black">
                             <Link to={'/마이페이지url'} className="px-3">
-                                {decodeToken.memberName}님, 환영합니다!
+                                <strong>
+                                    {decodeToken.memberName}
+                                </strong>
+                                님, 환영합니다!
                             </Link>
                         </li>
                         <li>
