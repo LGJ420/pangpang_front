@@ -3,7 +3,7 @@ import useCustomMove from "../../hooks/useCustomMove"
 import { getOne } from "../../api/articleApi"
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react"
 import { useParams } from "react-router-dom"
-import CommentList from "./CommentListPage"
+import CommentList from "../comment/CommentListPage"
 
 // 정규 표현식으로 URL을 감지하고 하이퍼링크로 변환하는 함수
 const formatContent = (content) => {
@@ -82,7 +82,7 @@ const ArticleReadPage = () => {
       </Flex>
 
       {/*Comment Component*/}
-      <CommentList articleId={articleId}/>
+      <CommentList articleId={id}/>
     </Box>
     )
 }
