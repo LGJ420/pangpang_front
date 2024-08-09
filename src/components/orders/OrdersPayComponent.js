@@ -34,7 +34,7 @@ const OrdersPayComponent = () => {
             console.log(location.state.order);
             setProductData([location.state.order]);
         }
-        
+
     }, [location.state]);
 
     
@@ -223,6 +223,7 @@ const OrdersPayComponent = () => {
                                     name="payment" 
                                     value="card" 
                                     className="mr-2"
+                                    checked
                                 />
                                 <label htmlFor="payment-card" className="cursor-pointer">
                                     카드결제
