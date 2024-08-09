@@ -79,8 +79,6 @@ const ProductListComponent = () => {
 
     const cartObj = {
 
-      // 멤버는 나중에 로그인한 사람으로 바꿀 예정
-      memberId: 1,
       productId: product.id,
       cartCount: 1,
     }

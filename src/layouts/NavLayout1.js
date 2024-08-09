@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import useCustomToken from "../hooks/useCustomToken";
 
 const NavLayout1 = () => {
 
-    const memberId = localStorage.getItem("memberId");
-    const token = localStorage.getItem("token");
+    const { isLogin, decodeToken } = useCustomToken();
 
     // 로그아웃
     const handleLogout = () => {
@@ -32,28 +32,61 @@ const NavLayout1 = () => {
                 <Link to={'/'}>
                     <img src="/images/logo_r3.png" className="h-[40px] mx-8 my-3"></img>
                 </Link>
-                <ul className="flex mr-5">
-                    <li className="border-r border-r-black">
-                        <Link to={'/cart'} className="px-3">
-                            장바구니
-                        </Link>
-                    </li>
-                    <li className="border-r border-r-black">
-                        <Link to={'/cash'} className="px-3">
-                            골드 충전소
-                        </Link>
-                    </li>
-                    <li className="border-r border-r-black">
-                        <Link to={'/login'} className="px-3">
-                            로그인
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to={'/signup'} className="px-3">
-                            회원가입
-                        </Link>
-                    </li>
-                </ul>
+                {
+                isLogin ?
+                (
+                    // token이 잇으면 = 로그인이 되어있으면
+                    <ul className="flex mr-5">
+                        <li className="border-r border-r-black">
+                            <Link to={'/cart'} className="px-3">
+                                장바구니
+                            </Link>
+                        </li>
+                        {/* <li className="border-r border-r-black">
+                            <Link to={'/cash'} className="px-3">
+                                골드 충전소
+                            </Link>
+                        </li> */}
+                        <li className="border-r border-r-black">
+                            <Link to={'/마이페이지url'} className="px-3">
+                                {decodeToken.memberName}님, 환영합니다!
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={'/'} className="px-3" 
+                            onClick={handleLogout}>
+                                로그아웃
+                            </Link>
+                        </li>
+                    </ul>
+                ) 
+                :
+                (
+                    // token이 없으면 = 로그인이 안되어있으면
+                    <ul className="flex mr-5">
+                        <li className="border-r border-r-black">
+                            <Link to={'/cart'} className="px-3">
+                                장바구니
+                            </Link>
+                        </li>
+                        {/* <li className="border-r border-r-black">
+                            <Link to={'/cash'} className="px-3">
+                                골드 충전소
+                            </Link>
+                        </li> */}
+                        <li className="border-r border-r-black">
+                            <Link to={'/login'} className="px-3">
+                                로그인
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={'/signup'} className="px-3">
+                                회원가입
+                            </Link>
+                        </li>
+                    </ul>
+                )
+                }
             </div>
         </nav>
     );
