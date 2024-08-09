@@ -3,7 +3,7 @@ import { postCartAdd } from "../../api/cartApi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getMainList } from "../../api/productApi";
-import { getProductList } from "../../api/MainPageApi";
+import { getProductList } from "../../api/mainPageApi";
 
 
 /* 초기값 설정 */
@@ -81,14 +81,12 @@ const MainProductList = () => {
 
     const cartObj = {
 
-      // 멤버는 나중에 로그인한 사람으로 바꿀 예정
-      memberId: 1,
       productId: product.id,
       cartCount: 1,
     }
 
     postCartAdd(cartObj);
-    alert("장바구니에 상품이 등록되었습니다")
+    alert("장바구니에 상품이 등록되었습니다");
 
 
     // 여유가 되면 모달창을 제작해서 바꿀예정
@@ -97,7 +95,7 @@ const MainProductList = () => {
 
     if (goToCart) {
 
-      navigate({ pathname: '../../cart' });
+      navigate({ pathname: '/cart' });
     }
   }
 

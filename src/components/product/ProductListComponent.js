@@ -105,7 +105,7 @@ const ProductListComponent = () => {
 
     if (goToCart) {
 
-      navigate({ pathname: '../../cart' });
+      navigate({ pathname: '/cart' });
     }
   }
 

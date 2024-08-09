@@ -23,14 +23,18 @@ const OrdersPayComponent = () => {
 
     useEffect(() => {
 
+        // 데이터를 가져올때 오더가 리스트 형태로 되있으면 리스들을 데이터에 넣기
         if (location.state.orderList) {
             console.log(location.state.orderList);
             setProductData(location.state.orderList);
         }
+
+        // 리스트가 아니라 단일객체면 배열로 만들어서 데이터에 넣기
         else if (location.state.order) {
             console.log(location.state.order);
             setProductData([location.state.order]);
         }
+        
     }, [location.state]);
 
     
