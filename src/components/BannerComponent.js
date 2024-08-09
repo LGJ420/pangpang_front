@@ -14,13 +14,13 @@ const BannerComponent = () => {
 
         <section>
             <Carousel activeIndex={index} onSelect={handleSelect}>
-                <Carousel.Item className="max-h-[700px]">
+                <Carousel.Item>
                     <img src="images/main1.jpg" text="main1"  className="w-full"/>
                 </Carousel.Item>
-                <Carousel.Item className="max-h-[700px]">
+                <Carousel.Item>
                     <img src="images/main2.jpg" text="main2"  className="w-full"/>
                 </Carousel.Item>
-                <Carousel.Item className="max-h-[700px]">
+                <Carousel.Item>
                     <img src="images/main3.jpg" text="main3"  className="w-full"/>
                 </Carousel.Item>
             </Carousel>

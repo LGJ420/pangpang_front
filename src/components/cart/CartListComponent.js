@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteCartOne, getCartList, putCartOne } from "../../api/cartApi";
+import useCustomToken from "../../hooks/useCustomToken";
 
 // const initState = [{
 //     productId: 0,
@@ -16,14 +17,9 @@ const CratListComponent = () => {
     const [selectAll, setSelectAll] = useState(true);
     const [serverData, setServerData] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
+    
     const navigate = useNavigate();
-
-
-
-
-    useEffect(()=>{
-        console.log(orderList);
-    }, [orderList]);
+    const {decodeToken} = useCustomToken();
 
 
 
