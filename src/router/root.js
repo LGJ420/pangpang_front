@@ -4,48 +4,67 @@ import articleRouter from "./articleRouter";
 import cartRouter from "./cartRouter";
 import cashRouter from "./cashRouter";
 import ordersRouter from "./ordersRouter";
+import managerRouter from "./managerRouter";
 
 const { createBrowserRouter } = require("react-router-dom");
 
 
+// 테스트
 const Test = lazy(()=>import("../pages/TestPage"));
 
-
+// 메인
 const Main = lazy(()=>import("../pages/MainPage"));
+
+// 공지사항
 const Notice = lazy(()=>import("../pages/notice/NoticeIndexPage"));
+
+// 게임소개
 const Pr = lazy(()=>import("../pages/pr/PrIndexPage"));
+
+// 자유게시판
 const Article = lazy(()=>import("../pages/article/ArticleIndexPage"));
+
+// 상점
 const Product = lazy(()=>import("../pages/product/ProductIndexPage"));
+
+// 고객센터
 const Support = lazy(()=>import("../pages/support/SupportIndexPage"));
+
+// 게임
 const Game = lazy(()=>import("../pages/game/GameIndexPage"));
+
+// 장바구니
 const Cart = lazy(()=>import("../pages/cart/CartIndexPage"));
+
+// 골드 충전소
 const Cash = lazy(()=>import("../pages/cash/CashIndexPage"));
+
+// 주문
 const Orders = lazy(()=>import("../pages/orders/OrdersIndexPage"));
+
+// 관리자
+const Manager = lazy(()=>import("../pages/manager/ManagerIndexPage"));
+
+// 로그인
 const Login = lazy(()=>import("../pages/member/MemberLoginPage"));
+
+// 회원가입
 const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
+
+// 회원가입 완료
 const SignupConfirm = lazy(()=>import("../pages/member/MemberSignupConfirmPage"));
+
+// 아이디, 비밀번호 찾기
 const Find = lazy(()=>import("../pages/member/MemberFindPage"));
+
+// 아이디 찾기(아이디 보여줌)
 const FindId = lazy(()=>import("../pages/member/MemberFindIdPage"));
+
+// 비밀번호 변경
 const FindPw = lazy(()=>import("../pages/member/MemberFindPwPage"));
 
-
-/**
- * 
- * 라우터는 경로로 이동시켜주게 해준다
- * 
- * 예를들어 path에 list써져있으면
- * localhost:8080/list 가 된다 
- * 
- * element는 뭘보여줄지 써주는데 IndexPage 보여주면된다
- * 
- * Member는 MemberIndexPage라고 안하고 바로 MemberLoginPage로 가게했는데
- * 이유는 책이 이렇게 하길래 일단 이렇게 해놓은 상태이다
- * 맘에 안드는건 언제든지 바꿔도된다
- * 
- * 
- * 그리고 간혹가다 children이 있는데
- * 저게 바로 Index 페이지에서 Outlet(아울렛)쓰면 저 자식들로 갈수있게 해주는거다
- */
+// 비밀번호 변경 완료
+const FindPwConfirm = lazy(()=>import("../pages/member/MemberFindPwConfirmPage"));
 
 
 
@@ -60,7 +79,7 @@ const root = createBrowserRouter([
         path: "",
         element: <Suspense><Main /></Suspense>
     },
-    
+
     {
         path: "notice",
         element: <Suspense><Notice /></Suspense>
@@ -112,6 +131,12 @@ const root = createBrowserRouter([
     },
 
     {
+        path: "manager",
+        element: <Suspense><Manager /></Suspense>,
+        children: managerRouter()
+    },
+
+    {
         path: "login",
         element: <Suspense><Login /></Suspense>
     },
@@ -139,6 +164,11 @@ const root = createBrowserRouter([
     {
         path: "find_pw",
         element: <Suspense><FindPw /></Suspense>
+    },
+
+    {
+        path: "find_pw/confirm",
+        element: <Suspense><FindPwConfirm /></Suspense>
     },
     
 

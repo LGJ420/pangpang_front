@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const MemberLoginPage = () => {
@@ -7,6 +7,16 @@ const MemberLoginPage = () => {
     {/* 아이디/비밀번호 state */}
     const [memberId, setMemberId] = useState("");
     const [memberPw, setMemberPw] = useState("");
+    const navigate = useNavigate();
+
+    // 컴포넌트가 마운트될 때 토큰 확인
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            // 이미 로그인된 상태라면 홈으로 리다이렉트
+            navigate("/");
+        }
+    }, [navigate]);
     
     const handleMemberId = (e)=>{
         setMemberId(e.target.value);
@@ -16,61 +26,55 @@ const MemberLoginPage = () => {
     }
 
     const onClickLogin = ()=>{
+        
         console.log("click login");
         console.log("ID : " + memberId);
         console.log("PW : " + memberPw);
-
+        
         axios
-            .post("http://localhost:8080/api/member/login",{
-                memberId : memberId,
-                memberPw : memberPw
-            })
-            .then((res)=>{
-                console.log(res);
-
-                // 첫 번째 조건 : 응답 데이터에 memberId가 정의되지 않은 경우
-                // ID가 일치하지 않는 경우
-                if(res.data.memberId === undefined){
-                    console.log("============================" + res.data.msg);
-                    alert("입력하신 ID가 일치하지 않습니다.")
+        .post("http://localhost:8080/api/member/login",{
+            memberIdInLogin : memberId,
+            memberPwInLogin : memberPw
+        })
+            .then((response)=>{
+                console.log(response.data);
+                console.log("======================", "로그인 성공");
+                
+                if (response.data.token) {
+                    localStorage.setItem("memberId", memberId);
+                    localStorage.setItem("token", response.data.token);
+                    console.log("로그인 성공, 로컬 스토리지에 저장됨");
                     
-                } 
+                    // // ▼로컬스토리지 저장하는데 굳이 세션스토리지까지 저장안해도 될듯?!▼
+                    // sessionStorage.setItem("memberId", memberId);
+                    // sessionStorage.setItem("token", response.data.token);
+                    // console.log("로그인 성공, 세션 스토리지에 저장됨");
 
-                // 두 번째 조건 : 응답 데이터에 memberId가 null인 경우
-                // ID는 일치하지만, 비밀번호가 일치하지 않는 경우
-                else if (res.data.memberId === null){
-                    console.log(
-                        "======================",
-                        "입력하신 비밀번호 가 일치하지 않습니다."
-                    );
-                    alert("입력하신 비밀번호 가 일치하지 않습니다.");
-                } 
-
-                // 세 번째 조건 : 응답 데이터에 memberId가 일치하는 경우
-                // ID와 비밀번호 모두 일치하는 경우
-                else if (res.data.memberId === memberId) {
-                    console.log("======================", "로그인 성공");
-                    sessionStorage.setItem("memberId", memberId); 
-                    sessionStorage.setItem("name", res.data.name); 
+                } else {
+                    alert("토큰이 응답에 없습니다.");
                 }
 
-                // 작업 완료 되면 페이지 이동(새로고침)
-                document.location.href="/";
+                // 로그인 후 홈으로 리다이렉트
+                navigate("/");
             })
             .catch((error)=>{
                 console.error("로그인 요청 중 오류 발생", error);
+                alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.")
             });
     }
     return (
             <section className="account_management">
 
                 {/* 로그인 폼 */}
-                <div>
+                <div className="w-[25rem]">
 
                     {/* 로그인 페이지 */}
+                    <Link to={'/'}>
+                        <img src="/images/logo.png" className="w-20 mb-3"/>
+                    </Link>
                     <h1>
                         <span>
-                            팡이널팡타지14
+                            팡팡게임즈
                             <br></br>
                             <strong>로그인</strong>
                         </span>
@@ -82,20 +86,18 @@ const MemberLoginPage = () => {
                     <div>
                         <div>
                             <input 
-                            name="memberId" 
-                            id="memberId" 
                             value={memberId}
                             onChange={handleMemberId}
-                            placeholder="아이디를 입력해주세요."></input>
+                            placeholder="아이디를 입력해주세요."
+                            className="h-12 px-3 placeholder-shown:text-base"></input>
                         </div>
                         <div>
                             <input 
-                            name="memberPw" 
-                            id="memberPw" 
                             value={memberPw}
                             onChange={handleMemberPw}
                             type="password" 
-                            placeholder="비밀번호를 입력해주세요."></input>
+                            placeholder="비밀번호를 입력해주세요."
+                            className="h-12 px-3 placeholder-shown:text-base"></input>
                         </div>
                     </div>
                     
@@ -109,20 +111,19 @@ const MemberLoginPage = () => {
                     <hr></hr>
 
                     {/* 링크 이동 */}
-                    <div>
-                        <Link to={'/signup'} className="px-5">
+                    <div className="flex justify-between">
+                        <Link to={'/signup'}>
                             회원가입
                         </Link>
-                        <Link to={'/find'} className="px-5">
+                        <Link to={'/find'}>
                             아이디/비밀번호 찾기
                         </Link>
-                        <Link to={'/'} className="px-5">
+                        <Link to={'/'}>
                             홈으로 가기
                         </Link>
                     </div>
                 </div>
             </section>
-
     );
 }
 

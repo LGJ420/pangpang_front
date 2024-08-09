@@ -1,30 +1,29 @@
+import { useState } from "react";
+import { Carousel } from "react-bootstrap";
+
 const BannerComponent = () => {
+
+
+    const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex) => {
+    setIndex(selectedIndex);
+  };
 
     return (
 
         <section>
-            <div className="flex relative h-[440px]">
-                <div className="absolute inset-0"
-                        style={{
-                            backgroundImage: "url('/images/main1.jpg')",
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            opacity: 0.9,
-                            zIndex: -1
-                        }}>
-                </div>
-                <div className="w-[1350px] m-auto">
-                    <div className="text-white">
-                        <h2 className="text-6xl">
-                            우대 서버만의 특별한 혜택!
-                        </h2>
-                        <p className="mt-5">
-                            빠른 성장과 기초 아이템 지원 혜택까지!<br/>
-                            우대 서버에서만 누릴 수 있는 혜택을 확인해보세요!
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <Carousel activeIndex={index} onSelect={handleSelect}>
+                <Carousel.Item className="max-h-[700px]">
+                    <img src="images/main1.jpg" text="main1"  className="w-full"/>
+                </Carousel.Item>
+                <Carousel.Item className="max-h-[700px]">
+                    <img src="images/main2.jpg" text="main2"  className="w-full"/>
+                </Carousel.Item>
+                <Carousel.Item className="max-h-[700px]">
+                    <img src="images/main3.jpg" text="main3"  className="w-full"/>
+                </Carousel.Item>
+            </Carousel>
         </section>
 
     );

@@ -1,15 +1,14 @@
-import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+import GameComponent from "../../components/game/GameComponent";
+import BasicLayout from "../../layouts/BasicLayout";
 
 const GameIndexPage = () => {
 
     return (
-        <BasicWidthLimitLayout>
-
-        <section>
-            여긴 게임페이지다냥
-        </section>
-        
-        </BasicWidthLimitLayout>
+        <BasicLayout>
+            
+            <GameComponent />
+            
+        </BasicLayout>
     );
 }
 

@@ -6,9 +6,12 @@ const MemberSignupConfirmPage = () => {
     return (
         <div className="account_management">
             {/* 회원가입 완료 페이지 */}
+            <Link to={'/'}>
+                <img src="/images/logo.png" className="w-20 mb-3"/>
+            </Link>
             <h1>
                 <span>
-                    팡이널팡타지14
+                팡팡게임즈
                     <br></br>
                     <strong>
                         회원가입

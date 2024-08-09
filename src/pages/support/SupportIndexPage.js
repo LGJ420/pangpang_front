@@ -23,8 +23,8 @@ const SupportIndexPage = () => {
 
                 <AccordionItem>
                     <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
+                    <AccordionButton _expanded={{bg: 'lightsteelblue'}}>
+                        <Box className="text-xl flex h-10" flex='1' alignItems="center" textAlign='left'>
                         홈페이지 - 크리스탈 충전은 어떻게 하나요?
                         </Box>
                         <AccordionIcon />
@@ -40,8 +40,8 @@ const SupportIndexPage = () => {
 
                 <AccordionItem>
                     <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
+                    <AccordionButton _expanded={{bg: 'lightsteelblue'}}>
+                        <Box className="text-xl flex h-10" flex='1' alignItems="center" textAlign='left'>
                         설치/실행 - 게임을 설치하는데 설치 게이지가 되돌아가서 완료되지 않습니다.
                         </Box>
                         <AccordionIcon />
@@ -89,8 +89,8 @@ Direct X 11 MODE, 방화벽과 백신을 종료한 상태로 진행하였음에�
 
                 <AccordionItem>
                     <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
+                    <AccordionButton _expanded={{bg: 'lightsteelblue'}}>
+                        <Box className="text-xl flex h-10" flex='1' alignItems="center" textAlign='left'>
                         비매너 - 비매너 신고는 어떻게 접수하나요?
                         </Box>
                         <AccordionIcon />
@@ -115,8 +115,8 @@ Direct X 11 MODE, 방화벽과 백신을 종료한 상태로 진행하였음에�
 
                 <AccordionItem>
                     <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
+                    <AccordionButton _expanded={{bg: 'lightsteelblue'}}>
+                        <Box className="text-xl flex h-10" flex='1' alignItems="center" textAlign='left'>
                         설치/실행 - [런처 오류] 런처 업데이트 게이지가 계속해서 0%로 되돌아가 실행이 불가한 현상
                         </Box>
                         <AccordionIcon />
@@ -143,8 +143,8 @@ Direct X 11 MODE, 방화벽과 백신을 종료한 상태로 진행하였음에�
 
                 <AccordionItem>
                     <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
+                    <AccordionButton _expanded={{bg: 'lightsteelblue'}}>
+                        <Box className="text-xl flex h-10" flex='1' alignItems="center" textAlign='left'>
                         설치/실행 - 다른 PC에서 이용할 때마다 설정이 초기화됩니다.
                         </Box>
                         <AccordionIcon />
@@ -176,8 +176,8 @@ Direct X 11 MODE, 방화벽과 백신을 종료한 상태로 진행하였음에�
 
                 <AccordionItem>
                     <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
+                    <AccordionButton _expanded={{bg: 'lightsteelblue'}}>
+                        <Box className="text-xl flex h-10" flex='1' alignItems="center" textAlign='left'>
                         기타 - [액토즈소프트] - 비회원 문의에 대한 답변은 어디서 받을 수 있나요?
                         </Box>
                         <AccordionIcon />
@@ -211,8 +211,8 @@ Direct X 11 MODE, 방화벽과 백신을 종료한 상태로 진행하였음에�
 
                 <AccordionItem>
                     <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
+                    <AccordionButton _expanded={{bg: 'lightsteelblue'}}>
+                        <Box className="text-xl flex h-10" flex='1' alignItems="center" textAlign='left'>
                         설치/실행 - [런처 오류] 런처 웹서버와의 연결에 실패하여 프로그램을 종료합니다 오류가 발생합니다.
                         </Box>
                         <AccordionIcon />
@@ -237,8 +237,8 @@ Direct X 11 MODE, 방화벽과 백신을 종료한 상태로 진행하였음에�
 
                 <AccordionItem>
                     <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
+                    <AccordionButton _expanded={{bg: 'lightsteelblue'}}>
+                        <Box className="text-xl flex h-10" flex='1' alignItems="center" textAlign='left'>
                         설치/실행 - 예기치 못한 오류로 인해 '파이널 판타지 14'가 종료되었습니다.
                         </Box>
                         <AccordionIcon />
@@ -287,8 +287,8 @@ Windows는 보안 업데이트, 호환성 업데이트 등이 주기적으로 �
 
                 <AccordionItem>
                     <h2>
-                    <AccordionButton>
-                        <Box as='span' flex='1' textAlign='left'>
+                    <AccordionButton _expanded={{bg: 'lightsteelblue'}}>
+                        <Box className="text-xl flex h-10" flex='1' alignItems="center" textAlign='left'>
                         설치/실행 - 다이렉트X 에서 심각한 오류가 발생하였습니다. 오류 메시지가 발생하며 게임이 종료됩니다.
                         </Box>
                         <AccordionIcon />

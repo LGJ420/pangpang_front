@@ -18,7 +18,7 @@ const BasicLayout = ({children}) => {
         <NavLayout1 />
         <NavLayout2 />
         
-        <main className="min-h-[1000px] min-w-[1350px]">
+        <main className="min-h-[800px] min-w-[1350px]">
             {children}
         </main>
 

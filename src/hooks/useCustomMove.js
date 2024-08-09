@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 
+// 기본 - 기정오빠가 만든 것
 const getNum = (param, defaultValue) => {
 
     if (!param) {
@@ -11,45 +12,15 @@ const getNum = (param, defaultValue) => {
 }
 
 
-/**
- * 
- * 훅 폴더에 있는 우리만의 훅이다
- * 훅이 대체 뭔지 잘 모르는 팀원을위해 써보면,
- * 졸라 많이 쓸거같은 기능을 만들어놓은 곳이다
- * 그니까 목록페이지로 가기, 상세페이지로 가기 이런거를
- * 상품에서도 쓸거같고, 자유게시판에서도 쓸거같고
- * 
- * 하여튼 개많이 쓸거같으니까
- * 그것들을 만들어놓은 곳이다
- * 
- * 
- * 예를들어
- * const {page, size, moveToList, moveToRead} = useCustomMove();
- * 
- * 이렇게 다른곳에서 사용하면
- * 
- * onClick={()=>moveToRead(글번호)}
- * 해서 이 글번호 상세보기로 가게하거나
- * 
- * 
- * 또다른예로
- * 페이지 네이션에서는 무조건 page, size가 필수인데
- * (3페이지 보고있냐? 몇개보여줄거냐? 같은거)
- * 그런것들을 page, size라고 여기 만들어 놓은것이다
- * 
- * 
- * 근데 이래도 감 안올거다.. 나도 써놓고도 외계어같음
- * 그래서 안써도된다
- * 
- * (근데 안써도 된다는말이
- * 안쓰니까 방법없네? 응애 하지말고
- * 안쓰면 안쓰는대로 노가다로 이동할방법을 잘 궁리해서 직접 구현하면 된다)
- * 
- * 쓰고싶은 사람은 꼭 책을보자
- * 138페이지부터 이걸 어떻게 쓰는건지 쭉 나온다
- * 
- */
+// 상품 목록 - 검색에서 쓸 것 (문자열)
+const getString = (param, defaultValue) => {
 
+    if (!param) {
+        return defaultValue;
+    }
+
+    return param;
+}
 
 const useCustomMove = () => {
 
@@ -61,8 +32,9 @@ const useCustomMove = () => {
 
     const page = getNum(queryParams.get('page'), 1);
     const size = getNum(queryParams.get('size'), 12);   // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
+    const search = getString(queryParams.get('search'), '');   // 상품 목록에서 필요한 검색
 
-    const queryDefault = createSearchParams({page, size}).toString();
+    const queryDefault = createSearchParams({ search, page, size }).toString();
 
     // 목록화면으로 이동하는 기능
     const moveToList = (pageParam) => {
@@ -70,37 +42,42 @@ const useCustomMove = () => {
         let queryStr = "";
 
         if (pageParam) {
-            
+
             const pageNum = getNum(pageParam.page, 1);
             const sizeNum = getNum(pageParam.size, 12); // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
+            const searchStr = getString(pageParam.search, search);      // 상품 목록 - 검색에서 사용
 
-            queryStr = createSearchParams({page: pageNum, size: sizeNum}).toString();
+            queryStr = createSearchParams({ search: searchStr, page: pageNum, size: sizeNum, }).toString();
         }
         else {
             queryStr = queryDefault;
         }
 
         setRefresh(!refresh);
-        navigate({pathname: `../list`, search: queryStr});
+        navigate({ pathname: `../list`, search: queryStr });
     }
+
+
 
     // 수정화면으로 이동하는 기능
     const moveToModify = (num) => {
 
         console.log(queryDefault);
 
-        navigate({pathname: `../modify/${num}`, search: queryDefault});
+        navigate({ pathname: `../modify/${num}`, search: queryDefault });
     }
+
+
 
     // 글을 누르면 읽기 화면으로 이동하는 기능
-    const moveToRead = (num) => {
+    const moveToRead = (id) => {
 
-        console.log(queryDefault);
+        // console.log(queryDefault);
 
-        navigate({pathname: `../read/${num}`, search: queryDefault});
+        navigate({ pathname: `../read/${id}`, search: queryDefault });
     }
 
-    return {moveToList, moveToModify, moveToRead, page, size, refresh}
+    return { moveToList, moveToModify, moveToRead, page, size, search, refresh }
 }
 
 export default useCustomMove;

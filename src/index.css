@@ -43,15 +43,40 @@ body {
     border: 1px solid rgba(128, 128, 128, 0.288);
     border-radius: 1%;
     font-size: 1.5rem;
-    width: 90%;
+    width: 25rem;
     margin: 2% 0;
+    padding: 1.5rem 1rem;
+}
+
+.account_management input:placeholder-shown {
+
+    font-size: 1rem;
+    line-height: 1.5rem;
 }
 
 .account_management .button {
     color: white;
     background-color: darkblue;
-    font-size: 1.875rem;
+    font-size: 1.5rem;
+    font-weight: bold;
     width: 100%;
-    /* padding: 2%; */
+    padding: 3%;
     margin-top: 5%;
+    cursor: pointer;
+    border-radius: 0.25rem;
+}
+
+.inner_button {
+    position: absolute;
+    right: 10px;
+    top: calc(100%/2 - 2px);
+    padding: 5px;    
+
+    color: white;
+    background-color: darkblue;
+    font-size: 1.0rem;
+    font-weight: bold;
+    border-radius: 0.25rem;
+
+    z-index: 1;
 }

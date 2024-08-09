@@ -1,4 +1,5 @@
 import BannerComponent from "../components/BannerComponent";
+import MainProductList from "../components/main/MainProductListComponent";
 import BasicLayout from "../layouts/BasicLayout";
 
 const MainPage = () => {
@@ -8,15 +9,26 @@ const MainPage = () => {
         <BannerComponent />
         
         <section className="w-[1350px] my-5 mx-auto flex">
-            <div className="w-1/2 mr-2 border border-solid rounded-md">
-                풉키풉스
+            <div className="w-1/2 mr-2 flex flex-col">
+                <div className="text-2xl m-4">
+                    공지사항
+                </div>
+                <div className="border-3 border-stone-900/30 rounded-md h-full">
+                    풉키풉스
+                </div>
             </div>
             <div className="w-1/2">
-                <div className="h-[300px] ml-2 mb-3 border border-solid rounded-md">
-                    크크크
+                <div className="text-2xl m-4">
+                    추천 상품
                 </div>
-                <div className="h-[300px] ml-2 mt-3 border border-solid rounded-md">
-                    캬캬캬
+                <div className="h-[383px] ml-2 rounded-md">
+                    <MainProductList />
+                </div>
+                <div className="text-2xl m-4">
+                    신규 상품
+                </div>
+                <div className="h-[383px] ml-2 rounded-md">
+                    <MainProductList />
                 </div>
             </div>
         </section>

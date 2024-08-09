@@ -13,19 +13,26 @@ export const getCartList = async () => {
 }
 
 
-//변경해야함
-export const postCreate = async (todoObj) => {
+export const postCartAdd = async (cartObj) => {
     
-    const res = await axios.post(`${prefix}/`, todoObj);
+    const res = await axios.post(`${prefix}`, cartObj);
 
     return res.data;
 }
 
 
-//변경해야함
-export const deleteOne = async (ano) => {
+// 지금은 사용자가 1번 고정 나중에 로그인한 사용자로 수정할 예정
+export const deleteCartOne = async (cartObj) => {
 
-    const res = await axios.delete(`${prefix}/${ano}`);
+    const res = await axios.delete(`${prefix}`, { data: cartObj });
+
+    return res.data;
+
+}
+
+export const putCartOne = async (cartObj) => {
+
+    const res = await axios.put(`${prefix}`, cartObj);
 
     return res.data;
 }
