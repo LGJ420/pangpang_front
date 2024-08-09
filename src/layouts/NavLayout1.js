@@ -54,7 +54,7 @@ const NavLayout1 = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/mypage'} className="px-3 flex items-center mr-1">
+                            <Link to={'/mypage'} className="px-3 flex items-center mr-3">
                                 <img src="/images/profile.png" className="w-16 h-16 rounded-full border mr-2"/>
                                 {decodeToken.memberName}님, 환영합니다!
                             </Link>
@@ -81,7 +81,7 @@ const NavLayout1 = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/signup'} className="px-3">
+                            <Link to={'/signup'} className="px-3 mr-3">
                                 회원가입
                             </Link>
                         </li>
