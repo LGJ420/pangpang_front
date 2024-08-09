@@ -28,7 +28,7 @@ const NavLayout1 = () => {
     
     return (
         <nav id="navbar1">
-            <div className="p-2 h-20 flex items-center justify-between w-[1350px] m-auto">
+            <div className="p-2 h-14 flex items-center justify-between w-[1350px] m-auto">
                 <Link to={'/'}>
                     <img src="/images/logo_r3.png" className="h-[40px] mx-8"></img>
                 </Link>
@@ -54,8 +54,8 @@ const NavLayout1 = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/mypage'} className="px-3 flex items-center mr-3">
-                                <img src="/images/profile.png" className="w-16 h-16 rounded-full border mr-2"/>
+                            <Link to={'/mypage'} className="px-3 mr-3 flex items-center">
+                                <img src="/images/profile.png" className="w-12 h-12 rounded-full border mr-1"/>
                                 {decodeToken.memberName}님, 환영합니다!
                             </Link>
                         </li>
