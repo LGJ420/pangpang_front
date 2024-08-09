@@ -4,7 +4,7 @@ export const API_SERVER_HOST = 'http://localhost:8080';
 
 const prefix = `${API_SERVER_HOST}/api/cart`;
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 
 
 export const getCartList = async () => {
@@ -21,6 +21,8 @@ export const getCartList = async () => {
 
 export const postCartAdd = async (cartObj) => {
     
+    console.log(token);
+
     const res = await axios.post(`${prefix}`, cartObj, {
         headers: {
             'Authorization': `Bearer ${token}`
