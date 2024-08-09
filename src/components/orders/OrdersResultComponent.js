@@ -66,6 +66,7 @@ const OrdersResultComponent = () => {
             name: data.name,
             address: data.address,
             phone: data.phone,
+            orderDate: data.orderDate,
             ...dto
         }
 
@@ -109,7 +110,7 @@ const OrdersResultComponent = () => {
                         <div className="mb-1">전화번호 : {modal.phone}</div>
                         <div>주소 : {modal.address}</div>
                     </div>
-                    <div className="text-right my-2 mr-3">결제일자 칸 - 추가해야함</div>
+                    <div className="text-right my-2 mr-3">결제일자 : {modal.orderDate}</div>
                 </div>
             </div>
 
