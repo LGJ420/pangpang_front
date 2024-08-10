@@ -145,7 +145,7 @@ const MainProductList = () => {
           ))}
         </SimpleGrid>
       ) : (
-        <div className="p-4 flex flex-col items-center justify-center text-2xl font-semibold">
+        <div className="flex flex-col items-center justify-center text-2xl font-semibold border-3 border-stone-900/30 rounded-md h-full">
           <img src="/images/product_none.png" className="w-60" />
           <div>지금은 상품 준비중입니다</div>
         </div>
