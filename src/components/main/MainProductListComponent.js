@@ -1,10 +1,9 @@
-import { ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
-import { Carousel, CarouselItem } from "react-bootstrap";
-import useCustomMove from "../../hooks/useCustomMove";
+import { ButtonGroup, Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
 import { postCartAdd } from "../../api/cartApi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProductList } from "../../api/MainPageApi";
+import { getMainList } from "../../api/productApi";
+import { getProductList } from "../../api/mainPageApi";
 
 
 /* 초기값 설정 */
@@ -17,14 +16,40 @@ const MainProductList = () => {
   const navigate = useNavigate();
 
   const [serverData, setServerData] = useState(initState);
+  const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
 
 
   useEffect(() => {
-    getProductList().then(data => {
-      // console.log(data);
-      setServerData(data);
-    }).catch(e=>console.log(e));
-  }, [])
+    const fetchData = async () => {
+      try {
+        // 상품 목록 데이터 가져오기
+        const data = await getProductList();
+
+        // 데이터 검증: data가 배열인지 확인합니다.
+        if (Array.isArray(data)) {
+          setServerData({ dtoList: data });
+
+          // 이미지 URL 설정하기
+          const imageUrls = {};
+          for (const product of data) {
+            if (product.files && product.files.length > 0) {
+              const fileName = product.files[0].fileName; // files 배열에서 fileName 가져오기
+              const url = `http://localhost:8080/api/view/${fileName}`; // 캐시 무효화
+              imageUrls[product.id] = url;
+            }
+          }
+          setImages(imageUrls);
+        } else {
+          console.error('Invalid data format:', data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      }
+    };
+
+    fetchData();
+    console.log(serverData);
+  }, []);
 
 
   /* 구매하기 */
@@ -56,14 +81,12 @@ const MainProductList = () => {
 
     const cartObj = {
 
-      // 멤버는 나중에 로그인한 사람으로 바꿀 예정
-      memberId: 1,
       productId: product.id,
       cartCount: 1,
     }
 
     postCartAdd(cartObj);
-    alert("장바구니에 상품이 등록되었습니다")
+    alert("장바구니에 상품이 등록되었습니다");
 
 
     // 여유가 되면 모달창을 제작해서 바꿀예정
@@ -72,7 +95,7 @@ const MainProductList = () => {
 
     if (goToCart) {
 
-      navigate({ pathname: '../../cart' });
+      navigate({ pathname: '/cart' });
     }
   }
 
@@ -80,55 +103,56 @@ const MainProductList = () => {
 
 
   return (
-    <> 
-    {serverData.dtoList.length > 0 ? 
-      
-      <SimpleGrid columns={3} spacing={5}>
+    <>
+      {serverData.dtoList && serverData.dtoList.length > 0 ? (
+        <SimpleGrid columns={3} spacing={5}>
+          {serverData.dtoList.map(product => (
+            <Card maxW='sm' className="text-center border-3 border-stone-900/30" key={product.id}>
+              <CardBody className="flex flex-col">
+                <div className="relative z-10 overflow-hidden">
+                  <Image
+                    onClick={() => navigate({ pathname: `product/read/${product.id}` })}
+                    src={images[product.id] || '/images/chi1.jpg'}
 
-        {serverData.dtoList.map(product =>
-          <Card maxW='sm' className="text-center border-3 border-stone-900/30" key={product.id}>
-            <CardBody className="flex flex-col">
-              <div className="relative z-10 overflow-hidden">
-                <Image onClick={() => navigate({pathname: `product/read/${product.id}`})}
-                  src='/images/chi1.jpg'
-                  className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
-              </div>
-              <Stack mt='3' spacing='3' className="border-b border-gray-300">
-                <Heading size='md' fontSize="1.1rem"> {product.productTitle.length > 8
-                  ? product.productTitle.substring(0, 8) + '...'
-                  : product.productTitle}</Heading>
-                <Text fontSize='20px'>{product.productPrice.toLocaleString()}원</Text>
-              </Stack>
-              {/* <Divider borderColor='gray.400' /> */}
-
-              <ButtonGroup spacing='5' className='mx-auto mt-3'>
-                <button className="text-xl font-extrabold hover:opacity-70 bg-stone-700 rounded-lg w-14 h-12"
-                  onClick={()=>{handleClickBuy(product)}}>
-                  <img src="/images/credit-card-regular.svg" className="w-8 h-8 mx-auto" />
-                </button>
-                <button className="text-xl border hover:opacity-70 border-stone-700 rounded-lg w-14 h-12"
-                  onClick={() => { handleClickCart(product) }}>
-                  <img src="/images/cart-shopping-solid.svg" className="w-8 h-8 mx-auto" />
-                </button>
-              </ButtonGroup>
-
-            </CardBody>
-          </Card>
-        )}
-      </SimpleGrid>
-
-      :
-
-      <div className="p-4 flex flex-col items-center justify-center text-2xl font-semibold">
-        <img src="/images/product_none.png" className="w-60"/>
-        <div>
-          지금은 상품 준비중입니다
+                    alt={product.productTitle}
+                    className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125'
+                  />
+                </div>
+                <Stack mt='3' spacing='3' className="border-b border-gray-300">
+                  <Heading size='md' fontSize="1.1rem">
+                    {product.productTitle.length > 8
+                      ? product.productTitle.substring(0, 8) + '...'
+                      : product.productTitle}
+                  </Heading>
+                  <Text fontSize='20px'>{product.productPrice.toLocaleString()}원</Text>
+                </Stack>
+                <ButtonGroup spacing='5' className='mx-auto mt-3'>
+                  <button
+                    className="text-xl font-extrabold hover:opacity-70 bg-stone-700 rounded-lg w-14 h-12"
+                    onClick={() => handleClickBuy(product)}
+                  >
+                    <img src="/images/credit-card-regular.svg" className="w-8 h-8 mx-auto" />
+                  </button>
+                  <button
+                    className="text-xl border hover:opacity-70 border-stone-700 rounded-lg w-14 h-12"
+                    onClick={() => handleClickCart(product)}
+                  >
+                    <img src="/images/cart-shopping-solid.svg" className="w-8 h-8 mx-auto" />
+                  </button>
+                </ButtonGroup>
+              </CardBody>
+            </Card>
+          ))}
+        </SimpleGrid>
+      ) : (
+        <div className="flex flex-col items-center justify-center text-2xl font-semibold border-3 border-stone-900/30 rounded-md h-full">
+          <img src="/images/product_none.png" className="w-60" />
+          <div>지금은 상품 준비중입니다</div>
         </div>
-      </div>
-    }
+      )}
     </>
 
-  )
+  );
 
 }
 

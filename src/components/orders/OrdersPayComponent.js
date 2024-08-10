@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { postOrdersAdd } from "../../api/ordersApi";
 
@@ -23,14 +23,24 @@ const OrdersPayComponent = () => {
 
     useEffect(() => {
 
-        if (location.state.orderList) {
-            console.log(location.state.orderList);
-            setProductData(location.state.orderList);
+        try{
+            // 데이터를 가져올때 오더가 리스트 형태로 되있으면 리스들을 데이터에 넣기
+            if (location.state.orderList) {
+    
+                setProductData(location.state.orderList);
+            }
+    
+            // 리스트가 아니라 단일객체면 배열로 만들어서 데이터에 넣기
+            else if (location.state.order) {
+    
+                setProductData([location.state.order]);
+            }
         }
-        else if (location.state.order) {
-            console.log(location.state.order);
-            setProductData([location.state.order]);
+        catch(e){
+            
+            console.log(e);
         }
+
     }, [location.state]);
 
     
@@ -43,7 +53,69 @@ const OrdersPayComponent = () => {
         setUserData({...userData});
     }
             
-            
+
+
+       
+    /* ====================== 다음 주소찾기 API 시작 ====================== */
+    const [postcode, setPostcode] = useState('');
+    const [address, setAddress] = useState('');
+    const [detailAddress, setDetailAddress] = useState('');
+    const [extraAddress, setExtraAddress] = useState('');
+    const detailAddressRef = useRef(null);
+  
+
+    useEffect(() => {
+
+        const script = document.createElement('script');
+        script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+        script.onload = () => console.log('Daum Postcode script loaded.');
+        script.onerror = () => console.error(`Script load error`);
+        document.head.appendChild(script);
+
+        return () => {
+
+            document.head.removeChild(script);
+        };
+
+    }, []);
+
+
+    const handleClickPost = () => {
+        new window.daum.Postcode({
+            oncomplete: function(data) {
+              let addr = '';
+              let extraAddr = '';
+      
+              if (data.userSelectedType === 'R') {
+                addr = data.roadAddress;
+              } else {
+                addr = data.jibunAddress;
+              }
+      
+              if(data.userSelectedType === 'R'){
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                  extraAddr += data.bname;
+                }
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                  extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if(extraAddr !== ''){
+                  extraAddr = ' (' + extraAddr + ')';
+                }
+              } else {
+                extraAddr = '';
+              }
+      
+              setPostcode(data.zonecode);
+              setAddress(addr);
+              setExtraAddress(extraAddr);
+              detailAddressRef.current.focus();
+            }
+          }).open();
+    };
+    /* ====================== 다음 주소찾기 API 끝 ====================== */
+
+    
 
 
     // 값 검증 메서드
@@ -164,15 +236,41 @@ const OrdersPayComponent = () => {
                                 />
                             </div>
                         </div>
-                        <div className="mb-2">
-                            <label htmlFor="address" className="block text-sm font-medium text-gray-700">주소</label>
-                            <input 
-                                type="text" 
-                                id="address" 
-                                name="address" 
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                placeholder="주소를 입력하세요" 
-                                onChange={handleChangeUserData}
+                        <div>
+                            <h5 className="block text-sm font-medium text-gray-700">주소</h5>
+                            <input
+                                className="mt-1 w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="우편번호"
+                                value={postcode}
+                                readOnly
+                            />
+                            <button
+                                className="p-1 ml-2 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
+                                onClick={handleClickPost}>
+                                우편번호 찾기
+                            </button>
+                            <input
+                                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="주소"
+                                value={address}
+                                readOnly
+                            />
+                            <input
+                                className="mt-1 w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="상세주소"
+                                value={detailAddress}
+                                ref={detailAddressRef}
+                                onChange={e => setDetailAddress(e.target.value)}
+                            />
+                            <input
+                                className="mt-1 w-1/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="참고항목"
+                                value={extraAddress}
+                                readOnly
                             />
                         </div>
                     </div>
@@ -219,6 +317,7 @@ const OrdersPayComponent = () => {
                                     name="payment" 
                                     value="card" 
                                     className="mr-2"
+                                    checked
                                 />
                                 <label htmlFor="payment-card" className="cursor-pointer">
                                     카드결제
