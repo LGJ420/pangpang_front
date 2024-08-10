@@ -57,12 +57,11 @@ const OrdersPayComponent = () => {
 
        
     /* ====================== 다음 주소찾기 API 시작 ====================== */
-    const postcodeRef = useRef(null);
-    const roadAddressRef = useRef(null);
-    const jibunAddressRef = useRef(null);
+    const [postcode, setPostcode] = useState('');
+    const [address, setAddress] = useState('');
+    const [detailAddress, setDetailAddress] = useState('');
+    const [extraAddress, setExtraAddress] = useState('');
     const detailAddressRef = useRef(null);
-    const extraAddressRef = useRef(null);
-    const guideRef = useRef(null);
   
 
     useEffect(() => {
@@ -73,42 +72,46 @@ const OrdersPayComponent = () => {
         script.onerror = () => console.error(`Script load error`);
         document.head.appendChild(script);
 
-        }, []);
+        return () => {
+
+            document.body.removeChild(script);
+        };
+
+    }, []);
 
 
-    const handlePostcode = () => {
-      new window.daum.Postcode({
-        oncomplete: function(data) {
-          let roadAddr = data.roadAddress;
-          let extraRoadAddr = '';
-  
-          if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-            extraRoadAddr += data.bname;
-          }
-          if (data.buildingName !== '' && data.apartment === 'Y') {
-            extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-          }
-          if (extraRoadAddr !== '') {
-            extraRoadAddr = ` (${extraRoadAddr})`;
-          }
-  
-          postcodeRef.current.value = data.zonecode;
-          roadAddressRef.current.value = roadAddr;
-          jibunAddressRef.current.value = data.jibunAddress;
-          extraAddressRef.current.value = extraRoadAddr;
-  
-          if (data.autoRoadAddress) {
-            guideRef.current.innerHTML = `(예상 도로명 주소 : ${data.autoRoadAddress + extraRoadAddr})`;
-            guideRef.current.style.display = 'block';
-          } else if (data.autoJibunAddress) {
-            guideRef.current.innerHTML = `(예상 지번 주소 : ${data.autoJibunAddress})`;
-            guideRef.current.style.display = 'block';
-          } else {
-            guideRef.current.innerHTML = '';
-            guideRef.current.style.display = 'none';
-          }
-        }
-      }).open();
+    const handleClickPost = () => {
+        new window.daum.Postcode({
+            oncomplete: function(data) {
+              let addr = '';
+              let extraAddr = '';
+      
+              if (data.userSelectedType === 'R') {
+                addr = data.roadAddress;
+              } else {
+                addr = data.jibunAddress;
+              }
+      
+              if(data.userSelectedType === 'R'){
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                  extraAddr += data.bname;
+                }
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                  extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if(extraAddr !== ''){
+                  extraAddr = ' (' + extraAddr + ')';
+                }
+              } else {
+                extraAddr = '';
+              }
+      
+              setPostcode(data.zonecode);
+              setAddress(addr);
+              setExtraAddress(extraAddr);
+              detailAddressRef.current.focus();
+            }
+          }).open();
     };
     /* ====================== 다음 주소찾기 API 끝 ====================== */
 
@@ -234,14 +237,42 @@ const OrdersPayComponent = () => {
                             </div>
                         </div>
                         <div>
-      <input type="text" ref={postcodeRef} placeholder="우편번호" />
-      <button onClick={handlePostcode}>우편번호 찾기</button><br/>
-      <input type="text" ref={roadAddressRef} placeholder="도로명주소" />
-      <input type="text" ref={jibunAddressRef} placeholder="지번주소" />
-      <input type="text" ref={detailAddressRef} placeholder="상세주소" />
-      <input type="text" ref={extraAddressRef} placeholder="참고항목" />
-      <span ref={guideRef} style={{color:'#999', display:'none'}}></span>
-    </div>
+                            <h5 className="block text-sm font-medium text-gray-700">주소</h5>
+                            <input
+                                className="mt-1 w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="우편번호"
+                                value={postcode}
+                                readOnly
+                            />
+                            <button
+                                className="p-1 ml-2 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
+                                onClick={handleClickPost}>
+                                우편번호 찾기
+                            </button>
+                            <input
+                                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="주소"
+                                value={address}
+                                readOnly
+                            />
+                            <input
+                                className="mt-1 w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="상세주소"
+                                value={detailAddress}
+                                ref={detailAddressRef}
+                                onChange={e => setDetailAddress(e.target.value)}
+                            />
+                            <input
+                                className="mt-1 w-1/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="참고항목"
+                                value={extraAddress}
+                                readOnly
+                            />
+                        </div>
                     </div>
 
                         <div className="bg-white w-11/12 my-2 p-7 rounded-lg shadow">
