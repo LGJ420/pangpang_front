@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { postOrdersAdd } from "../../api/ordersApi";
 
@@ -23,16 +23,22 @@ const OrdersPayComponent = () => {
 
     useEffect(() => {
 
-        // 데이터를 가져올때 오더가 리스트 형태로 되있으면 리스들을 데이터에 넣기
-        if (location.state.orderList) {
-            console.log(location.state.orderList);
-            setProductData(location.state.orderList);
+        try{
+            // 데이터를 가져올때 오더가 리스트 형태로 되있으면 리스들을 데이터에 넣기
+            if (location.state.orderList) {
+    
+                setProductData(location.state.orderList);
+            }
+    
+            // 리스트가 아니라 단일객체면 배열로 만들어서 데이터에 넣기
+            else if (location.state.order) {
+    
+                setProductData([location.state.order]);
+            }
         }
-
-        // 리스트가 아니라 단일객체면 배열로 만들어서 데이터에 넣기
-        else if (location.state.order) {
-            console.log(location.state.order);
-            setProductData([location.state.order]);
+        catch(e){
+            
+            console.log(e);
         }
 
     }, [location.state]);
@@ -47,7 +53,66 @@ const OrdersPayComponent = () => {
         setUserData({...userData});
     }
             
-            
+
+
+       
+    /* ====================== 다음 주소찾기 API 시작 ====================== */
+    const postcodeRef = useRef(null);
+    const roadAddressRef = useRef(null);
+    const jibunAddressRef = useRef(null);
+    const detailAddressRef = useRef(null);
+    const extraAddressRef = useRef(null);
+    const guideRef = useRef(null);
+  
+
+    useEffect(() => {
+
+        const script = document.createElement('script');
+        script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+        script.onload = () => console.log('Daum Postcode script loaded.');
+        script.onerror = () => console.error(`Script load error`);
+        document.head.appendChild(script);
+
+        }, []);
+
+
+    const handlePostcode = () => {
+      new window.daum.Postcode({
+        oncomplete: function(data) {
+          let roadAddr = data.roadAddress;
+          let extraRoadAddr = '';
+  
+          if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+            extraRoadAddr += data.bname;
+          }
+          if (data.buildingName !== '' && data.apartment === 'Y') {
+            extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+          }
+          if (extraRoadAddr !== '') {
+            extraRoadAddr = ` (${extraRoadAddr})`;
+          }
+  
+          postcodeRef.current.value = data.zonecode;
+          roadAddressRef.current.value = roadAddr;
+          jibunAddressRef.current.value = data.jibunAddress;
+          extraAddressRef.current.value = extraRoadAddr;
+  
+          if (data.autoRoadAddress) {
+            guideRef.current.innerHTML = `(예상 도로명 주소 : ${data.autoRoadAddress + extraRoadAddr})`;
+            guideRef.current.style.display = 'block';
+          } else if (data.autoJibunAddress) {
+            guideRef.current.innerHTML = `(예상 지번 주소 : ${data.autoJibunAddress})`;
+            guideRef.current.style.display = 'block';
+          } else {
+            guideRef.current.innerHTML = '';
+            guideRef.current.style.display = 'none';
+          }
+        }
+      }).open();
+    };
+    /* ====================== 다음 주소찾기 API 끝 ====================== */
+
+    
 
 
     // 값 검증 메서드
@@ -168,17 +233,15 @@ const OrdersPayComponent = () => {
                                 />
                             </div>
                         </div>
-                        <div className="mb-2">
-                            <label htmlFor="address" className="block text-sm font-medium text-gray-700">주소</label>
-                            <input 
-                                type="text" 
-                                id="address" 
-                                name="address" 
-                                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                placeholder="주소를 입력하세요" 
-                                onChange={handleChangeUserData}
-                            />
-                        </div>
+                        <div>
+      <input type="text" ref={postcodeRef} placeholder="우편번호" />
+      <button onClick={handlePostcode}>우편번호 찾기</button><br/>
+      <input type="text" ref={roadAddressRef} placeholder="도로명주소" />
+      <input type="text" ref={jibunAddressRef} placeholder="지번주소" />
+      <input type="text" ref={detailAddressRef} placeholder="상세주소" />
+      <input type="text" ref={extraAddressRef} placeholder="참고항목" />
+      <span ref={guideRef} style={{color:'#999', display:'none'}}></span>
+    </div>
                     </div>
 
                         <div className="bg-white w-11/12 my-2 p-7 rounded-lg shadow">
