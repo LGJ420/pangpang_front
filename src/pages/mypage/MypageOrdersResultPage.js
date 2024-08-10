@@ -1,9 +1,11 @@
+import OrdersResultComponent from "../../components/orders/OrdersResultComponent"
+
 const MypageOrdersResultPage = () => {
 
     return (
-        <div>
-            우끼끼
-        </div>
+
+        <OrdersResultComponent />
+        
     );
 }
 
