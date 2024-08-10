@@ -40,9 +40,9 @@ const MemberLoginPage = () => {
                 console.log(response.data);
                 console.log("======================", "로그인 성공");
                 
-                if (response.data.token) {
+                if (response.data) {
                     localStorage.setItem("memberId", memberId);
-                    localStorage.setItem("token", response.data.token);
+                    localStorage.setItem("token", response.data);
                     console.log("로그인 성공, 로컬 스토리지에 저장됨");
                     
                     // // ▼로컬스토리지 저장하는데 굳이 세션스토리지까지 저장안해도 될듯?!▼
