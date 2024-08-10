@@ -74,7 +74,7 @@ const OrdersPayComponent = () => {
 
         return () => {
 
-            document.body.removeChild(script);
+            document.head.removeChild(script);
         };
 
     }, []);
