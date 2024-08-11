@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import '../../css/prComponent.css';
+import '../../css/prComponent.module.css';
 
 const PrComponent = () => {
 

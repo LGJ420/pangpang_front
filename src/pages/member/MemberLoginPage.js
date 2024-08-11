@@ -1,3 +1,4 @@
+import styles from '../../css/memberPage.module.css';
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -72,7 +73,7 @@ const MemberLoginPage = () => {
         }
 
     return (
-            <section className="account_management">
+            <section className={styles.account_management}>
 
                 {/* 로그인 폼 */}
                 <div className="w-[25rem]">
@@ -99,7 +100,7 @@ const MemberLoginPage = () => {
                             onChange={handleMemberId}
                             onKeyDown={handleKeyDown}
                             placeholder="아이디를 입력해주세요."
-                            className="h-12 px-3 placeholder-shown:text-base"></input>
+                            className={`${styles.input} h-12 px-3 placeholder-shown:text-base`}></input>
                         </div>
                         <div>
                             <input 
@@ -108,13 +109,13 @@ const MemberLoginPage = () => {
                             onKeyDown={handleKeyDown}
                             type="password" 
                             placeholder="비밀번호를 입력해주세요."
-                            className="h-12 px-3 placeholder-shown:text-base"></input>
+                            className={`${styles.input} h-12 px-3 placeholder-shown:text-base`}></input>
                         </div>
                     </div>
                     
                     {/* 로그인 버튼 */}
                     <div
-                    className="button"
+                    className={styles.button}
                     onClick={onClickLogin}>
                         로그인
                     </div>
