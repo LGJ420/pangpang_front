@@ -12,9 +12,9 @@ const GameComponent = () => {
                 <div className="text-center mb-10 text-xl text-pink-200 animate-pulse">
                     화면을 클릭하면 게임이 시작됩니다!
                 </div>
-                <div className="flex w-[750px] m-auto items-center justify-around pb-5 text-3xl text-white ">
-                    <div className="">
-                        조작키
+                <div className="font-poor-story flex w-[750px] m-auto items-center justify-around pb-16 text-3xl text-white ">
+                    <div>
+                        &lt;조작키&gt;
                     </div>
                     <div>
                         이동 : ←↑↓→
@@ -23,7 +23,7 @@ const GameComponent = () => {
                         점프 : Space bar
                     </div>
                     <div>
-                        공격 : Shift
+                        달리기 : Shift
                     </div>
                 </div>
             </div>
