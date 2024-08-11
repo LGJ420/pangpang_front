@@ -1,32 +1,30 @@
 import React, { useEffect } from 'react';
-import '../../css/prComponent.module.css';
+import styles from '../../css/prComponent.module.css';
 
 const PrComponent = () => {
 
     useEffect(() => {
-
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('primage-animation');
-            }
+                if (entry.isIntersecting) {
+                    entry.target.classList.add(styles.primageAnimation);
+                }
             });
         });
 
-        const primages = document.querySelectorAll('.primage');
+        const primages = document.querySelectorAll(`.${styles.primage}`);
         primages.forEach((primage) => observer.observe(primage));
 
         return () => {
             primages.forEach((primage) => observer.unobserve(primage));
         };
-
     }, []);
 
-  return (
-    <div id="prComponent">
-      <section>
+    return (
+        <div className={styles.prComponent}>
+      <section className={styles.section}>
         <div className='w-[1350px] m-auto'>
-            <img className='primage w-[50rem]' src='/images/pr_mario.png' />
+            <img className={`${styles.primage} w-[50rem]`} src='/images/pr_mario.png' />
             <h3>슈퍼마리오 브라더스</h3>
             <p>
     《슈퍼 마리오브라더스》[a]는 닌텐도가 개발하고 배급한 패밀리 컴퓨터용 플랫폼 게임이다. 1983년 아케이드용으로 출시된 《마리오브라더스》의 후속작이자 이후 탄생한 《슈퍼 마리오》 시리즈의 첫 번째 작품이다. 1985년 9월 13일 일본에서 처음 발매됐으며 북미 지역에선 1985년 10월 혹은 11월 중에 출시됐다. 1986년에 전세계 보급 아케이드 시스템 닌텐도 VS. 시스템으로 이식됐으며 1987년에 유럽 지역에 출시됐다.
@@ -39,29 +37,29 @@ const PrComponent = () => {
             </p>
         </div>
       </section>
-      <section>
+      <section className={styles.section}>
         <div className='w-[1350px] m-auto'>
-            <img className='primage w-[50rem]' src='/images/pr_kirby.png' />
+            <img className={`${styles.primage} w-[50rem]`} src='/images/pr_kirby.png' />
             <h3>별의 요정 커비</h3>
             <p>
             </p>
         </div>
       </section>
-      <section>
+      <section className={styles.section}>
         <div className='w-[1350px] m-auto'>
-            <img className='primage w-[50rem]' src='/images/pr_zelda.png' />
+            <img className={`${styles.primage} w-[50rem]`} src='/images/pr_zelda.png' />
             <h3>젤다의 전설</h3>
         </div>
       </section>
-      <section>
+      <section className={styles.section}>
         <div className='w-[1350px] m-auto'>
-            <img className='primage w-[50rem]' src='/images/pr_pokemon.png' />
+            <img className={`${styles.primage} w-[50rem]`} src='/images/pr_pokemon.png' />
             <h3>포켓몬스터</h3>
         </div>
       </section>
-      <section>
+      <section className={styles.section}>
         <div className='w-[1350px] m-auto'>
-            <img className='primage w-[50rem]' src='/images/pr_animal.png' />
+            <img className={`${styles.primage} w-[50rem]`} src='/images/pr_animal.png' />
             <h3>동물의 숲</h3>
         </div>
       </section>
