@@ -37,26 +37,26 @@ const NavLayout1 = () => {
                 (
                     // token이 잇으면 = 로그인이 되어있으면
                     <ul className="flex m-0 items-center">
-                        <li className="border-r border-r-black">
+                        {/* <li className="border-r border-r-black">
+                            <Link to={'/cash'} className="px-3">
+                                골드 충전소
+                                </Link>
+                                </li> */}
+                        <li>
+                            <Link to={'/mypage'} className="px-3 flex items-center">
+                                <img src="/images/profile.png" className="w-12 h-12 rounded-full border mr-1"/>
+                                {decodeToken.memberName}님, 환영합니다!
+                            </Link>
+                        </li>
+                        <li className="border-l border-l-black">
                             <Link to={'/cart'} className="px-3">
                                 장바구니
                             </Link>
                         </li>
-                        {/* <li className="border-r border-r-black">
-                            <Link to={'/cash'} className="px-3">
-                                골드 충전소
-                            </Link>
-                        </li> */}
-                        <li className="border-r border-r-black">
+                        <li className="border-l border-l-black mr-3">
                             <Link to={'/'} className="px-3" 
                             onClick={handleLogout}>
                                 로그아웃
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to={'/mypage'} className="px-3 mr-3 flex items-center">
-                                <img src="/images/profile.png" className="w-12 h-12 rounded-full border mr-1"/>
-                                {decodeToken.memberName}님, 환영합니다!
                             </Link>
                         </li>
                     </ul>
