@@ -58,7 +58,7 @@ const OrdersPayComponent = () => {
        
     /* ====================== 다음 주소찾기 API 시작 ====================== */
     const [postcode, setPostcode] = useState('');
-    const [address, setAddress] = useState('');
+    const [postAddress, setPostAddress] = useState('');
     const [detailAddress, setDetailAddress] = useState('');
     const [extraAddress, setExtraAddress] = useState('');
     const detailAddressRef = useRef(null);
@@ -107,7 +107,7 @@ const OrdersPayComponent = () => {
               }
       
               setPostcode(data.zonecode);
-              setAddress(addr);
+              setPostAddress(addr);
               setExtraAddress(extraAddr);
               detailAddressRef.current.focus();
             }
@@ -121,7 +121,7 @@ const OrdersPayComponent = () => {
     // 값 검증 메서드
     const validateInputs = () => {
 
-        const { name, phone1, phone2, phone3, address } = userData;
+        const { name, phone1, phone2, phone3 } = userData;
 
         const regexName = /^[가-힣]+$/;  // 한글 이름 검증
         const regexPhone23 = /^\d{2,3}$/; // 숫자 3자리 검증
@@ -139,7 +139,7 @@ const OrdersPayComponent = () => {
             alert("전화번호가 올바르지 않습니다.");
             return false;
         }
-        if (address.length < 5) {
+        if (postAddress < 3 || detailAddress.length < 3) {
             alert("주소가 올바르지 않습니다.");
             return false;
         }
@@ -165,6 +165,8 @@ const OrdersPayComponent = () => {
         if (payConfirm) {
             
             userData.phone = userData.phone1 + userData.phone2 + userData.phone3;
+
+            userData.address = postcode + " " + postAddress + " " + detailAddress + " " + extraAddress;
     
             console.log({...userData, dtoList: productData});
     
@@ -254,7 +256,7 @@ const OrdersPayComponent = () => {
                                 className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
                                 type="text"
                                 placeholder="주소"
-                                value={address}
+                                value={postAddress}
                                 readOnly
                             />
                             <input
