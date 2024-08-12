@@ -150,7 +150,7 @@ const ProductListComponent = () => {
                     borderRadius='lg'
                     className='mx-auto h-52 object-contain' />
                 </div>
-                <Heading size='md' fontSize="2xl" className="my-3 text-center z-10">
+                <Heading size='md' fontSize="2xl" className="py-3 text-center z-10 bg-white">
                   {product.productTitle}
                 </Heading>
                 <Text fontSize='2xl' className="text-center">
