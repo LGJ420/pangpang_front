@@ -1,14 +1,14 @@
 import PrComponent from "../../components/pr/PrComponent";
-import BasicLayout from "../../layouts/BasicLayout";
+import BasicNoFooterLayout from "../../layouts/BasicNoFooterLayout";
 
 const PrIndexPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicNoFooterLayout>
 
             <PrComponent />
         
-        </BasicLayout>
+        </BasicNoFooterLayout>
     );
 }
 

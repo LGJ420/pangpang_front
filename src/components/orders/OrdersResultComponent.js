@@ -66,6 +66,7 @@ const OrdersResultComponent = () => {
             name: data.name,
             address: data.address,
             phone: data.phone,
+            orderDate: data.orderDate,
             ...dto
         }
 
@@ -83,7 +84,7 @@ const OrdersResultComponent = () => {
 
 
     return (
-        <section className="w-[1350px] m-auto">
+        <section className="w-full m-auto">
 
         { modal ? 
         
@@ -109,7 +110,7 @@ const OrdersResultComponent = () => {
                         <div className="mb-1">전화번호 : {modal.phone}</div>
                         <div>주소 : {modal.address}</div>
                     </div>
-                    <div className="text-right my-2 mr-3">결제일자 칸 - 추가해야함</div>
+                    <div className="text-right my-2 mr-3">결제일자 : {modal.orderDate}</div>
                 </div>
             </div>
 
@@ -143,7 +144,7 @@ const OrdersResultComponent = () => {
 
                 data.dtoList.map(dto=>
 
-                    <div className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
+                    <div className="bg-white flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
                         <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img>
                         <div className="w-1/3">
                             <h3 className="font-extrabold text-2xl">{dto.productTitle}</h3>

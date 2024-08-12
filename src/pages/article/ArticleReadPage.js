@@ -3,7 +3,7 @@ import useCustomMove from "../../hooks/useCustomMove"
 import { getOne } from "../../api/articleApi"
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react"
 import { useParams } from "react-router-dom"
-import CommentList from "./CommentListPage"
+import CommentList from "../comment/CommentListPage"
 
 // 정규 표현식으로 URL을 감지하고 하이퍼링크로 변환하는 함수
 const formatContent = (content) => {
@@ -23,7 +23,6 @@ const initState = {
 
 const ArticleReadPage = () => {
     const {id} = useParams(); //url에서 id를 추출
-    const {articleId} = useParams()
     const [serverData, setServerData] = useState(initState)
     const {moveToList, moveToModify} = useCustomMove()
 
@@ -44,33 +43,33 @@ const ArticleReadPage = () => {
     }, [id]);
 
     return (
-        <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
-      <Heading as="h1" size="xl" mb={4}>
-        {serverData.articleTitle}
-      </Heading>
+      <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
+        <Heading as="h1" size="xl" mb={4}>
+          {serverData.articleTitle}
+        </Heading>
 
-      <Text fontSize="lg" color="gray.600" mb={2}>
-        작성자: {serverData.articleAuthor}
-      </Text>
+        <Text fontSize="lg" color="gray.600" mb={2}>
+          작성자: {serverData.articleAuthor}
+        </Text>
 
-      <Text fontSize="sm" color="gray.500" mb={4}>
-        작성일: {serverData.articleCreated ? new Date(serverData.articleCreated).toLocaleDateString() : 'N/A'}{" "}
-        {serverData.updatedTime && `(수정일: ${new Date(serverData.articleUpdated).toLocaleDateString()})`}
-      </Text>
+        <Text fontSize="sm" color="gray.500" mb={4}>
+          작성일: {serverData.articleCreated ? new Date(serverData.articleCreated).toLocaleDateString() : 'N/A'}{" "}
+                  {serverData.updatedTime && `(수정일: ${new Date(serverData.articleUpdated).toLocaleDateString()})`}
+        </Text>
 
-      <Box bg="gray.50" p={4} borderRadius="md" mb={4} style={{whiteSpace: 'pre-wrap'}}>
-        {/*dangerouslySetInnerHTML을 사용하여 HTML을 삽입*/}
-        <Text as="div" dangerouslySetInnerHTML={{__html: formatContent(serverData.articleContent)}}
-        sx={{
-          '& a': {
-            color: 'blue.500',
-            textDecoration: 'underline',
-            _hover: {
-              color: 'blue.700'
-            }
-          }
-        }}/>
-      </Box>
+        <Box bg="gray.50" p={4} borderRadius="md" mb={4} style={{whiteSpace: 'pre-wrap'}}>
+          {/*dangerouslySetInnerHTML을 사용하여 HTML을 삽입*/}
+          <Text as="div" dangerouslySetInnerHTML={{__html: formatContent(serverData.articleContent)}}
+            sx={{
+                '& a': {
+                color: 'blue.500',
+                textDecoration: 'underline',
+                _hover: {
+                  color: 'blue.700'
+                }
+              }
+            }}/>
+        </Box>
 
       <Flex justify="space-between">
         <Button colorScheme="teal" onClick={() => moveToList()}>
@@ -82,7 +81,7 @@ const ArticleReadPage = () => {
       </Flex>
 
       {/*Comment Component*/}
-      <CommentList articleId={articleId}/>
+      <CommentList articleId={id}/>
     </Box>
     )
 }
