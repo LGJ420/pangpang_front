@@ -103,7 +103,8 @@ const ProductDetailComponent = ({ num }) => {
           <Image
             src={images[product.id] || '/images/chi1.jpg'}
             alt={product.productTitle}
-            boxSize={{ base: '100%', md: '50%' }}></Image>
+            boxSize={{ base: '100%', md: '50%' }}
+            className="mx-auto h-80 object-contain" />
         </Box>
 
         <Box flex="1" ml={5} textAlign="center" className='border-l'>
@@ -111,11 +112,11 @@ const ProductDetailComponent = ({ num }) => {
           <Text fontSize='3xl' mb={4} >{product.productContent}</Text>
           <Text fontSize='3xl' mb={6}>{product.productPrice.toLocaleString()}원</Text>
           <ButtonGroup spacing='7' className='mx-auto mt-5'>
-            <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16"
+            <button className="text-white bg-[rgb(68,107,216)] text-xl font-extrabold hover:opacity-70 rounded-lg w-36 h-16"
               onClick={() => { handleClickBuy(product) }}>
               구매하기
             </button>
-            <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"
+            <button className="text-[rgb(68,107,216)] border-[rgb(68,107,216)] text-xl border hover:opacity-70 rounded-lg w-36"
               onClick={() => { handleClickCart(product) }}>
               장바구니 담기
             </button>
