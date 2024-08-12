@@ -22,13 +22,11 @@ const MemberSignupConfirmPage = () => {
                 </span>
             </h1>
 
-            <hr></hr>
-
-            <div>
-                <Link to={'/'} className={`${styles.button} m-5`}>
+            <div className='flex mt-5'>
+                <Link to={'/'} className={`bg-[rgb(0,0,139)] text-white p-3 rounded m-5`}>
                     홈으로 가기
                 </Link>
-                <Link to={'/login'} className={`${styles.button} m-5`}>
+                <Link to={'/login'} className={`bg-[rgb(0,0,139)] text-white p-3 rounded m-5`}>
                     로그인 하기
                 </Link>
             </div>
