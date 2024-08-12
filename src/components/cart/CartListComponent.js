@@ -17,6 +17,8 @@ const CratListComponent = () => {
     const [selectAll, setSelectAll] = useState(true);
     const [serverData, setServerData] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
+    const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+
     
     const navigate = useNavigate();
     const {decodeToken} = useCustomToken();
@@ -42,7 +44,17 @@ const CratListComponent = () => {
                 }));
                 setServerData(newData);
                 setOrderList(newData);  // 주문 목록도 모든 항목으로 초기화
-                console.log(newData);
+                // console.log(newData);        // 데이터 확인용
+                const imageUrls = {};       // 객체 생성해 각 제품의 이미지 url 저장
+                for(const product of newData) {
+                    if (product.uploadFileNames && product.uploadFileNames.length > 0) {
+                        // uploadFiles 배열에서 첫번째 파일 이름 추출해 이미지 url 생성
+                        const fileName = product.uploadFileNames[0];
+                        const url = `http://localhost:8080/api/product/view/${fileName}`;
+                        imageUrls[product.productId] = url;  // productId로 URL을 매핑
+                    }
+                }
+                setImages(imageUrls);   // 이미지 url 저장
             }).catch(e=>console.log(e));
     }, []);
 
@@ -191,8 +203,10 @@ const CratListComponent = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
                             </svg>
                         </label>
-                        {/* <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img> */}
-                        <div className="w-1/3">
+                    <img src={images[data.productId] || '/images/chi1.jpg'}
+                        alt={data.productTitle} 
+                        className="w-48" />                        
+                        <div className="w-1/3 text-center">
                             <h3 className="font-extrabold text-2xl">{data.productTitle}</h3>
                             <p className="mt-3">{data.productContent}</p>
                         </div>
