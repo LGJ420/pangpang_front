@@ -170,7 +170,7 @@ const OrdersPayComponent = () => {
     
             console.log({...userData, dtoList: productData});
     
-            postOrdersAdd({...userData, dtoList: productData}).then(()=>navigate({pathname: `../result`}));
+            postOrdersAdd({...userData, dtoList: productData}).then(()=>navigate({pathname: `/mypage/ordersresult`}));
         }
     }
 
