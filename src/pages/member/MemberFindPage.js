@@ -1,11 +1,10 @@
+import styles from '../../css/memberPage.module.css';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import {
     Input,
     FormControl,
     FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     } from '@chakra-ui/react'
 import { useState } from "react";
 import axios from 'axios';
@@ -160,7 +159,7 @@ const MemberLoginPage = () => {
     }
                 
     return (
-        <section className="account_management">
+        <section className={styles.account_management}>
 
             {/* 아이디/비밀번호 찾기 페이지 */}
             <Link to={'/'}>
@@ -177,7 +176,7 @@ const MemberLoginPage = () => {
 
 
             {/* 아이디, 비밀번호 찾기 컨테이너 */}
-            <div className="form_container">
+            <div className={styles.form_container}>
 
                 {/* 아이디 찾기 */}
                 <div>
@@ -202,7 +201,7 @@ const MemberLoginPage = () => {
 
                     <button 
                     onClick={handleFindId}
-                    className="button">
+                    className={styles.button}>
                         아이디 찾기
                     </button>
 
@@ -239,7 +238,7 @@ const MemberLoginPage = () => {
 
                     <button 
                     onClick={handleFindPw}
-                    className="button">
+                    className={styles.button}>
                         비밀번호 찾기
                     </button>
 

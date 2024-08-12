@@ -1,10 +1,10 @@
+import styles from '../../css/memberPage.module.css';
 import { Link } from "react-router-dom";
-import axios from 'axios';
 
 const MemberSignupConfirmPage = () => {
 
     return (
-        <div className="account_management">
+        <div className={styles.account_management}>
             {/* 회원가입 완료 페이지 */}
             <Link to={'/'}>
                 <img src="/images/logo.png" className="w-20 mb-3"/>
@@ -25,10 +25,10 @@ const MemberSignupConfirmPage = () => {
             <hr></hr>
 
             <div>
-                <Link to={'/'} className="button m-5">
+                <Link to={'/'} className={`${styles.button} m-5`}>
                     홈으로 가기
                 </Link>
-                <Link to={'/login'} className="button m-5">
+                <Link to={'/login'} className={`${styles.button} m-5`}>
                     로그인 하기
                 </Link>
             </div>
