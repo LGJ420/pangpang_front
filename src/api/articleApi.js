@@ -4,12 +4,18 @@ export const API_SERVER_HOST = 'http://localhost:8080';
 const prefix = `${API_SERVER_HOST}/api/article`;
 
 // 글 목록 보기
-export const getList = async (pageParam) => {
-    
-    const {search, page, size} = pageParam;
+export const getList = async (pageParam) => { 
+    const {search, page, size, searchBy} = pageParam;
     
     try{
-        const res = await axios.get(`${prefix}/list`, {params: {search, page,size}});
+        const res = await axios.get(`${prefix}/list`, 
+            {params: {
+                search, 
+                page, 
+                size,
+                searchBy
+            }
+        });
         return res.data;
     }catch(err){
         console.log("Error fetching list:" ,err);

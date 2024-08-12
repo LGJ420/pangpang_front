@@ -1,11 +1,12 @@
 import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, useColorModeValue } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
 
-import { getList } from '../../api/articleApi'; 
+import { getList } from '../../api/articleApi';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import useCustomMove from '../../hooks/useCustomMove';
 
+//페이지네이션 초기 상태
 const initState = {
     articleList: [],
     pageNumList: [],
@@ -21,19 +22,20 @@ const initState = {
 
 // 게시글 목록 페이지 컴포넌트
 const ArticleListPage = () => {
-    const {page, size, search, refresh, moveToList, moveToRead} = useCustomMove();
-
+    const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
     const [serverData, setServerData] = useState(initState);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchValue, setSearchValue] = useState('');
+    const [searchBy, setSearchBy] = useState('title'); //검색 기준 기본값
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchArticles = async() => {
+        const fetchArticles = async () => {
             setLoading(true);
             setError(null);
             try {
-                const data =await getList({ page, size, search });
+                const data = await getList({ page, size, search: searchValue, searchBy });
                 console.log('Fetched articles', data);
                 setServerData({
                     articleList: data.dtoList,
@@ -47,80 +49,90 @@ const ArticleListPage = () => {
                     totalPage: data.totalPage,
                     current: data.current
                 });
-            }catch (err) {
+            } catch (err) {
                 console.error("글을 불러오는데 실패했습니다.", err);
                 setError("글을 불러오는데 실패했습니다.");
-            }finally{
+            } finally {
                 setLoading(false);
             }
         };
         fetchArticles();
-    },[search, page, size, refresh]);
+    }, [searchValue, searchBy, page, size, refresh]);
 
     const bgColor = useColorModeValue('gray.50', 'gray.800');
 
     return (
         <>
-        <div className='my-7'>
-            <Flex justify="center" p={4} bg="white">
-                <FormControl>
-                    <Flex alignItems="center" justifyContent="center">
-                        <Select placeholder='제목' w="150px" mr={2}>
-                            <option>내용</option>
-                            <option>등록자명</option>
-                        </Select>
-                        <Input placeholder='검색어를 입력하세요' w="70%" mr={2} />
-                        <IconButton
-                            colorScheme='teal'
-                            aria-label='Search database'
-                            icon={<SearchIcon />}
-                            onClick={() => moveToList({page: 1})}
-                        />
-                    </Flex>
-                </FormControl>
-            </Flex>
+            <div className='my-7'>
+                <Flex justify="center" p={4} bg="white">
+                    <FormControl>
+                        <Flex alignItems="center" justifyContent="center">
+                            <Select 
+                                placeholder='검색기준' 
+                                w="150px" mr={2} 
+                                value={searchBy} 
+                                onChange={(e) => setSearchBy(e.target.value)}>
+                                    <option value="title">제목</option>
+                                    <option value="author">등록자명</option>
+                                </Select>
 
-            <Box p={4} bg={bgColor} borderWidth={1} borderRadius="md" boxShadow="md" className='w-11/12 m-auto' marginTop="20px">
-                {loading ? (
-                    <Text textAlign="center">Loading...</Text>
-                ) : error ? (
-                    <Text color="red.500" textAlign="center">{error}</Text>
-                ) : (
-                    <TableContainer>
-                        <Table variant='simple' colorScheme='blue'>
-                            <Thead>
-                                <Tr>
-                                    <Th textAlign="center">글번호</Th>
-                                    <Th textAlign="center">제목</Th>
-                                    <Th textAlign="center">등록자명</Th>
-                                    <Th textAlign="center">등록일</Th>
-                                    <Th textAlign="center">조회수</Th>
-                                </Tr>
-                            </Thead>
-                            <Tbody>
-                                {(serverData.articleList || []).map((article) => (
-                                    <Tr key={article.id} _hover={{ bg: 'gray.100' }} >
-                                        <Td textAlign="center">{article.id}</Td>
-                                        <Td textAlign="center" cursor='pointer' textColor="blue" onClick={() => 
-                                        moveToRead(article.id)} 
-                                        _hover={{
-                                            textDecoration: 'underline',
-                                            transform: 'scale(1.05)',
-                                            transition: 'transform 0.2s ease, text-decoration 0.2s ease'
-                                        }} 
-                                        >
-                                        {article.articleTitle}</Td>
-                                        <Td textAlign="center">{article.articleAuthor}</Td>
-                                        <Td textAlign="center">{article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : '날짜 형식이 맞지 않음'}</Td>
+                                <Input placeholder='검색어를 입력하세요' 
+                                w="70%" mr={2} 
+                                value={searchValue} 
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                />
+
+                                <IconButton
+                                    colorScheme='teal'
+                                    aria-label='Search database'
+                                    icon={<SearchIcon />}
+                                    onClick={() => moveToList({ page: 1, search: searchValue, searchBy })}
+                                />
+                        </Flex>
+                    </FormControl>
+                </Flex>
+
+                <Box p={4} bg={bgColor} borderWidth={1} borderRadius="md" boxShadow="md" className='w-11/12 m-auto' marginTop="20px">
+                    {loading ? (
+                        <Text textAlign="center">Loading...</Text>
+                    ) : error ? (
+                        <Text color="red.500" textAlign="center">{error}</Text>
+                    ) : (
+                        <TableContainer>
+                            <Table variant='simple' colorScheme='blue'>
+                                <Thead>
+                                    <Tr>
+                                        <Th textAlign="center">글번호</Th>
+                                        <Th textAlign="center">제목</Th>
+                                        <Th textAlign="center">등록자명</Th>
+                                        <Th textAlign="center">등록일</Th>
+                                        <Th textAlign="center">조회수</Th>
                                     </Tr>
-                                ))}
-                            </Tbody>
-                        </Table>
-                    </TableContainer>
-                )}
+                                </Thead>
+                                <Tbody>
+                                    {(serverData.articleList || []).map((article) => (
+                                        <Tr key={article.id} _hover={{ bg: 'gray.100' }} >
+                                            <Td textAlign="center">{article.id}</Td>
+                                            <Td textAlign="center" cursor='pointer' textColor="blue" onClick={() =>
+                                                moveToRead(article.id)}
+                                                _hover={{
+                                                    textDecoration: 'underline',
+                                                    transform: 'scale(1.05)',
+                                                    transition: 'transform 0.2s ease, text-decoration 0.2s ease'
+                                                }}
+                                            >
+                                                {article.articleTitle}</Td>
+                                            <Td textAlign="center">{article.articleAuthor}</Td>
+                                            <Td textAlign="center">{article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : '날짜 형식이 맞지 않음'}</Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
+                        </TableContainer>
+                    )}
 
-                {/* 페이지네이션 */}
-                <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
+                    {/* 페이지네이션 */}
+                    <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
                         {/* 이전 페이지 */}
                         <IconButton
                             aria-label="Previous Page"
@@ -159,13 +171,13 @@ const ArticleListPage = () => {
                         />
                     </Flex>
 
-                <Flex justifyContent="flex-end">
-                    <Button colorScheme='teal' onClick={() => navigate("../create")}>
-                        글쓰기
-                    </Button>
-                </Flex>
-            </Box>
-        </div>
+                    <Flex justifyContent="flex-end">
+                        <Button colorScheme='teal' onClick={() => navigate("../create")}>
+                            글쓰기
+                        </Button>
+                    </Flex>
+                </Box>
+            </div>
         </>
     );
 }
