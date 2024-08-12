@@ -1,10 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import useCustomToken from "../hooks/useCustomToken";
 
 const NavLayout1 = () => {
 
     const { isLogin, decodeToken } = useCustomToken();
+
+    const navigate = useNavigate();
 
     // 로그아웃
     const handleLogout = () => {
@@ -25,7 +27,21 @@ const NavLayout1 = () => {
                 console.error("로그아웃 실패", error);
             });
     }
+
+
+    // 장바구니
+    const handleClickCart = () => {
+
+        if(!isLogin){
+            
+            alert("로그인이 필요합니다");
+            return;
+        }
+
+        navigate({pathname: "/cart"});
+    }
     
+
     return (
         <nav id="navbar1">
             <div className="p-2 h-14 flex items-center justify-between w-[1350px] m-auto">
@@ -49,9 +65,10 @@ const NavLayout1 = () => {
                             </Link>
                         </li>
                         <li className="border-l border-l-black">
-                            <Link to={'/cart'} className="px-3">
+                            <button className="px-3"
+                                onClick={handleClickCart}>
                                 장바구니
-                            </Link>
+                            </button>
                         </li>
                         <li className="border-l border-l-black mr-3">
                             <Link to={'/'} className="px-3" 
@@ -66,9 +83,10 @@ const NavLayout1 = () => {
                     // token이 없으면 = 로그인이 안되어있으면
                     <ul className="flex m-0 items-center">
                         <li className="border-r border-r-black">
-                            <Link to={'/cart'} className="px-3">
+                            <button className="px-3"
+                                onClick={handleClickCart}>
                                 장바구니
-                            </Link>
+                            </button>
                         </li>
                         {/* <li className="border-r border-r-black">
                             <Link to={'/cash'} className="px-3">

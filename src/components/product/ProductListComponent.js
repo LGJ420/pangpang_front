@@ -124,7 +124,7 @@ const ProductListComponent = () => {
   return (
     <section>
 
-      <div className="flex flex-row border-b p-10 mb-10">
+      <div className="flex flex-row border-b pt-10 pl-10 pb-10 pr-3 mb-5">
         <h1 className="text-5xl mr-auto">상점 페이지</h1>
         <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
           onChange={(e) => { setWord(e.target.value); console.log(word) }}
@@ -138,35 +138,38 @@ const ProductListComponent = () => {
 
       {serverData.dtoList.length > 0 ?
       
-        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={10} className="pb-32">
+        <SimpleGrid columns={ 4 } spacing={10}>
           {serverData.dtoList.map(product =>
-            <Card maxW='sm' key={product.id}>
-              <CardBody>
-                <div className="relative z-10 overflow-hidden">
-                  <Image onClick={() => moveToRead(product.id)}
+            <Card key={product.id} className="border">
+              <CardBody className="flex flex-col justify-between overflow-hidden">
+                <div className="relative hover:scale-125 duration-300 cursor-pointer"
+                  onClick={() => moveToRead(product.id)}>
+                  <Image
                     src={images[product.id] || '/images/chi1.jpg'}    // 저장된 이밎 url 또는 기본 이미지 사용
                     alt={product.productTitle}
                     borderRadius='lg'
-                    className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
+                    className='mx-auto h-52 object-contain' />
                 </div>
-                <Stack mt='5' spacing='3'>
-                  <Heading size='md' fontSize="2xl">{product.productTitle}</Heading>
-                  <Text fontSize='2xl'>{product.productPrice.toLocaleString()}원</Text>
-                </Stack>
-              </CardBody>
+                <Heading size='md' fontSize="2xl" className="my-3 text-center z-10">
+                  {product.productTitle}
+                </Heading>
+                <Text fontSize='2xl' className="text-center">
+                  {product.productPrice.toLocaleString()}원
+                </Text>
+              </CardBody> 
               <Divider borderColor='gray.400' />
 
               <CardFooter>
-                <ButtonGroup spacing='8' className='mx-auto'>
+                <ButtonGroup className="w-full flex justify-between">
 
-                  <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16"
-                    onClick={()=>{handleClickBuy(product)}}>
-                    구매하기
-                  </button>
-                  <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"
-                    onClick={() => { handleClickCart(product) }}>
-                    장바구니 담기
-                  </button>
+                    <button className="text-white bg-[rgb(68,107,216)] text-lg font-extrabold hover:opacity-70 rounded-lg w-32 h-16"
+                      onClick={()=>{handleClickBuy(product)}}>
+                      구매하기
+                    </button>
+                    <button className="text-[rgb(68,107,216)] border-[rgb(68,107,216)] text-lg border hover:opacity-70 rounded-lg w-32"
+                      onClick={() => { handleClickCart(product) }}>
+                      장바구니 담기
+                    </button>
 
                 </ButtonGroup>
               </CardFooter>
@@ -185,7 +188,7 @@ const ProductListComponent = () => {
 
       {/* 페이지네이션 */}
 
-      <Flex justifyContent="center" fontSize="25px" className="pb-20 text-gray-700">
+      <Flex justifyContent="center" fontSize="25px" className="py-10 text-gray-700">
         {/* 이전 페이지 */}
         {serverData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage })}>{'\u003c'}</Box> :
           <></>}
@@ -194,7 +197,7 @@ const ProductListComponent = () => {
         {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
           (<Box key={pageNum}
             marginRight={7} cursor={"pointer"}
-            className={serverData.current === pageNum ? 'text-gray-500 border-b' : ''}
+            className={serverData.current === pageNum ? 'text-blue-600 border-b' : ''}
             onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
 
         {/* 다음 페이지 */}
