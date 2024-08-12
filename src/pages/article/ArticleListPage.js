@@ -1,12 +1,10 @@
 import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, useColorModeValue } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
-
 import { getList } from '../../api/articleApi';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import useCustomMove from '../../hooks/useCustomMove';
 
-//페이지네이션 초기 상태
 const initState = {
     articleList: [],
     pageNumList: [],
@@ -20,14 +18,14 @@ const initState = {
     current: 1
 }
 
-// 게시글 목록 페이지 컴포넌트
 const ArticleListPage = () => {
-    const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
+    const { moveToList, moveToRead } = useCustomMove();
     const [serverData, setServerData] = useState(initState);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchValue, setSearchValue] = useState('');
-    const [searchBy, setSearchBy] = useState('title'); //검색 기준 기본값
+    const [searchBy, setSearchBy] = useState('title'); // 검색 기준 기본값
+    const [fetchData, setFetchData] = useState({ page: 1, search: '', searchBy: 'title' }); // 검색 조건 저장
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -35,8 +33,7 @@ const ArticleListPage = () => {
             setLoading(true);
             setError(null);
             try {
-                const data = await getList({ page, size, search: searchValue, searchBy });
-                console.log('Fetched articles', data);
+                const data = await getList(fetchData);
                 setServerData({
                     articleList: data.dtoList,
                     pageNumList: data.pageNumList,
@@ -50,14 +47,25 @@ const ArticleListPage = () => {
                     current: data.current
                 });
             } catch (err) {
-                console.error("글을 불러오는데 실패했습니다.", err);
                 setError("글을 불러오는데 실패했습니다.");
             } finally {
                 setLoading(false);
             }
         };
+
         fetchArticles();
-    }, [searchValue, searchBy, page, size, refresh]);
+    }, [fetchData]); // fetchData가 변경될 때만 호출
+
+    const handleSearch = () => {
+        setFetchData({ page: 1, search: searchValue, searchBy });
+        moveToList({ page: 1, search: searchValue, searchBy }); // 페이지를 1로 리셋
+    };
+
+    const handleKeyEnter = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch(); //Enter 키를 누르면 검색 실행
+        }
+    };
 
     const bgColor = useColorModeValue('gray.50', 'gray.800');
 
@@ -80,13 +88,14 @@ const ArticleListPage = () => {
                                 w="70%" mr={2} 
                                 value={searchValue} 
                                 onChange={(e) => setSearchValue(e.target.value)}
+                                onKeyDown={handleKeyEnter} // Enter 키 이벤트 핸들러 추가
                                 />
 
                                 <IconButton
                                     colorScheme='teal'
                                     aria-label='Search database'
                                     icon={<SearchIcon />}
-                                    onClick={() => moveToList({ page: 1, search: searchValue, searchBy })}
+                                    onClick={handleSearch} // 검색 버튼 클릭 시 검색 처리
                                 />
                         </Flex>
                     </FormControl>
