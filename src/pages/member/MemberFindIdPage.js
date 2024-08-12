@@ -1,3 +1,4 @@
+import styles from '../../css/memberPage.module.css';
 import { Link, useLocation } from "react-router-dom";
 
 const MemberFindIdPage = () => {
@@ -6,7 +7,7 @@ const MemberFindIdPage = () => {
     const {memberName, memberId} = location.state || {};
 
     return (
-        <section className="account_management">
+        <section className={styles.account_management}>
 
             {/* 아이디 찾기 페이지 */}
             <Link to={'/'}>

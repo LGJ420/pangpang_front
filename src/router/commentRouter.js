@@ -20,7 +20,7 @@ const commentRouter = () => {
             )
         },
         {
-            path: "create/:articleId",
+            path: "/create",
             element: (
                 <Suspense fallback={<div>Loading...</div>}>
                     <CommentCreate />
@@ -28,7 +28,7 @@ const commentRouter = () => {
             )
         },
         {
-            path: "modify/:commentId",
+            path: "modify/:id",
             element: (
                 <Suspense fallback={<div>Loading...</div>}>
                     <CommentModify />

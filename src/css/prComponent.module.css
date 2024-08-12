@@ -1,0 +1,43 @@
+.primage {
+  width: 50rem; /* Tailwind의 w-[50rem] 대체 */
+}
+
+.prComponent {
+  scroll-snap-type: y mandatory;
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+.prComponent::-webkit-scrollbar {
+  display: none;
+}
+
+.section {
+  block-size: 90vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes enterAnimation {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.primageAnimation {
+  animation-name: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .primageAnimation {
+    animation: enterAnimation 5s ease-out forwards;
+  }
+}

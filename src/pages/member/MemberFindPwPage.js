@@ -1,3 +1,4 @@
+import styles from '../../css/memberPage.module.css';
 import {
     Input,
     FormControl,
@@ -64,7 +65,7 @@ const MemberFindPwPage = () => {
 
     return (
 
-        <section className="account_management">
+        <section className={styles.account_management}>
 
         {/* 아이디 찾기 페이지 */}
         <Link to={'/'}>
@@ -105,7 +106,7 @@ const MemberFindPwPage = () => {
             </div>
 
             <button 
-            className="px-5 button"
+            className={`${styles.button} px-5`}
             onClick={resetMemberPw}
             >
                 비밀번호 변경

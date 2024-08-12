@@ -28,15 +28,15 @@ const NavLayout1 = () => {
     
     return (
         <nav id="navbar1">
-            <div className="flex items-center justify-between w-[1350px] m-auto">
+            <div className="p-2 h-14 flex items-center justify-between w-[1350px] m-auto">
                 <Link to={'/'}>
-                    <img src="/images/logo_r3.png" className="h-[40px] mx-8 my-3"></img>
+                    <img src="/images/logo_r3.png" className="h-[40px] mx-8"></img>
                 </Link>
                 {
                 isLogin ?
                 (
                     // token이 잇으면 = 로그인이 되어있으면
-                    <ul className="flex mr-5">
+                    <ul className="flex m-0 items-center">
                         <li className="border-r border-r-black">
                             <Link to={'/cart'} className="px-3">
                                 장바구니
@@ -48,14 +48,15 @@ const NavLayout1 = () => {
                             </Link>
                         </li> */}
                         <li className="border-r border-r-black">
-                            <Link to={'/마이페이지url'} className="px-3">
-                                {decodeToken.memberName}님, 환영합니다!
-                            </Link>
-                        </li>
-                        <li>
                             <Link to={'/'} className="px-3" 
                             onClick={handleLogout}>
                                 로그아웃
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={'/mypage'} className="px-3 mr-3 flex items-center">
+                                <img src="/images/profile.png" className="w-12 h-12 rounded-full border mr-1"/>
+                                {decodeToken.memberName}님, 환영합니다!
                             </Link>
                         </li>
                     </ul>
@@ -63,7 +64,7 @@ const NavLayout1 = () => {
                 :
                 (
                     // token이 없으면 = 로그인이 안되어있으면
-                    <ul className="flex mr-5">
+                    <ul className="flex m-0 items-center">
                         <li className="border-r border-r-black">
                             <Link to={'/cart'} className="px-3">
                                 장바구니
@@ -80,7 +81,7 @@ const NavLayout1 = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/signup'} className="px-3">
+                            <Link to={'/signup'} className="px-3 mr-3">
                                 회원가입
                             </Link>
                         </li>

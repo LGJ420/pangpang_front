@@ -1,3 +1,4 @@
+import styles from '../../css/memberPage.module.css';
 import {
     Input,
     FormControl,
@@ -116,7 +117,7 @@ const MemberSignupPage = () => {
     }
         
         return (
-            <section className="account_management">
+            <section className={styles.account_management}>
 
         {/* 회원가입 폼 */}
         <div>
@@ -140,13 +141,13 @@ const MemberSignupPage = () => {
                 {/* 아이디 */}
                 <FormControl isRequired>
                     <FormLabel>아이디</FormLabel>
-                    <div className='outer'>
+                    <div className={styles.outer}>
                         <Input 
                         value={memberId}
                         onChange={handleMemberId}
                         placeholder='아이디를 입력해주세요.'/>
                         <button
-                        className='inner_button'
+                        className={styles.inner_button}
                         onClick={onClickCheckMemberId}>중복확인</button>
                     </div>
                 </FormControl>
@@ -204,7 +205,7 @@ const MemberSignupPage = () => {
 
             {/* 회원가입 버튼 */}
             <button
-            className="button"
+            className={styles.button}
             onClick={onClicksignup}>
                 회원가입
             </button>

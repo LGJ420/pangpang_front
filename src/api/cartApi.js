@@ -4,11 +4,12 @@ export const API_SERVER_HOST = 'http://localhost:8080';
 
 const prefix = `${API_SERVER_HOST}/api/cart`;
 
-const token = localStorage.getItem("token");
 
 
 export const getCartList = async () => {
     
+    const token = localStorage.getItem("token");
+
     const res = await axios.get(`${prefix}`, {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -21,7 +22,7 @@ export const getCartList = async () => {
 
 export const postCartAdd = async (cartObj) => {
     
-    console.log(token);
+    const token = localStorage.getItem("token");
 
     const res = await axios.post(`${prefix}`, cartObj, {
         headers: {
@@ -34,6 +35,8 @@ export const postCartAdd = async (cartObj) => {
 
 
 export const putCartOne = async (cartObj) => {
+
+    const token = localStorage.getItem("token");
     
     const res = await axios.put(`${prefix}`, cartObj, {
         headers: {
@@ -48,6 +51,8 @@ export const putCartOne = async (cartObj) => {
 // 삭제는 설정칸에 data로 넣어줘야한다
 export const deleteCartOne = async (cartObj) => {
 
+    const token = localStorage.getItem("token");
+    
     const res = await axios.delete(`${prefix}`, {
         headers: {
             'Authorization': `Bearer ${token}`

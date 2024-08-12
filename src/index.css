@@ -1,82 +1,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Sans+KR&family=Noto+Sans+KR:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Poor+Story&family=IBM+Plex+Sans+KR&family=Do+Hyeon&display=swap');
 
+/*
+사용가능한 폰트 목록
+1. Noto Sans KR (기본으로 채택)
+2. Poor Story
+3. IBM Plex Sans KR
+4. Do Hyeon
+ */
+
+
+/* 
+차크라 사용으로 인해 폰트를 important해줘야 하는상태
+차크라 사용중지 고민중
+*/
 body {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif !important;
 }
+
 
 /* body * {
     border: 1px solid red;
     padding: 1px;
     box-sizing: border-box;
 } */
-
-/* 성빈 css */
-.account_management {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.account_management h1 {
-    text-align: left;
-    font-size: 3rem;
-}
-
-.account_management hr {
-    margin: 5% 0;
-}
-
-.account_management .form_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-.account_management input {
-    border: 1px solid rgba(128, 128, 128, 0.288);
-    border-radius: 1%;
-    font-size: 1.5rem;
-    width: 25rem;
-    margin: 2% 0;
-    padding: 1.5rem 1rem;
-}
-
-.account_management input:placeholder-shown {
-
-    font-size: 1rem;
-    line-height: 1.5rem;
-}
-
-.account_management .button {
-    color: white;
-    background-color: darkblue;
-    font-size: 1.5rem;
-    font-weight: bold;
-    width: 100%;
-    padding: 3%;
-    margin-top: 5%;
-    cursor: pointer;
-    border-radius: 0.25rem;
-}
-
-.inner_button {
-    position: absolute;
-    right: 10px;
-    top: calc(100%/2 - 2px);
-    padding: 5px;    
-
-    color: white;
-    background-color: darkblue;
-    font-size: 1.0rem;
-    font-weight: bold;
-    border-radius: 0.25rem;
-
-    z-index: 1;
-}
