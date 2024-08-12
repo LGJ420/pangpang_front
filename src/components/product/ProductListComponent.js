@@ -28,25 +28,37 @@ const ProductListComponent = () => {
 
   const [serverData, setServerData] = useState(initState);
   const [word, setWord] = useState("");   // 상품 검색용
+  const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
 
   const navigate = useNavigate();
 
 
-  /* serverData에 서버 데이터에서 가져온 상품 목록 데이터 저장 */
   useEffect(() => {
-
-    if (search) {    // search에 데이터 있으면 searh, page, size를 전달
-      getList({ search, page, size }).then(data => {
-        // console.log(data);
+    const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
+      try {
+        // 상품 목록 데이터 가져오기
+        const data = search
+          ? await getList({ search, page, size })
+          : await getList({ page, size });
         setServerData(data);
-      }).catch(e=>console.log(e));
-    } else {        // search에 데이터 없으면 page, size를 전달
-      getList({ page, size }).then(data => {
-        // console.log(data);
-        setServerData(data)
-      }).catch(e=>console.log(e));
-    }
-  }, [search, page, size, refresh])
+
+        // 이미지 URL 설정하기
+        const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성
+        for (const product of data.dtoList) {   // 상품 목록 반복
+          if (product.uploadFileNames[0]) {     // 상품이 이미지 파일을 가지고 있는지 확인
+            const fileName = product.uploadFileNames[0];    // 첫 번쩨 이미지 파일 이름을 가져옴
+            const url = `http://localhost:8080/api/product/view/${fileName}`;   // 이미지 url 만듦
+            imageUrls[product.id] = url;    // 상품 id를 키로, 이미지 url을 값으로 설정
+          }
+        }
+        setImages(imageUrls);   // 상태를 업데이트하여 이미지 url 저장
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [search, page, size, refresh]);
 
 
 
@@ -131,7 +143,8 @@ const ProductListComponent = () => {
               <CardBody>
                 <div className="relative z-10 overflow-hidden">
                   <Image onClick={() => moveToRead(product.id)}
-                    src='/images/chi1.jpg'
+                    src={images[product.id] || '/images/chi1.jpg'}    // 저장된 이밎 url 또는 기본 이미지 사용
+                    alt={product.productTitle}
                     borderRadius='lg'
                     className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125' />
                 </div>

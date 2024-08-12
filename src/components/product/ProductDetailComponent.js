@@ -2,7 +2,8 @@ import { useEffect, useState } from "react"
 import { Box, Button, ButtonGroup, Flex, Image, Spacer, Text } from '@chakra-ui/react'
 
 import { getOne } from "../../api/productApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { postCartAdd } from "../../api/cartApi";
 
 /* 초기값 설정 */
 const initState = {
@@ -12,16 +13,85 @@ const initState = {
   productPrice: 0
 }
 
-const ProductDetailComponent = ({num}) => {
+const ProductDetailComponent = ({ num }) => {
 
   const [product, setProduct] = useState(initState);
+  const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+
+  const navigate = useNavigate();
+
 
   useEffect(() => {
-    getOne(num).then(data => {
-      // console.log(data)
-      setProduct(data)
-    }).catch(e=>console.log(e));
-  }, [num])
+    const fetchData = async () => {
+      try {
+        const data = await getOne(num);
+        setProduct(data);
+
+        // 이미지 URL 설정하기
+        const imageUrls = {};
+        // data.uploadFileNames 배열에서 첫 번째 이미지 파일을 가져와 URL을 설정합니다.
+        if (data.uploadFileNames.length > 0) {
+          const fileName = data.uploadFileNames[0];
+          const url = `http://localhost:8080/api/product/view/${fileName}`;
+          imageUrls[data.id] = url;
+        }
+        // console.log('Image URLs:', imageUrls); // URL 확인
+        setImages(imageUrls);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [num]);
+
+
+  /* 구매하기 */
+  const handleClickBuy = (product) => {
+
+    // eslint-disable-next-line no-restricted-globals
+    const goBuy = confirm("구매하시겠습니까?");
+
+    if (!goBuy) {
+
+      return;
+    }
+
+    const order = {
+
+      productId: product.id,
+      productTitle: product.productTitle,
+      productContent: product.productContent,
+      productPrice: product.productPrice,
+      cartCount: 1
+    }
+
+    navigate("/orders/pay", { state: { order } });
+  }
+
+
+  /* 장바구니 */
+  const handleClickCart = (product) => {
+
+    const cartObj = {
+
+      productId: product.id,
+      cartCount: 1,
+    }
+
+    postCartAdd(cartObj);
+    alert("장바구니에 상품이 등록되었습니다")
+
+
+    // 여유가 되면 모달창을 제작해서 바꿀예정
+    // eslint-disable-next-line no-restricted-globals
+    const goToCart = confirm("장바구니 페이지로 이동하시겠습니까?");
+
+    if (goToCart) {
+
+      navigate({ pathname: '../../cart' });
+    }
+  }
 
 
   return (
@@ -30,22 +100,26 @@ const ProductDetailComponent = ({num}) => {
 
       <Flex justify="center" align="center" p={5} >
 
-        <Box flex="1" align="center"><Image src='/images/chi1.jpg' boxSize={{ base: '100%', md: '50%' }}></Image></Box>
+        <Box flex="1" align="center">
+          <Image
+            src={images[product.id] || '/images/chi1.jpg'}
+            alt={product.productTitle}
+            boxSize={{ base: '100%', md: '50%' }}></Image>
+        </Box>
 
         <Box flex="1" ml={5} textAlign="center" className='border-l'>
           <Text fontSize="4xl" fontWeight='bold' mb={4}>{product.productTitle}</Text>
           <Text fontSize='3xl' mb={4} >{product.productContent}</Text>
           <Text fontSize='3xl' mb={6}>{product.productPrice.toLocaleString()}원</Text>
           <ButtonGroup spacing='7' className='mx-auto mt-5'>
-            <Button variant='solid' colorScheme='gray' fontSize="xl" size="lg">
-              {/* 구매 페이지로 이동하는 링크 */}
-              바로 구매하기
-            </Button>
-            <Button variant='solid' colorScheme='gray' fontSize="xl" size="lg">
-              <Link to={'/cart/list'}>
-                장바구니에 담기
-              </Link>
-            </Button>
+            <button className="text-xl font-extrabold hover:opacity-70 bg-green-200 rounded-lg w-36 h-16"
+              onClick={() => { handleClickBuy(product) }}>
+              구매하기
+            </button>
+            <button className="text-xl border hover:opacity-70 border-green-200 rounded-lg w-36"
+              onClick={() => { handleClickCart(product) }}>
+              장바구니 담기
+            </button>
           </ButtonGroup>
         </Box>
       </Flex>
