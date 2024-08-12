@@ -22,7 +22,7 @@ const MainProductList = () => {
         // 상품 목록 데이터 가져오기
         const data = await getProductList();
         setServerData(data);
-        console.log(data);
+        console.log(data);   // 데이터 확인용
 
         // 이미지 URL 설정하기
         const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성

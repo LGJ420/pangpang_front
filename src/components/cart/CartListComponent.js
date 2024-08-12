@@ -42,6 +42,7 @@ const CratListComponent = () => {
                 }));
                 setServerData(newData);
                 setOrderList(newData);  // 주문 목록도 모든 항목으로 초기화
+                console.log(newData);
             }).catch(e=>console.log(e));
     }, []);
 
@@ -190,7 +191,7 @@ const CratListComponent = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
                             </svg>
                         </label>
-                        <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img>
+                        {/* <img src="/images/chi1.jpg" className="w-40 border rounded-xl"></img> */}
                         <div className="w-1/3">
                             <h3 className="font-extrabold text-2xl">{data.productTitle}</h3>
                             <p className="mt-3">{data.productContent}</p>
