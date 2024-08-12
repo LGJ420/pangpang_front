@@ -1,7 +1,19 @@
 import styles from '../../css/memberPage.module.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
 
 const MemberSignupConfirmPage = () => {
+
+    const navigate = useNavigate();
+
+    // 컴포넌트가 마운트될 때 토큰 확인
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            // 이미 로그인된 상태라면 홈으로 리다이렉트
+            navigate("/");
+        }
+    }, [navigate]);
 
     return (
         <div className={styles.account_management}>

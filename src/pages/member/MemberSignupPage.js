@@ -5,7 +5,7 @@ import {
     FormLabel,
     } from '@chakra-ui/react'
 
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -38,7 +38,16 @@ const MemberSignupPage = () => {
         setMemberRole(e.target.value);
     }
 
-    const nevigate = useNavigate();
+    const navigate = useNavigate();
+
+    // 컴포넌트가 마운트될 때 토큰 확인
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            // 이미 로그인된 상태라면 홈으로 리다이렉트
+            navigate("/");
+        }
+    }, [navigate]);
 
     // 아이디 중복확인 버튼
     const onClickCheckMemberId = () => {
@@ -109,7 +118,7 @@ const MemberSignupPage = () => {
         })
         .then((response)=>{
             console.log(response)
-            nevigate("/signup_confirm")
+            navigate("/signup_confirm")
         })
         .catch((error)=>{
             console.error("회원가입 요청 중 오류 발생", error);
