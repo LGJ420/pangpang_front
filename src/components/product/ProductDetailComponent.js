@@ -93,59 +93,6 @@ const ProductDetailComponent = ({ num }) => {
     }
   }
 
-
-  /* 구매하기 */
-  const handleClickBuy = (product) => {
-
-    // eslint-disable-next-line no-restricted-globals
-    const goBuy = confirm("구매하시겠습니까?");
-  
-    if (!goBuy) {
-      
-      return;
-    }
-
-    const order = {
-
-      productId: product.id,
-      productTitle: product.productTitle,
-      productContent: product.productContent,
-      productPrice: product.productPrice,
-      cartCount: 1
-    }
-
-    navigate("/orders/pay", {state : {order}});
-  }
-
-
-
-
-  /* 장바구니 */
-  const handleClickCart = (product) => {
-
-    const cartObj = {
-
-      productId: product.id,
-      cartCount: 1,
-    }
-
-    postCartAdd(cartObj);
-    alert("장바구니에 상품이 등록되었습니다");
-
-
-    // 여유가 되면 모달창을 제작해서 바꿀예정
-    // eslint-disable-next-line no-restricted-globals
-    const goToCart = confirm("장바구니 페이지로 이동하시겠습니까?");
-
-    if (goToCart) {
-
-      navigate({ pathname: '/cart' });
-    }
-  }
-
-
-
-
   return (
     <section>
       <h1 className="text-5xl p-10 mb-10 border-b">상세 페이지</h1>
