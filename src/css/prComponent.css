@@ -1,0 +1,37 @@
+#prComponent {
+  scroll-snap-type: y mandatory;
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+#prComponent::-webkit-scrollbar {
+  display: none; /* 스크롤바 너비 조정 */
+}
+
+
+#prComponent section {
+  block-size: 90vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+@keyframes enter-animation {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .primage-animation {
+    animation: enter-animation 5s 1;
+  }
+}

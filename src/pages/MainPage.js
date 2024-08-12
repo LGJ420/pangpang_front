@@ -13,8 +13,9 @@ const MainPage = () => {
                 <div className="text-2xl m-4">
                     공지사항
                 </div>
-                <div className="border-3 border-stone-900/30 rounded-md h-full">
-                    풉키풉스
+                <div className="flex flex-col items-center justify-center text-2xl font-semibold border-3 border-stone-900/30 rounded-md h-full">
+                    <img src="/images/notice_none.png" className="w-60" />
+                    <div className="mt-10">현재 공지사항이 없습니다</div>
                 </div>
             </div>
             <div className="w-1/2">

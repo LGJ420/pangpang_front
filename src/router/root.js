@@ -5,6 +5,7 @@ import cartRouter from "./cartRouter";
 import cashRouter from "./cashRouter";
 import ordersRouter from "./ordersRouter";
 import managerRouter from "./managerRouter";
+import mypageRouter from "./mypageRouter";
 
 const { createBrowserRouter } = require("react-router-dom");
 
@@ -65,6 +66,9 @@ const FindPw = lazy(()=>import("../pages/member/MemberFindPwPage"));
 
 // 비밀번호 변경 완료
 const FindPwConfirm = lazy(()=>import("../pages/member/MemberFindPwConfirmPage"));
+
+// 마이페이지
+const MyPage = lazy(()=>import("../pages/mypage/MypageIndexPage"));
 
 
 
@@ -170,6 +174,12 @@ const root = createBrowserRouter([
         path: "find_pw/confirm",
         element: <Suspense><FindPwConfirm /></Suspense>
     },
+
+    {
+        path: "mypage",
+        element: <Suspense><MyPage /></Suspense>,
+        children: mypageRouter()
+    }
     
 
 ]);

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const MemberLoginPage = () => {
 
-    {/* 아이디/비밀번호 state */}
+    // 아이디/비밀번호 state
     const [memberId, setMemberId] = useState("");
     const [memberPw, setMemberPw] = useState("");
     const navigate = useNavigate();
@@ -40,9 +40,9 @@ const MemberLoginPage = () => {
                 console.log(response.data);
                 console.log("======================", "로그인 성공");
                 
-                if (response.data.token) {
+                if (response.data) {
                     localStorage.setItem("memberId", memberId);
-                    localStorage.setItem("token", response.data.token);
+                    localStorage.setItem("token", response.data);
                     console.log("로그인 성공, 로컬 스토리지에 저장됨");
                     
                     // // ▼로컬스토리지 저장하는데 굳이 세션스토리지까지 저장안해도 될듯?!▼
@@ -61,7 +61,16 @@ const MemberLoginPage = () => {
                 console.error("로그인 요청 중 오류 발생", error);
                 alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.")
             });
-    }
+
+        }
+
+        /* 검색 인풋창 엔터키만 눌러도 검색 */
+        const handleKeyDown = (e) => {
+            if (e.key === "Enter") {
+                onClickLogin();
+            }
+        }
+
     return (
             <section className="account_management">
 
@@ -88,6 +97,7 @@ const MemberLoginPage = () => {
                             <input 
                             value={memberId}
                             onChange={handleMemberId}
+                            onKeyDown={handleKeyDown}
                             placeholder="아이디를 입력해주세요."
                             className="h-12 px-3 placeholder-shown:text-base"></input>
                         </div>
@@ -95,6 +105,7 @@ const MemberLoginPage = () => {
                             <input 
                             value={memberPw}
                             onChange={handleMemberPw}
+                            onKeyDown={handleKeyDown}
                             type="password" 
                             placeholder="비밀번호를 입력해주세요."
                             className="h-12 px-3 placeholder-shown:text-base"></input>
