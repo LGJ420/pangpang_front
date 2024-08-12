@@ -1,35 +1,65 @@
-import { Box, Button, FormControl, Input, Textarea } from "@chakra-ui/react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Box, Button, Input, Textarea, FormControl, FormLabel, Flex } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
-const CommentForm = ({ comment, onChange, onSubmit, onDelete, loading }) => {
-    return (
-        <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
-            <FormControl mb={4}>
-                <Input
-                    name="commentAuthor"
-                    value={comment.commentAuthor || ''}
-                    onChange={onChange}
-                    placeholder="작성자명"
-                />
-            </FormControl>
-            <FormControl mb={4}>
-                <Textarea
-                    name="commentContent"
-                    value={comment.commentContent || ''}
-                    onChange={onChange}
-                    placeholder="댓글 내용"
-                    rows={4}
-                />
-            </FormControl>
-            <Button colorScheme="teal" onClick={onSubmit} isLoading={loading} mb={2}>
-                {comment.id ? '저장' : '댓글 추가'}
+const CommentForm = ({ articleId, onCommentAdded }) => {
+  const [commentAuthor, setCommentAuthor] = useState('');
+  const [commentContent, setCommentContent] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('/api/comment', {
+        articleId,
+        commentAuthor,
+        commentContent,
+      });
+      setCommentAuthor('');
+      setCommentContent('');
+      if (onCommentAdded) onCommentAdded();
+      navigate(`/article/${articleId}`);
+    } catch (error) {
+      console.error('Error creating comment:', error);
+    }
+  };
+
+  return (
+    <Box bg="gray.50" p={4} borderRadius="md" boxShadow="md">
+      <form onSubmit={handleSubmit}>
+        <FormControl mb={4}>
+          <FormLabel htmlFor="author">작성자</FormLabel>
+          <Input
+            id="author"
+            value={commentAuthor}
+            onChange={(e) => setCommentAuthor(e.target.value)}
+            required
+          />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel htmlFor="content">댓글 내용</FormLabel>
+          <Textarea
+            id="content"
+            value={commentContent}
+            onChange={(e) => setCommentContent(e.target.value)}
+            required
+          />
+        </FormControl>
+
+        <Flex direction="column" mb={6}>
+            <Flex justify="space-between" mb={4}>
+                <Button type="submit" colorScheme="teal">
+                    댓글 추가
             </Button>
-            {comment.id && (
-                <Button colorScheme="red" onClick={onDelete} isLoading={loading}>
-                    삭제
-                </Button>
-            )}
-        </Box>
-    );
+                <Button type="submit" colorScheme="teal" >
+                    댓글 수정
+            </Button>
+            </Flex>
+        </Flex>
+      </form>
+    </Box>
+  );
 };
 
 export default CommentForm;

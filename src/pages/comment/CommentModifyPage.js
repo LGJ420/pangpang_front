@@ -1,87 +1,74 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getCommentById, putComment, deleteComment } from "../../api/commentApi";
-import { Box, Button, FormControl, Input, Textarea } from "@chakra-ui/react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Box, Button, Input, Textarea, FormControl, FormLabel } from '@chakra-ui/react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CommentModifyPage = () => {
-    const { commentId } = useParams(); // commentId를 URL에서 추출
-    const navigate = useNavigate();
-    const [comment, setComment] = useState({ commentAuthor: '', commentContent: '' });
-    const [loading, setLoading] = useState(false);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [comment, setComment] = useState({ commentAuthor: '', commentContent: '' });
 
-    useEffect(() => {
-        const fetchComment = async () => {
-            try {
-                const data = await getCommentById(commentId);
-                setComment(data);
-            } catch (error) {
-                console.error("댓글을 불러오는데 실패했습니다.", error);
-            }
-        };
-
-        if (commentId) {
-            fetchComment();
-        }
-    }, [commentId]);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setComment(prev => ({ ...prev, [name]: value }));
+  useEffect(() => {
+    const fetchComment = async () => {
+      try {
+        const response = await axios.get(`/api/comment/${id}`);
+        setComment(response.data);
+      } catch (error) {
+        console.error('Error fetching comment:', error);
+      }
     };
 
-    const handleSave = async () => {
-        setLoading(true);
-        try {
-            await putComment(commentId, comment);
-            alert('댓글이 수정되었습니다.');
-            navigate(`/article/read/${comment.articleId}`);
-        } catch (error) {
-            console.error("댓글 수정에 실패했습니다.", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    if (id) {
+      fetchComment();
+    }
+  }, [id]);
 
-    const handleDelete = async () => {
-        setLoading(true);
-        try {
-            await deleteComment(commentId);
-            alert('댓글이 삭제되었습니다.');
-            navigate(`/article/read/${comment.articleId}`);
-        } catch (error) {
-            console.error("댓글 삭제에 실패했습니다.", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`/api/comment/${id}`, comment);
+      navigate(`/article/${comment.articleId}`);
+    } catch (error) {
+      console.error('Error updating comment:', error);
+    }
+  };
 
-    return (
-        <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
-            <FormControl mb={4}>
-                <Input
-                    name="commentAuthor"
-                    value={comment.commentAuthor}
-                    onChange={handleChange}
-                    placeholder="작성자명"
-                />
-            </FormControl>
-            <FormControl mb={4}>
-                <Textarea
-                    name="commentContent"
-                    value={comment.commentContent}
-                    onChange={handleChange}
-                    placeholder="댓글 내용"
-                    rows={4}
-                />
-            </FormControl>
-            <Button colorScheme="teal" onClick={handleSave} isLoading={loading} mb={2}>
-                저장
-            </Button>
-            <Button colorScheme="red" onClick={handleDelete} isLoading={loading}>
-                삭제
-            </Button>
-        </Box>
-    );
+  const handleChange = (e) => {
+    setComment({
+      ...comment,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  return (
+    <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
+      <form onSubmit={handleUpdate}>
+        <FormControl mb={4}>
+          <FormLabel htmlFor="author">작성자</FormLabel>
+          <Input
+            id="author"
+            name="commentAuthor"
+            value={comment.commentAuthor}
+            onChange={handleChange}
+            required
+          />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel htmlFor="content">댓글 내용</FormLabel>
+          <Textarea
+            id="content"
+            name="commentContent"
+            value={comment.commentContent}
+            onChange={handleChange}
+            required
+          />
+        </FormControl>
+        <Button type="submit" colorScheme="teal">
+          수정 완료
+        </Button>
+      </form>
+    </Box>
+  );
 };
 
 export default CommentModifyPage;
