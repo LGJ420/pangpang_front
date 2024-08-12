@@ -24,10 +24,7 @@ const MainProductList = () => {
       try {
         // 상품 목록 데이터 가져오기
         const data = await getProductList();
-
-        // 데이터 검증: data가 배열인지 확인합니다.
-        if (Array.isArray(data)) {
-          setServerData({ dtoList: data });
+          setServerData({dtoList : data});
 
           // 이미지 URL 설정하기
           const imageUrls = {};
@@ -39,10 +36,7 @@ const MainProductList = () => {
             }
           }
           setImages(imageUrls);
-        } else {
-          console.error('Invalid data format:', data);
-        }
-      } catch (error) {
+        } catch (error) {
         console.error('Failed to fetch data:', error);
       }
     };
