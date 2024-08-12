@@ -99,17 +99,17 @@ const MainProductList = () => {
         <SimpleGrid columns={3} spacing={5}>
           {serverData.map(product => (
             <Card maxW='sm' className="text-center border-3 border-stone-900/30" key={product.id}>
-              <CardBody className="flex flex-col">
-                <div className="relative z-10 overflow-hidden">
+              <CardBody className="flex flex-col justify-between overflow-hidden">
+                <div className="relative hover:scale-125 duration-300 cursor-pointer">
                   <Image
                     onClick={() => navigate({ pathname: `product/read/${product.id}` })}
                     src={images[product.id] || '/images/chi1.jpg'}
 
                     alt={product.productTitle}
-                    className='mx-auto w-80 cursor-pointer transition-transform duration-300 transform hover:scale-125'
+                    className='mx-auto h-40 object-contain'
                   />
                 </div>
-                <Stack mt='3' spacing='3' className="border-b border-gray-300">
+                <Stack mt='7' className="border-b border-gray-300 z-10 bg-white">
                   <Heading size='md' fontSize="1.1rem">
                     {product.productTitle.length > 8
                       ? product.productTitle.substring(0, 8) + '...'
