@@ -2,14 +2,11 @@ import { ButtonGroup, Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } 
 import { postCartAdd } from "../../api/cartApi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getMainList } from "../../api/productApi";
 import { getProductList } from "../../api/mainPageApi";
 
 
 /* 초기값 설정 */
-const initState = {
-  dtoList: [],
-};
+const initState = [];
 
 const MainProductList = () => {
 
@@ -20,29 +17,29 @@ const MainProductList = () => {
 
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
       try {
         // 상품 목록 데이터 가져오기
         const data = await getProductList();
-          setServerData({dtoList : data});
+        setServerData(data);
+        console.log(data);
 
-          // 이미지 URL 설정하기
-          const imageUrls = {};
-          for (const product of data) {
-            if (product.files && product.files.length > 0) {
-              const fileName = product.files[0].fileName; // files 배열에서 fileName 가져오기
-              const url = `http://localhost:8080/api/view/${fileName}`; // 캐시 무효화
-              imageUrls[product.id] = url;
-            }
+        // 이미지 URL 설정하기
+        const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성
+        for (const product of data) {   // 상품 목록 반복
+          if (product.uploadFileNames.length > 0) {     // 상품이 이미지 파일을 가지고 있는지 확인
+            const fileName = product.uploadFileNames[0];    // 첫 번쩨 이미지 파일 이름을 가져옴
+            const url = `http://localhost:8080/api/product/view/${fileName}`;   // 이미지 url 만듦
+            imageUrls[product.id] = url;    // 상품 id를 키로, 이미지 url을 값으로 설정
           }
-          setImages(imageUrls);
-        } catch (error) {
-        console.error('Failed to fetch data:', error);
+        }
+        setImages(imageUrls);   // 상태를 업데이트하여 이미지 url 저장
+      } catch (error) {
+        console.error(error);
       }
     };
 
     fetchData();
-    console.log(serverData);
   }, []);
 
 
@@ -98,9 +95,9 @@ const MainProductList = () => {
 
   return (
     <>
-      {serverData.dtoList && serverData.dtoList.length > 0 ? (
+      {serverData.length > 0 ? (
         <SimpleGrid columns={3} spacing={5}>
-          {serverData.dtoList.map(product => (
+          {serverData.map(product => (
             <Card maxW='sm' className="text-center border-3 border-stone-900/30" key={product.id}>
               <CardBody className="flex flex-col">
                 <div className="relative z-10 overflow-hidden">

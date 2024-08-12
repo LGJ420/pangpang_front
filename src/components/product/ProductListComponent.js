@@ -41,6 +41,7 @@ const ProductListComponent = () => {
           ? await getList({ search, page, size })
           : await getList({ page, size });
         setServerData(data);
+        console.log(data);
 
         // 이미지 URL 설정하기
         const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성
