@@ -4,7 +4,6 @@ import { Box, Button, Flex, Heading, Text} from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { getOne } from "../../api/articleApi";
 import CommentList from "../comment/CommentListPage";
-import CommentCreatePage from "../comment/CommentCreatePage";
 
 const formatContent = (content) => {
   const urlPattern = /(https?:\/\/[^\s]+)/g;
@@ -80,7 +79,7 @@ const ArticleReadPage = () => {
       </Flex>
 
       <CommentList articleId={id} />
-      <CommentCreatePage articleId={id}/>
+      {/* <CommentCreatePage articleId={id}/> */}
     </Box>
   );
 };

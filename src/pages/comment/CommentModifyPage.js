@@ -30,7 +30,7 @@ const CommentModifyPage = () => {
         commentContent,
         commentAuthor
       });
-      navigate(-1);
+      navigate(-1); // 수정 후 이전 페이지로 돌아감
     } catch (error) {
       console.error('Error updating comment:', error);
     }
