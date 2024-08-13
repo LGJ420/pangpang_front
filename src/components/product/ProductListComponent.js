@@ -80,6 +80,7 @@ const ProductListComponent = () => {
       productTitle: product.productTitle,
       productContent: product.productContent,
       productPrice: product.productPrice,
+      uploadFileNames: product.uploadFileNames,
       cartCount: 1
     }
 

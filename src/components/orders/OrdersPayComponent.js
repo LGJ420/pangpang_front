@@ -14,6 +14,8 @@ const OrdersPayComponent = () => {
 
     const [userData, setUserData] = useState(initState);
     const [productData, setProductData] = useState([]);
+    const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -24,6 +26,7 @@ const OrdersPayComponent = () => {
     useEffect(() => {
 
         try{
+            
             // 데이터를 가져올때 오더가 리스트 형태로 되있으면 리스들을 데이터에 넣기
             if (location.state.orderList) {
     
@@ -35,6 +38,12 @@ const OrdersPayComponent = () => {
     
                 setProductData([location.state.order]);
             }
+
+            // console.log(location.state.orderList || location.state.order);
+            console.log('OrderList:', location.state.orderList);
+            console.log('Order:', location.state.order);
+            // console.log("ProductData : " + productData);
+
         }
         catch(e){
             
@@ -288,7 +297,9 @@ const OrdersPayComponent = () => {
                                 <>
                                 <hr className="my-3"/>
                                 <div key={index} className="flex items-center">
-                                    <img src="/images/chi1.jpg" className="w-24 h-24 border rounded"></img>
+                                            <img src={`http://localhost:8080/api/product/view/${product.uploadFileNames}` || '/images/chi1.jpg'}
+                                                alt={product.productTitle} 
+                                                className="w-24 h-24 border rounded object-contain"></img>
                                     <div className="ml-5">
                                         <h3 className="text-lg font-extrabold">{product.productTitle}</h3>
                                         <p className="text-xs">{product.productContent}</p>
