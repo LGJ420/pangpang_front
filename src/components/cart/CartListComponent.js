@@ -205,7 +205,7 @@ const CratListComponent = () => {
                         </label>
                     <img src={images[data.productId] || '/images/chi1.jpg'}
                         alt={data.productTitle} 
-                        className="w-48" />                        
+                        className="mx-auto object-contain h-52" />                        
                         <div className="w-1/3 text-center">
                             <h3 className="font-extrabold text-2xl">{data.productTitle}</h3>
                             <p className="mt-3">{data.productContent}</p>
