@@ -18,6 +18,10 @@ const MemberSignupPage = () => {
     const [memberName, setMemberName] = useState("");
     const [memberNickname, setMemberNickname] = useState("");
     const [memberBirth, setMemberBirth] = useState("");
+    const [phone1, setPhone1] = useState("");
+    const [phone2, setPhone2] = useState("");
+    const [phone3, setPhone3] = useState("");
+    const [memberAddress, setMemberAddress] = useState("");
     const [memberRole, setMemberRole] = useState("User");
 
     const handleMemberId = (e)=>{
@@ -37,6 +41,18 @@ const MemberSignupPage = () => {
     }
     const handleMemberBirth = (e)=>{
         setMemberBirth(e.target.value);
+    }
+    const handlePhone1 =(e)=>{
+        setPhone1(e.target.value);
+    }
+    const handlePhone2 =(e)=>{
+        setPhone2(e.target.value);
+    }
+    const handlePhone3 =(e)=>{
+        setPhone3(e.target.value);
+    }
+    const handleMemberAddress =(e)=>{
+        setMemberAddress(e.target.value);
     }
     const handleMemberRole = (e)=>{
         setMemberRole(e.target.value);
@@ -77,10 +93,12 @@ const MemberSignupPage = () => {
         console.log("이름 : " + memberName);
         console.log("닉네임 : " + memberNickname);
         console.log("생년월일 : " + memberBirth);
+        console.log("핸드폰 : " + phone1+"-"+phone2+"-"+phone3);
+        console.log("주소 : " + memberAddress);
         console.log("역할 : " + memberRole);
 
         // 안 채운 항목이 있는지 체크
-        if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth].includes('')){
+        if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth, phone1, phone2, phone3, memberAddress ].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg)
             alert(errorMsg);
@@ -120,6 +138,8 @@ const MemberSignupPage = () => {
             memberName : memberName,
             memberNickname : memberNickname,
             memberBirth : memberBirth,
+            memberPhone : phone1+"-"+phone2+"-"+phone3,
+            memberAddress : memberAddress,
             memberRole : memberRole
         })
         .then((response)=>{
@@ -214,6 +234,32 @@ const MemberSignupPage = () => {
                     value={memberBirth}
                     onChange={handleMemberBirth}
                     placeholder='ex.881225' />
+                </FormControl>
+
+                {/* 핸드폰 */}
+                <FormControl isRequired>
+                    <FormLabel>핸드폰</FormLabel>
+                    <Input 
+                    value={phone1}
+                    onChange={handlePhone1}
+                    placeholder='010' />
+                    <Input 
+                    value={phone2}
+                    onChange={handlePhone2}
+                    placeholder='1234' />
+                    <Input 
+                    value={phone3}
+                    onChange={handlePhone3}
+                    placeholder='5678' />
+                </FormControl>
+
+                {/* 주소 */}
+                <FormControl isRequired>
+                    <FormLabel>주소</FormLabel>
+                    <Input 
+                    value={memberAddress}
+                    onChange={handleMemberAddress}
+                    placeholder='경기도용인시어쩌고저쩌고' />
                 </FormControl>
 
                 {/* 역할 (Admin or User)*/}
