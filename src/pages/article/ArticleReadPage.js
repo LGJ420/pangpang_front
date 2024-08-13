@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { Box, Button, Flex, Heading, Text} from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { getOne } from "../../api/articleApi";
-import CommentForm from "../comment/CommentForm";
 import CommentList from "../comment/CommentListPage";
+import CommentCreatePage from "../comment/CommentCreatePage";
 
 const formatContent = (content) => {
   const urlPattern = /(https?:\/\/[^\s]+)/g;
@@ -79,14 +79,8 @@ const ArticleReadPage = () => {
         </Flex>
       </Flex>
 
-      <CommentForm
-        articleId={id}
-        onCommentAdded={() => {
-          // 댓글이 추가되었을 때 댓글 목록을 새로고침하거나 다른 작업을 수행할 수 있습니다.
-        }}
-      />
-
       <CommentList articleId={id} />
+      <CommentCreatePage articleId={id}/>
     </Box>
   );
 };

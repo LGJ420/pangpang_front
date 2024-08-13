@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Box, Text, Button, Stack } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Text, VStack, Divider } from '@chakra-ui/react';
+import { getCommentsByArticleId } from '../../api/commentApi';
 
 const CommentList = ({ articleId }) => {
   const [comments, setComments] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await axios.get(`/api/comment?articleId=${articleId}`);
-        setComments(response.data);
+        const data = await getCommentsByArticleId(articleId);
+        setComments(data);
       } catch (error) {
         console.error('Error fetching comments:', error);
       }
@@ -20,37 +18,22 @@ const CommentList = ({ articleId }) => {
     fetchComments();
   }, [articleId]);
 
-  const handleEdit = (commentId) => {
-    navigate(`/article/edit-comment/${commentId}`);
-  };
-
-  const handleDelete = async (commentId) => {
-    try {
-      await axios.delete(`/api/comment/${commentId}`);
-      setComments(comments.filter(comment => comment.id !== commentId));
-    } catch (error) {
-      console.error('Error deleting comment:', error);
-    }
-  };
-
   return (
-    <Box>
-      <Stack spacing={4}>
-        {comments.map(comment => (
-          <Box key={comment.id} p={4} bg="gray.50" borderRadius="md" boxShadow="md">
-            <Text fontWeight="bold">{comment.commentAuthor}</Text>
-            <Text mt={2}>{comment.commentContent}</Text>
-            <Stack direction="row" spacing={4} mt={4}>
-              <Button colorScheme="blue" onClick={() => handleEdit(comment.id)}>
-                수정
-              </Button>
-              <Button colorScheme="red" onClick={() => handleDelete(comment.id)}>
-                삭제
-              </Button>
-            </Stack>
-          </Box>
-        ))}
-      </Stack>
+    <Box mt={6} p={4} borderWidth="1px" borderRadius="md" bg="white">
+      <Text fontSize="lg" fontWeight="bold" mb={4}>Comments</Text>
+      {comments.length > 0 ? (
+        <VStack spacing={4} align="stretch">
+          {comments.map(comment => (
+            <Box key={comment.id} p={4} borderWidth="1px" borderRadius="md" bg="gray.50">
+              <Text fontWeight="bold" mb={2}>{comment.commentAuthor}</Text>
+              <Text>{comment.commentContent}</Text>
+              <Divider mt={2} />
+            </Box>
+          ))}
+        </VStack>
+      ) : (
+        <Text>No comments yet.</Text>
+      )}
     </Box>
   );
 };
