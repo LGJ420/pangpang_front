@@ -22,7 +22,7 @@ const MainProductList = () => {
         // 상품 목록 데이터 가져오기
         const data = await getProductList();
         setServerData(data);
-        console.log(data);   // 데이터 확인용
+        // console.log(data);   // 데이터 확인용
 
         // 이미지 URL 설정하기
         const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성
@@ -104,7 +104,6 @@ const MainProductList = () => {
                   <Image
                     onClick={() => navigate({ pathname: `product/read/${product.id}` })}
                     src={images[product.id] || '/images/chi1.jpg'}
-
                     alt={product.productTitle}
                     className='mx-auto h-40 object-contain'
                   />
