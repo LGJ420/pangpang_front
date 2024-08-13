@@ -21,7 +21,7 @@ const MemberConfirmBeforeProfileComponent = () => {
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg);
             alert(errorMsg);
-            return;
+            return; 
         }
 
         // 3. post로 비밀번호 전송
