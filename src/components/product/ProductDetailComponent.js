@@ -17,6 +17,7 @@ const ProductDetailComponent = ({ num }) => {
 
   const [product, setProduct] = useState(initState);
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+  const [selectedTab, setSelectedTab] = useState('product');
 
   const navigate = useNavigate();
 
@@ -123,8 +124,39 @@ const ProductDetailComponent = ({ num }) => {
           </ButtonGroup>
         </Box>
       </Flex>
-      <div className="m-20 bg-red-50 h-16 text-center">
-        <h4 className="p-3">판매자가 타 사이트 안내 및 현금 결제, 개인정보 유도 시 결제/입력 마시고 즉시 고객센터로 신고해주세요.</h4>
+      <h4 className="bg-red-50 p-3 text-center">
+        판매자가 타 사이트 안내 및 현금 결제, 개인정보 유도 시 결제/입력 마시고 즉시 고객센터로 신고해주세요.
+      </h4>
+      <div className="border">
+
+
+        <div className="flex text-center text-xl">
+          <div className={`w-1/2 p-5 border-r cursor-pointer ${selectedTab === 'product' ? 'font-extrabold bg-orange-400 text-white' : 'bg-gray-200'}`} // 조건부 스타일 적용
+            onClick={() => setSelectedTab('product')}>
+            상품정보
+          </div>
+          <div className={`w-1/2 p-5 border-l cursor-pointer ${selectedTab === 'review' ? 'font-extrabold bg-orange-400 text-white' : 'bg-gray-200'}`} // 조건부 스타일 적용
+            onClick={() => setSelectedTab('review')}>
+            리뷰
+          </div>
+        </div>
+
+        {selectedTab === 'product' && (
+
+        <div className="h-screen p-10">
+          여기는 상품정보라능
+        </div>
+
+        )}
+
+        {selectedTab === 'review' && (
+        
+        <div className="h-screen p-10">
+          여기는 리뷰라능
+        </div>
+
+        )}
+
       </div>
 
     </section>
