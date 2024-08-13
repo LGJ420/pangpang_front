@@ -1,9 +1,9 @@
+import MemberProfileComponent from "../../components/member/MemberProfileComponent"
+
 const MypageProfilePage = () => {
 
     return (
-        <div>
-            어딜엿봐!!!
-        </div>
+        <MemberProfileComponent/>
     );
 }
 

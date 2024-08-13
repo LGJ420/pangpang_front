@@ -5,7 +5,7 @@ import {
     FormLabel,
     } from '@chakra-ui/react'
 
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ const MemberSignupPage = () => {
     const [memberPw, setMemberPw] = useState("");
     const [memberPwConfirm, setMemberPwConfirm] = useState("");
     const [memberName, setMemberName] = useState("");
+    const [memberNickname, setMemberNickname] = useState("");
     const [memberBirth, setMemberBirth] = useState("");
     const [memberRole, setMemberRole] = useState("User");
 
@@ -31,6 +32,9 @@ const MemberSignupPage = () => {
     const handleMemberName = (e)=>{
         setMemberName(e.target.value);
     }
+    const handleMemberNickname = (e)=>{
+        setMemberNickname(e.target.value);
+    }
     const handleMemberBirth = (e)=>{
         setMemberBirth(e.target.value);
     }
@@ -38,7 +42,16 @@ const MemberSignupPage = () => {
         setMemberRole(e.target.value);
     }
 
-    const nevigate = useNavigate();
+    const navigate = useNavigate();
+
+    // 컴포넌트가 마운트될 때 토큰 확인
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            // 이미 로그인된 상태라면 홈으로 리다이렉트
+            navigate("/");
+        }
+    }, [navigate]);
 
     // 아이디 중복확인 버튼
     const onClickCheckMemberId = () => {
@@ -62,11 +75,12 @@ const MemberSignupPage = () => {
         console.log("PW : " + memberPw);
         console.log("PWConfirm : " + memberPwConfirm);
         console.log("이름 : " + memberName);
+        console.log("닉네임 : " + memberNickname);
         console.log("생년월일 : " + memberBirth);
         console.log("역할 : " + memberRole);
 
         // 안 채운 항목이 있는지 체크
-        if([memberId, memberPw, memberPwConfirm, memberName, memberBirth].includes('')){
+        if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg)
             alert(errorMsg);
@@ -104,12 +118,13 @@ const MemberSignupPage = () => {
             memberId : memberId,
             memberPw : memberPw,
             memberName : memberName,
+            memberNickname : memberNickname,
             memberBirth : memberBirth,
             memberRole : memberRole
         })
         .then((response)=>{
             console.log(response)
-            nevigate("/signup_confirm")
+            navigate("/signup_confirm")
         })
         .catch((error)=>{
             console.error("회원가입 요청 중 오류 발생", error);
@@ -181,6 +196,15 @@ const MemberSignupPage = () => {
                     value={memberName}
                     onChange={handleMemberName}
                     placeholder='이름을 입력해주세요.' />
+                </FormControl>
+
+                {/* 닉네임 */}
+                <FormControl isRequired>
+                    <FormLabel>닉네임</FormLabel>
+                    <Input 
+                    value={memberNickname}
+                    onChange={handleMemberNickname}
+                    placeholder='닉네임을 입력해주세요.' />
                 </FormControl>
 
                 {/* 생년월일 */}

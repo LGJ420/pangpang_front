@@ -1,49 +1,9 @@
-import styles from '../../css/memberPage.module.css';
-import { Link, useLocation } from "react-router-dom";
+import MemberFindIdComponent from "../../components/member/MemberFindIdComponent";
 
 const MemberFindIdPage = () => {
 
-    const location = useLocation();
-    const {memberName, memberId} = location.state || {};
-
     return (
-        <section className={styles.account_management}>
-
-            {/* 아이디 찾기 페이지 */}
-            <Link to={'/'}>
-                <img src="/images/logo.png" className="w-20 mb-3"/>
-            </Link>
-            <h1>
-                <span>
-                    팡팡게임즈
-                    <br></br>
-                    <strong>
-                        아이디 찾기
-                    </strong>
-                </span>
-                <hr></hr>
-            </h1>
-
-            <div>
-                {memberName} 회원님의 아이디는
-                <br></br>
-                    <strong>
-                    {memberId}
-                        </strong>
-                <br></br>
-                입니다
-            </div>
-
-            <div>
-                <Link to={'/find'} className="px-5 button m-10">
-                    비밀번호 찾기
-                </Link>
-
-                <Link to={'/login'} className="px-5 button m-10">
-                    로그인
-                </Link>
-            </div>
-        </section>
+        <MemberFindIdComponent/>
     );
 }
 

@@ -4,6 +4,7 @@ const initState = {
     id: "",
     memberName: "",
     memberRole: "",
+    memberNickname: "",
     sub: "",
     iat: 0,
     exp: 0

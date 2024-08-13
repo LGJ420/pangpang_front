@@ -1,4 +1,8 @@
 /* 성빈 css */
+.test *{
+    border: 1px solid red;
+    box-sizing: border-box;
+}
 .account_management {
     height: 100vh;
     display: flex;
