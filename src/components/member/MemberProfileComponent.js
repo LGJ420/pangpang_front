@@ -1,6 +1,35 @@
 import styles from '../../css/memberPage.module.css';
+import { Link, useLocation } from "react-router-dom";
+import { useState } from 'react';
 
 const MemberProfileComponent = () => {
+
+    const location = useLocation();
+    const {memberImage, memberId, memberNickname, memberPw, memberPhone, memberAddress} = location.state || {};
+
+    // 닉네임
+    const [chageMemberNickname, setChangeMemberNickname] = useState(memberNickname);
+
+    const handleMemberNickname = (e) => {
+        setChangeMemberNickname(e.target.value);
+    }
+
+    // 폰번호
+    // memberPhone = "010-1234-5678"
+    const [phone1, setPhone1] = useState(memberPhone.split('-')[0]); // 010
+    const [phone2, setPhone2] = useState(memberPhone.split('-')[1]); // 1234
+    const [phone3, setPhone3] = useState(memberPhone.split('-')[2]); // 5678
+
+    const handlePhone1 = (e) => {
+        setPhone1(e.target.value);
+    }
+    const handlePhone2 = (e) => {
+        setPhone2(e.target.value);
+    }
+    const handlePhone3 = (e) => {
+        setPhone3(e.target.value);
+    }
+
     return(
         <div className={styles.test}>
             <p>내 정보 수정</p>
@@ -18,9 +47,17 @@ const MemberProfileComponent = () => {
                     </li>
                     <li>
                         <span>
+                            아이디
+                        </span>
+                        <span>
+                            {memberId}
+                        </span>
+                    </li>
+                    <li>
+                        <span>
                             닉네임
                         </span>
-                        <input placeholder='현재 닉네임 그대로 적혀있기' value={"현재 닉네임 그대로 적혀있기"}/>
+                        <input value={chageMemberNickname} onChange={handleMemberNickname}/>
                     </li>
                     <li>
                         <span>
@@ -32,21 +69,26 @@ const MemberProfileComponent = () => {
                         <span>
                             비밀번호 확인
                         </span>
-                        <input placeholder='비밀번호를 변경해주세요.'/>
+                        <input placeholder='비밀번호를 다시 입력해주세요.'/>
                     </li>
                     <li>
                         <span>
                             핸드폰
                         </span>
-                        <input value={"현재  번호 적혀있기"}/> - <input value={"현재  번호 적혀있기"}/> - <input value={"현재  번호 적혀있기"}/>
+                        <input value={phone1} onChange={handlePhone1}/> 
+                        - 
+                        <input value={phone2} onChange={handlePhone2}/> 
+                        - 
+                        <input value={phone3} onChange={handlePhone3}/>
                     </li>
+                    {/* 
                     <li>
                         <span>
                             주소
                         </span>
                         <input value={"현재  주소 적혀있기"}/> 
                         <input value={"현재  주소 적혀있기"}/><input value={"현재  주소 적혀있기"}/>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
             <button>수정하기</button>
