@@ -32,7 +32,7 @@ const MypageLayoutComponent = ({children}) => {
                             구매내역
                         </li>
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./profile`})}>
+                            onClick={()=>navigate({pathname: `./confirmBeforeProfile`})}>
                             내 정보 변경
                         </li>
                     </ul>

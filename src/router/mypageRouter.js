@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 
 const ArticleList = lazy(() => import("../pages/mypage/MypageArticleListPage"));
 const OrdersResult = lazy(() => import("../pages/mypage/MypageOrdersResultPage"));
+const ConfirmBeforeProfile = lazy(() => import("../pages/mypage/MypageConfirmBeforeProfilePage"));
 const Profile = lazy(() => import("../pages/mypage/MypageProfilePage"));
 
 const mypageRouter = () => {
@@ -24,6 +25,11 @@ const mypageRouter = () => {
       element: <Suspense><OrdersResult /></Suspense>
     },
 
+    {
+      path: "confirmBeforeProfile",
+      element: <Suspense><ConfirmBeforeProfile /></Suspense>
+    },
+    
     {
       path: "profile",
       element: <Suspense><Profile /></Suspense>
