@@ -1,6 +1,32 @@
+import { useState } from 'react';
 import styles from '../../css/memberPage.module.css';
 
 const MemberConfirmBeforeProfileComponent = () => {
+
+    const [memberPwInConfirmBeforeProfile, setMemberPwInConfirmBeforeProfile] = useState('');
+
+    const handleMemberPwInConfirmBeforeProfile = (e) => {
+        setMemberPwInConfirmBeforeProfile(e.target.value);
+    }
+    
+    // 비밀번호 확인 버튼
+    const clickConfirmBeforeProfile = () => {
+        // 1. 제대로 입력되었는지 확인
+        console.log("click confirm_bofore_profile");
+        console.log("비밀번호 입력 완료");
+        console.log(memberPwInConfirmBeforeProfile);
+
+        // 2. 빈칸은 없는가?
+        if(!memberPwInConfirmBeforeProfile){
+            const errorMsg = "입력하지 않은 사항이 있습니다.";
+            console.error(errorMsg);
+            alert(errorMsg);
+            return;
+        }
+
+        // 3. post로 비밀번호 전송
+    }
+
     return(
         <div className={styles.test}>
             <p>내 정보 수정</p>
@@ -12,10 +38,13 @@ const MemberConfirmBeforeProfileComponent = () => {
                 <span>
                     비밀번호
                 </span>
-                <input placeholder='비밀번호를 변경해주세요.'/>
+                <input 
+                type='password'
+                placeholder='비밀번호를 변경해주세요.' 
+                onChange={handleMemberPwInConfirmBeforeProfile}/>
 
             </div>
-            <button>확인</button>
+            <button onClick={clickConfirmBeforeProfile}>확인</button>
 
         </div>
     );
