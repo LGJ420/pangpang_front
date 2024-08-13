@@ -1,39 +1,45 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getCommentsByArticleId } from "../../api/commentApi";
-import { Box, Button, Text } from "@chakra-ui/react";
-import CommentForm from "./CommentForm";
-import useCustomMove from "../../hooks/useCustomMove"; // 훅을 import
+import React, { useEffect, useState } from 'react';
+import { Box, Text, Button, Flex } from '@chakra-ui/react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getCommentById } from '../../api/commentApi';
 
 const CommentReadPage = () => {
-    const { articleId } = useParams();
-    const [comments, setComments] = useState([]);
-    const { moveToModify } = useCustomMove(); // 훅 사용
+    const { commentId } = useParams();
+    const navigate = useNavigate();
+    const [comment, setComment] = useState({
+        content: '',
+        author: '',
+        articleId: ''
+    });
 
     useEffect(() => {
-        const fetchComments = async () => {
+        const fetchComment = async () => {
             try {
-                const commentsData = await getCommentsByArticleId(articleId);
-                setComments(commentsData);
+                const data = await getCommentById(commentId);
+                setComment(data);
             } catch (error) {
-                console.error("댓글을 불러오는데 실패했습니다.", error);
+                console.error('댓글을 불러오는 데 실패했습니다.', error);
             }
         };
-        fetchComments();
-    }, [articleId]);
+        fetchComment();
+    }, [commentId]);
 
     return (
-        <Box mt={8}>
-            <CommentForm articleId={articleId} />
-            <Box mt={8}>
-                {comments.map((comment) => (
-                    <Box key={comment.id} p={4} borderWidth={1} borderRadius="md" bg="gray.50" mb={4}>
-                        <Text fontWeight="bold">{comment.commentAuthor}</Text>
-                        <Text>{comment.commentContent}</Text>
-                        <Button mt={2} onClick={() => moveToModify(comment.id)}>수정</Button>
-                    </Box>
-                ))}
-            </Box>
+        <Box p={6} maxW="lg" borderWidth={1} borderRadius="lg" boxShadow="lg" mx="auto" bg="gray.50" mt={8}>
+            <Text fontSize="3xl" fontWeight="bold" mb={6} textAlign="center" color="teal.500">
+                댓글 보기
+            </Text>
+            <Text fontSize="lg" mb={4}>
+                <strong>작성자:</strong> {comment.author}
+            </Text>
+            <Text fontSize="md" mb={4}>
+                {comment.content}
+            </Text>
+            <Flex justify="flex-end">
+                <Button colorScheme="teal" onClick={() => navigate(`/comment/modify/${commentId}`)}>
+                    수정하기
+                </Button>
+            </Flex>
         </Box>
     );
 };
