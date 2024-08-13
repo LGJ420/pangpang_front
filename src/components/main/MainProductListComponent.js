@@ -2,7 +2,7 @@ import { ButtonGroup, Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } 
 import { postCartAdd } from "../../api/cartApi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProductList } from "../../api/mainPageApi";
+import { getProductList } from "../../api/mainPageApitest";
 
 
 /* 초기값 설정 */
