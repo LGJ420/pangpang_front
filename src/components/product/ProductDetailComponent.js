@@ -18,6 +18,9 @@ const ProductDetailComponent = ({ num }) => {
   const [product, setProduct] = useState(initState);
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
   const [selectedTab, setSelectedTab] = useState('product');
+  
+  // 임시
+  const [reviewData, setReviewData] = useState([1,2,3]);
 
   const navigate = useNavigate();
 
@@ -151,8 +154,35 @@ const ProductDetailComponent = ({ num }) => {
 
         {selectedTab === 'review' && (
         
-        <div className="h-screen p-10">
-          여기는 리뷰라능
+        <div className="min-h-screen p-10">
+          <h3 className="text-xl font-semibold mb-5">총 {reviewData.length}개 리뷰</h3>
+          
+          {reviewData.map(()=>
+          
+            <div className="h-52 p-5 mb-5 flex items-center justify-between border rounded-lg">
+              <div className="h-full grow">
+                <div className="flex items-center">
+                  <img src="/images/profile.png" className="w-10 h-10 rounded-full border"/>
+                  <div>
+                    아이디입니당
+                  </div>
+                  <div>
+                    ★★★3 별점 줘야하는데 클났네 하..
+                  </div>
+                </div>
+                <div>
+                  2024-08-13
+                </div>
+                <p>
+                  아 사지마세요 사기당했음
+                </p>
+              </div>
+              <div className="ml-4">
+                <img src="/images/pr_mario.png" className="w-60 h-40 object-cover"/>
+              </div>
+            </div>
+          )}
+
         </div>
 
         )}
