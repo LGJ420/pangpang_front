@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styles from '../../css/memberPage.module.css';
-import useCustomToken from './../../hooks/useCustomToken';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -51,8 +50,8 @@ const MemberConfirmBeforeProfileComponent = () => {
                 // ▼▼▼ 출력 제대로 되는지 확인용 ▼▼▼
                 console.log(response.data)
 
-                // // 페이지 이동(프로필변경 전 확인->프로필변경) 및 데이터 전달
-                navigate("/profile", {state : {data : response.data}});
+                // 페이지 이동(프로필변경 전 확인->프로필변경) 및 데이터 전달
+                navigate("/mypage/profile", {state : {data : response.data}});
             })
             
             // 3-2. 없으면 에러 발생
