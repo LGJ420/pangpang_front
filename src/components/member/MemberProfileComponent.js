@@ -35,13 +35,19 @@ const MemberProfileComponent = () => {
     const [phone3, setPhone3] = useState(memberPhone.split('-')[2]); // 5678
 
     const handlePhone1 = (e) => {
-        setPhone1(e.target.value);
+        // 핸드폰 번호에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setPhone1(validInputValue);
     }
     const handlePhone2 = (e) => {
-        setPhone2(e.target.value);
+        // 핸드폰 번호에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setPhone2(validInputValue);
     }
     const handlePhone3 = (e) => {
-        setPhone3(e.target.value);
+        // 핸드폰 번호에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setPhone3(validInputValue);
     }
 
     /* ====================== 다음 주소찾기 API 시작 ====================== */
@@ -214,11 +220,11 @@ const MemberProfileComponent = () => {
                         <span>
                             핸드폰
                         </span>
-                        <input value={phone1} onChange={handlePhone1}/> 
+                        <input value={phone1} type='text' maxLength="3" onChange={handlePhone1}/> 
                         - 
-                        <input value={phone2} onChange={handlePhone2}/> 
+                        <input value={phone2} type='text' maxLength="4" onChange={handlePhone2}/> 
                         - 
-                        <input value={phone3} onChange={handlePhone3}/>
+                        <input value={phone3} type='text' maxLength="4" onChange={handlePhone3}/>
                     </li>
                     
                     <li>
