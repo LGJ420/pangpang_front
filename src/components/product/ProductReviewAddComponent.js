@@ -1,5 +1,4 @@
 import { useState } from "react";
-import BasicNoHeightLayout from "../../layouts/BasicNoHeightLayout";
 import "../../css/productReviewAddComponent.css";
 
 const ProductReviewAddComponent = () => {
@@ -41,8 +40,6 @@ const ProductReviewAddComponent = () => {
 
 
     return (
-
-        <BasicNoHeightLayout>
 
         <section className="my-10">
         <div className="flex border-b pl-10 pb-10 pr-3 mb-5">
@@ -123,7 +120,6 @@ const ProductReviewAddComponent = () => {
         </div>
         </section>
 
-        </BasicNoHeightLayout>
     );
 }
 
