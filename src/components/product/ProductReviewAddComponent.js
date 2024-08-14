@@ -26,9 +26,12 @@ const ProductReviewAddComponent = ({productId}) => {
         try{
             setProductData(location.state.dto);
 
-            review[productId] = location.state.dto.productId;
-
-            setReview({...review});
+            // useState는 비동기적으로 이루어지기 때문에
+            // 함수형 업데이트를 사용한다!
+            setReview(()=>({
+                ...review,
+                productId: location.state.dto.productId
+            }));
         }
         catch(e){
             
@@ -83,9 +86,8 @@ const ProductReviewAddComponent = ({productId}) => {
         }
     
         try {
-            console.log("머야이거" + review.productId);
-            console.log(location.state.dto);
-            // postReviewAdd(formData);
+
+            postReviewAdd(formData);
         }
         catch (error) {
 
