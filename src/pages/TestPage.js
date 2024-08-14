@@ -1,17 +1,15 @@
-import BasicWidthLimitLayout from "../layouts/BasicWidthLimitLayout";
+import BasicNoHeightLayout from "../layouts/BasicNoHeightLayout";
 
 const TestPage = () => {
 
     return (
 
-        <BasicWidthLimitLayout>
+        <BasicNoHeightLayout>
+            <section>
 
-        <section>
+            </section>
+        </BasicNoHeightLayout>
 
-            
-        </section>
-
-        </BasicWidthLimitLayout>
     );
 }
 

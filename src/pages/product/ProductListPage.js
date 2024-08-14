@@ -2,9 +2,11 @@ import ProductListComponent from '../../components/product/ProductListComponent'
 
 const ProductListPage = () => {
 
-return (
-  <ProductListComponent />
-)
+  return (
+
+    <ProductListComponent />
+      
+  )
 }
 
 export default ProductListPage;
