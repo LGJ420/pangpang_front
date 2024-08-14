@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getOrdersList } from "../../api/ordersApi";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // const initData = [{
 //     name: "",
@@ -90,12 +90,12 @@ const OrdersResultComponent = () => {
         
             <div className="fixed w-full h-full top-0 left-0 z-20 bg-white/90 flex justify-center items-center close"
                 onClick={handleClickClose}>
-                <div className="w-[720px] bg-white border rounded-lg shadow-md flex flex-col justify-center">
+                <div className="w-[720px] p-4 bg-white border rounded-lg shadow-md flex flex-col justify-center">
 
                     <div className="flex">
                         <img src="/images/chi1.jpg" className="w-56 border rounded m-3"></img>
-                        <div className="flex flex-col flex-1">
-                            <button className="self-end m-3 bg-red-500 px-3 py-2 text-white rounded-sm close"
+                        <div className="flex flex-col flex-1 ml-7">
+                            <button className="self-end m-3 bg-red-500 px-3 py-1 text-white rounded-sm close"
                                 onClick={handleClickClose}>
                                 X
                             </button>
@@ -104,8 +104,8 @@ const OrdersResultComponent = () => {
                             <div className="text-2xl mb-5">{modal.productPrice.toLocaleString()}원</div>
                         </div>
                     </div>
-                    <div className="mx-3 border rounded p-3">
-                        <h3 className="text-xl font-extrabold">주문 정보</h3>
+                    <div className="mx-3 mt-5 border rounded p-3">
+                        <h3 className="text-xl font-extrabold mb-5">주문 정보</h3>
                         <div className="mb-1">이름 : {modal.name}</div>
                         <div className="mb-1">전화번호 : {modal.phone}</div>
                         <div>주소 : {modal.address}</div>
@@ -120,7 +120,7 @@ const OrdersResultComponent = () => {
 
         }
 
-            <h1 className="text-5xl m-10">주문내역</h1>
+            <h1 className="text-xl ml-5 font-bold">구매내역</h1>
 
             <div className="flex justify-center">
                 <div className="flex justify-around border-2 rounded-3xl w-3/4 overflow-hidden focus-within:border-blue-500 focus-within:shadow-outline">
@@ -156,10 +156,13 @@ const OrdersResultComponent = () => {
                         </div>
                         <div className="text-center">
                             <h3 className="mb-3">수량</h3>
-                            <div className="text-3xl">{dto.cartCount}개</div>
+                            <div className="text-2xl">{dto.cartCount}개</div>
                         </div>
-                        <div className="text-3xl w-1/6 text-center">{(dto.cartCount * dto.productPrice).toLocaleString()} 원</div>
-                        <div className="">주문완료</div>
+                        <div className="text-2xl w-1/6 text-center">{(dto.cartCount * dto.productPrice).toLocaleString()} 원</div>
+                        <div className="flex flex-col justify-center items-center">
+                            <div className="">주문완료</div>
+                            <button className="bg-yellow-600 px-3 py-1 mt-3 text-white rounded-xl hover:opacity-90">리뷰 작성하기</button>
+                        </div>
                     </div>
                 )
 
