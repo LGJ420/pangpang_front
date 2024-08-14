@@ -1,9 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, Text, VStack, Divider, Button, FormControl, FormLabel, Input, Textarea, Heading, AlertDialog, AlertDialogBody, AlertDialogFooter, AlertDialogHeader, AlertDialogContent, AlertDialogOverlay } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  VStack,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Heading,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  Flex,
+} from '@chakra-ui/react';
 import { getCommentsByArticleId, postComment, deleteComment } from '../../api/commentApi';
 import { useNavigate } from 'react-router-dom';
 
-const CommentSection = ({ articleId }) => {
+const CommentListPage = ({ articleId }) => {
   const [commentContent, setCommentContent] = useState('');
   const [commentAuthor, setCommentAuthor] = useState('');
   const [comments, setComments] = useState([]);
@@ -79,9 +96,15 @@ const CommentSection = ({ articleId }) => {
     }
   };
 
+  // 날짜와 시간 포맷 함수
+  const formatDateTime = (dateTime) => {
+    const date = new Date(dateTime);
+    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; // 초 단위 제거
+};
+
   return (
     <Box p={6} maxW="container.md" mx="auto">
-      <Heading mb={6}>Comments</Heading>
+      <Heading mb={6}>댓글 목록</Heading>
 
       {/* 댓글 목록 */}
       <Box mt={6} p={4} borderWidth="1px" borderRadius="md" bg="white">
@@ -89,43 +112,60 @@ const CommentSection = ({ articleId }) => {
           <VStack spacing={4} align="stretch">
             {comments.map(comment => (
               <Box key={comment.id} p={4} borderWidth="1px" borderRadius="md" bg="gray.50">
-                <Text fontWeight="bold" mb={2}>{comment.commentAuthor}</Text>
-                <Text>{comment.commentContent}</Text>
-                <Divider mt={2} />
-                <Button colorScheme="blue" onClick={() => handleEditClick(comment.id)} mr={3}>
-                  Edit
-                </Button>
-                <Button colorScheme="red" onClick={() => handleDeleteClick(comment.id)}>
-                  Delete
-                </Button>
+                <Flex direction="column" mb={4} borderBottom="1px" borderColor="gray.200" pb={2}>
+                  <Text fontWeight="bold" fontSize="lg" mb={1}>
+                    작성자: {comment.commentAuthor}
+                  </Text>
+                  <Text fontSize="sm" color="gray.600">
+                    작성일: {formatDateTime(comment.commentCreated)}
+                  </Text>
+                </Flex>
+
+                <Text mb={4} fontSize="md" whiteSpace="pre-wrap">
+                  {comment.commentContent}
+                </Text>
+                
+                {/* 버튼들 */}
+                <Flex justify="flex-end" gap={3}>
+                  <Button colorScheme="blue" onClick={() => handleEditClick(comment.id)}>
+                    수정
+                  </Button>
+                  <Button colorScheme="red" onClick={() => handleDeleteClick(comment.id)}>
+                    삭제
+                  </Button>
+                </Flex>
               </Box>
             ))}
           </VStack>
         ) : (
-          <Text>No comments yet.</Text>
+          <Text textAlign="center">No comments yet.</Text>
         )}
       </Box>
 
       {/* 댓글 작성 폼 */}
-      <Heading mt={8} mb={6}>Create Comment</Heading>
-      <form onSubmit={handleFormSubmit}>
-        <FormControl mb={4} isRequired>
-          <FormLabel>Author</FormLabel>
-          <Input
-            type="text"
-            value={commentAuthor}
-            onChange={(e) => setCommentAuthor(e.target.value)}
-          />
-        </FormControl>
-        <FormControl mb={6} isRequired>
-          <FormLabel>Comment</FormLabel>
-          <Textarea
-            value={commentContent}
-            onChange={(e) => setCommentContent(e.target.value)}
-          />
-        </FormControl>
-        <Button colorScheme="teal" type="submit">Submit</Button>
-      </form>
+      <Heading mt={8} mb={6}>댓글 작성</Heading>
+      <Box p={4} borderWidth="1px" borderRadius="md" bg="white">
+        <form onSubmit={handleFormSubmit}>
+          <FormControl mb={4} isRequired>
+            <FormLabel>작성자</FormLabel>
+            <Input
+              type="text"
+              value={commentAuthor}
+              onChange={(e) => setCommentAuthor(e.target.value)}
+            />
+          </FormControl>
+          <FormControl mb={6} isRequired>
+            <FormLabel>댓글 내용</FormLabel>
+            <Textarea
+              value={commentContent}
+              onChange={(e) => setCommentContent(e.target.value)}
+            />
+          </FormControl>
+          <Button colorScheme="teal" type="submit" width="full">
+            저장
+          </Button>
+        </form>
+      </Box>
 
       {/* 확인 모달 */}
       <AlertDialog
@@ -144,25 +184,12 @@ const CommentSection = ({ articleId }) => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              {isDeleteMode ? (
-                <>
-                  <Button colorScheme="red" onClick={handleDeleteConfirm} ml={3}>
-                    네
-                  </Button>
-                  <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
-                    아니오
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button colorScheme="teal" onClick={handleSubmit} ml={3}>
-                    네
-                  </Button>
-                  <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
-                    아니오
-                  </Button>
-                </>
-              )}
+              <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
+                아니오
+              </Button>
+              <Button colorScheme={isDeleteMode ? 'red' : 'teal'} onClick={isDeleteMode ? handleDeleteConfirm : handleSubmit} ml={3}>
+                {isDeleteMode ? '네' : '저장'}
+              </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
@@ -171,4 +198,4 @@ const CommentSection = ({ articleId }) => {
   );
 };
 
-export default CommentSection;
+export default CommentListPage;

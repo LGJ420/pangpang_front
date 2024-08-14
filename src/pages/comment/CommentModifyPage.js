@@ -38,10 +38,10 @@ const CommentModifyPage = () => {
 
   return (
     <Box p={6} maxW="container.md" mx="auto">
-      <Heading mb={6}>Edit Comment</Heading>
+      <Heading mb={6}>댓글 수정</Heading>
       <form onSubmit={handleUpdate}>
         <FormControl mb={4} isRequired>
-          <FormLabel>Author</FormLabel>
+          <FormLabel>작성자</FormLabel>
           <Input
             type="text"
             value={commentAuthor}
@@ -49,13 +49,13 @@ const CommentModifyPage = () => {
           />
         </FormControl>
         <FormControl mb={6} isRequired>
-          <FormLabel>Comment</FormLabel>
+          <FormLabel>댓글 내용</FormLabel>
           <Textarea
             value={commentContent}
             onChange={(e) => setCommentContent(e.target.value)}
           />
         </FormControl>
-        <Button colorScheme="teal" type="submit">Update</Button>
+        <Button colorScheme="teal" type="submit">저장하기</Button>
       </form>
     </Box>
   );

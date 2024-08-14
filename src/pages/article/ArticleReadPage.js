@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Button, Flex, Heading, Text} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { getOne } from "../../api/articleApi";
 import CommentList from "../comment/CommentListPage";
+
+// 날짜와 시간 포맷 함수
+const formatDateTime = (dateTime) => {
+  const date = new Date(dateTime);
+  return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; // 초 단위 제거
+};
 
 const formatContent = (content) => {
   const urlPattern = /(https?:\/\/[^\s]+)/g;
@@ -50,8 +56,8 @@ const ArticleReadPage = () => {
       </Text>
 
       <Text fontSize="sm" color="gray.500" mb={4}>
-        작성일: {serverData.articleCreated ? new Date(serverData.articleCreated).toLocaleDateString() : 'N/A'}{" "}
-        {serverData.articleUpdated && `(수정일: ${new Date(serverData.articleUpdated).toLocaleDateString()})`}
+        작성일: {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}{" "}
+        {serverData.articleUpdated && `(수정일: ${formatDateTime(serverData.articleUpdated)})`}
       </Text>
 
       <Box bg="gray.50" p={4} borderRadius="md" mb={4} style={{ whiteSpace: 'pre-wrap' }}>
@@ -78,8 +84,8 @@ const ArticleReadPage = () => {
         </Flex>
       </Flex>
 
+      {/* 댓글 리스트 및 작성 컴포넌트 */}
       <CommentList articleId={id} />
-      {/* <CommentCreatePage articleId={id}/> */}
     </Box>
   );
 };

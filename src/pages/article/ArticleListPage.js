@@ -78,6 +78,11 @@ const ArticleListPage = () => {
         });
     };
 
+    const formatDateTime = (dateTime) => {
+        const date = new Date(dateTime);
+        return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; // 초 단위 제거
+    };
+
     const bgColor = useColorModeValue('gray.50', 'gray.800');
 
     return (
@@ -144,7 +149,7 @@ const ArticleListPage = () => {
                                             {article.articleTitle}
                                         </Td>
                                         <Td textAlign="center">{article.articleAuthor}</Td>
-                                        <Td textAlign="center">{article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : '날짜 형식이 맞지 않음'}</Td>
+                                        <Td textAlign="center">{article.articleCreated ? formatDateTime(article.articleCreated) : '날짜 형식이 맞지 않음'}</Td>
                                     </Tr>
                                 ))}
                             </Tbody>
