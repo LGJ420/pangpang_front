@@ -6,6 +6,8 @@ import cashRouter from "./cashRouter";
 import ordersRouter from "./ordersRouter";
 import managerRouter from "./managerRouter";
 import mypageRouter from "./mypageRouter";
+import commentRouter from "./commentRouter";
+import CommentIndexPage from "../pages/comment/CommentIndexPage";
 
 
 const { createBrowserRouter } = require("react-router-dom");
@@ -99,7 +101,13 @@ const root = createBrowserRouter([
     {
         path: "article",
         element: <Suspense><Article /></Suspense>,
-        children: articleRouter()
+        children: articleRouter()      
+    },
+
+    {
+        path:"comment",
+        element: <CommentIndexPage/>,
+        children: commentRouter()
     },
     
     {

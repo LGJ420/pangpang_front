@@ -19,6 +19,7 @@ const commentRouter = () => {
                 </Suspense>
             )
         },
+        
         // {
         //     path: "/create",
         //     element: (
@@ -27,8 +28,9 @@ const commentRouter = () => {
         //         </Suspense>
         //     )
         // },
+
         {
-            path: "/modify/:id",
+            path: "modify/:id",
             element: (
                 <Suspense fallback={<div>Loading...</div>}>
                     <CommentModify />
