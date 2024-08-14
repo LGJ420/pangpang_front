@@ -57,39 +57,39 @@ const MemberProfileComponent = () => {
     const handleClickPost = () => {
         new window.daum.Postcode({
             oncomplete: function(data) {
-              let addr = '';
-              let extraAddr = '';
-      
-              if (data.userSelectedType === 'R') {
-                addr = data.roadAddress;
-              } else {
-                addr = data.jibunAddress;
-              }
-      
-              if(data.userSelectedType === 'R'){
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                  extraAddr += data.bname;
+                let addr = '';
+                let extraAddr = '';
+        
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
                 }
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                  extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+        
+                if(data.userSelectedType === 'R'){
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                    }
+                } else {
+                    extraAddr = '';
                 }
-                if(extraAddr !== ''){
-                  extraAddr = ' (' + extraAddr + ')';
-                }
-              } else {
-                extraAddr = '';
-              }
-      
-              setPostcodeApi(data.zonecode);
-              setPostAddressApi(addr);
-              setExtraAddressApi(extraAddr);
-              detailAddressRef.current.focus();
+        
+                setPostcodeApi(data.zonecode);
+                setPostAddressApi(addr);
+                setExtraAddressApi(extraAddr);
+                detailAddressRef.current.focus();
             }
-          }).open();
+        }).open();
     };
     /* ====================== 다음 주소찾기 API 끝 ====================== */
 
-    
+
     return(
         <div className={styles.test}>
             <p>내 정보 수정</p>
