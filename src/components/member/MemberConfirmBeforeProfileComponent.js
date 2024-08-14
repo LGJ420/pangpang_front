@@ -37,7 +37,7 @@ const MemberConfirmBeforeProfileComponent = () => {
         // 3. post로 토큰(아이디), 비밀번호 전송
         axios
         .post("http://localhost:8080/api/member/confirm_before_profile",
-            {memberPwInConfirmBeforeProfile : memberPwInConfirmBeforeProfile },
+            {memberPw : memberPwInConfirmBeforeProfile },
             {
                     headers: {
                         Authorization: `Bearer ${token}`,
