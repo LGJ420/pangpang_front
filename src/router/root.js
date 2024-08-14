@@ -70,6 +70,9 @@ const FindPwConfirm = lazy(()=>import("../pages/member/MemberFindPwConfirmPage")
 // 마이페이지
 const MyPage = lazy(()=>import("../pages/mypage/MypageIndexPage"));
 
+// 리뷰 작성
+const ProductReview = lazy(()=>import("../pages/product/ProductReviewAddpage"));
+
 
 
 const root = createBrowserRouter([
@@ -178,6 +181,12 @@ const root = createBrowserRouter([
     {
         path: "mypage",
         element: <Suspense><MyPage /></Suspense>,
+        children: mypageRouter()
+    },
+
+    {
+        path: "review/add",
+        element: <Suspense><ProductReview /></Suspense>,
         children: mypageRouter()
     }
     

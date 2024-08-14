@@ -6,13 +6,14 @@ const prefix = `${API_SERVER_HOST}/api/productreview`;
 
 
 // 리뷰 등록
-export const postReviewAdd = async (productReviewObj) => {
+export const postReviewAdd = async (formData) => {
 
     const token = localStorage.getItem("token");
     
-    const res = await axios.post(`${prefix}`, productReviewObj, {
+    const res = await axios.post(`${prefix}`, formData, {
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
         }
     });
 
