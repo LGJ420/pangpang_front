@@ -14,8 +14,6 @@ const OrdersPayComponent = () => {
 
     const [userData, setUserData] = useState(initState);
     const [productData, setProductData] = useState([]);
-    const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
-
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -39,10 +37,8 @@ const OrdersPayComponent = () => {
                 setProductData([location.state.order]);
             }
 
-            // console.log(location.state.orderList || location.state.order);
-            console.log('OrderList:', location.state.orderList);
-            console.log('Order:', location.state.order);
-            // console.log("ProductData : " + productData);
+            // console.log('OrderList:', location.state.orderList);
+            // console.log('Order:', location.state.order);
 
         }
         catch(e){
@@ -177,6 +173,7 @@ const OrdersPayComponent = () => {
 
             userData.address = postcode + " " + postAddress + " " + detailAddress + " " + extraAddress;
     
+            // console.log("productData : " + productData);
             console.log({...userData, dtoList: productData});
     
             postOrdersAdd({...userData, dtoList: productData}).then(()=>navigate({pathname: `/mypage/ordersresult`}));

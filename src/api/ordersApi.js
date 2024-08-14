@@ -25,6 +25,10 @@ export const getOrdersList = async (search) => {
 export const postOrdersAdd = async (ordersObj) => {
 
     const token = localStorage.getItem("token");
+
+    console.log("이 밑에놈임");
+    console.log(ordersObj);
+    console.log("이 위에놈임");
     
     const res = await axios.post(`${prefix}`, ordersObj, {
         headers: {
