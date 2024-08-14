@@ -49,9 +49,9 @@ const MemberConfirmBeforeProfileComponent = () => {
                 console.log("response 이후 콘솔 내용")
                 // ▼▼▼ 출력 제대로 되는지 확인용 ▼▼▼
                 console.log(response.data)
-                const {memberImage, memberId, memberNickname, memberPw, memberPhone, memberAddress } = response.data;
+                const {memberImage, memberId, memberNickname, memberPw, memberPhone,postcode, postAddress, detailAddress, extraAddress} = response.data;
                 // 페이지 이동(프로필변경 전 확인->프로필변경) 및 데이터 전달
-                navigate("/mypage/profile", {state : {memberImage, memberId, memberNickname, memberPw, memberPhone, memberAddress}});
+                navigate("/mypage/profile", {state : {memberImage, memberId, memberNickname, memberPw, memberPhone, postcode, postAddress, detailAddress, extraAddress}});
             })
             
             // 3-2. 없으면 에러 발생
