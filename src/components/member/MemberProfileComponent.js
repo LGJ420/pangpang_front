@@ -216,6 +216,7 @@ const MemberProfileComponent = () => {
                         </span>
                         <input 
                         placeholder='비밀번호를 변경해주세요.' 
+                        type='password'
                         value={modifyMemberPw} 
                         onChange={handleMemberPw}/>
                     </li>
@@ -224,6 +225,7 @@ const MemberProfileComponent = () => {
                             비밀번호 확인
                         </span>
                         <input 
+                        type='password'
                         placeholder='비밀번호를 다시 입력해주세요.'
                         value={modifyMemberPwConfirm}
                         onChange={handleMemberPwConfirm}/>
