@@ -32,7 +32,7 @@ const OrdersResultComponent = () => {
         getOrdersList(word).then(data=>{
 
             setServerData(data);
-            console.log(data);
+            // console.log(data);   // 데이터 확인용
         }).catch(e=>console.log(e));
 
     },[refresh]);

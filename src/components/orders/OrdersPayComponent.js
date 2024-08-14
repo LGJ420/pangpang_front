@@ -173,8 +173,7 @@ const OrdersPayComponent = () => {
 
             userData.address = postcode + " " + postAddress + " " + detailAddress + " " + extraAddress;
     
-            // console.log("productData : " + productData);
-            console.log({...userData, dtoList: productData});
+            // console.log({...userData, dtoList: productData});    // 데이터 확인용
     
             postOrdersAdd({...userData, dtoList: productData}).then(()=>navigate({pathname: `/mypage/orders/result`}));
         }
