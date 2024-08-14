@@ -39,16 +39,24 @@ const MemberSignupPage = () => {
         setMemberNickname(e.target.value);
     }
     const handleMemberBirth = (e)=>{
-        setMemberBirth(e.target.value);
+        // 생년월일에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setMemberBirth(validInputValue);
     }
     const handlePhone1 =(e)=>{
-        setPhone1(e.target.value);
+        // 핸드폰 번호에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setPhone1(validInputValue);
     }
     const handlePhone2 =(e)=>{
-        setPhone2(e.target.value);
+        // 핸드폰 번호에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setPhone2(validInputValue);
     }
     const handlePhone3 =(e)=>{
-        setPhone3(e.target.value);
+        // 핸드폰 번호에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setPhone3(validInputValue);
     }
     const handleMemberRole = (e)=>{
         setMemberRole(e.target.value);
@@ -294,6 +302,7 @@ const MemberSignupPage = () => {
                     <Input 
                     value={memberBirth}
                     onChange={handleMemberBirth}
+                    maxLength="6"
                     placeholder='ex.881225' />
                 </FormControl>
 
@@ -303,14 +312,17 @@ const MemberSignupPage = () => {
                     <Input 
                     value={phone1}
                     onChange={handlePhone1}
+                    maxLength="3"
                     placeholder='010' />
                     <Input 
                     value={phone2}
                     onChange={handlePhone2}
+                    maxLength="4"
                     placeholder='1234' />
                     <Input 
                     value={phone3}
                     onChange={handlePhone3}
+                    maxLength="4"
                     placeholder='5678' />
                 </FormControl>
 
