@@ -1,5 +1,5 @@
 import styles from '../../css/memberPage.module.css';
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 const MemberProfileComponent = () => {

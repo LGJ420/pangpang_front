@@ -21,7 +21,6 @@ const MemberSignupPage = () => {
     const [phone1, setPhone1] = useState("");
     const [phone2, setPhone2] = useState("");
     const [phone3, setPhone3] = useState("");
-    const [memberAddress, setMemberAddress] = useState("");
     const [memberRole, setMemberRole] = useState("User");
 
     const handleMemberId = (e)=>{
@@ -108,35 +107,35 @@ const MemberSignupPage = () => {
     const handleClickPost = () => {
         new window.daum.Postcode({
             oncomplete: function(data) {
-              let addr = '';
-              let extraAddr = '';
-      
-              if (data.userSelectedType === 'R') {
-                addr = data.roadAddress;
-              } else {
-                addr = data.jibunAddress;
-              }
-      
-              if(data.userSelectedType === 'R'){
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                  extraAddr += data.bname;
+                let addr = '';
+                let extraAddr = '';
+        
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
                 }
-                if(data.buildingName !== '' && data.apartment === 'Y'){
-                  extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+        
+                if(data.userSelectedType === 'R'){
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                    }
+                } else {
+                    extraAddr = '';
                 }
-                if(extraAddr !== ''){
-                  extraAddr = ' (' + extraAddr + ')';
-                }
-              } else {
-                extraAddr = '';
-              }
-      
-              setPostcode(data.zonecode);
-              setPostAddress(addr);
-              setExtraAddress(extraAddr);
-              detailAddressRef.current.focus();
+        
+                setPostcode(data.zonecode);
+                setPostAddress(addr);
+                setExtraAddress(extraAddr);
+                detailAddressRef.current.focus();
             }
-          }).open();
+        }).open();
     };
     /* ====================== 다음 주소찾기 API 끝 ====================== */
 
@@ -166,7 +165,7 @@ const MemberSignupPage = () => {
         }
 
         // 아이디 중복 확인 (false면 중복확인 안한 것으로 간주)
-        if(checkMemberId == false){
+        if(checkMemberId === false){
             const errorMsg = "아이디 중복 확인은 필수입니다.";
             console.error(errorMsg);
             alert("아이디 중복 확인은 필수입니다."); 
