@@ -5,7 +5,7 @@ import {
     FormLabel,
     } from '@chakra-ui/react'
 
-import { useState, useEffect } from "react";
+    import { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -18,6 +18,9 @@ const MemberSignupPage = () => {
     const [memberName, setMemberName] = useState("");
     const [memberNickname, setMemberNickname] = useState("");
     const [memberBirth, setMemberBirth] = useState("");
+    const [phone1, setPhone1] = useState("");
+    const [phone2, setPhone2] = useState("");
+    const [phone3, setPhone3] = useState("");
     const [memberRole, setMemberRole] = useState("User");
 
     const handleMemberId = (e)=>{
@@ -36,7 +39,24 @@ const MemberSignupPage = () => {
         setMemberNickname(e.target.value);
     }
     const handleMemberBirth = (e)=>{
-        setMemberBirth(e.target.value);
+        // 생년월일에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setMemberBirth(validInputValue);
+    }
+    const handlePhone1 =(e)=>{
+        // 핸드폰 번호에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setPhone1(validInputValue);
+    }
+    const handlePhone2 =(e)=>{
+        // 핸드폰 번호에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setPhone2(validInputValue);
+    }
+    const handlePhone3 =(e)=>{
+        // 핸드폰 번호에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setPhone3(validInputValue);
     }
     const handleMemberRole = (e)=>{
         setMemberRole(e.target.value);
@@ -68,6 +88,65 @@ const MemberSignupPage = () => {
         })
     }
 
+    /* ====================== 다음 주소찾기 API 시작 ====================== */
+    const [postcode, setPostcode] = useState('');
+    const [postAddress, setPostAddress] = useState('');
+    const [detailAddress, setDetailAddress] = useState('');
+    const [extraAddress, setExtraAddress] = useState('');
+    const detailAddressRef = useRef(null);
+  
+
+    useEffect(() => {
+
+        const script = document.createElement('script');
+        script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+        script.onload = () => console.log('Daum Postcode script loaded.');
+        script.onerror = () => console.error(`Script load error`);
+        document.head.appendChild(script);
+
+        return () => {
+
+            document.head.removeChild(script);
+        };
+
+    }, []);
+
+
+    const handleClickPost = () => {
+        new window.daum.Postcode({
+            oncomplete: function(data) {
+                let addr = '';
+                let extraAddr = '';
+        
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+        
+                if(data.userSelectedType === 'R'){
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                    }
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                    }
+                } else {
+                    extraAddr = '';
+                }
+        
+                setPostcode(data.zonecode);
+                setPostAddress(addr);
+                setExtraAddress(extraAddr);
+                detailAddressRef.current.focus();
+            }
+        }).open();
+    };
+    /* ====================== 다음 주소찾기 API 끝 ====================== */
+
     // 회원가입 버튼
     const onClicksignup = ()=>{
         console.log("click signup");
@@ -77,10 +156,15 @@ const MemberSignupPage = () => {
         console.log("이름 : " + memberName);
         console.log("닉네임 : " + memberNickname);
         console.log("생년월일 : " + memberBirth);
+        console.log("핸드폰 : " + phone1+"-"+phone2+"-"+phone3);
+        console.log("우편번호 : " + postcode);
+        console.log("주소 : " + postAddress);
+        console.log("상세주소 : " + detailAddress);
+        console.log("기타주소 : " + extraAddress);
         console.log("역할 : " + memberRole);
 
         // 안 채운 항목이 있는지 체크
-        if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth].includes('')){
+        if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth, phone1, phone2, phone3, postcode, postAddress, detailAddress, extraAddress ].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg)
             alert(errorMsg);
@@ -89,7 +173,7 @@ const MemberSignupPage = () => {
         }
 
         // 아이디 중복 확인 (false면 중복확인 안한 것으로 간주)
-        if(checkMemberId == false){
+        if(checkMemberId === false){
             const errorMsg = "아이디 중복 확인은 필수입니다.";
             console.error(errorMsg);
             alert("아이디 중복 확인은 필수입니다."); 
@@ -120,6 +204,11 @@ const MemberSignupPage = () => {
             memberName : memberName,
             memberNickname : memberNickname,
             memberBirth : memberBirth,
+            memberPhone : phone1+"-"+phone2+"-"+phone3,
+            postcode : postcode,
+            postAddress : postAddress,
+            detailAddress : detailAddress,
+            extraAddress : extraAddress,
             memberRole : memberRole
         })
         .then((response)=>{
@@ -213,7 +302,68 @@ const MemberSignupPage = () => {
                     <Input 
                     value={memberBirth}
                     onChange={handleMemberBirth}
+                    maxLength="6"
                     placeholder='ex.881225' />
+                </FormControl>
+
+                {/* 핸드폰 */}
+                <FormControl isRequired>
+                    <FormLabel>핸드폰</FormLabel>
+                    <Input 
+                    value={phone1}
+                    onChange={handlePhone1}
+                    maxLength="3"
+                    placeholder='010' />
+                    <Input 
+                    value={phone2}
+                    onChange={handlePhone2}
+                    maxLength="4"
+                    placeholder='1234' />
+                    <Input 
+                    value={phone3}
+                    onChange={handlePhone3}
+                    maxLength="4"
+                    placeholder='5678' />
+                </FormControl>
+
+                {/* 주소 */}
+                <FormControl isRequired>
+                    <FormLabel>주소</FormLabel>
+                    <h5 className="block text-sm font-medium text-gray-700">주소</h5>
+                            <input
+                                className="mt-1 w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="우편번호"
+                                value={postcode}
+                                readOnly
+                            />
+                            <button
+                                className="p-1 ml-2 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
+                                onClick={handleClickPost}>
+                                우편번호 찾기
+                            </button>
+                            <input
+                                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="주소"
+                                value={postAddress}
+                                readOnly
+                            />
+                            <input
+                                className="mt-1 w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="상세주소"
+                                value={detailAddress}
+                                ref={detailAddressRef}
+                                onChange={e => setDetailAddress(e.target.value)}
+                            />
+                            <input
+                                className="mt-1 w-1/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="참고항목"
+                                value={extraAddress}
+                                readOnly
+                            />
                 </FormControl>
 
                 {/* 역할 (Admin or User)*/}

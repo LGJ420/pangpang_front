@@ -10,6 +10,17 @@ const initState = {
     exp: 0
 }
 
+// Base64 URL 디코딩 함수
+const base64UrlDecode = (str) => {
+    // 패딩 추가
+    while (str.length % 4) {
+        str += '=';
+    }
+    // URL 안전 문자를 일반 Base64로 변환
+    str = str.replace(/-/g, '+').replace(/_/g, '/');
+    return atob(str);
+}
+
 const useCustomToken = () => {
 
 
@@ -29,22 +40,19 @@ const useCustomToken = () => {
                 setIsLogin(true);
         
                 // 토큰에서 페이로드 부분 추출
-                const payload = token.substring(token.indexOf('.') + 1, token.lastIndexOf('.'));
-        
-                // Base64를 디코딩하여 문자열을 얻음
-                const base64Decoded = atob(payload);
-        
-                // UTF-8로 설정
-                const uint8Array = new Uint8Array(base64Decoded.length);
-        
-                for (let i = 0; i < base64Decoded.length; i++) {
-                    uint8Array[i] = base64Decoded.charCodeAt(i);
-                }
-        
+                const payload = token.split('.')[1];
+
+                // Base64 URL 디코딩
+                const base64Decoded = base64UrlDecode(payload);
+
+                // UTF-8로 변환
                 const decoder = new TextDecoder('utf-8');
-                const jsonString = decoder.decode(uint8Array);
+                const jsonString = decoder.decode(new Uint8Array([...base64Decoded].map(char => char.charCodeAt(0))));
+
+                // JSON 문자열로 변환
                 const decodeToken = JSON.parse(jsonString);
-        
+
+                // 상태 업데이트
                 setDecodeToken(decodeToken);
         
             } else {
@@ -52,7 +60,9 @@ const useCustomToken = () => {
                 setIsLogin(false);
         
             }
-    },[]);
+    },
+    [localStorage.getItem("token")] // 토큰 값이 변경될 때마다 useEffect 실행
+);
 
     return { isLogin, decodeToken }
 
