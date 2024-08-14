@@ -147,7 +147,7 @@ const OrdersResultComponent = () => {
 
                     <div className="bg-white flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
                         <img src={`http://localhost:8080/api/product/view/${dto.uploadFileNames}` || '/images/chi1.jpg'}
-                            alt={dto.productTitle} className="w-40 border rounded-xl"></img>
+                            alt={dto.productTitle} className="w-40 h-40 object-contain border rounded-xl"></img>
                         <div className="w-1/3">
                             <h3 className="font-extrabold text-2xl">{dto.productTitle}</h3>
                             <p className="mt-3">{dto.productContent}</p>
