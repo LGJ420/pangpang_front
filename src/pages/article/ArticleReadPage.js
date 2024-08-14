@@ -23,6 +23,7 @@ const initState = {
   articleAuthor: '',
   articleCreated: null,
   articleUpdated: null,
+  viewCount: 0 
 };
 
 const ArticleReadPage = () => {
@@ -58,6 +59,10 @@ const ArticleReadPage = () => {
       <Text fontSize="sm" color="gray.500" mb={4}>
         작성일: {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}{" "}
         {serverData.articleUpdated && `(수정일: ${formatDateTime(serverData.articleUpdated)})`}
+      </Text>
+
+      <Text fontSize="sm" color="gray.500" mb={4}>
+        조회수: {serverData.viewCount || 0}회 
       </Text>
 
       <Box bg="gray.50" p={4} borderRadius="md" mb={4} style={{ whiteSpace: 'pre-wrap' }}>

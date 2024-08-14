@@ -150,6 +150,7 @@ const ArticleListPage = () => {
                                         </Td>
                                         <Td textAlign="center">{article.articleAuthor}</Td>
                                         <Td textAlign="center">{article.articleCreated ? formatDateTime(article.articleCreated) : '날짜 형식이 맞지 않음'}</Td>
+                                        <Td textAlign="center">{article.viewCount || 0}회</Td> 
                                     </Tr>
                                 ))}
                             </Tbody>
@@ -205,6 +206,6 @@ const ArticleListPage = () => {
             </Box>
         </div>
     );
-}
+};
 
 export default ArticleListPage;
