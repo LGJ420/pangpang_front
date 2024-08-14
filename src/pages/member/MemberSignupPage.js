@@ -150,7 +150,10 @@ const MemberSignupPage = () => {
         console.log("닉네임 : " + memberNickname);
         console.log("생년월일 : " + memberBirth);
         console.log("핸드폰 : " + phone1+"-"+phone2+"-"+phone3);
-        console.log("주소 : " + postcode + " " + postAddress + " " + detailAddress + " " + extraAddress);
+        console.log("우편번호 : " + postcode);
+        console.log("주소 : " + postAddress);
+        console.log("상세주소 : " + detailAddress);
+        console.log("기타주소 : " + extraAddress);
         console.log("역할 : " + memberRole);
 
         // 안 채운 항목이 있는지 체크
@@ -195,7 +198,10 @@ const MemberSignupPage = () => {
             memberNickname : memberNickname,
             memberBirth : memberBirth,
             memberPhone : phone1+"-"+phone2+"-"+phone3,
-            memberAddress : postcode + " " + postAddress + " " + detailAddress + " " + extraAddress,
+            postcode : postcode,
+            postAddress : postAddress,
+            detailAddress : detailAddress,
+            extraAddress : extraAddress,
             memberRole : memberRole
         })
         .then((response)=>{
