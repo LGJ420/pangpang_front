@@ -52,7 +52,7 @@ const useCustomToken = () => {
                 setIsLogin(false);
         
             }
-    },[]);
+    },);
 
     return { isLogin, decodeToken }
 

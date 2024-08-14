@@ -156,11 +156,23 @@ const MemberProfileComponent = () => {
             updateData.memberPw = modifyMemberPw;
         }
 
+        console.log(updateData);
+
+        // 토큰 가져오기(프린시펄 하려면 토큰을 보내야함)
+        // 로컬스토리지에 토큰을 가져옴
+        const token = localStorage.getItem("token");
+
         // axios 요청
         axios
-            .post("http://localhost:8080/api/member/mypage/modify", updateData)
+            .post("http://localhost:8080/api/member/mypage/modify", updateData, 
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
             .then((response) => {
                 console.log(response);
+                localStorage.setItem("token", response.data)
                 navigate("/mypage");
             })
             .catch((error) => {
