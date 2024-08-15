@@ -15,40 +15,43 @@ const OrdersPayComponent = () => {
     const [userData, setUserData] = useState(initState);
     const [productData, setProductData] = useState([]);
 
+    // 잠깐의 렌더링도 방지하기 위한 state
+    // 초기값이 false여야 처음부터 방지가능
+    const [isValid, setIsValid] = useState(false);
+
     const location = useLocation();
     const navigate = useNavigate();
 
 
-    
-
     useEffect(() => {
 
-        try{
-            
-            // 데이터를 가져올때 오더가 리스트 형태로 되있으면 리스들을 데이터에 넣기
-            if (location.state.orderList) {
-    
-                setProductData(location.state.orderList);
-            }
-    
-            // 리스트가 아니라 단일객체면 배열로 만들어서 데이터에 넣기
-            else if (location.state.order) {
-    
-                setProductData([location.state.order]);
-            }
+        if (!location.state) {
 
-            // console.log('OrderList:', location.state.orderList);
-            // console.log('Order:', location.state.order);
-
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+            return;
         }
-        catch(e){
             
-            console.log(e);
+        // 데이터를 가져올때 오더가 리스트 형태로 되있으면 리스들을 데이터에 넣기
+        if (location.state.orderList) {
+
+            setProductData(location.state.orderList);
+            setIsValid(true);
+        }
+        // 리스트가 아니라 단일객체면 배열로 만들어서 데이터에 넣기
+        else if (location.state.order) {
+            
+            setProductData([location.state.order]);
+            setIsValid(true);
+        }
+        else {
+            
+            alert("잘못된 접근방식 입니다.");
+            navigate(-1);
         }
 
     }, [location.state]);
 
-    
     
 
     const handleChangeUserData = (e) => {
@@ -181,6 +184,14 @@ const OrdersPayComponent = () => {
 
 
 
+    // 이 조건문은 반드시 리액트 훅보다
+    // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
+    // 리액트 자체가 작동하지 않는다
+    // 그래서 최하단에 배치한다
+    if (!isValid) {
+
+        return null;
+    }
     return (
 
         <div className="bg-slate-50 min-w-[768px] min-h-screen">

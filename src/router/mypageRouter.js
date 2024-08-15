@@ -14,7 +14,12 @@ const mypageRouter = () => {
 
     {
       path: "",
-      element: <Navigate replace to="article" />
+      element: <Navigate replace to="profile" />
+    },
+
+    {
+      path: "profile",
+      element: <Suspense><ConfirmBeforeProfile /></Suspense>
     },
 
     {
@@ -37,11 +42,6 @@ const mypageRouter = () => {
       element: <Suspense><OrdersResult /></Suspense>
     },
 
-    {
-      path: "confirmBeforeProfile",
-      element: <Suspense><ConfirmBeforeProfile /></Suspense>
-    },
-    
     {
       path: "profile",
       element: <Suspense><Profile /></Suspense>

@@ -2,8 +2,13 @@ import styles from '../../css/memberPage.module.css';
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import { tokenState } from '../../atoms/tokenState';
 
 const MemberLoginPage = () => {
+
+    // 토큰의 상태를 전역으로 알수있게 리코일을 사용한다
+    const [token, setToken] = useRecoilState(tokenState);
 
     // 아이디/비밀번호 state
     const [memberId, setMemberId] = useState("");
@@ -12,7 +17,7 @@ const MemberLoginPage = () => {
 
     // 컴포넌트가 마운트될 때 토큰 확인
     useEffect(() => {
-        const token = localStorage.getItem("token");
+
         if (token) {
             // 이미 로그인된 상태라면 홈으로 리다이렉트
             navigate("/");
@@ -50,6 +55,8 @@ const MemberLoginPage = () => {
                     // sessionStorage.setItem("memberId", memberId);
                     // sessionStorage.setItem("token", response.data.token);
                     // console.log("로그인 성공, 세션 스토리지에 저장됨");
+
+                    setToken(response.data);
 
                 } else {
                     alert("토큰이 응답에 없습니다.");
