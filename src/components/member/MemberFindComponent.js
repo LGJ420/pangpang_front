@@ -148,7 +148,7 @@ const MemberFindComponent = () => {
                 // ▲▲▲ 출력 제대로 되는지 확인용 ▲▲▲
 
                 // 데이터 전달
-                navigate("/find_pw", {state : {id}})
+                navigate("/find_pw", {state : {memberId}})
             })
             
             // 3-2. 없으면 에러 발생
