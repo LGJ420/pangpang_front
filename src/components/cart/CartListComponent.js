@@ -85,6 +85,14 @@ const CratListComponent = () => {
     };
 
 
+
+    const handleClickTitle = (id) => {
+
+        navigate(`/product/read/${id}`);
+    }
+
+
+
     const handleClickAmount = (productId, delta) => {
 
         serverData.map(item => {
@@ -117,11 +125,6 @@ const CratListComponent = () => {
     
 
     const handleClickDelete = (cartListObj) => {
-
-        // 지금은 사용자가 1번으로 고정되있음
-        // 프론트에서할지 백에서 할지 고민중
-        // 백이 맞는거같긴함
-        // 일단 지금은 사용자도 보내는중
 
         // 여유가 되면 모달창을 제작해서 바꿀예정
         // eslint-disable-next-line no-restricted-globals
@@ -203,11 +206,14 @@ const CratListComponent = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
                             </svg>
                         </label>
-                    <img src={images[data.productId] || '/images/chi1.jpg'}
-                        alt={data.productTitle} 
-                        className="mx-auto object-contain h-52" />                        
-                        <div className="w-1/3 text-center">
-                            <h3 className="font-extrabold text-2xl">{data.productTitle}</h3>
+                        <img src={images[data.productId] || '/images/chi1.jpg'}
+                            alt={data.productTitle} 
+                            className="mx-auto object-contain h-40"/>                        
+                        <div className="w-1/3 mx-10">
+                            <h3 className="font-extrabold text-2xl cursor-pointer"
+                                onClick={()=>handleClickTitle(data.productId)}>
+                                {data.productTitle}
+                            </h3>
                             <p className="mt-3">{data.productContent}</p>
                         </div>
                         <div className="text-center text-2xl w-40">
@@ -224,7 +230,7 @@ const CratListComponent = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="text-3xl text-center w-40">
+                        <div className="text-3xl text-center w-52">
                             {(data.productPrice * data.cartCount).toLocaleString()}원
                         </div>
                         <div className="flex flex-col">
