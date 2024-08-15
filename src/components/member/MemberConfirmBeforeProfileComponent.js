@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import styles from '../../css/memberPage.module.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -70,27 +69,33 @@ const MemberConfirmBeforeProfileComponent = () => {
     }
 
     return(
-        <div className={styles.test}>
-            <p>내 정보 수정</p>
-            <p>회원님의 개인정보 보호를 위해 본인확인을 진행합니다.</p>
-            <p><strong>팡팡게임즈 비밀번호</strong>를 입력해주세요.</p>
-
-            <div>
-
-                <span>
-                    비밀번호
-                </span>
-                <input 
-                type='password'
-                placeholder='비밀번호를 변경해주세요.' 
-                onChange={handleMemberPwInConfirmBeforeProfile}
-                value={memberPwInConfirmBeforeProfile}
-                onKeyDown={handleKeyDown}/>
-
+        <section>
+            <h3 className='text-xl font-bold'>내 정보 수정</h3>
+            <div className='flex flex-col items-center'>
+                <p className='my-16 font-semibold'>회원님의 개인정보 보호를 위해 본인확인을 진행합니다.</p>
+                <p className='mb-5'>비밀번호를 입력해주세요.</p>
+                <div className='flex items-center mb-5'>
+                    <label htmlFor='password'>
+                        비밀번호
+                    </label>
+                    <input
+                        className='ml-2 py-1 px-3 w-52 border rounded'
+                        id='password'
+                        type='password'
+                        placeholder='비밀번호를 입력해주세요.'
+                        maxLength={24}
+                        onChange={handleMemberPwInConfirmBeforeProfile}
+                        value={memberPwInConfirmBeforeProfile}
+                        onKeyDown={handleKeyDown}/>
+                </div>
+                <button
+                    className='bg-gray-500 text-white px-3 py-1 rounded'
+                    onClick={clickConfirmBeforeProfile}>
+                    확인
+                </button>
             </div>
-            <button onClick={clickConfirmBeforeProfile}>확인</button>
 
-        </div>
+        </section>
     );
 }
 
