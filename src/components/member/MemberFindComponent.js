@@ -54,8 +54,8 @@ const MemberFindComponent = () => {
         // 3. post로 이름, 생년월일 제출 함수 작성
         axios
         .post("http://localhost:8080/api/member/find_id",{
-                memberNameInFindId : memberNameInFindId,
-                memberBirthInFindId : memberBirthInFindId
+                memberName : memberNameInFindId,
+                memberBirth : memberBirthInFindId
             })
             
             // 3-1. 제출한 이름, 생년월일이 있으면 콘솔창에 출력(확인) 및 아래 링크로 이동하면서 데이터 전달
@@ -196,6 +196,7 @@ const MemberFindComponent = () => {
                             <Input 
                             value={memberBirthInFindId}
                             onChange={handleMemberBirthInFindId}
+                            maxLength={6}
                             placeholder='ex.881225' />
                         </FormControl>
                     </div>
