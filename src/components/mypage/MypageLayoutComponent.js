@@ -45,7 +45,7 @@ const MypageLayoutComponent = ({children}) => {
                     </h3>
                     <ul className="m-0">
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./profile`})}>
+                            onClick={()=>navigate({pathname: `./profile/cofirm`})}>
                             내 정보 변경
                         </li>
                         <li className="my-5 cursor-pointer"
