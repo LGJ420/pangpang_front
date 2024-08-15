@@ -94,7 +94,8 @@ const OrdersResultComponent = () => {
                 <div className="w-[720px] p-4 bg-white border rounded-lg shadow-md flex flex-col justify-center">
 
                     <div className="flex">
-                        <img src="/images/chi1.jpg" className="w-56 border rounded m-3"></img>
+                            <img src={`http://localhost:8080/api/product/view/${modal.uploadFileNames}` || '/images/chi1.jpg'}
+                                alt={modal.productTitle} className="w-56 border rounded m-3"></img>
                         <div className="flex flex-col flex-1 ml-7">
                             <button className="self-end m-3 bg-red-500 px-3 py-1 text-white rounded-sm close"
                                 onClick={handleClickClose}>
