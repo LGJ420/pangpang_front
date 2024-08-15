@@ -5,7 +5,7 @@ import {
     FormLabel,
     } from '@chakra-ui/react'
 
-    import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -220,57 +220,61 @@ const MemberSignupPage = () => {
         });
     }
         
-        return (
-            <section className={styles.account_management}>
+    return (
+    <section className="w-[550px] h-screen flex items-center m-auto">
 
         {/* 회원가입 폼 */}
         <div>
-
             {/* 회원가입 페이지 */}
-            <Link to={'/'}>
-                <img src="/images/logo.png" className="w-20 mb-3"/>
-            </Link> 
-            <h1>
-                <span>
-                팡팡게임즈
-                    <br></br>
-                    <strong>회원가입</strong>
-                </span>
-            </h1>
+            <div className='flex items-center'>
+                <Link to={'/'}>
+                    <img src="/images/logo.png" className="w-20 mb-3"/>
+                </Link> 
+                <h1 className='text-[2rem] ml-3'>
+                    <span>
+                    팡팡게임즈
+                        <br></br>
+                        <strong>회원가입</strong>
+                    </span>
+                </h1>
+            </div>
 
-            <hr></hr>
+            <hr className='my-2'/>
 
             {/* 개인정보 입력칸 */}
             <div>
                 {/* 아이디 */}
-                <FormControl isRequired>
-                    <FormLabel>아이디</FormLabel>
-                    <div className={styles.outer}>
-                        <Input 
-                        value={memberId}
-                        onChange={handleMemberId}
-                        placeholder='아이디를 입력해주세요.'/>
-                        <button
-                        className={styles.inner_button}
-                        onClick={onClickCheckMemberId}>중복확인</button>
+                <FormControl isRequired className='flex items-center my-3'>
+                    <FormLabel className="w-1/3">아이디</FormLabel>
+                    <div className='flex'>
+                        <Input
+                            className=''
+                            value={memberId}
+                            onChange={handleMemberId}
+                            placeholder='아이디를 입력해주세요.'/>
+                        <button className="w-32 ml-3 bg-slate-400 rounded text-white hover:opacity-80"
+                            onClick={onClickCheckMemberId}>
+                            중복확인
+                        </button>
                     </div>
                 </FormControl>
                 {/* <p>아이디는 4~12자의 영문, 숫자만 사용 가능합니다</p> */}
 
                 {/* 비밀번호 */}
-                <FormControl isRequired>
-                    <FormLabel>비밀번호</FormLabel>
-                    <Input 
-                    type='password' 
-                    value={memberPw}
-                    onChange={handleMemberPw}
-                    placeholder='비밀번호를 입력해주세요.' />
+                <FormControl isRequired className='flex items-center my-3'>
+                    <FormLabel className="w-1/3">비밀번호</FormLabel>
+                    <Input
+                        className=''
+                        type='password' 
+                        value={memberPw}
+                        onChange={handleMemberPw}
+                        placeholder='비밀번호를 입력해주세요.' />
                 </FormControl>
                 {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
 
                 {/* 비밀번호 확인 */}
-                <FormControl isRequired>
-                    <FormLabel>비밀번호 확인</FormLabel>
+                <FormControl isRequired className='flex items-center my-3'>
+                    <FormLabel className="w-1/3">비밀번호 확인</FormLabel>
                     <Input 
                     type='password' 
                     value={memberPwConfirm}
@@ -279,8 +283,8 @@ const MemberSignupPage = () => {
                 </FormControl>
 
                 {/* 이름 */}
-                <FormControl isRequired>
-                    <FormLabel>이름</FormLabel>
+                <FormControl isRequired className='flex items-center my-3'>
+                    <FormLabel className="w-1/3">이름</FormLabel>
                     <Input 
                     value={memberName}
                     onChange={handleMemberName}
@@ -288,8 +292,8 @@ const MemberSignupPage = () => {
                 </FormControl>
 
                 {/* 닉네임 */}
-                <FormControl isRequired>
-                    <FormLabel>닉네임</FormLabel>
+                <FormControl isRequired className='flex items-center my-3'>
+                    <FormLabel className="w-1/3">닉네임</FormLabel>
                     <Input 
                     value={memberNickname}
                     onChange={handleMemberNickname}
@@ -297,8 +301,8 @@ const MemberSignupPage = () => {
                 </FormControl>
 
                 {/* 생년월일 */}
-                <FormControl isRequired>
-                    <FormLabel>생년월일</FormLabel>
+                <FormControl isRequired className='flex items-center my-3'>
+                    <FormLabel className="w-1/3">생년월일</FormLabel>
                     <Input 
                     value={memberBirth}
                     onChange={handleMemberBirth}
@@ -307,63 +311,66 @@ const MemberSignupPage = () => {
                 </FormControl>
 
                 {/* 핸드폰 */}
-                <FormControl isRequired>
-                    <FormLabel>핸드폰</FormLabel>
+                <FormControl isRequired className='flex items-center my-3'>
+                    <FormLabel className="w-1/3">
+                        핸드폰
+                    </FormLabel>
                     <Input 
-                    value={phone1}
-                    onChange={handlePhone1}
-                    maxLength="3"
-                    placeholder='010' />
+                        className='w-32'
+                        value={phone1}
+                        onChange={handlePhone1}
+                        maxLength="3"
+                        placeholder='010' />
                     <Input 
-                    value={phone2}
-                    onChange={handlePhone2}
-                    maxLength="4"
-                    placeholder='1234' />
+                        className='w-40'
+                        value={phone2}
+                        onChange={handlePhone2}
+                        maxLength="4"
+                        placeholder='1234' />
                     <Input 
-                    value={phone3}
-                    onChange={handlePhone3}
-                    maxLength="4"
-                    placeholder='5678' />
+                        className='w-40'
+                        value={phone3}
+                        onChange={handlePhone3}
+                        maxLength="4"
+                        placeholder='5678' />
                 </FormControl>
-
                 {/* 주소 */}
-                <FormControl isRequired>
-                    <FormLabel>주소</FormLabel>
-                    <h5 className="block text-sm font-medium text-gray-700">주소</h5>
-                            <input
-                                className="mt-1 w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                type="text"
-                                placeholder="우편번호"
-                                value={postcode}
-                                readOnly
-                            />
-                            <button
-                                className="p-1 ml-2 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
-                                onClick={handleClickPost}>
-                                우편번호 찾기
-                            </button>
-                            <input
-                                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                type="text"
-                                placeholder="주소"
-                                value={postAddress}
-                                readOnly
-                            />
-                            <input
-                                className="mt-1 w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                type="text"
-                                placeholder="상세주소"
-                                value={detailAddress}
-                                ref={detailAddressRef}
-                                onChange={e => setDetailAddress(e.target.value)}
-                            />
-                            <input
-                                className="mt-1 w-1/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                type="text"
-                                placeholder="참고항목"
-                                value={extraAddress}
-                                readOnly
-                            />
+                <FormControl isRequired className='flex mt-10 flex-col'>
+                    <div className='flex justify-between'>
+                        <FormLabel>주소</FormLabel>
+                        <Input
+                            className='w-40 ml-auto'
+                            type="text"
+                            placeholder="우편번호"
+                            value={postcode}
+                            readOnly />
+                        <button
+                            className="w-28 ml-2 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
+                            onClick={handleClickPost}>
+                            우편번호 찾기
+                        </button>
+                    </div>
+                    <Input
+                        className='my-1'
+                        type="text"
+                        placeholder="주소"
+                        value={postAddress}
+                        readOnly />
+                    <div className='flex'>
+                        <Input
+                            className='w-2/3'
+                            type="text"
+                            placeholder="상세주소"
+                            value={detailAddress}
+                            ref={detailAddressRef}
+                            onChange={e => setDetailAddress(e.target.value)} />
+                        <Input
+                            className='w-1/3'
+                            type="text"
+                            placeholder="참고항목"
+                            value={extraAddress}
+                            readOnly />
+                    </div>
                 </FormControl>
 
                 {/* 역할 (Admin or User)*/}
@@ -375,14 +382,16 @@ const MemberSignupPage = () => {
                     type='hidden'
                     />
                 </FormControl>
+                {/* 회원가입 버튼 */}
+                <div className='flex mt-3'>
+                    <button
+                        className="ml-auto text-xl bg-[rgb(0,0,139)] text-white px-4 py-2 rounded hover:opacity-80"
+                        onClick={onClicksignup}>
+                        회원가입
+                    </button>
+                </div>
             </div>
 
-            {/* 회원가입 버튼 */}
-            <button
-            className={styles.button}
-            onClick={onClicksignup}>
-                회원가입
-            </button>
 
         </div>
     </section>

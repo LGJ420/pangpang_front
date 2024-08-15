@@ -1,12 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
+import { useEffect } from "react";
 
 const MypageLayoutComponent = ({children}) => {
 
-    const {decodeToken} = useCustomToken();
+    const {isLogin, decodeToken} = useCustomToken();
 
     const navigate = useNavigate();
 
+    useEffect(()=>{
+
+        // useEffect에도 이렇게 두번에 걸쳐 작업하는이유는
+        // 리액트의 비동기 특성때문
+        if(!isLogin){
+
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+        }
+    },[isLogin]);
+
+
+    // 이 조건문은 반드시 리액트 훅보다
+    // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
+    // 리액트 자체가 작동하지 않는다
+    // 그래서 최하단에 배치한다
+    if(!isLogin){
+
+        return null;
+    }
     return (
         <>
         <section>
@@ -24,6 +45,10 @@ const MypageLayoutComponent = ({children}) => {
                     </h3>
                     <ul className="m-0">
                         <li className="my-5 cursor-pointer"
+                            onClick={()=>navigate({pathname: `./profile`})}>
+                            내 정보 변경
+                        </li>
+                        <li className="my-5 cursor-pointer"
                             onClick={()=>navigate({pathname: `./article`})}>
                             내가 쓴 글
                         </li>
@@ -38,10 +63,6 @@ const MypageLayoutComponent = ({children}) => {
                         <li className="my-5 cursor-pointer"
                             onClick={()=>navigate({pathname: `./orders/result`})}>
                             구매내역
-                        </li>
-                        <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./confirmBeforeProfile`})}>
-                            내 정보 변경
                         </li>
                     </ul>
                     <h3 className="text-2xl">

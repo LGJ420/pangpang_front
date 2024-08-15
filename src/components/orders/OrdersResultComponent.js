@@ -54,6 +54,18 @@ const OrdersResultComponent = () => {
     }
 
 
+    const handleClickTitle = (id) => {
+
+        navigate(`/product/read/${id}`);
+    }
+
+
+    const handleClickReview = (dto) => {
+
+        navigate(`/review/add`, {state: {dto}});
+    }
+
+
     const handleClickSearch = () => {
 
         setRefresh(!refresh);
@@ -149,7 +161,10 @@ const OrdersResultComponent = () => {
                         <img src={`http://localhost:8080/api/product/view/${dto.uploadFileNames}` || '/images/chi1.jpg'}
                             alt={dto.productTitle} className="w-40 h-40 object-contain border rounded-xl"></img>
                         <div className="w-1/3">
-                            <h3 className="font-extrabold text-2xl">{dto.productTitle}</h3>
+                            <h3 className="font-extrabold text-2xl cursor-pointer"
+                                onClick={()=>handleClickTitle(dto.productId)}>
+                                {dto.productTitle}
+                            </h3>
                             <p className="mt-3">{dto.productContent}</p>
                             <span className="text-blue-700 cursor-pointer hover:opacity-50"
                                 onClick={()=>handleClickInfo(data, dto)}>
@@ -160,13 +175,17 @@ const OrdersResultComponent = () => {
                             <h3 className="mb-3">수량</h3>
                             <div className="text-2xl">{dto.cartCount}개</div>
                         </div>
-                        <div className="text-2xl w-1/6 text-center">{(dto.cartCount * dto.productPrice).toLocaleString()} 원</div>
-                        <div className="flex flex-col justify-center items-center">
-                            <div className="">주문완료</div>
-                            <button className="bg-yellow-600 px-3 py-1 mt-3 text-white rounded-xl hover:opacity-90"
-                                onClick={()=>{navigate(`/review/add`, {state: {dto}})}}>
-                                리뷰 작성하기
-                            </button>
+                        <div className="text-2xl w-1/6 text-center">
+                            {(dto.cartCount * dto.productPrice).toLocaleString()} 원
+                        </div>
+                        <div className="w-1/7 flex flex-col justify-center items-center">
+                            <div className="w-[7rem] text-center">주문완료</div>
+                            {!dto.reviewExist && 
+                                <button className="bg-yellow-600 px-2 py-1 mt-3 text-white rounded-xl hover:opacity-90"
+                                    onClick={()=>handleClickReview(dto)}>
+                                    리뷰 작성하기
+                                </button>
+                            }
                         </div>
                     </div>
                 )
