@@ -195,7 +195,7 @@ const OrdersResultComponent = () => {
             :
 
             <div className="text-center m-32">
-                주문 내역이 없습니다
+                구매내역이 없습니다
             </div>
         }
 
