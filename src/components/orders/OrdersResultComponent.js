@@ -160,13 +160,17 @@ const OrdersResultComponent = () => {
                             <h3 className="mb-3">수량</h3>
                             <div className="text-2xl">{dto.cartCount}개</div>
                         </div>
-                        <div className="text-2xl w-1/6 text-center">{(dto.cartCount * dto.productPrice).toLocaleString()} 원</div>
-                        <div className="flex flex-col justify-center items-center">
-                            <div className="">주문완료</div>
-                            <button className="bg-yellow-600 px-3 py-1 mt-3 text-white rounded-xl hover:opacity-90"
-                                onClick={()=>{navigate(`/review/add`, {state: {dto}})}}>
-                                리뷰 작성하기
-                            </button>
+                        <div className="text-2xl w-1/6 text-center">
+                            {(dto.cartCount * dto.productPrice).toLocaleString()} 원
+                        </div>
+                        <div className="w-1/7 flex flex-col justify-center items-center">
+                            <div className="w-[7rem] text-center">주문완료</div>
+                            {!dto.reviewExist && 
+                                <button className="bg-yellow-600 px-2 py-1 mt-3 text-white rounded-xl hover:opacity-90"
+                                    onClick={()=>{navigate(`/review/add`, {state: {dto}})}}>
+                                    리뷰 작성하기
+                                </button>
+                            }
                         </div>
                     </div>
                 )
