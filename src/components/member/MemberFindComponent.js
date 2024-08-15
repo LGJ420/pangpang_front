@@ -128,9 +128,9 @@ const MemberFindComponent = () => {
         // 3. post로 아이디, 이름, 생년월일 제출 함수 작성
         axios
         .post("http://localhost:8080/api/member/find_pw",{
-                memberIdInFindPw : memberIdInFindPw,
-                memberNameInFindPw : memberNameInFindPw,
-                memberBirthInFindPw : memberBirthInFindPw
+                memberId : memberIdInFindPw,
+                memberName : memberNameInFindPw,
+                memberBirth : memberBirthInFindPw
             })
             
             // 3-1. 제출한 아이디, 이름, 생년월일이 있으면 아래 링크로 이동
