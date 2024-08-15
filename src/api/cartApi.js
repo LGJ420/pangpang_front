@@ -49,6 +49,7 @@ export const putCartOne = async (cartObj) => {
 
 
 // 삭제는 설정칸에 data로 넣어줘야한다
+// (원래 삭제는 보통 url파라미터로 주는데 여기서는 일단 이렇게 제작, 필요시 수정)
 export const deleteCartOne = async (cartObj) => {
 
     const token = localStorage.getItem("token");

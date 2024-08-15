@@ -4,6 +4,7 @@ import { Box, Button, ButtonGroup, Flex, Image, Spacer, Text } from '@chakra-ui/
 import { getOne } from "../../api/productApi";
 import { Link, useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
+import { getReviewList } from "../../api/productReviewApi";
 
 /* 초기값 설정 */
 const initState = {
@@ -12,6 +13,8 @@ const initState = {
   productContent: '',
   productPrice: 0
 }
+
+const prefix = "http://localhost:8080/api/productreview/view";
 
 const ProductDetailComponent = ({ num }) => {
 
@@ -42,6 +45,16 @@ const ProductDetailComponent = ({ num }) => {
         // console.log('Image URLs:', imageUrls); // URL 확인
         setImages(imageUrls);
       } catch (error) {
+        console.error(error);
+      }
+
+
+      try {
+        getReviewList(num).then(data=>{
+          setReviewData(data);
+        });
+      }
+      catch (error) {
         console.error(error);
       }
     };
@@ -158,7 +171,7 @@ const ProductDetailComponent = ({ num }) => {
         <div className="min-h-screen p-10">
           <h3 className="text-xl font-semibold mb-5">총 {reviewData.length}개 리뷰</h3>
           
-          {reviewData.map(()=>
+          {reviewData.map((review)=>
           
             <div className="h-52 p-5 mb-5 flex items-center justify-between border rounded-lg">
               <div className="h-full grow">
@@ -168,18 +181,18 @@ const ProductDetailComponent = ({ num }) => {
                     아이디입니당
                   </div>
                   <div>
-                    ★★★3 별점 줘야하는데 클났네 하..
+                    {review.rating}
                   </div>
                 </div>
                 <div>
-                  2024-08-13
+                  {review.reviewDate}
                 </div>
                 <p>
-                  아 사지마세요 사기당했음
+                  {review.reviewContent}
                 </p>
               </div>
               <div className="ml-4">
-                <img src="/images/pr_mario.png" className="w-60 h-40 object-cover"/>
+                <img src={`${prefix}/${review.reviewFileName}`} className="w-60 h-40 object-cover"/>
               </div>
             </div>
           )}

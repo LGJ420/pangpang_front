@@ -19,3 +19,27 @@ export const postReviewAdd = async (formData) => {
 
     return res.data;
 }
+
+
+// 해당 글 리뷰 불러오기
+export const getReviewList = async (id) => {
+
+    const res =  await axios.get(`${prefix}/${id}`);
+
+    return res.data;
+}
+
+
+// 내가 쓴 리뷰 불러오기
+export const getMyReview = async () => {
+
+    const token = localStorage.getItem("token");
+
+    const res = await axios.get(`${prefix}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    return res.data;
+}
