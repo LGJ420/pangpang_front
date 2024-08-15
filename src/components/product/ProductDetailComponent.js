@@ -17,6 +17,10 @@ const ProductDetailComponent = ({ num }) => {
 
   const [product, setProduct] = useState(initState);
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+  const [selectedTab, setSelectedTab] = useState('product');
+  
+  // 임시
+  const [reviewData, setReviewData] = useState([1,2,3]);
 
   const navigate = useNavigate();
 
@@ -63,6 +67,7 @@ const ProductDetailComponent = ({ num }) => {
       productTitle: product.productTitle,
       productContent: product.productContent,
       productPrice: product.productPrice,
+      uploadFileNames: product.uploadFileNames,
       cartCount: 1
     }
 
@@ -123,8 +128,66 @@ const ProductDetailComponent = ({ num }) => {
           </ButtonGroup>
         </Box>
       </Flex>
-      <div className="m-20 bg-red-50 h-16 text-center">
-        <h4 className="p-3">판매자가 타 사이트 안내 및 현금 결제, 개인정보 유도 시 결제/입력 마시고 즉시 고객센터로 신고해주세요.</h4>
+      <h4 className="bg-red-50 p-3 text-center">
+        판매자가 타 사이트 안내 및 현금 결제, 개인정보 유도 시 결제/입력 마시고 즉시 고객센터로 신고해주세요.
+      </h4>
+      <div className="border">
+
+
+        <div className="flex text-center text-xl">
+          <div className={`w-1/2 p-5 border-r cursor-pointer ${selectedTab === 'product' ? 'font-extrabold bg-orange-400 text-white' : 'bg-gray-200'}`} // 조건부 스타일 적용
+            onClick={() => setSelectedTab('product')}>
+            상품정보
+          </div>
+          <div className={`w-1/2 p-5 border-l cursor-pointer ${selectedTab === 'review' ? 'font-extrabold bg-orange-400 text-white' : 'bg-gray-200'}`} // 조건부 스타일 적용
+            onClick={() => setSelectedTab('review')}>
+            리뷰
+          </div>
+        </div>
+
+        {selectedTab === 'product' && (
+
+        <div className="h-screen p-10">
+          여기는 상품정보라능
+        </div>
+
+        )}
+
+        {selectedTab === 'review' && (
+        
+        <div className="min-h-screen p-10">
+          <h3 className="text-xl font-semibold mb-5">총 {reviewData.length}개 리뷰</h3>
+          
+          {reviewData.map(()=>
+          
+            <div className="h-52 p-5 mb-5 flex items-center justify-between border rounded-lg">
+              <div className="h-full grow">
+                <div className="flex items-center">
+                  <img src="/images/profile.png" className="w-10 h-10 rounded-full border"/>
+                  <div>
+                    아이디입니당
+                  </div>
+                  <div>
+                    ★★★3 별점 줘야하는데 클났네 하..
+                  </div>
+                </div>
+                <div>
+                  2024-08-13
+                </div>
+                <p>
+                  아 사지마세요 사기당했음
+                </p>
+              </div>
+              <div className="ml-4">
+                <img src="/images/pr_mario.png" className="w-60 h-40 object-cover"/>
+              </div>
+            </div>
+          )}
+
+        </div>
+
+        )}
+
       </div>
 
     </section>

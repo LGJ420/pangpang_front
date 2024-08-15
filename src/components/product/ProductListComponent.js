@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
+import useCustomToken from "../../hooks/useCustomToken";
+
 import { getList } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
@@ -31,6 +33,7 @@ const ProductListComponent = () => {
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
 
   const navigate = useNavigate();
+  const {isLogin} = useCustomToken();
 
 
   useEffect(() => {
@@ -41,7 +44,7 @@ const ProductListComponent = () => {
           ? await getList({ search, page, size })
           : await getList({ page, size });
         setServerData(data);
-        console.log(data);
+        // console.log(data);   // 데이터 확인용
 
         // 이미지 URL 설정하기
         const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성
@@ -66,6 +69,13 @@ const ProductListComponent = () => {
   /* 구매하기 */
   const handleClickBuy = (product) => {
 
+    if (!isLogin) {
+
+      alert("로그인이 필요합니다");
+
+      return;
+    }
+
     // eslint-disable-next-line no-restricted-globals
     const goBuy = confirm("구매하시겠습니까?");
   
@@ -80,6 +90,7 @@ const ProductListComponent = () => {
       productTitle: product.productTitle,
       productContent: product.productContent,
       productPrice: product.productPrice,
+      uploadFileNames: product.uploadFileNames,
       cartCount: 1
     }
 
@@ -89,6 +100,13 @@ const ProductListComponent = () => {
 
   /* 장바구니 */
   const handleClickCart = (product) => {
+
+    if (!isLogin) {
+
+      alert("로그인이 필요합니다");
+
+      return;
+    }
 
     const cartObj = {
 

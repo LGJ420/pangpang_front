@@ -4,11 +4,13 @@ import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
 const ProductIndexPage = () => {
 
     return (
+
         <BasicWidthLimitLayout>
 
         <Outlet />
         
         </BasicWidthLimitLayout>
+        
     );
 }
 

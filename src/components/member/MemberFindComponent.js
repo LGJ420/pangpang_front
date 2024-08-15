@@ -38,7 +38,7 @@ const MemberFindComponent = () => {
         
         // 2. 아이디 찾는 조건 작성
         //    2-1. input에 빠짐없이 다 적혀있는가?
-        if([memberNameInFindId, memberBirthInFindId].includes('')){
+        if(!memberNameInFindId || !memberBirthInFindId){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg);
             alert(errorMsg);
@@ -112,7 +112,7 @@ const MemberFindComponent = () => {
         
         // 2. 비밀번호 찾는 조건 작성
         //    2-1. input에 빠짐없이 다 적혀있는가?
-        if([memberIdInFindPw, memberNameInFindPw, memberBirthInFindPw].includes('')){
+        if(!memberIdInFindPw || !memberNameInFindPw || !memberBirthInFindPw){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg);
             alert(errorMsg);

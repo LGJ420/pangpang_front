@@ -8,7 +8,9 @@ const ProductDetailPage = () => {
   console.log(id)
 
   return (
+
     <ProductDetailComponent num={id}/>
+    
   );
 }
 

@@ -24,15 +24,23 @@ const MypageLayoutComponent = ({children}) => {
                     </h3>
                     <ul className="m-0">
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./articlelist`})}>
+                            onClick={()=>navigate({pathname: `./article`})}>
                             내가 쓴 글
                         </li>
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./ordersresult`})}>
+                            onClick={()=>navigate({pathname: `./comment`})}>
+                            내가 쓴 댓글
+                        </li>
+                        <li className="my-5 cursor-pointer"
+                            onClick={()=>navigate({pathname: `./review`})}>
+                            내가 쓴 리뷰
+                        </li>
+                        <li className="my-5 cursor-pointer"
+                            onClick={()=>navigate({pathname: `./orders/result`})}>
                             구매내역
                         </li>
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./profile`})}>
+                            onClick={()=>navigate({pathname: `./confirmBeforeProfile`})}>
                             내 정보 변경
                         </li>
                     </ul>
