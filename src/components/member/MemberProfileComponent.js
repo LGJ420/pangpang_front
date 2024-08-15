@@ -212,7 +212,7 @@ const MemberProfileComponent = () => {
                         아이디
                     </span>
                     <span className="ml-4 text-xl font-bold tracking-wide">
-                        xtcsense
+                        {memberId}
                     </span>
                 </div>
                 <div className="my-10">
