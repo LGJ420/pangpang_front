@@ -17,11 +17,22 @@ const ProductReviewAddComponent = ({productId}) => {
     const [previewUrl, setPreviewUrl] = useState('');
     const [review, setReview] = useState(initReview);
 
+    // 잠깐의 렌더링도 방지하기 위한 state
+    // 초기값이 false여야 처음부터 방지가능
+    const [isValid, setIsValid] = useState(false);
+
     const navigate = useNavigate();
     const location = useLocation();
 
 
     useEffect(() => {
+
+        if (!location.state) {
+
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+            return;
+        }
 
         try{
             setProductData(location.state.dto);
@@ -32,6 +43,8 @@ const ProductReviewAddComponent = ({productId}) => {
                 ...review,
                 productId: location.state.dto.productId
             }));
+
+            setIsValid(true);
         }
         catch(e){
             
@@ -114,7 +127,14 @@ const ProductReviewAddComponent = ({productId}) => {
 
 
 
-    
+    // 이 조건문은 반드시 리액트 훅보다
+    // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
+    // 리액트 자체가 작동하지 않는다
+    // 그래서 최하단에 배치한다
+    if (!isValid) {
+
+        return null;
+    }
     return (
 
         <section className="my-10">

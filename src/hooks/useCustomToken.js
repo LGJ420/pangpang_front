@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { tokenState } from "../atoms/tokenState";
 
 const initState = {
     id: "",
@@ -23,45 +25,38 @@ const base64UrlDecode = (str) => {
 
 const useCustomToken = () => {
 
+    const [token, setToken] = useRecoilState(tokenState);
 
     // 토큰 유(로그인O)무(로그인X) 따지는 state
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(!!token);
     const [decodeToken, setDecodeToken] = useState(initState);
 
 
-    useEffect(()=>{
-        
-            // 로그인해야 로컬스토리지에 토큰이 저장됨
-            const token = localStorage.getItem("token");
-        
+    useEffect(()=>{        
             
-            if (token) {
-                // 토큰이 있으면 state를 true로 바꿈
-                setIsLogin(true);
-        
-                // 토큰에서 페이로드 부분 추출
-                const payload = token.split('.')[1];
+        if (token) {
+            // 토큰이 있으면 state를 true로 바꿈
+            setIsLogin(true);
+    
+            // 토큰에서 페이로드 부분 추출
+            const payload = token.split('.')[1];
 
-                // Base64 URL 디코딩
-                const base64Decoded = base64UrlDecode(payload);
+            // Base64 URL 디코딩
+            const base64Decoded = base64UrlDecode(payload);
 
-                // UTF-8로 변환
-                const decoder = new TextDecoder('utf-8');
-                const jsonString = decoder.decode(new Uint8Array([...base64Decoded].map(char => char.charCodeAt(0))));
+            // UTF-8로 변환
+            const decoder = new TextDecoder('utf-8');
+            const jsonString = decoder.decode(new Uint8Array([...base64Decoded].map(char => char.charCodeAt(0))));
 
-                // JSON 문자열로 변환
-                const decodeToken = JSON.parse(jsonString);
+            // JSON 문자열로 변환
+            const decodeToken = JSON.parse(jsonString);
 
-                // 상태 업데이트
-                setDecodeToken(decodeToken);
-        
-            } else {
-        
-                setIsLogin(false);
-        
-            }
+            // 상태 업데이트
+            setDecodeToken(decodeToken);
+
+        }
     },
-    [localStorage.getItem("token")] // 토큰 값이 변경될 때마다 useEffect 실행
+    [token] // 토큰 값이 변경될 때마다 useEffect 실행
 );
 
     return { isLogin, decodeToken }
