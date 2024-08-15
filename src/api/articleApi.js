@@ -5,21 +5,16 @@ const prefix = `${API_SERVER_HOST}/api/article`;
 
 // 글 목록 보기
 export const getList = async (pageParam) => { 
-    const token = localStorage.getItem("token");
     const {search, page, size, searchBy} = pageParam;
     
     try{
         const res = await axios.get(`${prefix}/list`, 
-            {
-                params: {
-                    search, 
-                    page, 
-                    size,
-                    searchBy
-            },
-                headers: {
-                    'Authorization': `Bearer ${token}`
-            },
+            {params: {
+                search, 
+                page, 
+                size,
+                searchBy
+            }
         });
         return res.data;
     }catch(err){
@@ -38,8 +33,13 @@ export const getOne = async (id) => {
 
 //글 작성하기
 export const postCreate = async (articleObj) => {
+    const token = localStorage.getItem("token");
     
-    const res = await axios.post(`${prefix}/create`, articleObj);
+    const res = await axios.post(`${prefix}/create`, articleObj, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
     return res.data;
 }

@@ -3,6 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons'
 import { getList } from '../../api/articleApi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+import useCustomToken from "../../hooks/useCustomToken";
 
 const ArticleListPage = () => {
     const navigate = useNavigate();
@@ -24,6 +25,10 @@ const ArticleListPage = () => {
     const [searchValue, setSearchValue] = useState('');
     const [searchBy, setSearchBy] = useState('title'); // 검색 기준 기본값
     const [fetchData, setFetchData] = useState({ page: 1, search: '', searchBy: 'title' }); // 검색 조건 저장
+
+
+    const { isLogin } = useCustomToken();
+    
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -198,12 +203,16 @@ const ArticleListPage = () => {
                     />
                 </Flex>
 
-                <Flex justifyContent="flex-end">
-                    <Button colorScheme='teal' onClick={() => navigate("/article/create")}>
-                        글쓰기
-                    </Button>
-                </Flex>
-            </Box>
+                {isLogin ? 
+                    <Flex justifyContent="flex-end">
+                        <Button colorScheme='teal' onClick={() => navigate("/article/create")}>
+                            글쓰기
+                        </Button> 
+                    </Flex> 
+                    : 
+                    <></>
+                }
+                </Box>
         </div>
     );
 };

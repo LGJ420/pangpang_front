@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, FormControl, Input, Textarea, Text } from '@chakra-ui/react';
 import useCustomMove from "../../hooks/useCustomMove"
 import {postCreate} from "../../api/articleApi"
+import useCustomToken from '../../hooks/useCustomToken';
+import { useNavigate } from 'react-router-dom';
 
 const initState ={
   articleTitle: '',
@@ -10,15 +12,28 @@ const initState ={
 }
 
 const ArticleCreatePage = () => {
-  const [article, setArticle] = useState({...initState})
-  const [loading, setLoading] = useState(false)
- 
-  const {moveToList} = useCustomMove()
+  const [article, setArticle] = useState({...initState});
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const { isLogin } = useCustomToken();
+  const {moveToList} = useCustomMove();
+
+
+  useEffect(() => {
+    if (!isLogin) {
+
+      alert("잘못된 접근 방식입니다.");
+      navigate(-1);
+      return;
+  }
+  }, [])
+
 
   const handleChangeArticle = (e) => {
-    article[e.target.name] = e.target.value
+    article[e.target.name] = e.target.value;
 
-    setArticle({...article})
+    setArticle({...article});
   }
 
   const handleClickCreate = async () => {
@@ -30,12 +45,16 @@ const ArticleCreatePage = () => {
     alert('글이 성공적으로 작성되었습니다!');
     moveToList();
   }catch(e){
-    alert('제목,작성자와 내용을 모두 작성하여 주십시오.')
+    alert('제목, 내용을 모두 작성하여 주십시오.')
     console.error(e);
   }finally{
     setLoading(false);
   }
 };
+
+if (!isLogin) {
+  return null;
+}
 
 return (
   <Box 
@@ -69,18 +88,7 @@ return (
         borderRadius="md"
       />
     </FormControl>
-    <FormControl mb={4}>
-      <Input
-        name="articleAuthor"
-        placeholder="작성자명을 입력하세요"
-        value={article.articleAuthor}
-        onChange={handleChangeArticle}
-        variant="filled"
-        bg="white"
-        focusBorderColor="teal.400"
-        borderRadius="md"
-      />
-    </FormControl>
+
     <FormControl mb={6}>
       <Textarea
         name="articleContent"
