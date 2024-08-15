@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+import MypageLayoutComponent from "../../components/mypage/MypageLayoutComponent";
 
 const ManagerIndexPage = () => {
 
@@ -7,8 +8,10 @@ const ManagerIndexPage = () => {
         
         <BasicWidthLimitLayout>
 
-            <h1>여기는 관리자페이지다 샹</h1>
-            <Outlet />
+            <MypageLayoutComponent>
+                <Outlet/>
+            </MypageLayoutComponent>
+    
 
         </BasicWidthLimitLayout>
     );
