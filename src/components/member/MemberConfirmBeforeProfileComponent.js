@@ -50,7 +50,7 @@ const MemberConfirmBeforeProfileComponent = () => {
                 console.log(response.data)
                 const {memberImage, memberId, memberNickname, memberPw, memberPhone,postcode, postAddress, detailAddress, extraAddress} = response.data;
                 // 페이지 이동(프로필변경 전 확인->프로필변경) 및 데이터 전달
-                navigate("/mypage/profile", {state : {memberImage, memberId, memberNickname, memberPw, memberPhone, postcode, postAddress, detailAddress, extraAddress}});
+                navigate("/mypage/profile/modify", {state : {memberImage, memberId, memberNickname, memberPw, memberPhone, postcode, postAddress, detailAddress, extraAddress}});
             })
             
             // 3-2. 없으면 에러 발생

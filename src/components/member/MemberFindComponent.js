@@ -54,8 +54,8 @@ const MemberFindComponent = () => {
         // 3. post로 이름, 생년월일 제출 함수 작성
         axios
         .post("http://localhost:8080/api/member/find_id",{
-                memberNameInFindId : memberNameInFindId,
-                memberBirthInFindId : memberBirthInFindId
+                memberName : memberNameInFindId,
+                memberBirth : memberBirthInFindId
             })
             
             // 3-1. 제출한 이름, 생년월일이 있으면 콘솔창에 출력(확인) 및 아래 링크로 이동하면서 데이터 전달
@@ -128,9 +128,9 @@ const MemberFindComponent = () => {
         // 3. post로 아이디, 이름, 생년월일 제출 함수 작성
         axios
         .post("http://localhost:8080/api/member/find_pw",{
-                memberIdInFindPw : memberIdInFindPw,
-                memberNameInFindPw : memberNameInFindPw,
-                memberBirthInFindPw : memberBirthInFindPw
+                memberId : memberIdInFindPw,
+                memberName : memberNameInFindPw,
+                memberBirth : memberBirthInFindPw
             })
             
             // 3-1. 제출한 아이디, 이름, 생년월일이 있으면 아래 링크로 이동
@@ -148,7 +148,7 @@ const MemberFindComponent = () => {
                 // ▲▲▲ 출력 제대로 되는지 확인용 ▲▲▲
 
                 // 데이터 전달
-                navigate("/find_pw", {state : {id}})
+                navigate("/find_pw", {state : {memberId}})
             })
             
             // 3-2. 없으면 에러 발생
@@ -196,6 +196,7 @@ const MemberFindComponent = () => {
                             <Input 
                             value={memberBirthInFindId}
                             onChange={handleMemberBirthInFindId}
+                            maxLength={6}
                             placeholder='ex.881225' />
                         </FormControl>
                     </div>

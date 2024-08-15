@@ -14,7 +14,7 @@ const MemberFindPwPage = () => {
     const navigate = useNavigate();
 
     const location = useLocation();
-    const {id} = location.state || {};
+    const {memberId} = location.state || {};
 
     const [memberPwInFindPwForReset, setMemberPwInFindPwForReset] = useState("");
     const [memberPwConfirmInFindPwForReset, setMemberPwConfirmInFindPwForReset] = useState("");
@@ -49,8 +49,8 @@ const MemberFindPwPage = () => {
         axios
         .post("http://localhost:8080/api/member/find_pw/reset",{
             // 비밀번호만 보내려고 했는데 Repository.findByMemberId()<-이걸로 데이터 찾고 비번 바꿔야해서 회원번호(id)도 같이 전송해야됨
-            idInFindPwForReset : id,
-            memberPwInFindPwForReset : memberPwInFindPwForReset
+            memberId : memberId,
+            memberPw : memberPwInFindPwForReset
         })
 
         .then((response)=>{
