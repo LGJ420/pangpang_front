@@ -31,16 +31,16 @@ const MypageLayoutComponent = ({children}) => {
     return (
         <>
         <section>
-            <div className="h-[15rem] bg-sky-200 flex items-center">
+            <div className="h-[15rem] flex items-center border-b bg-slate-100">
                 <img src="/images/profile.png" className="rounded-full border w-52 ml-8"/>
                 <h3 className="text-5xl font-bold p-5 tracking-wider">{decodeToken.memberNickname}</h3>
-                <div className="text-xl font-semibold pt-6">등급 : {decodeToken.memberRole}</div>
+                <div className="text-xl font-semibold pt-6 uppercase">등급 : {decodeToken.memberRole}</div>
             </div>
         </section>
         <section>
             <div className="min-h-[60rem] flex">
-                <div className="w-1/5 p-5 bg-slate-400">
-                    <h3 className="text-2xl">
+                <div className="w-1/5 p-5 border-r bg-slate-200">
+                    <h3 className="text-2xl font-bold">
                         메뉴
                     </h3>
                     <ul className="m-0">
@@ -65,7 +65,7 @@ const MypageLayoutComponent = ({children}) => {
                             구매내역
                         </li>
                     </ul>
-                    <h3 className="text-2xl">
+                    <h3 className="text-2xl font-bold mt-10">
                         관리자
                     </h3>
                     <ul className="m-0">
@@ -78,7 +78,7 @@ const MypageLayoutComponent = ({children}) => {
                         </li>
                     </ul>
                 </div>
-                <div className="w-4/5 p-5 bg-red-200">
+                <div className="w-4/5 p-5">
                     {children}
                 </div>
             </div>

@@ -134,7 +134,7 @@ const OrdersResultComponent = () => {
 
         }
 
-            <h1 className="text-xl ml-5 font-bold">구매내역</h1>
+            <h1 className="text-xl font-bold">구매내역</h1>
 
             <div className="flex justify-center">
                 <div className="flex justify-around border-2 rounded-3xl w-3/4 overflow-hidden focus-within:border-blue-500 focus-within:shadow-outline">
@@ -196,7 +196,7 @@ const OrdersResultComponent = () => {
             :
 
             <div className="text-center m-32">
-                주문 내역이 없습니다
+                구매내역이 없습니다
             </div>
         }
 

@@ -1,9 +1,11 @@
+import MypageCommentComponent from "../../components/mypage/MypageCommentComponent";
+
 const MypageCommentPage = () => {
 
     return (
-        <div>
-            내가쓴 댓글페이지
-        </div>
+        
+        <MypageCommentComponent />
+        
     );
 }
 

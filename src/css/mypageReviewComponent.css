@@ -1,0 +1,6 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+#rate .star {
+    font-family: FontAwesome;
+    color: #f73c32 !important;  
+}

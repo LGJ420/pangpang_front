@@ -1,11 +1,14 @@
-import styles from '../../css/memberPage.module.css';
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { tokenState } from '../../atoms/tokenState';
 
 const MemberProfileComponent = () => {
     const navigate = useNavigate();
+
+    const [token, setToken] = useRecoilState(tokenState);
 
     const location = useLocation();
     const {memberImage, memberId, memberNickname, memberPw, memberPhone, postcode, postAddress, detailAddress, extraAddress} = location.state || {};
@@ -172,8 +175,10 @@ const MemberProfileComponent = () => {
             })
             .then((response) => {
                 console.log(response);
-                localStorage.setItem("token", response.data)
-                navigate("/mypage");
+                localStorage.setItem("token", response.data);
+                setToken(response.data);
+                alert("수정이 완료되었습니다.");
+                navigate('/');
             })
             .catch((error) => {
                 console.error("내 정보 변경 요청 중 오류 발생", error);
@@ -182,107 +187,143 @@ const MemberProfileComponent = () => {
 
 
     return(
-        <div className={styles.test}>
-            <p>내 정보 수정</p>
-            <p>팡팡게임즈 대표 프로필과 닉네임을 수정 하실 수 있습니다.</p>
+        <section>
+            <h3 className='text-xl font-bold'>내 정보 수정</h3>
 
-            <div>
-                <ul>
-                    <li>
-                        <span>
-                            사진
-                        </span>
-                        <span>
-                            사진등록하는곳^_^
-                        </span>
-                    </li>
-                    <li>
-                        <span>
-                            아이디
-                        </span>
-                        <span>
-                            {memberId}
-                        </span>
-                    </li>
-                    <li>
-                        <span>
-                            닉네임
-                        </span>
-                        <input value={modifyMemberNickname} onChange={handleMemberNickname}/>
-                    </li>
-                    <li>
-                        <span>
-                            비밀번호 변경
-                        </span>
-                        <input 
+            <div className="w-11/12 m-auto">
+                <div className="my-10 flex items-center">
+                    <span>
+                        프로필 사진
+                    </span>
+                    <div className="ml-7 flex flex-col items-end">
+                        <div>
+                            jpg, png 어쩌구저쩌구 설명써야함 어쩌구저쩌구
+                        </div>
+                        <button className="w-24 h-6 mt-1 bg-slate-400 text-white rounded hover:opacity-80 text-sm">
+                            사진 등록하기
+                        </button>
+                    </div>
+                    <img 
+                        className="ml-7 border w-32 h-32 object-cover"
+                        src="/images/profile.png"/>
+                </div>
+                <div className="my-10">
+                    <span>
+                        아이디
+                    </span>
+                    <span className="ml-4 text-xl font-bold tracking-wide">
+                        {memberId}
+                    </span>
+                </div>
+                <div className="my-10">
+                    <label>
+                        닉네임
+                    </label>
+                    <input
+                        className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                        maxLength={10}
+                        value={modifyMemberNickname}
+                        onChange={handleMemberNickname}/>
+                </div>
+                <div className="my-10">
+                    <label htmlFor="password1">
+                        비밀번호 변경
+                    </label>
+                    <input
+                        className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                        maxLength={24}
+                        id='password1'
                         placeholder='비밀번호를 변경해주세요.' 
                         type='password'
                         value={modifyMemberPw} 
                         onChange={handleMemberPw}/>
-                    </li>
-                    <li>
-                        <span>
-                            비밀번호 확인
-                        </span>
-                        <input 
+                </div>
+                <div className="my-10">
+                    <label htmlFor="password2">
+                        비밀번호 확인
+                    </label>
+                    <input
+                        className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                        maxLength={24}
+                        id='password2'
                         type='password'
                         placeholder='비밀번호를 다시 입력해주세요.'
                         value={modifyMemberPwConfirm}
                         onChange={handleMemberPwConfirm}/>
-                    </li>
-                    <li>
-                        <span>
-                            핸드폰
-                        </span>
-                        <input value={phone1} type='text' maxLength="3" onChange={handlePhone1}/> 
-                        - 
-                        <input value={phone2} type='text' maxLength="4" onChange={handlePhone2}/> 
-                        - 
-                        <input value={phone3} type='text' maxLength="4" onChange={handlePhone3}/>
-                    </li>
-                    
-                    <li>
-                        <h5 className="block text-sm font-medium text-gray-700">주소</h5>
-                            <input
-                                className="mt-1 w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                type="text"
-                                placeholder="우편번호"
-                                value={postcodeApi}
-                                readOnly
-                            />
-                            <button
-                                className="p-1 ml-2 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
-                                onClick={handleClickPost}>
-                                우편번호 찾기
-                            </button>
-                            <input
-                                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                type="text"
-                                placeholder="주소"
-                                value={postAddressApi}
-                                readOnly
-                            />
-                            <input
-                                className="mt-1 w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                type="text"
-                                placeholder="상세주소"
-                                value={detailAddressApi}
-                                ref={detailAddressRef}
-                                onChange={e => setDetailAddressApi(e.target.value)}
-                            />
-                            <input
-                                className="mt-1 w-1/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                                type="text"
-                                placeholder="참고항목"
-                                value={extraAddressApi}
-                                readOnly
-                            />
-                    </li>
-                </ul>
+                </div>
+                <div className="my-10">
+                    <span>
+                        핸드폰
+                    </span>
+                    <input
+                        className="ml-4 w-12 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                        value={phone1}
+                        type='text'
+                        maxLength="3"
+                        onChange={handlePhone1}/> 
+                    - 
+                    <input
+                        className="w-14 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                        value={phone2}
+                        type='text'
+                        maxLength="4"
+                        onChange={handlePhone2}/> 
+                    - 
+                    <input
+                        className="w-14 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                        value={phone3}
+                        type='text'
+                        maxLength="4"
+                        onChange={handlePhone3}/>
+                </div>
+                
+                <div>
+                    <h5 className="block font-medium text-gray-700 mb-3">주소</h5>
+                        <input
+                            className="mt-1 w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
+                            type="text"
+                            placeholder="우편번호"
+                            value={postcodeApi}
+                            readOnly
+                        />
+                        <button
+                            className="p-1 ml-2 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
+                            onClick={handleClickPost}>
+                            우편번호 찾기
+                        </button>
+                        <input
+                            className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
+                            type="text"
+                            placeholder="주소"
+                            value={postAddressApi}
+                            readOnly
+                        />
+                        <input
+                            className="mt-1 w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                            type="text"
+                            placeholder="상세주소"
+                            value={detailAddressApi}
+                            ref={detailAddressRef}
+                            onChange={e => setDetailAddressApi(e.target.value)}
+                        />
+                        <input
+                            className="mt-1 w-1/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
+                            type="text"
+                            placeholder="참고항목"
+                            value={extraAddressApi}
+                            readOnly
+                        />
+                </div>
+                <div className="flex justify-center mt-10">
+                    <button
+                        className="text-white bg-[rgb(68,107,216)] text-lg font-extrabold hover:opacity-70 rounded-lg w-28 h-12"
+                        onClick={clickModify}>
+                        수정하기
+                    </button>
+                </div>
             </div>
-            <button onClick={clickModify}>수정하기</button>
 
-        </div>
+        </section>
     );
 }
 
