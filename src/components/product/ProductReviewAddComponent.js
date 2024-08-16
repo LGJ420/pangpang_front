@@ -51,7 +51,7 @@ const ProductReviewAddComponent = ({productId}) => {
             console.log(e);
         }
 
-    }, [location.state]);
+    }, []);
 
 
     const handleFileChange = event => {
