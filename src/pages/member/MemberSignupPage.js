@@ -247,10 +247,9 @@ const MemberSignupPage = () => {
             <div>
                 {/* 아이디 */}
                 <FormControl isRequired className='flex items-center my-3'>
-                    <FormLabel className="w-1/3">아이디</FormLabel>
-                    <div className='flex'>
+                    <FormLabel className="w-1/4">아이디</FormLabel>
+                    <div className='flex w-3/4'>
                         <Input
-                            className=''
                             value={memberId}
                             onChange={handleMemberId}
                             placeholder='아이디를 입력해주세요.'/>
@@ -264,9 +263,9 @@ const MemberSignupPage = () => {
 
                 {/* 비밀번호 */}
                 <FormControl isRequired className='flex items-center my-3'>
-                    <FormLabel className="w-1/3">비밀번호</FormLabel>
+                    <FormLabel className="w-1/4">비밀번호</FormLabel>
                     <Input
-                        className=''
+                        className='w-3/4'
                         type='password' 
                         value={memberPw}
                         onChange={handleMemberPw}
@@ -276,72 +275,80 @@ const MemberSignupPage = () => {
 
                 {/* 비밀번호 확인 */}
                 <FormControl isRequired className='flex items-center my-3'>
-                    <FormLabel className="w-1/3">비밀번호 확인</FormLabel>
-                    <Input 
-                    type='password' 
-                    value={memberPwConfirm}
-                    onChange={handleMemberPwConfirm}
-                    placeholder='비밀번호를 입력해주세요.' />
+                    <FormLabel className="w-1/4">비밀번호 확인</FormLabel>
+                    <Input
+                        className='w-3/4'
+                        type='password' 
+                        value={memberPwConfirm}
+                        onChange={handleMemberPwConfirm}
+                        placeholder='비밀번호를 입력해주세요.' />
                 </FormControl>
 
                 {/* 이름 */}
                 <FormControl isRequired className='flex items-center my-3'>
-                    <FormLabel className="w-1/3">이름</FormLabel>
-                    <Input 
-                    value={memberName}
-                    onChange={handleMemberName}
-                    placeholder='이름을 입력해주세요.' />
+                    <FormLabel className="w-1/4">이름</FormLabel>
+                    <Input
+                        className='w-3/4'
+                        value={memberName}
+                        onChange={handleMemberName}
+                        placeholder='이름을 입력해주세요.' />
                 </FormControl>
 
                 {/* 닉네임 */}
                 <FormControl isRequired className='flex items-center my-3'>
-                    <FormLabel className="w-1/3">닉네임</FormLabel>
-                    <Input 
-                    value={memberNickname}
-                    onChange={handleMemberNickname}
-                    placeholder='닉네임을 입력해주세요.' />
+                    <FormLabel className="w-1/4">닉네임</FormLabel>
+                    <Input
+                        className='w-3/4'
+                        value={memberNickname}
+                        onChange={handleMemberNickname}
+                        placeholder='닉네임을 입력해주세요.' />
                 </FormControl>
 
                 {/* 생년월일 */}
                 <FormControl isRequired className='flex items-center my-3'>
-                    <FormLabel className="w-1/3">생년월일</FormLabel>
+                    <FormLabel className="w-1/4">생년월일</FormLabel>
                     <Input 
-                    value={memberBirth}
-                    onChange={handleMemberBirth}
-                    maxLength="6"
-                    placeholder='ex.881225' />
+                        className='w-3/4'
+                        value={memberBirth}
+                        onChange={handleMemberBirth}
+                        maxLength="6"
+                        placeholder='ex.881225' />
                 </FormControl>
 
                 {/* 핸드폰 */}
                 <FormControl isRequired className='flex items-center my-3'>
-                    <FormLabel className="w-1/3">
+                    <FormLabel className="w-1/4">
                         핸드폰
                     </FormLabel>
-                    <Input 
-                        className='w-32'
-                        value={phone1}
-                        onChange={handlePhone1}
-                        maxLength="3"
-                        placeholder='010' />
-                    <Input 
-                        className='w-40'
-                        value={phone2}
-                        onChange={handlePhone2}
-                        maxLength="4"
-                        placeholder='1234' />
-                    <Input 
-                        className='w-40'
-                        value={phone3}
-                        onChange={handlePhone3}
-                        maxLength="4"
-                        placeholder='5678' />
+                    <div className='w-3/4'>
+                        <Input 
+                            className='w-16'
+                            value={phone1}
+                            onChange={handlePhone1}
+                            maxLength="3"
+                            placeholder='010' />
+                        -
+                        <Input 
+                            className='w-20'
+                            value={phone2}
+                            onChange={handlePhone2}
+                            maxLength="4"
+                            placeholder='1234' />
+                        -
+                        <Input 
+                            className='w-20'
+                            value={phone3}
+                            onChange={handlePhone3}
+                            maxLength="4"
+                            placeholder='5678' />
+                    </div>
                 </FormControl>
                 {/* 주소 */}
                 <FormControl isRequired className='flex mt-10 flex-col'>
-                    <div className='flex justify-between'>
-                        <FormLabel>주소</FormLabel>
+                    <FormLabel>주소</FormLabel>
+                    <div className='flex'>
                         <Input
-                            className='w-40 ml-auto'
+                            className='w-40'
                             type="text"
                             placeholder="우편번호"
                             value={postcode}
