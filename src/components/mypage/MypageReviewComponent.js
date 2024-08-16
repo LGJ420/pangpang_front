@@ -44,12 +44,12 @@ const MypageReviewComponent = () => {
                         <div className="text-2xl">
                             마리오 게임
                         </div>
-                        <div className="ml-auto w-28">
-                            <button className="w-28 h-7 text-white mb-2 bg-amber-500 rounded hover:opacity-80">
-                                리뷰 수정하기
+                        <div className="flex ml-auto w-40">
+                            <button className="w-32 h-12 text-white mr-2 bg-amber-500 rounded hover:opacity-80">
+                                수정하기
                             </button>
-                            <button className="w-28 h-7 text-white bg-red-600 rounded hover:opacity-80">
-                                리뷰 삭제하기
+                            <button className="w-32 h-12 text-white bg-red-500 rounded hover:opacity-80">
+                                삭제하기
                             </button>
                         </div>
                     </div>
