@@ -3,20 +3,20 @@ import { getMyReview } from "../../api/productReviewApi";
 import "../../css/mypageReviewComponent.css";
 import RatingStarCompoent from "../common/RatingStarComponent";
 
-const initData = {
-    rating: 0,
-    reviewContent: "",
-    reviewFileName: "",
-    reviewDate: "",
-    productId: 0,
-    memberId: 0
-}
+// const initData = {
+//     rating: 0,
+//     reviewContent: "",
+//     reviewFileName: "",
+//     reviewDate: "",
+//     productId: 0,
+//     memberId: 0
+// }
 
 const prefix = "http://localhost:8080/api/productreview/view";
 
 const MypageReviewComponent = () => {
 
-    const [reviewData, setReviewData] = useState([initData]);
+    const [reviewData, setReviewData] = useState([]);
 
     useEffect(() => {
 

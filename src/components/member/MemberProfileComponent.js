@@ -190,7 +190,7 @@ const MemberProfileComponent = () => {
         <section>
             <div className="text-xl mb-3">
 
-                <h3 className='font-bold'>내 정보 수정</h3>
+                <h3 className='text-xl font-bold'>내 정보 수정</h3>
 
                 <div className="w-11/12 m-auto">
                     <div className="my-10 flex items-center">
