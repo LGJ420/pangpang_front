@@ -1,11 +1,11 @@
 import MemberFindComponent from "../../components/member/MemberFindComponent";
 
 const MemberLoginPage = () => {
-
-
                 
     return (
-        <MemberFindComponent/>
+
+        <MemberFindComponent />
+
     );
 }
 
