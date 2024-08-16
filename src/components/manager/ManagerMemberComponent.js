@@ -19,6 +19,7 @@ import styles from "../../css/memberPage.module.css"
 const ManagerMemberComponent = () => {
 
     const [serverData, setServerData] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(()=>{
 
@@ -28,19 +29,19 @@ const ManagerMemberComponent = () => {
             console.log(data);
         }).catch(e=>console.log(e));
 
-    },[serverData]);
+    },[refresh]);
 
     // 회원등급 버튼 눌렀을 때, User<->Admin 됨
     // serverData 자체를 변경해야됨
     const clickMemberRole = (data) => {
-
         const newRole = data.memberRole === "User" ? "Admin" : "User";
-
+        
         axios.post("http://localhost:8080/api/member/mypage/manager/change/role",{
             id : data.id,
             memberRole : newRole,
         })
         .then((response)=>{
+            setRefresh(!refresh);
             console.log(response.data);
         })
         .catch((error)=>{
