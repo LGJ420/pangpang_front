@@ -69,3 +69,27 @@
 
     z-index: 1;
 }
+
+.membersGrid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+}
+
+.membersHeader {
+    font-weight: bold;
+    background-color: #f1f1f1;
+    display: contents;
+}
+
+.memberRow {
+    display: contents;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.memberRow div,
+.membersHeader div {
+    padding: 8px 10px;
+}
+
