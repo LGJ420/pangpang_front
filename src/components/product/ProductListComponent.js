@@ -229,7 +229,7 @@ const ProductListComponent = () => {
         {
           decodeToken.memberRole === 'Admin' &&
 
-          <button className="absolute right-0 bg-amber-200 w-52 h-16 rounded-xl hover:opacity-80 font-bold text-slate-900"
+          <button className="absolute right-0 bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold text-slate-900"
             onClick={handleClickAdd}>
             상품 추가하기
           </button>
