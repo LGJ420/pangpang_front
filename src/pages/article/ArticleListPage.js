@@ -26,10 +26,8 @@ const ArticleListPage = () => {
     const [searchBy, setSearchBy] = useState('title'); // 검색 기준 기본값
     const [fetchData, setFetchData] = useState({ page: 1, search: '', searchBy: 'title' }); // 검색 조건 저장
 
-
     const { isLogin } = useCustomToken();
     
-
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const page = parseInt(queryParams.get('page')) || 1;
@@ -102,7 +100,7 @@ const ArticleListPage = () => {
                             onChange={(e) => setSearchBy(e.target.value)}
                         >
                             <option value="title">제목</option>
-                            <option value="author">등록자명</option>
+                            <option value="author">작성자명</option>
                         </Select>
 
                         <Input 
@@ -135,7 +133,7 @@ const ArticleListPage = () => {
                                 <Tr>
                                     <Th textAlign="center">글번호</Th>
                                     <Th textAlign="center">제목</Th>
-                                    <Th textAlign="center">등록자명</Th>
+                                    <Th textAlign="center">작성자</Th> {/* 작성자 열 추가 */}
                                     <Th textAlign="center">등록일</Th>
                                     <Th textAlign="center">조회수</Th>
                                 </Tr>
@@ -153,7 +151,7 @@ const ArticleListPage = () => {
                                         >
                                             {article.articleTitle}
                                         </Td>
-                                        <Td textAlign="center">{article.articleAuthor}</Td>
+                                        <Td textAlign="center">{article.memberNickname}</Td> {/* 작성자 데이터 추가 */}
                                         <Td textAlign="center">{article.articleCreated ? formatDateTime(article.articleCreated) : '날짜 형식이 맞지 않음'}</Td>
                                         <Td textAlign="center">{article.viewCount || 0}회</Td> 
                                     </Tr>
