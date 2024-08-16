@@ -1,7 +1,7 @@
 import styles from '../../css/memberPage.module.css';
 import { Link, useNavigate } from "react-router-dom";
 
-const MemberFindPwConfirmComponent = () => {
+const MemberResetPwConfirmComponent = () => {
 
     const navigate = useNavigate();
 
@@ -43,4 +43,4 @@ const MemberFindPwConfirmComponent = () => {
     );
 };
 
-export default MemberFindPwConfirmComponent;
+export default MemberResetPwConfirmComponent;

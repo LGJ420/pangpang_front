@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import axios from 'axios';
 
-const MemberFindComponent = () => {
+const MemberFindPwComponent = () => {
 
     // ☆★☆★☆★☆★ 비밀번호 ☆★☆★☆★☆★
     
@@ -147,4 +147,4 @@ const MemberFindComponent = () => {
     );
 }
 
-export default MemberFindComponent;
+export default MemberFindPwComponent;

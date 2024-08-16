@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import axios from 'axios';
 
-const MemberFindComponent = () => {
+const MemberFindIdComponent = () => {
 
     // ☆★☆★☆★☆★ 아이디 ☆★☆★☆★☆★
 
@@ -130,4 +130,4 @@ const MemberFindComponent = () => {
     );
 }
 
-export default MemberFindComponent;
+export default MemberFindIdComponent;

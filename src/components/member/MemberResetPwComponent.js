@@ -10,7 +10,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
-const MemberFindPwComponent = () => {
+const MemberResetPwComponent = () => {
     const navigate = useNavigate();
 
     const location = useLocation();
@@ -145,4 +145,4 @@ const MemberFindPwComponent = () => {
     );
 }
 
-export default MemberFindPwComponent;
+export default MemberResetPwComponent;
