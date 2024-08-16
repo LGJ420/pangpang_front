@@ -344,7 +344,7 @@ const MemberSignupPage = () => {
                     </div>
                 </FormControl>
                 {/* 주소 */}
-                <FormControl isRequired className='flex mt-10 flex-col'>
+                <FormControl isRequired className='flex flex-col'>
                     <FormLabel>주소</FormLabel>
                     <div className='flex'>
                         <Input
