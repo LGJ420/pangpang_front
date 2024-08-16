@@ -5,6 +5,7 @@ import { getOne } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
 import { getReviewList } from "../../api/productReviewApi";
+import RatingStarCompoent from "../common/RatingStarComponent";
 
 /* 초기값 설정 */
 const initState = {
@@ -173,15 +174,17 @@ const ProductDetailComponent = ({ num }) => {
           
           {reviewData.map((review)=>
           
-            <div className="h-52 p-5 mb-5 flex items-center justify-between border rounded-lg">
-              <div className="h-full grow">
+            <div className="py-5 pl-6 mb-5 flex items-center justify-between border rounded-lg">
+              <div className="w-5/6 min-h-40">
                 <div className="flex items-center">
-                  <img src="/images/profile.png" className="w-10 h-10 rounded-full border"/>
-                  <div>
+                  <img
+                    className="w-10 h-10 mr-2 rounded-full border"
+                    src="/images/profile.png" />
+                  <div className="mr-2">
                     아이디입니당
                   </div>
                   <div>
-                    {review.rating}
+                    <RatingStarCompoent score={review.rating}/>
                   </div>
                 </div>
                 <div>
@@ -191,9 +194,10 @@ const ProductDetailComponent = ({ num }) => {
                   {review.reviewContent}
                 </p>
               </div>
-              <div className="ml-4">
-                <img src={`${prefix}/${review.reviewFileName}`} className="w-60 h-40 object-cover"/>
-              </div>
+                <img 
+                  className="w-40 h-40 mx-auto object-contain"
+                  src={review.reviewFileName.length > 0 ? `${prefix}/${review.reviewFileName}` : `/images/no_image.png`} />
+
             </div>
           )}
 
