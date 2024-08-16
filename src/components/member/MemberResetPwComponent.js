@@ -94,7 +94,7 @@ const MemberFindPwComponent = () => {
 
         <section className={styles.account_management}>
         <div>
-            {/* 아이디 찾기 페이지 */}
+            {/* 비밀번호 변경 페이지 */}
             <Link to={'/'}>
                 <img src="/images/logo.png" className="w-20 mb-3"/>
             </Link>
