@@ -53,7 +53,7 @@ const ArticleReadPage = () => {
       </Heading>
 
       <Text fontSize="lg" color="gray.600" mb={2}>
-        작성자: {serverData.articleAuthor}
+        작성자: {serverData.memberNickname}
       </Text>
 
       <Text fontSize="sm" color="gray.500" mb={4}>
