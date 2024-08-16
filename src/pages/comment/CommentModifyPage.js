@@ -1,71 +1,61 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Box, Button, Input, Textarea, FormControl, FormLabel } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Box, Button, FormControl, FormLabel, Input, Textarea, Heading } from '@chakra-ui/react';
+import { getCommentById, putComment } from '../../api/commentApi';
 
 const CommentModifyPage = () => {
   const { id } = useParams();
+  const [commentContent, setCommentContent] = useState('');
+  const [commentAuthor, setCommentAuthor] = useState('');
   const navigate = useNavigate();
-  const [comment, setComment] = useState({ commentAuthor: '', commentContent: '' });
 
   useEffect(() => {
     const fetchComment = async () => {
       try {
-        const response = await axios.get(`/api/comment/${id}`);
-        setComment(response.data);
+        const data = await getCommentById(id);
+        setCommentContent(data.commentContent);
+        setCommentAuthor(data.commentAuthor);
       } catch (error) {
         console.error('Error fetching comment:', error);
       }
     };
 
-    if (id) {
-      fetchComment();
-    }
+    fetchComment();
   }, [id]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/api/comment/${id}`, comment);
-      navigate(`/article/${comment.articleId}`);
+      await putComment(id, {
+        commentContent,
+        commentAuthor
+      });
+      navigate(-1); // 수정 후 이전 페이지로 돌아감
     } catch (error) {
       console.error('Error updating comment:', error);
     }
   };
 
-  const handleChange = (e) => {
-    setComment({
-      ...comment,
-      [e.target.name]: e.target.value
-    });
-  };
-
   return (
-    <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
+    <Box p={6} maxW="container.md" mx="auto">
+      <Heading mb={6}>댓글 수정</Heading>
       <form onSubmit={handleUpdate}>
-        <FormControl mb={4}>
-          <FormLabel htmlFor="author">작성자</FormLabel>
+        <FormControl mb={4} isRequired>
+          <FormLabel>작성자</FormLabel>
           <Input
-            id="author"
-            name="commentAuthor"
-            value={comment.commentAuthor}
-            onChange={handleChange}
-            required
+            type="text"
+            value={commentAuthor}
+            onChange={(e) => setCommentAuthor(e.target.value)}
           />
         </FormControl>
-        <FormControl mb={4}>
-          <FormLabel htmlFor="content">댓글 내용</FormLabel>
+        <FormControl mb={6} isRequired>
+          <FormLabel>댓글 내용</FormLabel>
           <Textarea
-            id="content"
-            name="commentContent"
-            value={comment.commentContent}
-            onChange={handleChange}
-            required
+            value={commentContent}
+            onChange={(e) => setCommentContent(e.target.value)}
           />
         </FormControl>
-        <Button type="submit" colorScheme="teal">
-          수정 완료
-        </Button>
+        <Button colorScheme="teal" type="submit">저장하기</Button>
       </form>
     </Box>
   );

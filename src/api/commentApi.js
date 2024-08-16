@@ -11,7 +11,7 @@ export const postComment = async (comment) => {
 
 // 댓글 수정하기
 export const putComment = async (id, comment) => {
-    const res = await axios.put(`${prefix}/${id}`, comment);
+    const res = await axios.put(`${prefix}/modify/${id}`, comment);
     return res.data;
 };
 

@@ -33,8 +33,13 @@ export const getOne = async (id) => {
 
 //글 작성하기
 export const postCreate = async (articleObj) => {
+    const token = localStorage.getItem("token");
     
-    const res = await axios.post(`${prefix}/create`, articleObj);
+    const res = await axios.post(`${prefix}/create`, articleObj, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
     return res.data;
 }
