@@ -33,7 +33,7 @@ const ProductListComponent = () => {
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
 
   const navigate = useNavigate();
-  const {isLogin} = useCustomToken();
+  const {isLogin, decodeToken} = useCustomToken();
 
 
   useEffect(() => {
@@ -137,6 +137,11 @@ const ProductListComponent = () => {
   }
 
 
+  const handleClickAdd = () => {
+
+    navigate('../add');
+  }
+
 
   // 리턴값 맵으로 반복
   return (
@@ -206,7 +211,7 @@ const ProductListComponent = () => {
 
       {/* 페이지네이션 */}
 
-      <Flex justifyContent="center" fontSize="25px" className="py-10 text-gray-700">
+      <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700">
         {/* 이전 페이지 */}
         {serverData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage })}>{'\u003c'}</Box> :
           <></>}
@@ -220,7 +225,18 @@ const ProductListComponent = () => {
 
         {/* 다음 페이지 */}
         {serverData.next ? <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.nextPage })}>{'\u003e'}</Box> : <></>}
+
+        {
+          decodeToken.memberRole === 'Admin' &&
+
+          <button className="absolute right-0 bg-amber-200 w-52 h-16 rounded-xl hover:opacity-80 font-bold text-slate-900"
+            onClick={handleClickAdd}>
+            상품 추가하기
+          </button>
+        }
+
       </Flex>
+
 
 
     </section>
