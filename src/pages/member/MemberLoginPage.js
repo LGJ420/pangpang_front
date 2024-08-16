@@ -39,8 +39,8 @@ const MemberLoginPage = () => {
         
         axios
         .post("http://localhost:8080/api/member/login",{
-            memberIdInLogin : memberId,
-            memberPwInLogin : memberPw
+            memberId : memberId,
+            memberPw : memberPw
         })
             .then((response)=>{
                 console.log(response.data);

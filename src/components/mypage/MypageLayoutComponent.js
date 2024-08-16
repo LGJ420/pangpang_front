@@ -45,23 +45,23 @@ const MypageLayoutComponent = ({children}) => {
                     </h3>
                     <ul className="m-0">
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./profile`})}>
+                            onClick={()=>navigate({pathname: `/mypage/profile/cofirm`})}>
                             내 정보 변경
                         </li>
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./article`})}>
+                            onClick={()=>navigate({pathname: `/mypage/article`})}>
                             내가 쓴 글
                         </li>
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./comment`})}>
+                            onClick={()=>navigate({pathname: `/mypage/comment`})}>
                             내가 쓴 댓글
                         </li>
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./review`})}>
+                            onClick={()=>navigate({pathname: `/mypage/review`})}>
                             내가 쓴 리뷰
                         </li>
                         <li className="my-5 cursor-pointer"
-                            onClick={()=>navigate({pathname: `./orders/result`})}>
+                            onClick={()=>navigate({pathname: `/mypage/orders/result`})}>
                             구매내역
                         </li>
                     </ul>
@@ -69,7 +69,8 @@ const MypageLayoutComponent = ({children}) => {
                         관리자
                     </h3>
                     <ul className="m-0">
-                        <li className="my-5 cursor-pointer">
+                        <li className="my-5 cursor-pointer"
+                        onClick={()=>navigate({pathname: `/manager/member`})}>
                             회원 관리
                         </li>
                         <li className="my-5 cursor-pointer">

@@ -14,11 +14,11 @@ const mypageRouter = () => {
 
     {
       path: "",
-      element: <Navigate replace to="profile" />
+      element: <Navigate replace to="profile/cofirm" />
     },
 
     {
-      path: "profile",
+      path: "profile/cofirm",
       element: <Suspense><ConfirmBeforeProfile /></Suspense>
     },
 
@@ -43,7 +43,7 @@ const mypageRouter = () => {
     },
 
     {
-      path: "profile",
+      path: "profile/modify",
       element: <Suspense><Profile /></Suspense>
     },
 

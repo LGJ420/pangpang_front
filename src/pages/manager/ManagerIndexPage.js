@@ -1,16 +1,19 @@
 import { Outlet } from "react-router-dom";
-import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+import BasicNoHeightLayout from "../../layouts/BasicNoHeightLayout";
+import MypageLayoutComponent from "../../components/mypage/MypageLayoutComponent";
 
 const ManagerIndexPage = () => {
 
     return (
         
-        <BasicWidthLimitLayout>
+        <BasicNoHeightLayout>
 
-            <h1>여기는 관리자페이지다 샹</h1>
-            <Outlet />
+            <MypageLayoutComponent>
+                <Outlet/>
+            </MypageLayoutComponent>
+    
 
-        </BasicWidthLimitLayout>
+        </BasicNoHeightLayout>
     );
 }
 

@@ -173,7 +173,7 @@ const MemberSignupPage = () => {
         }
 
         // 아이디 중복 확인 (false면 중복확인 안한 것으로 간주)
-        if(checkMemberId === false){
+        if(checkMemberId == false){ // === 이걸로하면 안됨
             const errorMsg = "아이디 중복 확인은 필수입니다.";
             console.error(errorMsg);
             alert("아이디 중복 확인은 필수입니다."); 
@@ -212,10 +212,12 @@ const MemberSignupPage = () => {
             memberRole : memberRole
         })
         .then((response)=>{
-            console.log(response)
+            console.log("axios.post 성공 후 response")
+            console.log(response.data)
             navigate("/signup_confirm")
         })
         .catch((error)=>{
+            console.log("axios.post 실패 후 response")
             console.error("회원가입 요청 중 오류 발생", error);
         });
     }
