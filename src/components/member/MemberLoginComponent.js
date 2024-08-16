@@ -134,8 +134,11 @@ const MemberLoginComponent = () => {
                         <Link to={'/signup'}>
                             회원가입
                         </Link>
-                        <Link to={'/find'}>
-                            아이디/비밀번호 찾기
+                        <Link to={'/find/id'}>
+                            아이디 찾기
+                        </Link>
+                        <Link to={'/find/pw'}>
+                            비밀번호 찾기
                         </Link>
                         <Link to={'/'}>
                             홈으로 가기

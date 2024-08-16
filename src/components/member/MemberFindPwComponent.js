@@ -1,148 +1,154 @@
 import styles from '../../css/memberPage.module.css';
+import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import {
     Input,
     FormControl,
     FormLabel,
     } from '@chakra-ui/react'
-
-import { useEffect, useState } from 'react';
+import { useState } from "react";
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
-const MemberFindPwComponent = () => {
+const MemberFindComponent = () => {
+
+    // ☆★☆★☆★☆★ 비밀번호 ☆★☆★☆★☆★
+    
+    // 비밀번호 찾기 관련 state, onchange 메소드
+    const [memberIdInFindPw, setMemberIdInFindPw] = useState('');
+    const [memberNameInFindPw, setMemberNameInFindPw] = useState('');
+    const [memberBirthInFindPw, setMemberBirthInFindPw] = useState('');
+    
+    const handleMemberIdInFindPw = (e)=>{
+        setMemberIdInFindPw(e.target.value);
+    }
+    const handleMemberNameInFindPw = (e)=>{
+        setMemberNameInFindPw(e.target.value);
+    }
+    const handleMemberBirthInFindPw = (e)=>{
+        // 생년월일에 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9]/g, "");
+        setMemberBirthInFindPw(validInputValue);
+    }
+    
     const navigate = useNavigate();
 
-    const location = useLocation();
-    const {memberId} = location.state || {};
-
-    const [memberPwInFindPwForReset, setMemberPwInFindPwForReset] = useState("");
-    const [memberPwConfirmInFindPwForReset, setMemberPwConfirmInFindPwForReset] = useState("");
-
-    // 잠깐의 렌더링도 방지하기 위한 state
-    // 초기값이 false여야 처음부터 방지가능
-    const [isValid, setIsValid] = useState(false);
-
-    useEffect(() => {
-
-        if (!location.state) {
-
-            alert("잘못된 접근 방식입니다.");
-            navigate(-1);
-            return;
-        }
-
-        setIsValid(true);
-
-    },[]);
-
-
-    const handleMemberPwInFindPwForReset = (e)=>{
-        setMemberPwInFindPwForReset(e.target.value);
-    }
-    const handleMemberPwConfirmInFindPwForReset = (e)=>{
-        setMemberPwConfirmInFindPwForReset(e.target.value);
-    }
-
-    const resetMemberPw = () => {
-
-        // 1. 안 채운 항목이 있는지 확인하기
-        if([memberPwInFindPwForReset, memberPwConfirmInFindPwForReset].includes('')){
+    // 비밀번호 찾기 버튼
+    const handleFindPw = () => {
+        
+        // 1. 제대로 입력되었는지 확인
+        console.log("click find_pw");
+        console.log("ID : " + memberIdInFindPw);
+        console.log("이름 : " + memberNameInFindPw);
+        console.log("생년월일 : " + memberBirthInFindPw);
+        
+        // 2. 비밀번호 찾는 조건 작성
+        //    2-1. input에 빠짐없이 다 적혀있는가?
+        if(!memberIdInFindPw || !memberNameInFindPw || !memberBirthInFindPw){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
-            console.error(errorMsg)
-            alert(errorMsg);
-
-            return;
-        }
-
-        // 2. 비밀번호 = 비밀번호확인 확인하기
-        if(memberPwInFindPwForReset !== memberPwConfirmInFindPwForReset ) {
-            const errorMsg = "비밀번호가 일치하지 않습니다.";
             console.error(errorMsg);
             alert(errorMsg);
             return;
         }
 
-        // 3. axios 포스트 하기
+        //    2-2. 생년월일이 6자리로 적혀있는가?
+        if (memberBirthInFindPw.length !== 6){
+            alert("생년월일을 6자리 숫자로 입력해주세요.");
+            return;
+        }
+        
+        // 3. post로 아이디, 이름, 생년월일 제출 함수 작성
         axios
-        .post("http://localhost:8080/api/member/find_pw/reset",{
-            // 비밀번호만 보내려고 했는데 Repository.findByMemberId()<-이걸로 데이터 찾고 비번 바꿔야해서 회원번호(id)도 같이 전송해야됨
-            memberId : memberId,
-            memberPw : memberPwInFindPwForReset
-        })
+        .post("http://localhost:8080/api/member/find_pw",{
+                memberId : memberIdInFindPw,
+                memberName : memberNameInFindPw,
+                memberBirth : memberBirthInFindPw
+            })
+            
+            // 3-1. 제출한 아이디, 이름, 생년월일이 있으면 아래 링크로 이동
+            .then((response)=>{
+                console.log("axios.post->response 데이터")
+                console.log(response.data)
 
-        .then((response)=>{
-            console.log(response.data)
-            navigate("/find_pw/confirm", { replace: true })
-        })
+                // response 데이터 정리용
+                const {id, memberId, memberName, memberBirth} = response.data;
+                // ▼▼▼ 출력 제대로 되는지 확인용 ▼▼▼
+                console.log("회원번호 : " + id)
+                console.log("ID : " + memberId)
+                console.log("이름 : " + memberName)
+                console.log("생년월일 : " + memberBirth)
+                // ▲▲▲ 출력 제대로 되는지 확인용 ▲▲▲
 
-        .catch((error)=>{
-            console.error("비밀번호 변경 중 오류 발생", error);
-        });
+                // 데이터 전달
+                navigate("/reset/pw", {state : {memberId}})
+            })
+            
+            // 3-2. 없으면 에러 발생
+            .catch((error)=>{
+                const errorMsg = "회원이 존재하지 않습니다.";
+                alert(errorMsg);
+                console.error(errorMsg);
+            });
     }
-
-
-    // 이 조건문은 반드시 리액트 훅보다
-    // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
-    // 리액트 자체가 작동하지 않는다
-    // 그래서 최하단에 배치한다
-    if (!isValid) {
-
-        return null;
-    }
+                
     return (
-
         <section className={styles.account_management}>
-        <div>
-        {/* 아이디 찾기 페이지 */}
-        <Link to={'/'}>
-            <img src="/images/logo.png" className="w-20 mb-3"/>
-        </Link>
-        <h1>
-            <span>
+
+            {/* 아이디/비밀번호 찾기 페이지 */}
+            <Link to={'/'}>
+                <img src="/images/logo.png" className="w-20 mb-3"/>
+            </Link>
+            <h1>
+                <span>
                 팡팡게임즈
-                <br></br>
-                <strong>비밀번호 변경</strong>
-            </span>
-            <hr></hr>
-        </h1>
+                    <br></br>
+                    <strong>비밀번호 찾기</strong>
+                </span>
+                <hr></hr>
+            </h1>
 
-        <div>
 
-            <div>
-                {/* 비밀번호 */}
-                <FormControl isRequired>    
-                    <FormLabel>비밀번호</FormLabel>
-                    <Input 
-                    type='password' 
-                    value={memberPwInFindPwForReset}
-                    onChange={handleMemberPwInFindPwForReset}
-                    placeholder='비밀번호를 입력해주세요.' />
-                </FormControl>
-                {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
+            {/* 아이디, 비밀번호 찾기 컨테이너 */}
+            <div className={styles.form_container}>
 
-                {/* 비밀번호 확인 */}
-                <FormControl isRequired>
-                    <FormLabel>비밀번호 확인</FormLabel>
-                    <Input 
-                    type='password' 
-                    value={memberPwConfirmInFindPwForReset}
-                    onChange={handleMemberPwConfirmInFindPwForReset}
-                    placeholder='비밀번호를 입력해주세요.' />
-                </FormControl>
-            </div>
+                {/* 비밀번호 찾기 */}
 
-            <button 
-            className={`${styles.button} px-5`}
-            onClick={resetMemberPw}
-            >
-                비밀번호 변경
-            </button>
-        </div>
-        </div>
-    </section>
+                    <div>
+                        <FormControl isRequired>
+                            <FormLabel>아이디</FormLabel>
+                            <Input 
+                            value={memberIdInFindPw}
+                            onChange={handleMemberIdInFindPw}
+                            placeholder='아이디를 입력해주세요.' />
+                        </FormControl>
+
+                        <FormControl isRequired>
+                            <FormLabel>이름</FormLabel>
+                            <Input 
+                            value={memberNameInFindPw}
+                            onChange={handleMemberNameInFindPw}
+                            placeholder='이름을 입력해주세요.' />
+                        </FormControl>
+
+                        <FormControl isRequired>
+                            <FormLabel>생년월일</FormLabel>
+                            <Input 
+                            value={memberBirthInFindPw}
+                            onChange={handleMemberBirthInFindPw}
+                            placeholder='ex.881225' />
+                        </FormControl>
+                    </div>
+
+                    <button 
+                    onClick={handleFindPw}
+                    className={styles.button}>
+                        비밀번호 찾기
+                    </button>
+
+                </div>
+
+        </section>
 
     );
 }
 
-export default MemberFindPwComponent;
+export default MemberFindComponent;

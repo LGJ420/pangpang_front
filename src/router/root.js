@@ -58,17 +58,20 @@ const Signup = lazy(()=>import("../pages/member/MemberSignupPage"));
 // 회원가입 완료
 const SignupConfirm = lazy(()=>import("../pages/member/MemberSignupConfirmPage"));
 
-// 아이디, 비밀번호 찾기
-const Find = lazy(()=>import("../pages/member/MemberFindPage"));
-
-// 아이디 찾기(아이디 보여줌)
+// 아이디 찾기
 const FindId = lazy(()=>import("../pages/member/MemberFindIdPage"));
 
-// 비밀번호 변경
+// 아이디 찾기 확인(아이디 보여줌)
+const FindIdConfirm = lazy(()=>import("../pages/member/MemberFindIdConfirmPage"));
+
+// 비밀번호 찾기
 const FindPw = lazy(()=>import("../pages/member/MemberFindPwPage"));
 
+// 비밀번호 변경
+const ResetPw = lazy(()=>import("../pages/member/MemberResetPwPage"));
+
 // 비밀번호 변경 완료
-const FindPwConfirm = lazy(()=>import("../pages/member/MemberFindPwConfirmPage"));
+const ResetPwConfirm = lazy(()=>import("../pages/member/MemberResetPwConfirmPage"));
 
 // 마이페이지
 const MyPage = lazy(()=>import("../pages/mypage/MypageIndexPage"));
@@ -169,23 +172,28 @@ const root = createBrowserRouter([
     },
 
     {
-        path: "find",
-        element: <Suspense><Find /></Suspense>
-    },
-
-    {
-        path: "find_id",
+        path: "find/id",
         element: <Suspense><FindId /></Suspense>
     },
-
+    
     {
-        path: "find_pw",
+        path: "find/id/confirm",
+        element: <Suspense><FindIdConfirm /></Suspense>
+    },
+    
+    {
+        path: "find/pw",
         element: <Suspense><FindPw /></Suspense>
     },
 
     {
-        path: "find_pw/confirm",
-        element: <Suspense><FindPwConfirm /></Suspense>
+        path: "reset/pw",
+        element: <Suspense><ResetPw /></Suspense>
+    },
+
+    {
+        path: "reset/pw/confirm",
+        element: <Suspense><ResetPwConfirm /></Suspense>
     },
 
     {
