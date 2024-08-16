@@ -188,138 +188,142 @@ const MemberProfileComponent = () => {
 
     return(
         <section>
-            <h3 className='text-xl font-bold'>내 정보 수정</h3>
+            <div className="text-xl mb-3">
 
-            <div className="w-11/12 m-auto">
-                <div className="my-10 flex items-center">
-                    <span>
-                        프로필 사진
-                    </span>
-                    <div className="ml-7 flex flex-col items-end">
-                        <div>
-                            jpg, png 어쩌구저쩌구 설명써야함 어쩌구저쩌구
+                <h3 className='font-bold'>내 정보 수정</h3>
+
+                <div className="w-11/12 m-auto">
+                    <div className="my-10 flex items-center">
+                        <span className="w-32 inline-block">
+                            프로필 사진
+                        </span>
+                        <div className="ml-4 flex flex-col items-end">
+                            <div>
+                                jpg, png 어쩌구저쩌구 설명써야함 어쩌구저쩌구
+                            </div>
+                            <button className="w-24 h-6 mt-1 bg-slate-400 text-white rounded hover:opacity-80 text-sm">
+                                사진 등록하기
+                            </button>
                         </div>
-                        <button className="w-24 h-6 mt-1 bg-slate-400 text-white rounded hover:opacity-80 text-sm">
-                            사진 등록하기
+                        <img 
+                            className="ml-7 border w-32 h-32 object-cover"
+                            src="/images/profile.png"/>
+                    </div>
+                    <div className="my-10">
+                        <span className="w-32 inline-block">
+                            아이디
+                        </span>
+                        <span className="ml-4 text-xl font-bold tracking-wide">
+                            {memberId}
+                        </span>
+                    </div>
+                    <div className="my-10">
+                        <label className="w-32" htmlFor="nickname">
+                            닉네임
+                        </label>
+                        <input
+                            id="nickname"
+                            className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                            maxLength={10}
+                            value={modifyMemberNickname}
+                            onChange={handleMemberNickname}/>
+                    </div>
+                    <div className="my-10">
+                        <label className="w-32" htmlFor="password1">
+                            비밀번호 변경
+                        </label>
+                        <input
+                            className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                            maxLength={24}
+                            id='password1'
+                            placeholder='비밀번호를 변경해주세요.' 
+                            type='password'
+                            value={modifyMemberPw} 
+                            onChange={handleMemberPw}/>
+                    </div>
+                    <div className="my-10">
+                        <label className="w-32" htmlFor="password2">
+                            비밀번호 확인
+                        </label>
+                        <input
+                            className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                            maxLength={24}
+                            id='password2'
+                            type='password'
+                            placeholder='비밀번호를 다시 입력해주세요.'
+                            value={modifyMemberPwConfirm}
+                            onChange={handleMemberPwConfirm}/>
+                    </div>
+                    <div className="my-10">
+                        <span className="w-32 inline-block">
+                            핸드폰
+                        </span>
+                        <input
+                            className="ml-4 w-16 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                            value={phone1}
+                            type='text'
+                            maxLength="3"
+                            onChange={handlePhone1}/> 
+                        - 
+                        <input
+                            className="w-20 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                            value={phone2}
+                            type='text'
+                            maxLength="4"
+                            onChange={handlePhone2}/> 
+                        - 
+                        <input
+                            className="w-20 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                            value={phone3}
+                            type='text'
+                            maxLength="4"
+                            onChange={handlePhone3}/>
+                    </div>
+                    
+                    <div>
+                        <h5 className="block font-medium text-gray-700 mb-3">주소</h5>
+                            <input
+                                className="mt-1 w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
+                                type="text"
+                                placeholder="우편번호"
+                                value={postcodeApi}
+                                readOnly
+                            />
+                            <button
+                                className="p-1 ml-2 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
+                                onClick={handleClickPost}>
+                                우편번호 찾기
+                            </button>
+                            <input
+                                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
+                                type="text"
+                                placeholder="주소"
+                                value={postAddressApi}
+                                readOnly
+                            />
+                            <input
+                                className="mt-1 w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
+                                type="text"
+                                placeholder="상세주소"
+                                value={detailAddressApi}
+                                ref={detailAddressRef}
+                                onChange={e => setDetailAddressApi(e.target.value)}
+                            />
+                            <input
+                                className="mt-1 w-1/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
+                                type="text"
+                                placeholder="참고항목"
+                                value={extraAddressApi}
+                                readOnly
+                            />
+                    </div>
+                    <div className="flex justify-center mt-10">
+                        <button
+                            className="text-white bg-[rgb(68,107,216)] text-lg font-extrabold hover:opacity-70 rounded-lg w-28 h-12"
+                            onClick={clickModify}>
+                            수정하기
                         </button>
                     </div>
-                    <img 
-                        className="ml-7 border w-32 h-32 object-cover"
-                        src="/images/profile.png"/>
-                </div>
-                <div className="my-10">
-                    <span>
-                        아이디
-                    </span>
-                    <span className="ml-4 text-xl font-bold tracking-wide">
-                        {memberId}
-                    </span>
-                </div>
-                <div className="my-10">
-                    <label>
-                        닉네임
-                    </label>
-                    <input
-                        className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                        maxLength={10}
-                        value={modifyMemberNickname}
-                        onChange={handleMemberNickname}/>
-                </div>
-                <div className="my-10">
-                    <label htmlFor="password1">
-                        비밀번호 변경
-                    </label>
-                    <input
-                        className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                        maxLength={24}
-                        id='password1'
-                        placeholder='비밀번호를 변경해주세요.' 
-                        type='password'
-                        value={modifyMemberPw} 
-                        onChange={handleMemberPw}/>
-                </div>
-                <div className="my-10">
-                    <label htmlFor="password2">
-                        비밀번호 확인
-                    </label>
-                    <input
-                        className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                        maxLength={24}
-                        id='password2'
-                        type='password'
-                        placeholder='비밀번호를 다시 입력해주세요.'
-                        value={modifyMemberPwConfirm}
-                        onChange={handleMemberPwConfirm}/>
-                </div>
-                <div className="my-10">
-                    <span>
-                        핸드폰
-                    </span>
-                    <input
-                        className="ml-4 w-12 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                        value={phone1}
-                        type='text'
-                        maxLength="3"
-                        onChange={handlePhone1}/> 
-                    - 
-                    <input
-                        className="w-14 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                        value={phone2}
-                        type='text'
-                        maxLength="4"
-                        onChange={handlePhone2}/> 
-                    - 
-                    <input
-                        className="w-14 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                        value={phone3}
-                        type='text'
-                        maxLength="4"
-                        onChange={handlePhone3}/>
-                </div>
-                
-                <div>
-                    <h5 className="block font-medium text-gray-700 mb-3">주소</h5>
-                        <input
-                            className="mt-1 w-24 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
-                            type="text"
-                            placeholder="우편번호"
-                            value={postcodeApi}
-                            readOnly
-                        />
-                        <button
-                            className="p-1 ml-2 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
-                            onClick={handleClickPost}>
-                            우편번호 찾기
-                        </button>
-                        <input
-                            className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
-                            type="text"
-                            placeholder="주소"
-                            value={postAddressApi}
-                            readOnly
-                        />
-                        <input
-                            className="mt-1 w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                            type="text"
-                            placeholder="상세주소"
-                            value={detailAddressApi}
-                            ref={detailAddressRef}
-                            onChange={e => setDetailAddressApi(e.target.value)}
-                        />
-                        <input
-                            className="mt-1 w-1/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
-                            type="text"
-                            placeholder="참고항목"
-                            value={extraAddressApi}
-                            readOnly
-                        />
-                </div>
-                <div className="flex justify-center mt-10">
-                    <button
-                        className="text-white bg-[rgb(68,107,216)] text-lg font-extrabold hover:opacity-70 rounded-lg w-28 h-12"
-                        onClick={clickModify}>
-                        수정하기
-                    </button>
                 </div>
             </div>
 

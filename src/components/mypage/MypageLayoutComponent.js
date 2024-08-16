@@ -34,7 +34,7 @@ const MypageLayoutComponent = ({children}) => {
             <div className="h-[15rem] flex items-center border-b bg-slate-100">
                 <img src="/images/profile.png" className="rounded-full border w-52 ml-8"/>
                 <h3 className="text-5xl font-bold p-5 tracking-wider">{decodeToken.memberNickname}</h3>
-                <div className="text-xl font-semibold pt-6 uppercase">등급 : {decodeToken.memberRole}</div>
+                <div className="text-2xl font-semibold pt-6 uppercase">등급 : {decodeToken.memberRole}</div>
             </div>
         </section>
         <section>
@@ -44,23 +44,23 @@ const MypageLayoutComponent = ({children}) => {
                         메뉴
                     </h3>
                     <ul className="m-0">
-                        <li className="my-5 cursor-pointer"
+                        <li className="text-xl my-7 cursor-pointer"
                             onClick={()=>navigate({pathname: `/mypage/profile/cofirm`})}>
                             내 정보 변경
                         </li>
-                        <li className="my-5 cursor-pointer"
+                        <li className="text-xl my-7 cursor-pointer"
                             onClick={()=>navigate({pathname: `/mypage/article`})}>
                             내가 쓴 글
                         </li>
-                        <li className="my-5 cursor-pointer"
+                        <li className="text-xl my-7 cursor-pointer"
                             onClick={()=>navigate({pathname: `/mypage/comment`})}>
                             내가 쓴 댓글
                         </li>
-                        <li className="my-5 cursor-pointer"
+                        <li className="text-xl my-7 cursor-pointer"
                             onClick={()=>navigate({pathname: `/mypage/review`})}>
                             내가 쓴 리뷰
                         </li>
-                        <li className="my-5 cursor-pointer"
+                        <li className="text-xl my-7 cursor-pointer"
                             onClick={()=>navigate({pathname: `/mypage/orders/result`})}>
                             구매내역
                         </li>
@@ -69,11 +69,11 @@ const MypageLayoutComponent = ({children}) => {
                         관리자
                     </h3>
                     <ul className="m-0">
-                        <li className="my-5 cursor-pointer"
+                        <li className="text-xl my-7 cursor-pointer"
                         onClick={()=>navigate({pathname: `/manager/member`})}>
                             회원 관리
                         </li>
-                        <li className="my-5 cursor-pointer">
+                        <li className="text-xl my-7 cursor-pointer">
                             상품 관리
                         </li>
                     </ul>
