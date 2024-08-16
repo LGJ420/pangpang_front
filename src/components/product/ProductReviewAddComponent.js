@@ -110,7 +110,7 @@ const ProductReviewAddComponent = ({productId}) => {
 
         postReviewAdd(formData).then(()=>{
             alert("등록이 완료되었습니다");
-            navigate({ pathname: '/mypage/review' });
+            navigate('/mypage/review', { replace: true });
         });
         
     }

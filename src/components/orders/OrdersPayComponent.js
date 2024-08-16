@@ -178,7 +178,8 @@ const OrdersPayComponent = () => {
     
             // console.log({...userData, dtoList: productData});    // 데이터 확인용
     
-            postOrdersAdd({...userData, dtoList: productData}).then(()=>navigate({pathname: `/mypage/orders/result`}));
+            postOrdersAdd({...userData, dtoList: productData})
+                .then(()=>navigate(`/mypage/orders/result`, { replace: true }));
         }
     }
 
