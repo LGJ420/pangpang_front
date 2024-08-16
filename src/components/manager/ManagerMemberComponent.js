@@ -35,6 +35,7 @@ const ManagerMemberComponent = () => {
                     <th>회원 아이디</th>
                     <th>회원 닉네임</th>
                     <th>회원 등급</th>
+                    <th>회원 가입 날짜</th>
                     <th>회원 활동 상태</th>
                 </tr>
             {serverData.map(data=>
@@ -45,6 +46,7 @@ const ManagerMemberComponent = () => {
                     <td>{data.memberName}</td>
                     <td>{data.memberNickname}</td>
                     <td>{data.memberRole}</td>
+                    <td>{data.memberSignupDate}</td>
                     <td>{data.active==0? "활동" : "활동정지"}</td>
                 </tr>
             </>
