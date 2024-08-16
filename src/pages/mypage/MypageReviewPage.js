@@ -1,9 +1,11 @@
+import MypageReviewComponent from "../../components/mypage/MypageReviewComponent"
+
 const MypageReviewPage = () => {
 
     return (
-        <div>
-            내가쓴 리뷰들 페이지
-        </div>
+
+        <MypageReviewComponent/>
+        
     );
 }
 

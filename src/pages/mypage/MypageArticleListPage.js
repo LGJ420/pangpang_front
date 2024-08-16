@@ -1,9 +1,11 @@
+import MypageArticleListComponent from "../../components/mypage/MypageArticleListComponent";
+
 const MypageArticleListPage = () => {
 
     return (
-        <div>
-            우헤헷
-        </div>
+        
+        <MypageArticleListComponent />
+
     );
 }
 
