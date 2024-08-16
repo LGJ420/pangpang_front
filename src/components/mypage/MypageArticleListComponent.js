@@ -2,7 +2,9 @@ const MypageArticleListComponent = () => {
 
     return (
         <section>
-            내가쓴 글
+            <h3 className="text-xl font-bold">
+                내가 쓴 글페이지
+            </h3>
         </section>
     );
 }

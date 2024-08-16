@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { Box, Button, ButtonGroup, Flex, Image, Spacer, Text } from '@chakra-ui/react'
+import { Box, ButtonGroup, Flex, Image, Text } from '@chakra-ui/react'
 
 import { getOne } from "../../api/productApi";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
 import { getReviewList } from "../../api/productReviewApi";
 
@@ -187,7 +187,7 @@ const ProductDetailComponent = ({ num }) => {
                 <div>
                   {review.reviewDate}
                 </div>
-                <p>
+                <p className="mt-3">
                   {review.reviewContent}
                 </p>
               </div>
