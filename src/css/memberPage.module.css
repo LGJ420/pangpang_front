@@ -50,10 +50,15 @@
     font-weight: bold;
     width: 100%;
     padding: 3%;
-    margin-top: 5%;
+    margin-top: 5%; 
     cursor: pointer;
     border-radius: 0.25rem;
 }
+
+.account_management .button:hover {
+    opacity: 80%;
+}
+
 
 .inner_button {
     position: absolute;

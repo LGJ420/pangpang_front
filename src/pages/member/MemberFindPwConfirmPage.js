@@ -1,10 +1,13 @@
 import styles from '../../css/memberPage.module.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const MemberSignupConfirmPage = () => {
 
+    const navigate = useNavigate();
+
     return (
-        <div className={styles.account_management}>
+        <section className={styles.account_management}>
+            <div>
             {/* 회원가입 완료 페이지 */}
             <Link to={'/'}>
                 <img src="/images/logo.png" className="w-20 mb-3"/>
@@ -23,16 +26,20 @@ const MemberSignupConfirmPage = () => {
             </h1>
 
             <hr></hr>
-
-            <div>
-                <Link to={'/'} className={`${styles.button} m-5`}>
-                    홈으로 가기
-                </Link>
-                <Link to={'/login'} className={`${styles.button} m-5`}>
-                    로그인 하기
-                </Link>
+                <div>
+                    <button
+                        className="bg-[rgb(0,0,139)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
+                        onClick={()=>navigate(`/`, { replace: true })}>
+                        홈으로 가기
+                    </button>
+                    <button
+                        className="bg-[rgb(0,0,139)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
+                        onClick={()=>navigate(`/login`, { replace: true })}>
+                        로그인 하기
+                    </button>
+                </div>
             </div>
-        </div>
+        </section>
     );
 };
 

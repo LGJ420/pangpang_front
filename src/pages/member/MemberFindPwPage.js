@@ -5,7 +5,7 @@ import {
     FormLabel,
     } from '@chakra-ui/react'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
@@ -18,6 +18,24 @@ const MemberFindPwPage = () => {
 
     const [memberPwInFindPwForReset, setMemberPwInFindPwForReset] = useState("");
     const [memberPwConfirmInFindPwForReset, setMemberPwConfirmInFindPwForReset] = useState("");
+
+    // 잠깐의 렌더링도 방지하기 위한 state
+    // 초기값이 false여야 처음부터 방지가능
+    const [isValid, setIsValid] = useState(false);
+
+    useEffect(() => {
+
+        if (!location.state) {
+
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+            return;
+        }
+
+        setIsValid(true);
+
+    },[]);
+
 
     const handleMemberPwInFindPwForReset = (e)=>{
         setMemberPwInFindPwForReset(e.target.value);
@@ -55,7 +73,7 @@ const MemberFindPwPage = () => {
 
         .then((response)=>{
             console.log(response.data)
-            navigate("/find_pw/confirm")
+            navigate("/find_pw/confirm", { replace: true })
         })
 
         .catch((error)=>{
@@ -63,10 +81,19 @@ const MemberFindPwPage = () => {
         });
     }
 
+
+    // 이 조건문은 반드시 리액트 훅보다
+    // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
+    // 리액트 자체가 작동하지 않는다
+    // 그래서 최하단에 배치한다
+    if (!isValid) {
+
+        return null;
+    }
     return (
 
         <section className={styles.account_management}>
-
+        <div>
         {/* 아이디 찾기 페이지 */}
         <Link to={'/'}>
             <img src="/images/logo.png" className="w-20 mb-3"/>
@@ -112,7 +139,7 @@ const MemberFindPwPage = () => {
                 비밀번호 변경
             </button>
         </div>
-
+        </div>
     </section>
 
     );
