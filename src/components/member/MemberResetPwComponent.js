@@ -93,54 +93,54 @@ const MemberFindPwComponent = () => {
     return (
 
         <section className={styles.account_management}>
-        <div>
-            {/* 비밀번호 변경 페이지 */}
-            <Link to={'/'}>
-                <img src="/images/logo.png" className="w-20 mb-3"/>
-            </Link>
-            <h1>
-                <span>
-                    팡팡게임즈
-                    <br></br>
-                    <strong>비밀번호 변경</strong>
-                </span>
-                <hr></hr>
-            </h1>
-
             <div>
+                {/* 비밀번호 변경 페이지 */}
+                <Link to={'/'}>
+                    <img src="/images/logo.png" className="w-20 mb-3"/>
+                </Link>
+                <h1>
+                    <span>
+                        팡팡게임즈
+                        <br></br>
+                        <strong>비밀번호 변경</strong>
+                    </span>
+                    <hr></hr>
+                </h1>
 
                 <div>
-                    {/* 비밀번호 */}
-                    <FormControl isRequired>    
-                        <FormLabel>비밀번호</FormLabel>
-                        <Input 
-                        type='password' 
-                        value={memberPwInFindPwForReset}
-                        onChange={handleMemberPwInFindPwForReset}
-                        placeholder='비밀번호를 입력해주세요.' />
-                    </FormControl>
-                    {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
 
-                    {/* 비밀번호 확인 */}
-                    <FormControl isRequired>
-                        <FormLabel>비밀번호 확인</FormLabel>
-                        <Input 
-                        type='password' 
-                        value={memberPwConfirmInFindPwForReset}
-                        onChange={handleMemberPwConfirmInFindPwForReset}
-                        placeholder='비밀번호를 입력해주세요.' />
-                    </FormControl>
+                    <div>
+                        {/* 비밀번호 */}
+                        <FormControl isRequired>    
+                            <FormLabel>비밀번호</FormLabel>
+                            <Input 
+                            type='password' 
+                            value={memberPwInFindPwForReset}
+                            onChange={handleMemberPwInFindPwForReset}
+                            placeholder='비밀번호를 입력해주세요.' />
+                        </FormControl>
+                        {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
+
+                        {/* 비밀번호 확인 */}
+                        <FormControl isRequired>
+                            <FormLabel>비밀번호 확인</FormLabel>
+                            <Input 
+                            type='password' 
+                            value={memberPwConfirmInFindPwForReset}
+                            onChange={handleMemberPwConfirmInFindPwForReset}
+                            placeholder='비밀번호를 입력해주세요.' />
+                        </FormControl>
+                    </div>
+
+                    <button 
+                    className={`${styles.button} px-5`}
+                    onClick={resetMemberPw}
+                    >
+                        비밀번호 변경
+                    </button>
                 </div>
-
-                <button 
-                className={`${styles.button} px-5`}
-                onClick={resetMemberPw}
-                >
-                    비밀번호 변경
-                </button>
             </div>
-        </div>
-    </section>
+        </section>
 
     );
 }

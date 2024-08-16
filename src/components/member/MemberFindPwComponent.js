@@ -92,25 +92,21 @@ const MemberFindComponent = () => {
                 
     return (
         <section className={styles.account_management}>
+            <div>
+                {/* 비밀번호 찾기 페이지 */}
+                <Link to={'/'}>
+                    <img src="/images/logo.png" className="w-20 mb-3"/>
+                </Link>
+                <h1>
+                    <span>
+                        팡팡게임즈
+                        <br></br>
+                        <strong>비밀번호 찾기</strong>
+                    </span>
+                    <hr></hr>
+                </h1>
 
-            {/* 아이디/비밀번호 찾기 페이지 */}
-            <Link to={'/'}>
-                <img src="/images/logo.png" className="w-20 mb-3"/>
-            </Link>
-            <h1>
-                <span>
-                팡팡게임즈
-                    <br></br>
-                    <strong>비밀번호 찾기</strong>
-                </span>
-                <hr></hr>
-            </h1>
-
-
-            {/* 아이디, 비밀번호 찾기 컨테이너 */}
-            <div className={styles.form_container}>
-
-                {/* 비밀번호 찾기 */}
+                <div>
 
                     <div>
                         <FormControl isRequired>
@@ -134,18 +130,18 @@ const MemberFindComponent = () => {
                             <Input 
                             value={memberBirthInFindPw}
                             onChange={handleMemberBirthInFindPw}
+                            maxLength={6}
                             placeholder='ex.881225' />
                         </FormControl>
                     </div>
 
                     <button 
                     onClick={handleFindPw}
-                    className={styles.button}>
+                    className={`${styles.button} px-5`}>
                         비밀번호 찾기
                     </button>
-
                 </div>
-
+            </div>
         </section>
 
     );
