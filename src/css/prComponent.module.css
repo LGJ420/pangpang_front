@@ -1,7 +1,3 @@
-.primage {
-  width: 50rem; /* Tailwind의 w-[50rem] 대체 */
-}
-
 .prComponent {
   scroll-snap-type: y mandatory;
   height: 90vh;
@@ -13,7 +9,8 @@
 }
 
 .section {
-  block-size: 90vh;
+  /* block-size: 90vh; */
+  height: 50rem;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
@@ -21,9 +18,13 @@
   justify-content: center;
 }
 
-@keyframes enterAnimation {
+.prImage, .prTitle, .prContent {
+  opacity: 0;
+}
+
+@keyframes leftToRightAnimation {
   from {
-    transform: translateY(100px);
+    transform: translateX(-100px);
     opacity: 0;
   }
   to {
@@ -32,12 +33,31 @@
   }
 }
 
-.primageAnimation {
-  animation-name: none;
+@media (prefers-reduced-motion: no-preference) {
+  .prImageAnimation {
+    animation: leftToRightAnimation 4s ease-out forwards;
+  }
+}
+
+@keyframes rightToLeftAnimation {
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .primageAnimation {
-    animation: enterAnimation 5s ease-out forwards;
+  .prTitleAnimation {
+    animation: rightToLeftAnimation 5s ease-out 0.5s forwards;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .prContentAnimation {
+    animation: rightToLeftAnimation 5s ease-out 1s forwards;
   }
 }

@@ -69,17 +69,17 @@ const MemberConfirmBeforeProfileComponent = () => {
     }
 
     return(
-        <section>
+        <section className='text-xl'>
             <h3 className='text-xl font-bold'>내 정보 수정</h3>
             <div className='flex flex-col items-center'>
                 <p className='my-16 font-semibold'>회원님의 개인정보 보호를 위해 본인확인을 진행합니다.</p>
                 <p className='mb-5'>비밀번호를 입력해주세요.</p>
-                <div className='flex items-center mb-5'>
+                <div className='flex items-center my-7'>
                     <label htmlFor='password'>
                         비밀번호
                     </label>
                     <input
-                        className='ml-2 py-1 px-3 w-52 border rounded'
+                        className='ml-2 py-1 px-3 w-60 border rounded'
                         id='password'
                         type='password'
                         placeholder='비밀번호를 입력해주세요.'
@@ -89,7 +89,7 @@ const MemberConfirmBeforeProfileComponent = () => {
                         onKeyDown={handleKeyDown}/>
                 </div>
                 <button
-                    className='bg-gray-500 text-white px-3 py-1 rounded'
+                    className='bg-gray-500 text-white px-3 py-1 rounded hover:opacity-80'
                     onClick={clickConfirmBeforeProfile}>
                     확인
                 </button>

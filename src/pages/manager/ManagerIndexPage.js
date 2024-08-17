@@ -1,19 +1,19 @@
 import { Outlet } from "react-router-dom";
-import BasicNoHeightLayout from "../../layouts/BasicNoHeightLayout";
+import BasicLayout from "../../layouts/BasicLayout";
 import MypageLayoutComponent from "../../components/mypage/MypageLayoutComponent";
 
 const ManagerIndexPage = () => {
 
     return (
         
-        <BasicNoHeightLayout>
+        <BasicLayout width={'85rem'}>
 
             <MypageLayoutComponent>
                 <Outlet/>
             </MypageLayoutComponent>
     
 
-        </BasicNoHeightLayout>
+        </BasicLayout>
     );
 }
 

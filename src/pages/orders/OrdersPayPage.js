@@ -5,6 +5,7 @@ const OrdersPayPage = () => {
     return (
         
         <OrdersPayComponent />
+        
     );
 }
 

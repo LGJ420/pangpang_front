@@ -4,7 +4,7 @@ import BasicLayout from "../../layouts/BasicLayout";
 const GameIndexPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicLayout minWidth={'85rem'}>
             
             <GameComponent />
             

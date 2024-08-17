@@ -5,7 +5,7 @@ import BasicLayout from "../layouts/BasicLayout";
 const MainPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicLayout minWidth={'85rem'}>
         <BannerComponent />
         
         <section className="w-[1350px] my-5 mx-auto flex">
@@ -14,7 +14,7 @@ const MainPage = () => {
                     공지사항
                 </div>
                 <div className="flex flex-col items-center justify-center text-2xl font-semibold border-3 border-stone-900/30 rounded-md h-full">
-                    <img src="/images/notice_none.png" className="w-60" />
+                    <img src="/images/no_notice.png" className="w-60" />
                     <div className="mt-10">현재 공지사항이 없습니다</div>
                 </div>
             </div>

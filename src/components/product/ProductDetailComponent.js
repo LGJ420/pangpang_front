@@ -256,33 +256,40 @@ const ProductDetailComponent = ({ num }) => {
         )}
 
         {selectedTab === 'review' && (
+        
+        <div className="min-h-screen p-10">
+          <h3 className="text-xl font-semibold mb-5">총 {reviewData.length}개 리뷰</h3>
+          
+          { reviewData.length === 0 &&
+            <div className="mt-32 flex flex-col items-center justify-center text-3xl font-semibold">
+              <img src="/images/no_review.png" className="w-60" />
+              <div className="mt-10">이 상품의 리뷰가 아직 없습니다</div>
+          </div>
+          }
 
-          <div className="min-h-screen p-10">
-            <h3 className="text-xl font-semibold mb-5">총 {reviewData.length}개 리뷰</h3>
-
-            {reviewData.map((review) =>
-
-              <div className="py-5 pl-6 mb-5 flex items-center justify-between border rounded-lg">
-                <div className="w-5/6 min-h-40">
-                  <div className="flex items-center">
-                    <img
-                      className="w-10 h-10 mr-2 rounded-full border"
-                      src="/images/profile.png" />
-                    <div className="mr-2">
-                      아이디입니당
-                    </div>
-                    <div>
-                      <RatingStarCompoent score={review.rating} />
-                    </div>
+          {reviewData.map((review)=>
+          
+            <div className="py-5 pl-6 mb-5 flex items-center justify-between border rounded-lg">
+              <div className="w-5/6 min-h-40">
+                <div className="flex items-center">
+                  <img
+                    className="w-10 h-10 mr-2 rounded-full border"
+                    src="/images/profile.png" />
+                  <div className="mr-2">
+                    아이디입니당
                   </div>
                   <div>
-                    {review.reviewDate}
+                    <RatingStarCompoent score={review.rating}/>
                   </div>
-                  <p className="mt-3">
-                    {review.reviewContent}
-                  </p>
                 </div>
-                <img
+                <div>
+                  {review.reviewDate}
+                </div>
+                <p className="mt-3">
+                  {review.reviewContent}
+                </p>
+              </div>
+                <img 
                   className="w-40 h-40 mx-auto object-contain"
                   src={review.reviewFileName.length > 0 ? `${prefix}/${review.reviewFileName}` : `/images/no_image.png`} />
 

@@ -1,14 +1,16 @@
-import BasicNoHeightLayout from "../layouts/BasicNoHeightLayout";
+import BasicLayout from "../layouts/BasicLayout";
 
 const TestPage = () => {
 
     return (
 
-        <BasicNoHeightLayout>
+        <BasicLayout>
+
             <section>
 
             </section>
-        </BasicNoHeightLayout>
+            
+        </BasicLayout>
 
     );
 }

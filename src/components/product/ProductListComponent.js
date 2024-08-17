@@ -31,9 +31,10 @@ const ProductListComponent = () => {
   const [serverData, setServerData] = useState(initState);
   const [word, setWord] = useState("");   // 상품 검색용
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
-  const {isLogin} = useCustomToken();
+  const {isLogin, decodeToken} = useCustomToken();
 
 
   useEffect(() => {
@@ -56,8 +57,12 @@ const ProductListComponent = () => {
           }
         }
         setImages(imageUrls);   // 상태를 업데이트하여 이미지 url 저장
-      } catch (error) {
+      }
+      catch (error) {
         console.error(error);
+      }
+      finally {
+        setIsLoading(true);
       }
     };
 
@@ -137,13 +142,25 @@ const ProductListComponent = () => {
   }
 
 
+  const handleClickAdd = () => {
 
-  // 리턴값 맵으로 반복
+    navigate('../add');
+  }
+
+
+  // 이 조건문은 반드시 리액트 훅보다
+  // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
+  // 리액트 자체가 작동하지 않는다
+  // 그래서 최하단에 배치한다
+  if(!isLoading){
+
+    return null;
+  }
   return (
     <section>
 
       <div className="flex flex-row border-b pt-10 pl-10 pb-10 pr-3 mb-5">
-        <h1 className="text-5xl mr-auto">상점 페이지</h1>
+        <h1 className="text-5xl mr-auto">쇼핑 페이지</h1>
         <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
           onChange={(e) => { setWord(e.target.value); console.log(word) }}
           onKeyDown={handleKeyDown}
@@ -206,7 +223,7 @@ const ProductListComponent = () => {
 
       {/* 페이지네이션 */}
 
-      <Flex justifyContent="center" fontSize="25px" className="py-10 text-gray-700">
+      <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700">
         {/* 이전 페이지 */}
         {serverData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage })}>{'\u003c'}</Box> :
           <></>}
@@ -220,7 +237,18 @@ const ProductListComponent = () => {
 
         {/* 다음 페이지 */}
         {serverData.next ? <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.nextPage })}>{'\u003e'}</Box> : <></>}
+
+        {
+          decodeToken.memberRole === 'Admin' &&
+
+          <button className="absolute right-0 bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold"
+            onClick={handleClickAdd}>
+            상품 추가하기
+          </button>
+        }
+
       </Flex>
+
 
 
     </section>

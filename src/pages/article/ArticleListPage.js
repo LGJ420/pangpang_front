@@ -89,7 +89,7 @@ const ArticleListPage = () => {
     const bgColor = useColorModeValue('gray.50', 'gray.800');
 
     return (
-        <div className='my-7'>
+        <div className='py-7'>
             <Flex justify="center" p={4} bg="white">
                 <FormControl>
                     <Flex alignItems="center" justifyContent="center">

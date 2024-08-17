@@ -23,7 +23,7 @@ const NavLayout2 = () => {
                     </li>
                     <li className="mx-10">
                         <Link to={'/product/'} className="flex items-center h-[70px] hover:opacity-50">
-                            상점
+                            쇼핑
                         </Link>
                     </li>
                     <li className="mx-10">

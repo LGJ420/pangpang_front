@@ -5,6 +5,7 @@ const OrdersIndexPage = () => {
     return (
         
         <Outlet />
+        
     );
 }
 

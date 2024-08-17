@@ -1,15 +1,15 @@
 import ProductReviewAddComponent from "../../components/product/ProductReviewAddComponent";
-import BasicNoHeightLayout from "../../layouts/BasicNoHeightLayout";
+import BasicLayout from "../../layouts/BasicLayout";
 
 const ProductReviewAddPage = () => {
 
     return (
-        
-        <BasicNoHeightLayout>
+
+        <BasicLayout width={'85rem'}>
 
             <ProductReviewAddComponent/>
 
-        </BasicNoHeightLayout>
+        </BasicLayout>
 
     );
 }
