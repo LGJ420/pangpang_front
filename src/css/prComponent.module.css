@@ -1,7 +1,3 @@
-.primage {
-  width: 50rem; /* Tailwind의 w-[50rem] 대체 */
-}
-
 .prComponent {
   scroll-snap-type: y mandatory;
   height: 90vh;
@@ -13,7 +9,8 @@
 }
 
 .section {
-  block-size: 90vh;
+  /* block-size: 90vh; */
+  height: 50rem;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
