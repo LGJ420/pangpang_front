@@ -172,6 +172,13 @@ const ProductDetailComponent = ({ num }) => {
         <div className="min-h-screen p-10">
           <h3 className="text-xl font-semibold mb-5">총 {reviewData.length}개 리뷰</h3>
           
+          { reviewData.length === 0 &&
+            <div className="mt-32 flex flex-col items-center justify-center text-3xl font-semibold">
+              <img src="/images/no_review.png" className="w-60" />
+              <div className="mt-10">이 상품의 리뷰가 아직 없습니다</div>
+          </div>
+          }
+
           {reviewData.map((review)=>
           
             <div className="py-5 pl-6 mb-5 flex items-center justify-between border rounded-lg">
