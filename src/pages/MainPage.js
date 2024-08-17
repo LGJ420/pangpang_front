@@ -5,7 +5,7 @@ import BasicLayout from "../layouts/BasicLayout";
 const MainPage = () => {
 
     return (
-        <BasicLayout>
+        <BasicLayout minWidth={'85rem'}>
         <BannerComponent />
         
         <section className="w-[1350px] my-5 mx-auto flex">

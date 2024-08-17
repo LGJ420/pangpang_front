@@ -3,7 +3,9 @@ import MemberProfileComponent from "../../components/member/MemberProfileCompone
 const MypageProfilePage = () => {
 
     return (
+
         <MemberProfileComponent/>
+        
     );
 }
 

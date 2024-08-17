@@ -1,11 +1,15 @@
 import { Outlet } from 'react-router-dom';
-import BasicNoHeightLayout from '../../layouts/BasicNoHeightLayout'; 
+import BasicLayout from '../../layouts/BasicLayout'; 
 
 const CommentIndexPage = () => {
+
     return (
-        <BasicNoHeightLayout>
+
+        <BasicLayout width={'85rem'}>
+
             <Outlet /> 
-        </BasicNoHeightLayout>
+
+        </BasicLayout>
     );
 };
 

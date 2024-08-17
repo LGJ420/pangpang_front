@@ -3,10 +3,26 @@ import FooterLayout from "./FooterLayout";
 import NavLayout1 from "./NavLayout1";
 import NavLayout2 from "./NavLayout2";
 import { useEffect } from "react";
+import styled from 'styled-components';
 
-const BasicLayout = ({children}) => {
+const BasicLayout = (
+        {
+            children,
+            width, height, minWidth, minHeight,
+            margin="auto",
+            isFooter=true
+        }
+    ) => {
 
     const location = useLocation();
+
+    const Main = styled.main`
+        width: ${width};
+        height: ${height};
+        min-width: ${minWidth};
+        min-height: ${minHeight};
+        margin: ${margin};
+    `;
 
     useEffect(() => {
 
@@ -18,11 +34,13 @@ const BasicLayout = ({children}) => {
         <NavLayout1 />
         <NavLayout2 />
         
-        <main className="min-h-[800px] min-w-[1350px]">
-            {children}
-        </main>
+        <Main>{children}</Main>
 
+        { isFooter ? 
         <FooterLayout />
+        :
+        <></>
+        }
         </>
     );
 

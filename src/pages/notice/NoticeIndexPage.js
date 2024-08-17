@@ -1,15 +1,16 @@
-import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+import BasicLayout from "../../layouts/BasicLayout";
 
 const NoticeIndexPage = () => {
 
     return (
-        <BasicWidthLimitLayout>
 
-        <section>
-            여긴 공지사항이다냥
-        </section>
+        <BasicLayout width={'85rem'} minHeight={'60rem'}>
+
+            <section>
+                여긴 공지사항이다냥
+            </section>
         
-        </BasicWidthLimitLayout>
+        </BasicLayout>
     );
 }
 

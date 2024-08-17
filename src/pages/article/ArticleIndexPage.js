@@ -1,15 +1,16 @@
 import { Outlet } from "react-router-dom";
-import BasicNoHeightLayout from "../../layouts/BasicNoHeightLayout";
+import BasicLayout from "../../layouts/BasicLayout";
 
 const ArticleIndexPage = () => {
 
     return (
-        <BasicNoHeightLayout>
+
+        <BasicLayout width={'85rem'} minHeight={'60rem'}>
+
             <Outlet/>
-        </BasicNoHeightLayout>
+
+        </BasicLayout>
     );
 }
-
-
 
 export default ArticleIndexPage;

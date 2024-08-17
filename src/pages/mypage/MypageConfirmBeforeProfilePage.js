@@ -3,7 +3,9 @@ import MemberConfirmBeforeProfileComponent from './../../components/member/Membe
 const MypageConfirmBeforeProfilePage = () => {
 
     return (
+
         <MemberConfirmBeforeProfileComponent/>
+        
     );
 }
 

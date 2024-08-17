@@ -1,15 +1,15 @@
 import { Outlet } from "react-router-dom";
-import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+import BasicLayout from "../../layouts/BasicLayout";
 
 const ProductIndexPage = () => {
 
     return (
 
-        <BasicWidthLimitLayout>
+        <BasicLayout width={'85rem'} minHeight={'115rem'}>
 
-        <Outlet />
+            <Outlet />
         
-        </BasicWidthLimitLayout>
+        </BasicLayout>
         
     );
 }

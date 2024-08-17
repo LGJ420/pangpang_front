@@ -1,4 +1,4 @@
-import BasicWidthLimitLayout from "../../layouts/BasicWidthLimitLayout";
+import BasicLayout from "../../layouts/BasicLayout";
 
 import {
     Accordion,
@@ -7,14 +7,13 @@ import {
     AccordionPanel,
     AccordionIcon,
     Box,
-    Flex,
   } from '@chakra-ui/react'
 
 const SupportIndexPage = () => {
 
     return (
 
-        <BasicWidthLimitLayout>
+        <BasicLayout width={'85rem'} minHeight={'85rem'}>
 
             <h1 className="m-10 text-5xl">고객센터</h1>
 
@@ -359,7 +358,7 @@ Windows 업데이트를 통해 다이렉트X의 최신 버전 설치가 가능�
 
             </Accordion>
         
-        </BasicWidthLimitLayout>
+        </BasicLayout>
     );
 }
 
