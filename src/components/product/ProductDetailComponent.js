@@ -163,7 +163,7 @@ const ProductDetailComponent = ({ num }) => {
 
         {selectedTab === 'product' && (
 
-          <div className="h-screen p-10 whitespace-pre-line text-md mb-52">
+          <div className=" p-10 whitespace-pre-line text-md">
             <div className="mb-16">
               {product.productDetailContent}
             </div>
@@ -257,7 +257,7 @@ const ProductDetailComponent = ({ num }) => {
 
         {selectedTab === 'review' && (
         
-        <div className="min-h-screen p-10">
+        <div className="min-h-[70rem] p-10">
           <h3 className="text-xl font-semibold mb-5">총 {reviewData.length}개 리뷰</h3>
           
           { reviewData.length === 0 &&
