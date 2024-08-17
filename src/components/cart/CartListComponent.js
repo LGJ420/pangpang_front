@@ -252,7 +252,7 @@ const CratListComponent = () => {
             :
             
             <div className="flex flex-col w-11/12 text-2xl font-semibold mx-auto py-40 items-center">
-                <img src="/images/cart_none.png" className="w-40" />
+                <img src="/images/no_cart.png" className="w-40" />
                 <div className="m-10">
                     장바구니가 비어있습니다
                 </div>
