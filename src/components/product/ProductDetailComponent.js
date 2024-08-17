@@ -201,35 +201,35 @@ const ProductDetailComponent = ({ num }) => {
             </div>
 
 
-            <div class="mt-16 text-center">
+            <div className="mt-16 text-center">
 
               <div className="mb-5 text-left font-semibold text-lg">
                 반품/교환 정보
               </div>
               {/* <!-- 지정 택배사 --> */}
-              <div class="flex border">
-                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">지정 택배사</div>
-                <div class="w-2/3 p-3">한진 택배</div>
+              <div className="flex border">
+                <div className="w-1/4 font-bold bg-slate-100 flex items-center justify-center">지정 택배사</div>
+                <div className="w-2/3 p-3">한진 택배</div>
               </div>
 
               {/* <!-- 반품 배송비 및 교환 배송비 --> */}
-              <div class="flex flex-wrap border border-y-0">
-                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">반품 배송비</div>
-                <div class="w-1/4 p-3">편도 3,000원</div>
-                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">교환 배송비</div>
-                <div class="w-1/4 p-3">6,000원</div>
+              <div className="flex flex-wrap border border-y-0">
+                <div className="w-1/4 font-bold bg-slate-100 flex items-center justify-center">반품 배송비</div>
+                <div className="w-1/4 p-3">편도 3,000원</div>
+                <div className="w-1/4 font-bold bg-slate-100 flex items-center justify-center">교환 배송비</div>
+                <div className="w-1/4 p-3">6,000원</div>
               </div>
 
               {/* <!-- 보내실 곳 --> */}
-              <div class="flex border">
-                <div class="w-1/4 font-bold bg-slate-100 flex justify-center items-center">보내실 곳</div>
-                <div class="w-2/3 p-5">경기 성남시 분당구 돌마로 46 광천프라자</div>
+              <div className="flex border">
+                <div className="w-1/4 font-bold bg-slate-100 flex justify-center items-center">보내실 곳</div>
+                <div className="w-2/3 p-5">경기 성남시 분당구 돌마로 46 광천프라자</div>
               </div>
 
               {/* <!-- 반품/교환 사유에 따른 요청 가능 기간 --> */}
-              <div class="flex border border-y-0">
-                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">반품/교환 사유에 따른 요청 가능 기간</div>
-                <div class="w-2/3 space-y-2 p-5 text-left">
+              <div className="flex border border-y-0">
+                <div className="w-1/4 font-bold bg-slate-100 flex items-center justify-center">반품/교환 사유에 따른 요청 가능 기간</div>
+                <div className="w-2/3 space-y-2 p-5 text-left">
                   <div>구매자 단순 변심은 상품 수령 후 7일 이내 (구매자 반품 배송비 부담)</div>
                   <div>표시/광고와 상이, 계약 내용과 다르게 진행된 경우 상품 수령 후 3개월 이내 혹은 표시/광고와 다른 사실을 안 날로부터 30일 이내 (판매자 반품 배송비 부담)</div>
                   <div>둘 중 하나 경과 시 반품/교환 불가</div>
@@ -237,9 +237,9 @@ const ProductDetailComponent = ({ num }) => {
               </div>
 
               {/* <!-- 반품/교환 불가능 사유 --> */}
-              <div class="flex border">
-                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">반품/교환 불가능 사유</div>
-                <div class="w-2/3 space-y-2 p-5 text-left">
+              <div className="flex border">
+                <div className="w-1/4 font-bold bg-slate-100 flex items-center justify-center">반품/교환 불가능 사유</div>
+                <div className="w-2/3 space-y-2 p-5 text-left">
                   <div>1. 반품 요청 기간이 지난 이후</div>
                   <div>2. 구매자의 책임 있는 사유로 상품 등이 멸실 또는 훼손된 경우 (단, 상품의 내용을 확인하기 위하여 포장 등을 훼손한 경우는 제외)</div>
                   <div>3. 구매자의 책임 있는 사유로 포장이 훼손되어 상품 가치가 현저히 상실된 경우</div>

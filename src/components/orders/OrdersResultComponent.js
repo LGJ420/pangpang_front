@@ -154,11 +154,12 @@ const OrdersResultComponent = () => {
         {
             serverData.length > 0 ? 
 
-            serverData.map(data=>
+            serverData.map((data, index)=>
 
-                data.dtoList.map(dto=>
+                data.dtoList.map((dto)=>
 
-                    <div className="bg-white flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center">
+                    <div className="bg-white flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center"
+                        key={`${data.memberId}-${dto.productId}`}>
                         <img src={`http://localhost:8080/api/product/view/${dto.uploadFileNames}` || '/images/chi1.jpg'}
                             alt={dto.productTitle} className="w-40 h-40 object-contain border rounded-xl"></img>
                         <div className="w-1/3">
