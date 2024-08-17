@@ -18,6 +18,7 @@ const CratListComponent = () => {
     const [serverData, setServerData] = useState([]);
     const [totalAmount, setTotalAmount] = useState(0);
     const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+    const [isLoading, setIsLoading] = useState(false);
 
     
     const navigate = useNavigate();
@@ -55,7 +56,7 @@ const CratListComponent = () => {
                     }
                 }
                 setImages(imageUrls);   // 이미지 url 저장
-            }).catch(e=>console.log(e));
+            }).catch(e=>console.log(e)).finally(()=>setIsLoading(true));
     }, []);
 
 
@@ -163,6 +164,16 @@ const CratListComponent = () => {
         navigate("/orders/pay", {state : {orderList}});
     }
 
+
+
+    // 이 조건문은 반드시 리액트 훅보다
+    // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
+    // 리액트 자체가 작동하지 않는다
+    // 그래서 최하단에 배치한다
+    if(!isLoading){
+
+        return null;
+    }
     return (
         <>
         <section className="w-[1350px] m-auto">

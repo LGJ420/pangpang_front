@@ -31,6 +31,7 @@ const ProductListComponent = () => {
   const [serverData, setServerData] = useState(initState);
   const [word, setWord] = useState("");   // 상품 검색용
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const {isLogin, decodeToken} = useCustomToken();
@@ -56,8 +57,12 @@ const ProductListComponent = () => {
           }
         }
         setImages(imageUrls);   // 상태를 업데이트하여 이미지 url 저장
-      } catch (error) {
+      }
+      catch (error) {
         console.error(error);
+      }
+      finally {
+        setIsLoading(true);
       }
     };
 
@@ -143,7 +148,14 @@ const ProductListComponent = () => {
   }
 
 
-  // 리턴값 맵으로 반복
+  // 이 조건문은 반드시 리액트 훅보다
+  // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
+  // 리액트 자체가 작동하지 않는다
+  // 그래서 최하단에 배치한다
+  if(!isLoading){
+
+    return null;
+  }
   return (
     <section>
 
