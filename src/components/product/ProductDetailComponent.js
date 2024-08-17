@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, ButtonGroup, Flex, Image, Text } from '@chakra-ui/react'
+import { Box, ButtonGroup, Flex, Grid, Image, Text } from '@chakra-ui/react'
 
 import { getOne } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
@@ -22,9 +22,9 @@ const ProductDetailComponent = ({ num }) => {
   const [product, setProduct] = useState(initState);
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
   const [selectedTab, setSelectedTab] = useState('product');
-  
+
   // 임시
-  const [reviewData, setReviewData] = useState([1,2,3]);
+  const [reviewData, setReviewData] = useState([1, 2, 3]);
 
   const navigate = useNavigate();
 
@@ -34,6 +34,8 @@ const ProductDetailComponent = ({ num }) => {
       try {
         const data = await getOne(num);
         setProduct(data);
+
+        // console.log(data);   // 데이터 확인용
 
         // 이미지 URL 설정하기
         const imageUrls = {};
@@ -51,7 +53,7 @@ const ProductDetailComponent = ({ num }) => {
 
 
       try {
-        getReviewList(num).then(data=>{
+        getReviewList(num).then(data => {
           setReviewData(data);
         });
       }
@@ -161,47 +163,133 @@ const ProductDetailComponent = ({ num }) => {
 
         {selectedTab === 'product' && (
 
-        <div className="h-screen p-10">
-          여기는 상품정보라능
-        </div>
+          <div className="h-screen p-10 whitespace-pre-line text-md mb-52">
+            <div className="mb-16">
+              {product.productDetailContent}
+            </div>
+
+            <div className="mt-16 text-center">
+              <div className="mb-5 text-left font-semibold text-lg">
+                상품 정보
+              </div>
+
+              <div className="flex items-center border">
+                <div className="w-1/3 py-2 font-semibold text-gray-700 bg-slate-100">상품 번호</div>
+                <div className="w-2/3 text-gray-900">{product.id}</div>
+
+
+                <div className="w-1/3 py-2 font-semibold text-gray-700 bg-slate-100">카테고리</div>
+                <div className="w-2/3 text-gray-900">{product.productCategory}</div>
+              </div>
+
+
+              <div className="flex items-center border border-y-0">
+                <div className="w-1/3 py-2 font-semibold text-gray-700 bg-slate-100">제조사</div>
+                <div className="w-2/3 text-gray-900">팡팡 게임즈</div>
+
+                <div className="w-1/3 py-2 font-semibold text-gray-700 bg-slate-100">원산지</div>
+                <div className="w-2/3 text-gray-900">한국</div>
+              </div>
+
+              <div className="flex items-center border">
+                <div className="w-1/3 py-2 font-semibold text-gray-700 bg-slate-100">영수증 발급</div>
+                <div className="w-2/3 text-gray-900">신용 카드 전표, 현금 영수증 발급</div>
+
+                <div className="w-1/3 py-2 font-semibold text-gray-700 bg-slate-100">A/S 안내</div>
+                <div className="w-2/3 text-gray-900">상담사 문의</div>
+              </div>
+            </div>
+
+
+            <div class="mt-16 text-center">
+
+              <div className="mb-5 text-left font-semibold text-lg">
+                반품/교환 정보
+              </div>
+              {/* <!-- 지정 택배사 --> */}
+              <div class="flex border">
+                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">지정 택배사</div>
+                <div class="w-2/3 p-3">한진 택배</div>
+              </div>
+
+              {/* <!-- 반품 배송비 및 교환 배송비 --> */}
+              <div class="flex flex-wrap border border-y-0">
+                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">반품 배송비</div>
+                <div class="w-1/4 p-3">편도 3,000원</div>
+                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">교환 배송비</div>
+                <div class="w-1/4 p-3">6,000원</div>
+              </div>
+
+              {/* <!-- 보내실 곳 --> */}
+              <div class="flex border">
+                <div class="w-1/4 font-bold bg-slate-100 flex justify-center items-center">보내실 곳</div>
+                <div class="w-2/3 p-5">경기 성남시 분당구 돌마로 46 광천프라자</div>
+              </div>
+
+              {/* <!-- 반품/교환 사유에 따른 요청 가능 기간 --> */}
+              <div class="flex border border-y-0">
+                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">반품/교환 사유에 따른 요청 가능 기간</div>
+                <div class="w-2/3 space-y-2 p-5 text-left">
+                  <div>구매자 단순 변심은 상품 수령 후 7일 이내 (구매자 반품 배송비 부담)</div>
+                  <div>표시/광고와 상이, 계약 내용과 다르게 진행된 경우 상품 수령 후 3개월 이내 혹은 표시/광고와 다른 사실을 안 날로부터 30일 이내 (판매자 반품 배송비 부담)</div>
+                  <div>둘 중 하나 경과 시 반품/교환 불가</div>
+                </div>
+              </div>
+
+              {/* <!-- 반품/교환 불가능 사유 --> */}
+              <div class="flex border">
+                <div class="w-1/4 font-bold bg-slate-100 flex items-center justify-center">반품/교환 불가능 사유</div>
+                <div class="w-2/3 space-y-2 p-5 text-left">
+                  <div>1. 반품 요청 기간이 지난 이후</div>
+                  <div>2. 구매자의 책임 있는 사유로 상품 등이 멸실 또는 훼손된 경우 (단, 상품의 내용을 확인하기 위하여 포장 등을 훼손한 경우는 제외)</div>
+                  <div>3. 구매자의 책임 있는 사유로 포장이 훼손되어 상품 가치가 현저히 상실된 경우</div>
+                  <div>4. 구매자의 사용 또는 일부 소비에 의해 상품의 가치가 현저히 감소한 경우</div>
+                  <div>5. 시간의 경과에 의하여 재판매가 곤란할 정도로 상품의 가치가 감소한 경우</div>
+                  <div>6. 고객의 요청 사항에 맞춰 제작에 들어가는 맞춤 제작 상품의 경우 (판매자에게 회복 불가능한 손해가 예상되고, 그러한 예정으로 청약철회권 행사가 불가하다는 사실을 서면 동의받은 경우)</div>
+                  <div>7. 복제가 가능한 상품 등의 포장을 훼손한 경우 (CD/DVD/GAME/도서의 경우 포장 개봉 시)</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
 
         )}
 
         {selectedTab === 'review' && (
-        
-        <div className="min-h-screen p-10">
-          <h3 className="text-xl font-semibold mb-5">총 {reviewData.length}개 리뷰</h3>
-          
-          {reviewData.map((review)=>
-          
-            <div className="py-5 pl-6 mb-5 flex items-center justify-between border rounded-lg">
-              <div className="w-5/6 min-h-40">
-                <div className="flex items-center">
-                  <img
-                    className="w-10 h-10 mr-2 rounded-full border"
-                    src="/images/profile.png" />
-                  <div className="mr-2">
-                    아이디입니당
+
+          <div className="min-h-screen p-10">
+            <h3 className="text-xl font-semibold mb-5">총 {reviewData.length}개 리뷰</h3>
+
+            {reviewData.map((review) =>
+
+              <div className="py-5 pl-6 mb-5 flex items-center justify-between border rounded-lg">
+                <div className="w-5/6 min-h-40">
+                  <div className="flex items-center">
+                    <img
+                      className="w-10 h-10 mr-2 rounded-full border"
+                      src="/images/profile.png" />
+                    <div className="mr-2">
+                      아이디입니당
+                    </div>
+                    <div>
+                      <RatingStarCompoent score={review.rating} />
+                    </div>
                   </div>
                   <div>
-                    <RatingStarCompoent score={review.rating}/>
+                    {review.reviewDate}
                   </div>
+                  <p className="mt-3">
+                    {review.reviewContent}
+                  </p>
                 </div>
-                <div>
-                  {review.reviewDate}
-                </div>
-                <p className="mt-3">
-                  {review.reviewContent}
-                </p>
-              </div>
-                <img 
+                <img
                   className="w-40 h-40 mx-auto object-contain"
                   src={review.reviewFileName.length > 0 ? `${prefix}/${review.reviewFileName}` : `/images/no_image.png`} />
 
-            </div>
-          )}
+              </div>
+            )}
 
-        </div>
+          </div>
 
         )}
 
