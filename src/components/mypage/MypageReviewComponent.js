@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getMyReview } from "../../api/productReviewApi";
 import "../../css/mypageReviewComponent.css";
 import RatingStarCompoent from "../common/RatingStarComponent";
+import { Spinner } from "@chakra-ui/react";
 
 // const initData = {
 //     rating: 0,
@@ -17,6 +18,7 @@ const prefix = "http://localhost:8080/api/productreview/view";
 const MypageReviewComponent = () => {
 
     const [reviewData, setReviewData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
 
@@ -24,7 +26,8 @@ const MypageReviewComponent = () => {
 
             setReviewData(data);
 
-        }).catch(e => console.log(e));
+        }).catch(e => console.log(e))
+        .finally(()=>setIsLoading(true));
 
     }, []);
 
@@ -35,7 +38,23 @@ const MypageReviewComponent = () => {
                 총 {reviewData.length}개 리뷰
             </h3>
 
-            {reviewData.map((review) =>
+            { !isLoading ?
+
+            <div className="h-96 flex items-center justify-center">
+                <Spinner
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+                />
+            </div>
+            
+            :
+            
+            reviewData.length > 0 ?
+
+            reviewData.map((review) =>
 
                 <div className="w-11/12 m-auto p-5 mb-5 border rounded-lg">
                     <div className="border-b pb-5 flex items-center">
@@ -81,9 +100,16 @@ const MypageReviewComponent = () => {
                                 src={review.reviewFileName.length > 0 ? `${prefix}/${review.reviewFileName}` : `/images/no_image.png`} />
                         </div>
                     </div>
-                    </div>
+                </div>
+            )
+            
+        :
 
-            )}
+        <div className="text-xl flex justify-center pt-28">
+            작성한 리뷰가 없습니다.
+        </div>
+
+        }
 
 
         </section>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteCartOne, getCartList, putCartOne } from "../../api/cartApi";
 import useCustomToken from "../../hooks/useCustomToken";
+import { Spinner } from "@chakra-ui/react";
 
 // const initState = [{
 //     productId: 0,
@@ -22,9 +23,6 @@ const CratListComponent = () => {
 
     
     const navigate = useNavigate();
-    const {decodeToken} = useCustomToken();
-
-
 
 
     useEffect(() => {
@@ -166,14 +164,6 @@ const CratListComponent = () => {
 
 
 
-    // 이 조건문은 반드시 리액트 훅보다
-    // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
-    // 리액트 자체가 작동하지 않는다
-    // 그래서 최하단에 배치한다
-    if(!isLoading){
-
-        return null;
-    }
     return (
         <>
         <section className="w-[1350px] m-auto">
@@ -203,7 +193,21 @@ const CratListComponent = () => {
 
         }
 
-        { serverData.length > 0 ?
+        { !isLoading ?
+
+        <div className="h-96 flex items-center justify-center">
+            <Spinner
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+            />
+        </div>
+        
+        :
+        
+        serverData.length > 0 ?
 
             serverData.map((data, index)=>(
                     <div key={index} className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center shadow ">

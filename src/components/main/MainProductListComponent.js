@@ -1,4 +1,4 @@
-import { ButtonGroup, Card, CardBody, Heading, Image, SimpleGrid, Stack, Text } from "@chakra-ui/react";
+import { ButtonGroup, Card, CardBody, Heading, Image, SimpleGrid, Spinner, Stack, Text } from "@chakra-ui/react";
 import { postCartAdd } from "../../api/cartApi";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ const MainProductList = () => {
 
   const [serverData, setServerData] = useState(initState);
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+  const [isLoading, setIsLoading] = useState(false);
 
 
   useEffect(() => {
@@ -36,6 +37,8 @@ const MainProductList = () => {
         setImages(imageUrls);   // 상태를 업데이트하여 이미지 url 저장
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(true);
       }
     };
 
@@ -96,7 +99,21 @@ const MainProductList = () => {
 
   return (
     <>
-      {serverData.length > 0 ? (
+      { !isLoading ?
+
+      <div className="flex flex-col items-center justify-center text-2xl font-semibold border-3 border-stone-900/30 rounded-md h-full">
+        <Spinner
+          thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl'
+          />
+      </div>
+
+      :
+      
+      serverData.length > 0 ? (
         <SimpleGrid columns={3} spacing={5}>
           {serverData.map(product => (
             <Card maxW='sm' className="text-center border-3 border-stone-900/30" key={product.id}>

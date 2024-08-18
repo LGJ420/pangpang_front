@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getOrdersList } from "../../api/ordersApi";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "@chakra-ui/react";
 
 // const initData = [{
 //     name: "",
@@ -23,6 +24,7 @@ const OrdersResultComponent = () => {
     const [modal, setModal] = useState(null); // 모달창
     const [refresh, setRefresh] = useState(false); // 새로고침용
     const [word, setWord] = useState(""); // 검색창 글
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -33,7 +35,9 @@ const OrdersResultComponent = () => {
 
             setServerData(data);
             // console.log(data);   // 데이터 확인용
-        }).catch(e=>console.log(e));
+        })
+        .catch(e=>console.log(e))
+        .finally(()=>setIsLoading(true));
 
     },[refresh]);
 
@@ -151,52 +155,65 @@ const OrdersResultComponent = () => {
             </div>
     
 
-        {
-            serverData.length > 0 ? 
+        {!isLoading ?
 
-            serverData.map((data, index)=>
+        <div className="h-96 flex items-center justify-center">
+            <Spinner
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+            />
+        </div>
+      
+        :
 
-                data.dtoList.map((dto)=>
+        serverData.length > 0 ? 
 
-                    <div className="bg-white flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center"
-                        key={`${data.memberId}-${dto.productId}`}>
-                        <img src={`http://localhost:8080/api/product/view/${dto.uploadFileNames}` || '/images/chi1.jpg'}
-                            alt={dto.productTitle} className="w-40 h-40 object-contain border rounded-xl"></img>
-                        <div className="w-1/3">
-                            <h3 className="font-extrabold text-2xl cursor-pointer"
-                                onClick={()=>handleClickTitle(dto.productId)}>
-                                {dto.productTitle}
-                            </h3>
-                            <p className="mt-3">{dto.productContent}</p>
-                            <span className="text-blue-700 cursor-pointer hover:opacity-50"
-                                onClick={()=>handleClickInfo(data, dto)}>
-                                자세히보기
-                            </span>
-                        </div>
-                        <div className="text-center">
-                            <h3 className="mb-3">수량</h3>
-                            <div className="text-2xl">{dto.cartCount}개</div>
-                        </div>
-                        <div className="text-2xl w-1/6 text-center">
-                            {(dto.cartCount * dto.productPrice).toLocaleString()} 원
-                        </div>
-                        <div className="w-1/7 flex flex-col justify-center items-center">
-                            <div className="w-[7rem] text-center">주문완료</div>
-                            {!dto.reviewExist && 
-                                <button className="bg-yellow-600 px-2 py-1 mt-3 text-white rounded-xl hover:opacity-90"
-                                    onClick={()=>handleClickReview(dto)}>
-                                    리뷰 작성하기
-                                </button>
-                            }
-                        </div>
+        serverData.map((data, index)=>
+
+            data.dtoList.map((dto)=>
+
+                <div className="bg-white flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center"
+                    key={`${data.memberId}-${dto.productId}`}>
+                    <img src={`http://localhost:8080/api/product/view/${dto.uploadFileNames}` || '/images/chi1.jpg'}
+                        alt={dto.productTitle} className="w-40 h-40 object-contain border rounded-xl"></img>
+                    <div className="w-1/3">
+                        <h3 className="font-extrabold text-2xl cursor-pointer"
+                            onClick={()=>handleClickTitle(dto.productId)}>
+                            {dto.productTitle}
+                        </h3>
+                        <p className="mt-3">{dto.productContent}</p>
+                        <span className="text-blue-700 cursor-pointer hover:opacity-50"
+                            onClick={()=>handleClickInfo(data, dto)}>
+                            자세히보기
+                        </span>
                     </div>
+                    <div className="text-center">
+                        <h3 className="mb-3">수량</h3>
+                        <div className="text-2xl">{dto.cartCount}개</div>
+                    </div>
+                    <div className="text-2xl w-1/6 text-center">
+                        {(dto.cartCount * dto.productPrice).toLocaleString()} 원
+                    </div>
+                    <div className="w-1/7 flex flex-col justify-center items-center">
+                        <div className="w-[7rem] text-center">주문완료</div>
+                        {!dto.reviewExist && 
+                            <button className="bg-yellow-600 px-2 py-1 mt-3 text-white rounded-xl hover:opacity-90"
+                                onClick={()=>handleClickReview(dto)}>
+                                리뷰 작성하기
+                            </button>
+                        }
+                    </div>
+                </div>
                 )
 
             )
 
             :
 
-            <div className="text-center m-32">
+            <div className="text-xl text-center p-32">
                 구매내역이 없습니다
             </div>
         }

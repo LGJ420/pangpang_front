@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton, Spinner } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
 import useCustomToken from "../../hooks/useCustomToken";
@@ -148,14 +148,7 @@ const ProductListComponent = () => {
   }
 
 
-  // 이 조건문은 반드시 리액트 훅보다
-  // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
-  // 리액트 자체가 작동하지 않는다
-  // 그래서 최하단에 배치한다
-  if(!isLoading){
 
-    return null;
-  }
   return (
     <section>
 
@@ -171,7 +164,20 @@ const ProductListComponent = () => {
         />
       </div>
 
-      {serverData.dtoList.length > 0 ?
+      { !isLoading ?
+      <div className="h-96 flex items-center justify-center">
+        <Spinner
+          thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl'
+          />
+      </div>
+      
+      :
+      
+      serverData.dtoList.length > 0 ?
       
         <SimpleGrid columns={ 4 } spacing={10}>
           {serverData.dtoList.map(product =>
