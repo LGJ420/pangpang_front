@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
+import { Spinner } from 'react-bootstrap';
 
 const MemberLoginComponent = () => {
 
@@ -14,6 +15,8 @@ const MemberLoginComponent = () => {
     const [memberId, setMemberId] = useState("");
     const [memberPw, setMemberPw] = useState("");
     const navigate = useNavigate();
+
+    const [isLoading, setIsLoading] = useState(false);
 
     // 컴포넌트가 마운트될 때 토큰 확인
     useEffect(() => {
@@ -32,6 +35,8 @@ const MemberLoginComponent = () => {
     }
 
     const onClickLogin = ()=>{
+        
+        setIsLoading(true);
         
         console.log("click login");
         console.log("ID : " + memberId);
@@ -68,7 +73,8 @@ const MemberLoginComponent = () => {
             .catch((error)=>{
                 console.error("로그인 요청 중 오류 발생", error);
                 alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.")
-            });
+            })
+            .finally(()=>setIsLoading(false));
 
         }
 
@@ -124,7 +130,7 @@ const MemberLoginComponent = () => {
                     <div
                     className={styles.button}
                     onClick={onClickLogin}>
-                        로그인
+                        {isLoading ? <Spinner animation="border" role="status" /> : '로그인'}
                     </div>
 
                     <hr></hr>
