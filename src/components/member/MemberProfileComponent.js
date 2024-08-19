@@ -186,19 +186,22 @@ const MemberProfileComponent = () => {
     }
 
     // 프로필 사진 관련 코드 (출처 : https://junikang.tistory.com/303)
+    const [profileImage, setProfileImage] = useState(memberImage); // 프사 바꾸기 전, 후 변경 필요해서 state 만듦
+
     const [file, setFile] = useState(); 
     
     const saveFile = (e) => { 
-        setFile(e.target.files[0]); 
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+        setProfileImage(URL.createObjectURL(selectedFile)); // 선택한 파일을 URL로 변환하여 미리보기에 사용
     }; 
 
     const submitImage = (e) => { 
         e.preventDefault(); 
         const formData = new FormData(); 
-        
+
         formData.append('file', file); 
 
-        console.log(file);
         
         axios
         .post("http://localhost:8080/api/member/mypage/image/post", formData, {
@@ -243,7 +246,7 @@ const MemberProfileComponent = () => {
                         </div>
                         <img 
                             className="ml-7 border w-32 h-32 object-cover"
-                            src="/images/profile.png"/>
+                            src={profileImage}/>
                     </div>
                     <div className="my-10">
                         <span className="w-32 inline-block">
