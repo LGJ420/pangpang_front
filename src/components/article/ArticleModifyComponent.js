@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getOne, putOne, deleteOne } from "../../api/articleApi";
+import { getOne, putOne } from "../../api/articleApi";
 import {
   Box,
   Button,
@@ -9,14 +9,6 @@ import {
   Input,
   Text,
   Textarea,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomToken from "../../hooks/useCustomToken";
@@ -24,7 +16,6 @@ import useCustomToken from "../../hooks/useCustomToken";
 const initState = {
   id: 0,
   articleTitle: '',
-  articleAuthor: '',
   articleContent: '',
   articleCreated: null,
   articleUpdated: null
@@ -32,12 +23,12 @@ const initState = {
 
 const ArticleModifyComponent = () => {
   const { id } = useParams();
-  const { moveToList, moveToRead } = useCustomMove();
+  const { moveToRead } = useCustomMove();
   const { isLogin } = useCustomToken();
   const navigate = useNavigate();
   const [article, setArticle] = useState({ ...initState });
   const [loading, setLoading] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,17 +78,6 @@ const ArticleModifyComponent = () => {
     moveToRead(id);
   };
 
-  const handleDeleteConfirm = async () => {
-    try {
-      await deleteOne(id);
-      moveToList();
-    } catch (error) {
-      console.error("삭제에 실패했습니다.", error);
-    } finally {
-      onClose();
-    }
-  };
-
   if (!isLogin) {
     return null;
   }
@@ -114,7 +94,7 @@ const ArticleModifyComponent = () => {
           size="lg"
         />
       </Heading>
-      
+
       <Text fontSize="lg" color="gray.600" mb={2}>
         작성자: {article.articleAuthor}
       </Text>
@@ -137,9 +117,6 @@ const ArticleModifyComponent = () => {
       </Box>
 
       <Flex justify="space-between">
-        <Button colorScheme="red" onClick={onOpen} isLoading={loading}>
-          삭제
-        </Button>
         <Button colorScheme="teal" onClick={handleClickModify} isLoading={loading}>
           저장
         </Button>
@@ -147,27 +124,6 @@ const ArticleModifyComponent = () => {
           취소
         </Button>
       </Flex>
-
-      {/* Delete Confirmation Modal */}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>삭제 확인</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            정말로 이 글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="red" onClick={handleDeleteConfirm} mr={3}>
-              네
-            </Button>
-            <Button variant="ghost" onClick={onClose}>
-              아니오
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </Box>
   );
 };
