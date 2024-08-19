@@ -42,7 +42,7 @@ const ArticleReadComponent = () => {
       try {
         const data = await getOne(id);
         setServerData(data);
-        console.log('Server Data:', serverData);
+        console.log("data:", data);
       } catch (error) {
         console.error("글을 불러오는데 실패했습니다.", error);
       }
@@ -67,10 +67,6 @@ const ArticleReadComponent = () => {
 
   // 현재 사용자가 작성자인지 확인
   const isAuthor = isLogin && serverData.memberId === decodeToken.id;
-
-    // Debugging: Log values
-    console.log('Logged-in User ID:', decodeToken.id);
-    console.log('Is Author:', isAuthor);
 
   return (
     <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
