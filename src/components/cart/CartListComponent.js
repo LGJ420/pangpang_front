@@ -211,7 +211,7 @@ const CratListComponent = () => {
 
             serverData.map((data, index)=>(
                     <div key={index} className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center shadow ">
-                        <label className="relative select-none">
+                        <label className="relative select-none mr-3">
                             <input type="checkbox"
                                 className="sr-only peer"
                                 checked={data.checked}
