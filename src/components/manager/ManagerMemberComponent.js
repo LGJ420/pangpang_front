@@ -26,7 +26,7 @@ const ManagerMemberComponent = () => {
         getMemberList().then(data=>{
 
             setServerData(data);
-            console.log(data);
+            // console.log(data);
         }).catch(e=>console.log(e));
 
     },[refresh]);
@@ -42,6 +42,27 @@ const ManagerMemberComponent = () => {
         })
         .then((response)=>{
             setRefresh(!refresh);
+            console.log(response.data);
+        })
+        .catch((error)=>{
+            console.log("에러메세지 : " + error);
+        })
+    }
+
+    // 회원활동/활동정지 버튼 눌렀을 때, 활동<->활동정지 됨
+    // serverData 자체를 변경해야됨
+    const clickMemberActive = (data) => {
+        const newActive = data.active===false ? true : false ; 
+        // true = 활동정지 , false = 활동
+        console.log("변경될 isActive 값:", newActive);
+        
+        axios.post("http://localhost:8080/api/member/mypage/manager/change/isActive",{
+            id : data.id,
+            active : newActive,
+        })
+        .then((response)=>{
+            setRefresh(!refresh);
+            console.log("axois.post 이후 응답")
             console.log(response.data);
         })
         .catch((error)=>{
@@ -75,9 +96,9 @@ const ManagerMemberComponent = () => {
                         </div>
                         <div>{data.memberSignupDate}</div>
                         <div>
-                            {data.active == 0 ? "활동" : "활동정지"}
-                            <button>
-                                {data.active == 0 ? "🔄️활동정지" : "🔄️활동"}
+                            {data.active === false ? "활동" : "활동정지"}
+                            <button onClick={()=>clickMemberActive(data)}>
+                                {data.active === false ? "🔄️활동정지" : "🔄️활동"}
                             </button>
                         </div>
                     </div>
