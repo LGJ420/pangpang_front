@@ -67,7 +67,20 @@ const MemberLoginComponent = () => {
             })
             .catch((error)=>{
                 console.error("로그인 요청 중 오류 발생", error);
-                alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.")
+                
+                if (error.response) {
+                    // 서버가 응답을 반환했지만 오류 코드가 포함되어 있는 경우
+                    if (error.response.status === 401) {
+                        alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
+                    } else if (error.response.status === 500) {
+                        alert("서버 오류: 활동이 정지되었습니다.");
+                    } else {
+                        alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
+                    }
+                } else {
+                    // 서버가 응답하지 않거나 요청 자체에서 오류가 발생한 경우
+                    alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
+                }
             });
 
         }
