@@ -52,15 +52,21 @@ const ArticleReadPage = () => {
         {serverData.articleTitle}
       </Heading>
 
+
+      {/*작성자*/}
       <Text fontSize="lg" color="gray.600" mb={2}>
         작성자: {serverData.memberNickname}
       </Text>
 
+
+      {/*작성일 및 수정일*/}
       <Text fontSize="sm" color="gray.500" mb={4}>
         작성일: {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}{" "}
         {serverData.articleUpdated && `(수정일: ${formatDateTime(serverData.articleUpdated)})`}
       </Text>
 
+
+      {/*조회수*/}
       <Text fontSize="sm" color="gray.500" mb={4}>
         조회수: {serverData.viewCount || 0}회 
       </Text>
