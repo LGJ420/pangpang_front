@@ -145,40 +145,44 @@ const ManagerProductComponent = () => {
         // ▼이거 class는 그냥 빨간선때문에 한거임 나중에 알아서 바꾸세욤 ㅎㅁㅎ)>
         <div className={styles.test}> 
             <div>총 상품 수 : {serverData.dtoList.length}</div>
-            <div className={styles.membersGrid}>
-                <div className={styles.membersHeader}>
-                    <div>상품번호</div>
-                    <div>카테고리</div>
-                    <div>상품명</div>
-                    <div>등록일</div>
-                    <div>판매량</div>
-                    <div>재고량</div>
-                </div>
-                {serverData.dtoList.map(data => (
-                    <div className={styles.memberRow} key={data.id}>
-                        <div>{data.id}</div>
-                        <div>{data.productCategory}</div>
-                        <div>{data.productTitle}</div>
-                        <div>
-                            {data.productCreated}
-                        </div>
-                        <div>
-                            0개
-                        </div>
-                        <div>
-                            <span>
-                                1개
-                            </span>
-                            <button>
-                                재고 추가
-                            </button>
-                            <button>
-                                상품 제거
-                            </button>
-                        </div>
-                    </div>
-                ))}
+            <div className={styles.productsHeader}>
+
+                <div>상품번호</div>
+                <div>카테고리</div>
+                <div>상품명</div>
+                <div>등록일</div>
+                <div>판매량</div>
+                <div>재고량</div>
+
             </div>
+
+            {serverData.dtoList.map((data, index) => (
+
+            <div className={styles.productsBody} key={index}>
+                <div>{data.id}</div>
+                <div>{data.productCategory}</div>
+                <div>{data.productTitle}</div>
+                <div>
+                    {data.productCreated}
+                </div>
+                <div>
+                    0개
+                </div>
+                <div>
+                    <span>
+                        1개
+                    </span>
+                    <button>
+                        추가
+                    </button>
+                    <button>
+                        제거
+                    </button>
+                </div>
+            </div>
+
+            ))}
+            
 
             {/* 페이지네이션 */}
 
