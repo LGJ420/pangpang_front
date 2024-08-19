@@ -1,4 +1,25 @@
+import { PlusSquareIcon } from "@chakra-ui/icons";
+import { useState } from "react";
+
 const ProductAddComponent = () => {
+
+    const [image, setImage] = useState([]);     // 이미지 저장할 곳
+
+    // 이미지 저장할 함수
+    const handleAddImages = (event) => {
+        const imageLists = event.target.files;
+        let imageUrlLists = [...image];
+
+        for(let i = 0; i < imageLists.length; i++) {
+            const currentImageUrl = URL.createObjectURL(imageLists[i]);
+            imageUrlLists.push(currentImageUrl);
+        }
+
+        if(imageUrlLists.length >= 5) {
+            imageUrlLists = imageUrlLists.slice(0, 5);
+        }
+        setImage(imageUrlLists);
+    }
 
     return (
         <section>
@@ -11,10 +32,21 @@ const ProductAddComponent = () => {
                         className="m-3 font-extrabold">
                         사진
                     </label>
-                    <button
-                        className="w-32 h-10 mt-1 bg-slate-400 text-white rounded hover:opacity-80 text-lg">
-                        사진 등록하기
-                    </button>
+                    <input
+                        type="file"
+                        id="input-file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleAddImages}
+                        style={{ display: 'none' }}
+                    />
+                    <label
+                        htmlFor="input-file"
+                        className="flex items-center justify-center w-32 h-12 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 cursor-pointer"
+                    >
+                        <PlusSquareIcon className="w-6 h-6 mr-2" fill="#646F7C" />
+                        <span className="text-lg font-semibold">사진 추가</span>
+                    </label>
                 </div>
                 <div className="my-10 flex flex-col">
                     <label
