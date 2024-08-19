@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getOne, putOne, deleteOne } from "../../api/articleApi";
 import {
   Box,
@@ -19,6 +19,7 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
+import useCustomToken from "../../hooks/useCustomToken";
 
 const initState = {
   id: 0,
@@ -32,6 +33,8 @@ const initState = {
 const ArticleModifyComponent = () => {
   const { id } = useParams();
   const { moveToList, moveToRead } = useCustomMove();
+  const { isLogin } = useCustomToken();
+  const navigate = useNavigate();
   const [article, setArticle] = useState({ ...initState });
   const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -50,6 +53,15 @@ const ArticleModifyComponent = () => {
       fetchData();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (!isLogin) {
+
+      alert("잘못된 접근 방식입니다.");
+      navigate(-1);
+      return;
+  }
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -86,6 +98,10 @@ const ArticleModifyComponent = () => {
     }
   };
 
+  if (!isLogin) {
+    return null;
+  }
+
   return (
     <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
       <Heading as="h1" size="xl" mb={4}>
@@ -98,6 +114,7 @@ const ArticleModifyComponent = () => {
           size="lg"
         />
       </Heading>
+      
       <Text fontSize="lg" color="gray.600" mb={2}>
         작성자: {article.articleAuthor}
       </Text>
@@ -105,6 +122,7 @@ const ArticleModifyComponent = () => {
         작성일: {article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : 'N/A'}{" "}
         {article.articleUpdated && `(수정일: ${new Date(article.articleUpdated).toLocaleDateString()})`}
       </Text>
+
       <Box bg="gray.50" p={4} borderRadius="md" mb={4}>
         <Textarea
           name="articleContent"
@@ -117,6 +135,7 @@ const ArticleModifyComponent = () => {
           style={{whiteSpace: 'pre-wrap'}}
         />
       </Box>
+
       <Flex justify="space-between">
         <Button colorScheme="red" onClick={onOpen} isLoading={loading}>
           삭제

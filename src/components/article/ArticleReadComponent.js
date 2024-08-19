@@ -4,6 +4,7 @@ import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { getOne } from "../../api/articleApi";
 import CommentList from "../comment/CommentListComponent";
+import useCustomToken from "../../hooks/useCustomToken";
 
 // 날짜와 시간 포맷 함수
 const formatDateTime = (dateTime) => {
@@ -30,6 +31,7 @@ const ArticleReadComponent = () => {
   const { id } = useParams(); // URL에서 id를 추출
   const [serverData, setServerData] = useState(initState);
   const { moveToList, moveToModify } = useCustomMove();
+  const { isLogin } = useCustomToken();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,9 +91,11 @@ const ArticleReadComponent = () => {
           <Button colorScheme="teal" onClick={() => moveToList()}>
             목록으로 돌아가기
           </Button>
-          <Button colorScheme="orange" onClick={() => moveToModify(id)}>
-            수정하기
-          </Button>
+          {isLogin?
+            <Button colorScheme="orange" onClick={() => moveToModify(id)}>
+              수정하기
+            </Button>
+          :<></>}
         </Flex>
       </Flex>
 
