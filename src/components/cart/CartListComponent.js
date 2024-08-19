@@ -211,7 +211,7 @@ const CratListComponent = () => {
 
             serverData.map((data, index)=>(
                     <div key={index} className="flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center shadow ">
-                        <label className="relative select-none mr-3">
+                        <label className="relative select-none">
                             <input type="checkbox"
                                 className="sr-only peer"
                                 checked={data.checked}
@@ -223,7 +223,7 @@ const CratListComponent = () => {
                         </label>
                         <img src={images[data.productId] || '/images/chi1.jpg'}
                             alt={data.productTitle} 
-                            className="mx-auto object-contain h-40"/>                        
+                            className="ml-5 object-contain h-40 w-40"/>                        
                         <div className="w-1/3 mx-10">
                             <h3 className="font-extrabold text-2xl cursor-pointer"
                                 onClick={()=>handleClickTitle(data.productId)}>
