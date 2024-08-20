@@ -141,7 +141,7 @@ const ProductDetailComponent = ({ num }) => {
                 />
               ))
             ) : (
-              <Text>No images available</Text> // 이미지가 없는 경우에 대한 처리
+              <div></div>
             )}
             </Flex>
         </Box>

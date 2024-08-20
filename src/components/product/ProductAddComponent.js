@@ -3,6 +3,7 @@ import { useState } from "react";
 import { addProduct } from "../../api/productApi"; // API 호출 함수 임포트
 import useCustomMove from "../../hooks/useCustomMove";
 
+// 초기 상태 설정
 const initState = {
     productCategory: "게임 / CD",
     productTitle: "",
@@ -14,7 +15,7 @@ const initState = {
 
 const ProductAddComponent = () => {
 
-    const [product, setProduct] = useState(initState);
+    const [product, setProduct] = useState(initState);  // 상품 정보 입력 필드
     const [images, setImages] = useState([]); // 이미지 저장할 곳
 
     const { moveToList } = useCustomMove(); // 커스텀 훅 사용
@@ -38,11 +39,14 @@ const ProductAddComponent = () => {
         setImages(newImages);
     };
 
+
     // 이미지 삭제 함수
     const handleDeleteImages = (index) => {
         setImages(images.filter((_, idx) => idx !== index));
     };
 
+
+    // 상품 정보 변경 처리
     const handleChangeProduct = (e) => {
         setProduct({
             ...product,
@@ -50,7 +54,7 @@ const ProductAddComponent = () => {
         });
     };
 
-    // 입력값 처리
+    // 상품 추가 처리
     const handleClickAdd = async () => {  // async 키워드 추가
         const submit = window.confirm("상품을 등록하시겠습니까?");
 
