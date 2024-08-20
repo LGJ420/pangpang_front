@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { getOne } from "../../api/articleApi";
-import CommentList from "../comment/CommentListPage";
+import CommentList from "../comment/CommentListComponent";
 
 // 날짜와 시간 포맷 함수
 const formatDateTime = (dateTime) => {
