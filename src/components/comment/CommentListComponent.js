@@ -146,14 +146,6 @@ const CommentListComponent = ({ articleId }) => {
       <Heading mt={8} mb={6}>댓글 작성</Heading>
       <Box p={4} borderWidth="1px" borderRadius="md" bg="white">
         <form onSubmit={handleFormSubmit}>
-          <FormControl mb={4} isRequired>
-            <FormLabel>작성자</FormLabel>
-            <Input
-              type="text"
-              value={commentAuthor}
-              onChange={(e) => setCommentAuthor(e.target.value)}
-            />
-          </FormControl>
           <FormControl mb={6} isRequired>
             <FormLabel>댓글 내용</FormLabel>
             <Textarea
