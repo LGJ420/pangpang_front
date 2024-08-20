@@ -5,7 +5,7 @@ const NoticeIndexPage = () => {
 
     return (
 
-        <BasicLayout width={'85rem'} minHeight={'60rem'}>
+        <BasicLayout width={'85rem'} minHeight={'65rem'}>
 
             <Outlet />
         
