@@ -1,41 +1,63 @@
 import { Select, Input, IconButton, Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
 import useCustomToken from '../../hooks/useCustomToken';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getNoticeList } from '../../api/noticeApi';
+import useCustomMove from '../../hooks/useCustomMove';
 
-const data = [
-    { id: 1, title: '첫 번째 글', author: '홍길동', date: '2023-08-20', views: 150 },
-    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
-    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
-    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
-    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
-    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
-    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
-    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
-    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
-    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
-
-  ];
 
 
 const initState = {
-    dtoList: [],    // 공지사항 리스트
-    pageNumList: [],    // 페이지 번호 리스트
-    pageRequestDTO: null,   // 현재 페이지 요청 정보
-    prev: false,            // 이전 페이지 존재 여부
-    next: false,            // 다음 페이지 존재 여부
-    totalCount: 0,          // 전체 데이터 총 개수
-    prevPage: 0,            // 이전 페이지 번호, 존재하지 않으면 0 또는 null
-    nextPage: 0,            // 다음 페이지 번호, 존재하지 않으면 0 또는 null
-    totalPage: 0,           // 전체 페이지 수
-    current: 0              // 현재 페이지 번호
-  }
+
+    dtoList: [
+        {
+            id: 0,
+            noticeTitle: "",
+            noticeContent: "",
+            noticeHit: 0,
+            noticeCreated: "",
+            noticeUpdated: null,
+            memberId: 0,
+            memberNickname: ""
+        }
+    ],
+    pageNumList: [],
+    pageRequestDTO: {
+        page: 0,
+        size: 0,
+        search: null,
+        searchBy: null
+    },
+    prev: false,
+    next: false,
+    totalCount: 0,
+    prevPage: 0,
+    nextPage: 0,
+    totalPage: 0,
+    current: 0
+}
 
 const NoticeListComponent = () => {
+
+    const {search, page, size, refresh, moveToRead, moveToList} = useCustomMove();
 
     const [loading, setLoading] = useState(true);
     const { isLogin } = useCustomToken();
     const [serverData, setServerData] = useState(initState);
+
+
+    useEffect(()=>{
+
+        getNoticeList({page, size})
+            .then(data=>{setServerData(data); console.log(data)})
+            .catch(e=>console.log(e))
+            .finally(()=>setLoading(false));
+
+    },[search, page, size, refresh]);
+
+
+
+
 
     return (
 
@@ -62,22 +84,42 @@ const NoticeListComponent = () => {
             </div>
 
 
-            <div className='w-[80rem] h-[45rem] text-xl m-auto grid grid-cols-10 grid-rows-11'>
+            <div className='w-[80rem] h-[50rem] text-xl m-auto grid grid-cols-12 grid-rows-13'>
                 {/* 헤더 행 */}
-                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>글번호</div>
-                <div className='flex items-center justify-center col-span-6 bg-[rgb(240,248,255)] font-bold'>제목</div>
-                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>작성자</div>
-                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>등록일</div>
-                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>조회수</div>
+                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>
+                    글번호
+                </div>
+                <div className='flex items-center justify-center col-span-6 bg-[rgb(240,248,255)] font-bold'>
+                    제목
+                </div>
+                <div className='flex items-center justify-center col-span-2 bg-[rgb(240,248,255)] font-bold'>
+                    작성자
+                </div>
+                <div className='flex items-center justify-center col-span-2 bg-[rgb(240,248,255)] font-bold'>
+                    등록일
+                </div>
+                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>
+                    조회수
+                </div>
 
                 {/* 데이터 행 */}
-                {data.map((item) => (
+                {serverData.dtoList.map((dto) => (
                 <>
-                <div className='flex items-center justify-center col-span-1'>{item.id}</div>
-                <div className='flex items-center justify-center col-span-6'>{item.title}</div>
-                <div className='flex items-center justify-center col-span-1'>{item.author}</div>
-                <div className='flex items-center justify-center col-span-1'>{item.date}</div>
-                <div className='flex items-center justify-center col-span-1'>{item.views}</div>
+                <div className='flex items-center justify-center col-span-1'>
+                    {dto.id}
+                </div>
+                <div className='flex items-center justify-center col-span-6'>
+                    {dto.noticeTitle}
+                </div>
+                <div className='flex items-center justify-center col-span-2'>
+                    {dto.memberNickname}
+                </div>
+                <div className='flex items-center justify-center col-span-2'>
+                    {dto.noticeCreated.substring(0,10)}
+                </div>
+                <div className='flex items-center justify-center col-span-1'>
+                    {dto.noticeHit}
+                </div>
                 </>
             ))}
             </div>
