@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import BasicLayout from "../../layouts/BasicLayout";
 
 const NoticeIndexPage = () => {
@@ -6,9 +7,7 @@ const NoticeIndexPage = () => {
 
         <BasicLayout width={'85rem'} minHeight={'60rem'}>
 
-            <section>
-                여긴 공지사항이다냥
-            </section>
+            <Outlet />
         
         </BasicLayout>
     );
