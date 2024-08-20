@@ -185,6 +185,40 @@ const MemberProfileComponent = () => {
             });
     }
 
+    // 프로필 사진 관련 코드 (출처 : https://junikang.tistory.com/303)
+    const [profileImage, setProfileImage] = useState(memberImage); // 프사 바꾸기 전, 후 변경 필요해서 state 만듦
+
+    const [file, setFile] = useState(); 
+    
+    const saveFile = (e) => { 
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
+        setProfileImage(URL.createObjectURL(selectedFile)); // 선택한 파일을 URL로 변환하여 미리보기에 사용
+    }; 
+
+    const submitImage = (e) => { 
+        e.preventDefault(); 
+        const formData = new FormData(); 
+
+        formData.append('file', file); 
+
+        
+        axios
+        .post("http://localhost:8080/api/member/mypage/image/post", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization : `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then((response)=>{
+            console.log("프로필사진 변경 성공");
+            console.log(response.data);
+            // window.location.reload();
+        }).catch((error)=>{
+            console.log("프로필사진 변경 중 error 발생 : " + error);
+        })
+    }; 
+
 
     return(
         <section>
@@ -198,16 +232,21 @@ const MemberProfileComponent = () => {
                             프로필 사진
                         </span>
                         <div className="ml-4 flex flex-col items-end">
-                            <div>
-                                jpg, png 어쩌구저쩌구 설명써야함 어쩌구저쩌구
-                            </div>
-                            <button className="w-24 h-6 mt-1 bg-slate-400 text-white rounded hover:opacity-80 text-sm">
-                                사진 등록하기
-                            </button>
+                            {/* 프로필 사진 관련 코드 (출처 : https://junikang.tistory.com/303) */}
+                            <form onSubmit={submitImage}>
+                                <input 
+                                type="file" 
+                                id="file" 
+                                onChange={saveFile} /> 
+                                <button id="file" type="submit" className="w-24 h-6 mt-1 bg-slate-400 text-white rounded hover:opacity-80 text-sm">
+                                    사진 등록하기
+                                </button>
+                            </form> 
+                            {/* 프로필 사진 관련 코드 (출처 : https://junikang.tistory.com/303) */}
                         </div>
                         <img 
                             className="ml-7 border w-32 h-32 object-cover"
-                            src="/images/profile.png"/>
+                            src={profileImage}/>
                     </div>
                     <div className="my-10">
                         <span className="w-32 inline-block">
