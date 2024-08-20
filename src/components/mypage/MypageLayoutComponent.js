@@ -41,7 +41,7 @@ const MypageLayoutComponent = ({children}) => {
         <>
         <section>
             <div className="h-[15rem] flex items-center border-b bg-slate-100">
-                <img src={profileImage} className="rounded-full border w-52 ml-8"/>
+                <img src={profileImage} className="object-cover rounded-full border w-52 h-52 ml-8"/>
                 <h3 className="text-5xl font-bold p-5 tracking-wider">{decodeToken.memberNickname}</h3>
                 <div className="text-2xl font-semibold pt-6 uppercase">등급 : {decodeToken.memberRole}</div>
             </div>

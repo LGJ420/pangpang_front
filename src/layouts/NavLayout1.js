@@ -70,7 +70,7 @@ const NavLayout1 = () => {
                                 </li> */}
                         <li>
                             <Link to={'/mypage'} className="px-3 flex items-center">
-                                <img src={profileImage} className="w-12 h-12 rounded-full border mr-1"/>
+                                <img src={profileImage} className="object-cover w-12 h-12 rounded-full border mr-1"/>
                                 {decodeToken.memberNickname}님, 환영합니다!
                             </Link>
                         </li>
