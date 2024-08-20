@@ -1,7 +1,9 @@
 import { PlusSquareIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addProduct } from "../../api/productApi"; // API 호출 함수 임포트
 import useCustomMove from "../../hooks/useCustomMove";
+import useCustomToken from '../../hooks/useCustomToken';
+import { useNavigate } from "react-router-dom";
 
 // 초기 상태 설정
 const initState = {
@@ -17,8 +19,21 @@ const ProductAddComponent = () => {
 
     const [product, setProduct] = useState(initState);  // 상품 정보 입력 필드
     const [images, setImages] = useState([]); // 이미지 저장할 곳
+    const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
     const { moveToList } = useCustomMove(); // 커스텀 훅 사용
+    const { isLogin } = useCustomToken();
+
+
+    useEffect(() => {
+        if (!isLogin) {
+
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+            return;
+        }
+    }, [])
 
     // 이미지 저장할 함수
     const handleAddImages = (event) => {
@@ -88,6 +103,10 @@ const ProductAddComponent = () => {
         }
     };
 
+    if (!isLogin) {
+        return null;
+    }
+    
     return (
         <section>
             <div className="border-b p-10">
