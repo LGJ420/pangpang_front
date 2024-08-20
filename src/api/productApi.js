@@ -4,6 +4,16 @@ export const API_SERVER_HOST = 'http://localhost:8080';
 
 const prefix = `${API_SERVER_HOST}/api/product`;
 
+/* 상품 등록 */
+export const addProduct = async (formData) => {   // formData : 상품 정보를 담은 FormData 객체
+
+    const res = await axios.post(`${prefix}/add`, formData);
+    return res.data;
+  }
+
+
+
+
 /* 상품 목록보기 */
 export const getList = async (pageParam) => {
 
@@ -11,13 +21,6 @@ export const getList = async (pageParam) => {
 
   const res = await axios.get(`${prefix}/list`, { params: { search, page, size } });
 
-  return res.data;
-}
-
-
-/* 메인 페이지 상품 목록 보기 */
-export const getMainList = async () => {
-  const res = await axios.get(`${API_SERVER_HOST}/`);
   return res.data;
 }
 

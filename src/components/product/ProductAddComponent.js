@@ -1,9 +1,23 @@
-import { DeleteIcon, PlusSquareIcon } from "@chakra-ui/icons";
+import { PlusSquareIcon } from "@chakra-ui/icons";
 import { useState } from "react";
+import { addProduct } from "../../api/productApi"; // API 호출 함수 임포트
+import useCustomMove from "../../hooks/useCustomMove";
+
+const initState = {
+    productCategory: "게임 / CD",
+    productTitle: "",
+    productContent: "",
+    productPrice: 0,
+    productDetailContent: "",
+    files: []
+};
 
 const ProductAddComponent = () => {
 
-    const [images, setImages] = useState([]);     // 이미지 저장할 곳
+    const [product, setProduct] = useState(initState);
+    const [images, setImages] = useState([]); // 이미지 저장할 곳
+
+    const { moveToList } = useCustomMove(); // 커스텀 훅 사용
 
     // 이미지 저장할 함수
     const handleAddImages = (event) => {
@@ -14,7 +28,7 @@ const ProductAddComponent = () => {
             const file = fileList[i];
             const imageUrl = URL.createObjectURL(file); // 파일의 URL을 생성
 
-            newImages.push({ url: imageUrl, name: file.name });
+            newImages.push({ file, url: imageUrl, name: file.name });
         }
 
         // 이미지 업로드 5개 제한
@@ -22,14 +36,48 @@ const ProductAddComponent = () => {
             newImages = newImages.slice(0, 5);
         }
         setImages(newImages);
-    }
+    };
 
-    // console.log(images);
-
+    // 이미지 삭제 함수
     const handleDeleteImages = (index) => {
         setImages(images.filter((_, idx) => idx !== index));
+    };
 
-    }
+    const handleChangeProduct = (e) => {
+        setProduct({
+            ...product,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    // 입력값 처리
+    const handleClickAdd = async () => {  // async 키워드 추가
+        const submit = window.confirm("상품을 등록하시겠습니까?");
+
+        if (!submit) {
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("productCategory", product.productCategory);
+        formData.append("productTitle", product.productTitle);
+        formData.append("productContent", product.productContent);
+        formData.append("productPrice", product.productPrice);
+        formData.append("productDetailContent", product.productDetailContent);
+
+        // 이미지들 formData에 추가
+        images.forEach((image) => {
+            formData.append("files", image.file);
+        });
+
+        try {
+            const response = await addProduct(formData);
+            console.log('상품이 성공적으로 추가되었습니다:', response);
+            moveToList();  // 상품 등록 후 목록 페이지로 이동
+        } catch (error) {
+            console.error('상품 추가 중 오류가 발생했습니다:', error);
+        }
+    };
 
     return (
         <section>
@@ -38,10 +86,7 @@ const ProductAddComponent = () => {
             </div>
             <div className="text-2xl my-10 m-auto">
                 <div>
-                    <label
-                        className="m-3 font-extrabold">
-                        사진
-                    </label>
+                    <label className="m-3 font-extrabold">사진</label>
                     <input
                         type="file"
                         id="input-file"
@@ -57,94 +102,82 @@ const ProductAddComponent = () => {
                         <PlusSquareIcon className="w-6 h-6 mr-2" fill="#646F7C" />
                         <span className="text-lg font-semibold">사진 추가</span>
                     </label>
+                    <div className="text-lg">(※ jpg, png 파일 등록)</div>
+
                     {/* 저장해둔 이미지들 순회하면서 화면에 이미지 출력 */}
                     <div className="flex flex-wrap">
                         {images.map((image, index) => (
                             <div key={index} className="flex flex-col items-center mt-1 mr-1">
-                                <img src={image.url} className="w-28 h-28 object-cover" alt={image.name} />
+                                <img src={image.url} className="w-36 h-32 object-contain" alt={image.name} />
                                 <div className="flex items-center mt-1">
                                     <span className="text-base mr-2">{image.name}</span>
                                     <span
-                                        className="text-base cursor-pointer text-red-500"
-                                        onClick={() => handleDeleteImages(index)}
-                                    >
+                                        className="text-xl cursor-pointer text-red-500"
+                                        onClick={() => handleDeleteImages(index)}>
                                         x
                                     </span>
                                 </div>
                             </div>
                         ))}
                     </div>
-
                 </div>
+
+                {/* 기타 입력 필드들 */}
                 <div className="my-10 flex flex-col">
-                    <label
-                        className="m-3 font-extrabold"
-                        htmlFor="productCategory">
-                        카테고리
-                    </label>
+                    <label className="m-3 font-extrabold" htmlFor="productCategory">카테고리</label>
                     <select
                         className="p-3 rounded border w-1/4"
                         id="productCategory"
-                        name="productCategory">
-                        <option value="Game">게임 / CD</option>
-                        <option value="Console">게임기기</option>
-                        <option value="Figure">피규어 / 굿즈</option>
+                        name="productCategory"
+                        onChange={handleChangeProduct}>
+                        <option value="게임 / CD">게임 / CD</option>
+                        <option value="게임기기">게임기기</option>
+                        <option value="피규어/굿즈">피규어 / 굿즈</option>
                     </select>
                 </div>
                 <div className="my-10 flex flex-col">
-                    <label
-                        className="m-3 font-extrabold"
-                        htmlFor="productTitle">
-                        제목
-                    </label>
+                    <label className="m-3 font-extrabold" htmlFor="productTitle">제목</label>
                     <input
                         className="p-3 rounded border w-4/5"
                         id="productTitle"
                         name="productTitle"
                         placeholder="제목을 적어주세요."
-                        maxLength={50} />
+                        maxLength={50}
+                        onChange={handleChangeProduct} />
                 </div>
                 <div className="my-10 flex flex-col">
-                    <label
-                        className="m-3 font-extrabold"
-                        htmlFor="productContent">
-                        소제목
-                    </label>
+                    <label className="m-3 font-extrabold" htmlFor="productContent">소제목</label>
                     <input
                         className="p-3 rounded border"
                         id="productContent"
                         name="productContent"
                         placeholder="간단한 설명을 적어주세요."
-                        maxLength={70} />
+                        maxLength={70}
+                        onChange={handleChangeProduct} />
                 </div>
                 <div className="my-10 flex flex-col">
-                    <label
-                        className="m-3 font-extrabold"
-                        htmlFor="productPrice">
-                        가격
-                    </label>
+                    <label className="m-3 font-extrabold" htmlFor="productPrice">가격</label>
                     <input
                         className="p-3 rounded border w-1/4"
                         id="productPrice"
                         name="productPrice"
                         placeholder="가격을 적어주세요."
-                        maxLength={10} />
+                        maxLength={10}
+                        onChange={handleChangeProduct} />
                 </div>
                 <div className="my-10 flex flex-col">
-                    <label
-                        className="m-3 font-extrabold"
-                        htmlFor="productDetailContent">
-                        상세설명
-                    </label>
+                    <label className="m-3 font-extrabold" htmlFor="productDetailContent">상세설명</label>
                     <textarea
                         className="p-3 rounded border h-96"
                         id="productDetailContent"
                         name="productDetailContent"
                         placeholder="자세한 설명을 적어주세요."
-                        maxLength={500} />
+                        maxLength={500}
+                        onChange={handleChangeProduct} />
                 </div>
                 <div className="flex justify-center">
                     <button
+                        onClick={handleClickAdd} // 함수 호출 시 () 제거
                         className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80">
                         등록
                     </button>
@@ -152,6 +185,6 @@ const ProductAddComponent = () => {
             </div>
         </section>
     );
-}
+};
 
 export default ProductAddComponent;
