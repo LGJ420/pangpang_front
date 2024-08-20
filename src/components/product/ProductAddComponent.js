@@ -49,8 +49,10 @@ const ProductAddComponent = () => {
     // 상품 정보 변경 처리
     const handleChangeProduct = (e) => {
         setProduct({
-            ...product,
-            [e.target.name]: e.target.value
+            ...product, // product 상태 복사해 새로운 값을 업데이트
+            [e.target.name]: e.target.value     // 변경된 필드만 업데이트
+            // e.target.name = productTitle,
+            // e.target.value = "새로운 제목"
         });
     };
 
@@ -58,6 +60,7 @@ const ProductAddComponent = () => {
     const handleClickAdd = async () => {  // async 키워드 추가
         const submit = window.confirm("상품을 등록하시겠습니까?");
 
+        // 취소 클릭한 경우 그냥 종료
         if (!submit) {
             return;
         }
@@ -75,8 +78,10 @@ const ProductAddComponent = () => {
         });
 
         try {
+            // formData 서버로 전송
             const response = await addProduct(formData);
             console.log('상품이 성공적으로 추가되었습니다:', response);
+            alert("상품이 성공적으로 추가되었습니다!")
             moveToList();  // 상품 등록 후 목록 페이지로 이동
         } catch (error) {
             console.error('상품 추가 중 오류가 발생했습니다:', error);
