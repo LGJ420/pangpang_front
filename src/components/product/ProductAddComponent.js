@@ -47,6 +47,10 @@ const ProductAddComponent = () => {
                         <PlusSquareIcon className="w-6 h-6 mr-2" fill="#646F7C" />
                         <span className="text-lg font-semibold">사진 추가</span>
                     </label>
+                    {/* 저장해둔 이미지들 순회하면서 화면에 이미지 출력 */}
+                    {image.map((image, index) => (
+                        <div><img src={image} className="w-32 h-32 object-contain" /></div>
+                    ))}
                 </div>
                 <div className="my-10 flex flex-col">
                     <label
