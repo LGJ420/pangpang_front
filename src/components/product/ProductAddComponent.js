@@ -1,24 +1,34 @@
-import { PlusSquareIcon } from "@chakra-ui/icons";
+import { DeleteIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
 const ProductAddComponent = () => {
 
-    const [image, setImage] = useState([]);     // 이미지 저장할 곳
+    const [images, setImages] = useState([]);     // 이미지 저장할 곳
 
     // 이미지 저장할 함수
     const handleAddImages = (event) => {
-        const imageLists = event.target.files;
-        let imageUrlLists = [...image];
+        const fileList = event.target.files;
+        let newImages = [...images];
 
-        for(let i = 0; i < imageLists.length; i++) {
-            const currentImageUrl = URL.createObjectURL(imageLists[i]);
-            imageUrlLists.push(currentImageUrl);
+        for (let i = 0; i < fileList.length; i++) {
+            const file = fileList[i];
+            const imageUrl = URL.createObjectURL(file); // 파일의 URL을 생성
+
+            newImages.push({ url: imageUrl, name: file.name });
         }
 
-        if(imageUrlLists.length >= 5) {
-            imageUrlLists = imageUrlLists.slice(0, 5);
+        // 이미지 업로드 5개 제한
+        if (newImages.length > 5) {
+            newImages = newImages.slice(0, 5);
         }
-        setImage(imageUrlLists);
+        setImages(newImages);
+    }
+
+    // console.log(images);
+
+    const handleDeleteImages = (index) => {
+        setImages(images.filter((_, idx) => idx !== index));
+
     }
 
     return (
@@ -48,9 +58,23 @@ const ProductAddComponent = () => {
                         <span className="text-lg font-semibold">사진 추가</span>
                     </label>
                     {/* 저장해둔 이미지들 순회하면서 화면에 이미지 출력 */}
-                    {image.map((image, index) => (
-                        <div><img src={image} className="w-32 h-32 object-contain" /></div>
-                    ))}
+                    <div className="flex flex-wrap">
+                        {images.map((image, index) => (
+                            <div key={index} className="flex flex-col items-center mt-1 mr-1">
+                                <img src={image.url} className="w-28 h-28 object-cover" alt={image.name} />
+                                <div className="flex items-center mt-1">
+                                    <span className="text-base mr-2">{image.name}</span>
+                                    <span
+                                        className="text-base cursor-pointer text-red-500"
+                                        onClick={() => handleDeleteImages(index)}
+                                    >
+                                        x
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
                 </div>
                 <div className="my-10 flex flex-col">
                     <label
@@ -58,7 +82,7 @@ const ProductAddComponent = () => {
                         htmlFor="productCategory">
                         카테고리
                     </label>
-                    <select 
+                    <select
                         className="p-3 rounded border w-1/4"
                         id="productCategory"
                         name="productCategory">
@@ -73,12 +97,12 @@ const ProductAddComponent = () => {
                         htmlFor="productTitle">
                         제목
                     </label>
-                    <input 
+                    <input
                         className="p-3 rounded border w-4/5"
                         id="productTitle"
                         name="productTitle"
                         placeholder="제목을 적어주세요."
-                        maxLength={50}/>
+                        maxLength={50} />
                 </div>
                 <div className="my-10 flex flex-col">
                     <label
@@ -86,12 +110,12 @@ const ProductAddComponent = () => {
                         htmlFor="productContent">
                         소제목
                     </label>
-                    <input 
+                    <input
                         className="p-3 rounded border"
                         id="productContent"
                         name="productContent"
                         placeholder="간단한 설명을 적어주세요."
-                        maxLength={70}/>
+                        maxLength={70} />
                 </div>
                 <div className="my-10 flex flex-col">
                     <label
@@ -99,12 +123,12 @@ const ProductAddComponent = () => {
                         htmlFor="productPrice">
                         가격
                     </label>
-                    <input 
+                    <input
                         className="p-3 rounded border w-1/4"
                         id="productPrice"
                         name="productPrice"
                         placeholder="가격을 적어주세요."
-                        maxLength={10}/>
+                        maxLength={10} />
                 </div>
                 <div className="my-10 flex flex-col">
                     <label
@@ -112,12 +136,12 @@ const ProductAddComponent = () => {
                         htmlFor="productDetailContent">
                         상세설명
                     </label>
-                    <textarea 
+                    <textarea
                         className="p-3 rounded border h-96"
                         id="productDetailContent"
                         name="productDetailContent"
                         placeholder="자세한 설명을 적어주세요."
-                        maxLength={500}/>
+                        maxLength={500} />
                 </div>
                 <div className="flex justify-center">
                     <button
