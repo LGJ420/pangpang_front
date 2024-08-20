@@ -9,7 +9,7 @@ const MypageLayoutComponent = ({children}) => {
 
     const navigate = useNavigate();
 
-    const [imageUrl, setImageUrl] = useState('/images/profile.png');
+    const [imageUrl, setImageUrl] = useState('');
 
     useEffect(()=>{
         console.log("decode token : " +decodeToken);
@@ -35,11 +35,15 @@ const MypageLayoutComponent = ({children}) => {
 
         // 위 문제때문에 decodeToken.id 있을때만 실행시킴 고졸사토루 능지이슈 ㅈㅅ
         if(decodeToken.id){
-            axios.get(`http://localhost:8080/api/member/view/${decodeToken.id}/image`)
+            axios.get(`http://localhost:8080/api/member/${decodeToken.id}/image`)
             .then(response => {
                 // 성공적으로 응답을 받았을 때 처리할 내용
                 console.log(response.data);
-                setImageUrl(`http://localhost:8080/api/member/view/${response.data}`);
+                if(response.data){
+                    setImageUrl(`http://localhost:8080/api/member/view/${response.data}`);
+                } else {
+                    setImageUrl('/images/profile.png')
+                }
             })
             .catch(error => {
                 // 오류가 발생했을 때 처리할 내용
@@ -47,15 +51,6 @@ const MypageLayoutComponent = ({children}) => {
             });
         }
     },[isLogin, decodeToken]);
-
-    // 프로필사진
-    // const [profileImage, setProfileImage] = useState("/images/profile.png")
-
-    // useEffect(() => {
-    //     if (decodeToken.memberImage) {
-    //         setProfileImage(`http://localhost:8080/api/member/view/${decodeToken.memberImage}`);
-    //     }
-    // }, [decodeToken.memberImage]);
 
     // 이 조건문은 반드시 리액트 훅보다
     // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨

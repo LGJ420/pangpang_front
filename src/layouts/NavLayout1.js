@@ -10,13 +10,27 @@ const NavLayout1 = () => {
     const navigate = useNavigate();
 
     // 프로필사진
-    const [profileImage, setProfileImage] = useState("/images/profile.png")
+    const [imageUrl, setImageUrl] = useState('');
 
     useEffect(() => {
-        if (decodeToken.memberImage) {
-            setProfileImage(`http://localhost:8080/api/member/view/${decodeToken.memberImage}`);
+        // MypageLayoutComponent.js 참고
+        if(decodeToken.id){
+            axios.get(`http://localhost:8080/api/member/${decodeToken.id}/image`)
+            .then(response => {
+                // 성공적으로 응답을 받았을 때 처리할 내용
+                console.log(response.data);
+                if(response.data){
+                    setImageUrl(`http://localhost:8080/api/member/view/${response.data}`);
+                } else {
+                    setImageUrl('/images/profile.png')
+                }
+            })
+            .catch(error => {
+                // 오류가 발생했을 때 처리할 내용
+                console.error('서버에서 이미지 다운받기 실패:', error);
+            });
         }
-    }, [decodeToken.memberImage]);
+    }, [decodeToken.id]);
 
     // 로그아웃
     const handleLogout = () => {
@@ -70,7 +84,7 @@ const NavLayout1 = () => {
                                 </li> */}
                         <li>
                             <Link to={'/mypage'} className="px-3 flex items-center">
-                                <img src={profileImage} className="object-cover w-12 h-12 rounded-full border mr-1"/>
+                                <img src={imageUrl} className="object-cover w-12 h-12 rounded-full border mr-1"/>
                                 {decodeToken.memberNickname}님, 환영합니다!
                             </Link>
                         </li>
