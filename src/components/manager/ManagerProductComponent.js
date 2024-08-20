@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 
 // 빨간선때문에 import함 나중에 삭제하시길 ㅎㅎ
 import styles from "../../css/memberPage.module.css"
-import useCustomMove from "../../hooks/useCustomMove";
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
 import { getList } from "../../api/productApi";
+import { IconButton, Input } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 
 
 /* 초기값 설정 */
@@ -143,8 +144,19 @@ const ManagerProductComponent = () => {
 
     return(
         // ▼이거 class는 그냥 빨간선때문에 한거임 나중에 알아서 바꾸세욤 ㅎㅁㅎ)>
-        <div className={styles.test}> 
-            <div>총 상품 수 : {serverData.dtoList.length}</div>
+        <div className={styles.test}>
+            <div className="flex items-center">
+                <div>총 상품 수 : {serverData.dtoList.length}</div>
+
+                <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft="auto" fontSize="xl"
+                    onChange={(e) => { setWord(e.target.value); console.log(word) }}
+                    onKeyDown={handleKeyDown}
+                    value={word} />
+                <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
+                    icon={<SearchIcon />}
+                    onClick={() => { moveToList({ search: word }); }} />
+            </div>
+
             <div className={styles.productsHeader}>
 
                 <div>상품번호</div>
@@ -163,19 +175,19 @@ const ManagerProductComponent = () => {
                 <div>{data.productCategory}</div>
                 <div>{data.productTitle}</div>
                 <div>
-                    {data.productCreated}
+                    {data.productCreated.substring(0,10)}
                 </div>
                 <div>
-                    0개
+                    0개     
                 </div>
                 <div>
-                    <span>
+                    <span className="ml-2">
                         1개
                     </span>
-                    <button>
+                    <button className="font-bold text-emerald-300 ml-3">
                         추가
                     </button>
-                    <button>
+                    <button className="font-bold text-red-500 ml-2">
                         제거
                     </button>
                 </div>

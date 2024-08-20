@@ -86,7 +86,6 @@ const MemberLoginComponent = () => {
                     // 서버가 응답하지 않거나 요청 자체에서 오류가 발생한 경우
                     alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
                 }
-            alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.")
             })
             .finally(()=>setIsLoading(false));
 
