@@ -112,16 +112,24 @@ const MemberProfileComponent = () => {
     /* ====================== 다음 주소찾기 API 끝 ====================== */
 
 
-    // // 프로필 사진 관련 코드 (출처 : https://junikang.tistory.com/303)
-    const [profileImage, setProfileImage] = useState(memberImage); // 프사 바꾸기 전, 후 변경 필요해서 state 만듦
-
+    // // 프로필 사진 관련 코드
+    const [profileImage, setProfileImage] = useState("http://localhost:8080/api/member/view/" + memberImage); // 프사 바꾸기 전, 후 변경 필요해서 state 만듦
+    
     const [file, setFile] = useState(); 
     
     const saveFile = (e) => { 
         const selectedFile = e.target.files[0];
-        setFile(selectedFile);
-        setProfileImage(URL.createObjectURL(selectedFile)); // 선택한 파일을 URL로 변환하여 미리보기에 사용
-        console.log("선택된 파일:", selectedFile); // 디버깅
+        if (selectedFile) {
+            // 파일명을 공백을 '_'로 바꾼 새로운 파일명 생성
+            const modifiedFileName = selectedFile.name.replace(/\s+/g, '_');
+            
+            // 새로운 File 객체 생성
+            const modifiedFile = new File([selectedFile], modifiedFileName, { type: selectedFile.type });
+    
+            setFile(modifiedFile);
+            setProfileImage(URL.createObjectURL(modifiedFile)); // 선택한 파일을 URL로 변환하여 미리보기에 사용
+            console.log("선택된 파일:", modifiedFile); // 디버깅
+        }
     }; 
 
     // 수정하기 버튼
