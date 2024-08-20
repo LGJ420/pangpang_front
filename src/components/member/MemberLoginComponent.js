@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
+import { Spinner } from 'react-bootstrap';
 
 const MemberLoginComponent = () => {
 
@@ -14,6 +15,8 @@ const MemberLoginComponent = () => {
     const [memberId, setMemberId] = useState("");
     const [memberPw, setMemberPw] = useState("");
     const navigate = useNavigate();
+
+    const [isLoading, setIsLoading] = useState(false);
 
     // 컴포넌트가 마운트될 때 토큰 확인
     useEffect(() => {
@@ -32,6 +35,8 @@ const MemberLoginComponent = () => {
     }
 
     const onClickLogin = ()=>{
+        
+        setIsLoading(true);
         
         console.log("click login");
         console.log("ID : " + memberId);
@@ -67,8 +72,23 @@ const MemberLoginComponent = () => {
             })
             .catch((error)=>{
                 console.error("로그인 요청 중 오류 발생", error);
-                alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.")
-            });
+                
+                if (error.response) {
+                    // 서버가 응답을 반환했지만 오류 코드가 포함되어 있는 경우
+                    if (error.response.status === 401) {
+                        alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
+                    } else if (error.response.status === 500) {
+                        alert("서버 오류: 활동이 정지되었습니다.");
+                    } else {
+                        alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
+                    }
+                } else {
+                    // 서버가 응답하지 않거나 요청 자체에서 오류가 발생한 경우
+                    alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
+                }
+            alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.")
+            })
+            .finally(()=>setIsLoading(false));
 
         }
 
@@ -124,7 +144,7 @@ const MemberLoginComponent = () => {
                     <div
                     className={styles.button}
                     onClick={onClickLogin}>
-                        로그인
+                        {isLoading ? <Spinner animation="border" role="status" /> : '로그인'}
                     </div>
 
                     <hr></hr>

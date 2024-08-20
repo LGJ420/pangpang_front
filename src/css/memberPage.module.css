@@ -81,20 +81,44 @@
     gap: 10px;
 }
 
+
 .membersHeader {
     font-weight: bold;
     background-color: #f1f1f1;
     display: contents;
-}
-
+    }
+    
 .memberRow {
     display: contents;
     border-bottom: 1px solid #ddd;
     padding: 10px 0;
-}
-
+    }
+    
 .memberRow div,
 .membersHeader div {
+
     padding: 8px 10px;
 }
+
+.productsHeader {
+    display: grid;
+    grid-template-columns: 1fr 1fr 4fr 2fr 1fr 2fr;
+    font-size: 1.2rem;
+    text-align: center;
+    align-items: center;
+}
+
+.productsBody {
+    display: grid;
+    grid-template-columns: 1fr 1fr 4fr 2fr 1fr 2fr;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.productsBody div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 

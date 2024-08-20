@@ -54,8 +54,13 @@ export const deleteOne = async (id) => {
 
 //글 수정하기
 export const putOne = async (id, article) => {
+    const token = localStorage.getItem("token");
 
-    const res = await axios.put(`${prefix}/modify/${id}`, article);
+    const res = await axios.put(`${prefix}/modify/${id}`, article, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
     return res.data;
 }

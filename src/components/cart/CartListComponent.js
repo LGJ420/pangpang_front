@@ -223,7 +223,7 @@ const CratListComponent = () => {
                         </label>
                         <img src={images[data.productId] || '/images/chi1.jpg'}
                             alt={data.productTitle} 
-                            className="mx-auto object-contain h-40"/>                        
+                            className="ml-5 object-contain h-40 w-40"/>                        
                         <div className="w-1/3 mx-10">
                             <h3 className="font-extrabold text-2xl cursor-pointer"
                                 onClick={()=>handleClickTitle(data.productId)}>

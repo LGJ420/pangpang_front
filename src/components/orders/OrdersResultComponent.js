@@ -171,7 +171,7 @@ const OrdersResultComponent = () => {
 
         serverData.length > 0 ? 
 
-        serverData.map((data, index)=>
+        serverData.map((data)=>
 
             data.dtoList.map((dto)=>
 
