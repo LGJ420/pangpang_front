@@ -113,7 +113,7 @@ const MemberProfileComponent = () => {
 
 
     // // 프로필 사진 관련 코드
-    const [profileImage, setProfileImage] = useState("http://localhost:8080/api/member/view/" + memberImage); // 프사 바꾸기 전, 후 변경 필요해서 state 만듦
+    const [profileImage, setProfileImage] = useState(memberImage ? `http://localhost:8080/api/member/view/${memberImage}` : "/images/profile.png")
     
     const [file, setFile] = useState(); 
     
@@ -131,6 +131,14 @@ const MemberProfileComponent = () => {
             console.log("선택된 파일:", modifiedFile); // 디버깅
         }
     }; 
+
+    useEffect(() => {
+        if (memberImage) {
+            setProfileImage(`http://localhost:8080/api/member/view/${memberImage}`);
+        } else {
+            setProfileImage("/images/profile.png");
+        }
+    }, [memberImage]);
 
     // 수정하기 버튼
     const clickModify = async()=>{
