@@ -305,7 +305,7 @@ const OrdersPayComponent = () => {
                                 <>
                                 <hr className="my-3"/>
                                 <div key={index} className="flex items-center">
-                                            <img src={`http://localhost:8080/api/product/view/${product.uploadFileNames}` || '/images/chi1.jpg'}
+                                            <img src={`http://localhost:8080/api/product/view/${product.uploadFileNames[0]}` || '/images/chi1.jpg'}
                                                 alt={product.productTitle} 
                                                 className="w-24 h-24 border rounded object-contain"></img>
                                     <div className="ml-5">

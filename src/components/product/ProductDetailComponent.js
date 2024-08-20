@@ -20,11 +20,11 @@ const prefix = "http://localhost:8080/api/productreview/view";
 const ProductDetailComponent = ({ num }) => {
 
   const [product, setProduct] = useState(initState);
-  const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
+  const [selectedImages, setSelectedImages] = useState('');
   const [selectedTab, setSelectedTab] = useState('product');
 
   // 임시
-  const [reviewData, setReviewData] = useState([1, 2, 3]);
+  const [reviewData, setReviewData] = useState([]);
 
   const navigate = useNavigate();
 
@@ -37,16 +37,10 @@ const ProductDetailComponent = ({ num }) => {
 
         // console.log(data);   // 데이터 확인용
 
-        // 이미지 URL 설정하기
-        const imageUrls = {};
-        // data.uploadFileNames 배열에서 첫 번째 이미지 파일을 가져와 URL을 설정합니다.
-        if (data.uploadFileNames.length > 0) {
-          const fileName = data.uploadFileNames[0];
-          const url = `http://localhost:8080/api/product/view/${fileName}`;
-          imageUrls[data.id] = url;
+        // 첫 번째 이미지를 초기 대표 이미지로 설정
+        if (data.uploadFileNames && data.uploadFileNames.length > 0) {
+          setSelectedImages(`http://localhost:8080/api/product/view/${data.uploadFileNames[0]}`);
         }
-        // console.log('Image URLs:', imageUrls); // URL 확인
-        setImages(imageUrls);
       } catch (error) {
         console.error(error);
       }
@@ -64,6 +58,12 @@ const ProductDetailComponent = ({ num }) => {
 
     fetchData();
   }, [num]);
+
+
+  /* 이미지 클릭 시 대표 이미지 변경 */
+  const handleClickImage = (fileName) => {
+    setSelectedImages(`http://localhost:8080/api/product/view/${fileName}`);
+  }
 
 
   /* 구매하기 */
@@ -122,15 +122,33 @@ const ProductDetailComponent = ({ num }) => {
 
         <Box flex="1" align="center">
           <Image
-            src={images[product.id] || '/images/chi1.jpg'}
+            src={selectedImages || '/images/chi1.jpg'}
             alt={product.productTitle}
             boxSize={{ base: '100%', md: '50%' }}
             className="mx-auto h-80 object-contain" />
+            
+            <Flex>
+            {product.uploadFileNames && product.uploadFileNames.length > 0 ? (
+              product.uploadFileNames.map((fileName, index) => (
+                <Image key={index}
+                  src={`http://localhost:8080/api/product/view/s_${fileName}`}
+                  boxSize="100px"
+                  objectFit="cover"
+                  m={2}
+                  border={selectedImages?.includes(fileName) ? '2px solid #ff6347' : '1px solid #ccc'} // 선택된 이미지 강조
+                  onClick={() => handleClickImage(fileName)}
+                  cursor="pointer"
+                />
+              ))
+            ) : (
+              <Text>No images available</Text> // 이미지가 없는 경우에 대한 처리
+            )}
+            </Flex>
         </Box>
 
         <Box flex="1" ml={5} textAlign="center" className='border-l'>
           <Text fontSize="4xl" fontWeight='bold' mb={4}>{product.productTitle}</Text>
-          <Text fontSize='3xl' mb={4} >{product.productContent}</Text>
+          <Text fontSize='2xl' mb={4} >{product.productContent}</Text>
           <Text fontSize='3xl' mb={6}>{product.productPrice.toLocaleString()}원</Text>
           <ButtonGroup spacing='7' className='mx-auto mt-5'>
             <button className="text-white bg-[rgb(68,107,216)] text-xl font-extrabold hover:opacity-70 rounded-lg w-36 h-16"

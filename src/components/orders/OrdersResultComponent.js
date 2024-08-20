@@ -110,7 +110,7 @@ const OrdersResultComponent = () => {
                 <div className="w-[720px] p-4 bg-white border rounded-lg shadow-md flex flex-col justify-center">
 
                     <div className="flex">
-                            <img src={`http://localhost:8080/api/product/view/${modal.uploadFileNames}` || '/images/chi1.jpg'}
+                            <img src={`http://localhost:8080/api/product/view/${modal.uploadFileNames[0]}` || '/images/chi1.jpg'}
                                 alt={modal.productTitle} className="w-56 border rounded m-3"></img>
                         <div className="flex flex-col flex-1 ml-7">
                             <button className="self-end m-3 bg-red-500 px-3 py-1 text-white rounded-sm close"
@@ -177,7 +177,7 @@ const OrdersResultComponent = () => {
 
                 <div className="bg-white flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center"
                     key={`${data.memberId}-${dto.productId}`}>
-                    <img src={`http://localhost:8080/api/product/view/${dto.uploadFileNames}` || '/images/chi1.jpg'}
+                    <img src={`http://localhost:8080/api/product/view/${dto.uploadFileNames[0]}` || '/images/chi1.jpg'}
                         alt={dto.productTitle} className="w-40 h-40 object-contain border rounded-xl"></img>
                     <div className="w-1/3">
                         <h3 className="font-extrabold text-2xl cursor-pointer"
