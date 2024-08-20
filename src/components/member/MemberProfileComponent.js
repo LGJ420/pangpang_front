@@ -218,6 +218,20 @@ const MemberProfileComponent = () => {
             console.error("내 정보 변경 요청 중 오류 발생", error);
             alert("수정 중 오류가 발생했습니다.");
         }
+
+    }
+    
+    //프로필 사진 삭제
+    const deleteImage = () => {
+        axios.delete(`http://localhost:8080/api/member/${memberId}/image`)
+        .then((response)=>{
+            console.log(response.data);
+            setProfileImage("/images/profile.png");
+        })
+        .catch((error)=>{
+            console.log("프로필 사진 삭제 중 에러 발생 : " + error);
+            alert("프로필 사진 삭제 중 오류가 발생했습니다.");
+        })
     }
 
     return(
@@ -233,6 +247,10 @@ const MemberProfileComponent = () => {
                         </span>
                         <div className="ml-4 flex flex-col items-end">
                             <div>
+                                {/* 기정 여기야 여기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                ☆★☆★☆★☆ㅁ87ㅁ8ㅁ87ㅁ878
+                                ☆ㅁ8☆ㅁ8ㅁ78ㅁ78ㅁ
+                                ☆8☆8☆8 */}
                                 <input 
                                 type="file" 
                                 id="file" 
@@ -246,6 +264,13 @@ const MemberProfileComponent = () => {
                                 }}>
                                     사진 등록하기
                                 </button>
+                                <button 
+                                className="w-24 h-6 mt-1 bg-red-400 text-white rounded hover:opacity-80 text-sm"
+                                onClick={deleteImage}>사진 삭제하기</button>
+                                {/* 기정 여기야 여기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                ☆★☆★☆★☆ㅁ87ㅁ8ㅁ87ㅁ878
+                                ☆ㅁ8☆ㅁ8ㅁ78ㅁ78ㅁ
+                                ☆8☆8☆8 */}
                             </div> 
                         </div>
                         <img 
