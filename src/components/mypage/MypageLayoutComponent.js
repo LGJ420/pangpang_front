@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const MypageLayoutComponent = ({children}) => {
 
@@ -19,6 +19,15 @@ const MypageLayoutComponent = ({children}) => {
         }
     },[isLogin]);
 
+    // 프로필사진
+    const [profileImage, setProfileImage] = useState("/images/profile.png")
+
+    useEffect(() => {
+        if (decodeToken.memberImage) {
+            setProfileImage(`http://localhost:8080/api/member/view/${decodeToken.memberImage}`);
+        }
+    }, [decodeToken.memberImage]);
+
 
     // 이 조건문은 반드시 리액트 훅보다
     // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
@@ -32,7 +41,7 @@ const MypageLayoutComponent = ({children}) => {
         <>
         <section>
             <div className="h-[15rem] flex items-center border-b bg-slate-100">
-                <img src="/images/profile.png" className="rounded-full border w-52 ml-8"/>
+                <img src={profileImage} className="rounded-full border w-52 ml-8"/>
                 <h3 className="text-5xl font-bold p-5 tracking-wider">{decodeToken.memberNickname}</h3>
                 <div className="text-2xl font-semibold pt-6 uppercase">등급 : {decodeToken.memberRole}</div>
             </div>
