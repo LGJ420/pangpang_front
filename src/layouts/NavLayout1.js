@@ -1,12 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import useCustomToken from "../hooks/useCustomToken";
+import { useEffect, useState } from "react";
 
 const NavLayout1 = () => {
 
     const { isLogin, decodeToken } = useCustomToken();
 
     const navigate = useNavigate();
+
+    // 프로필사진
+    const [profileImage, setProfileImage] = useState("/images/profile.png")
+
+    useEffect(() => {
+        if (decodeToken.memberImage) {
+            setProfileImage(`http://localhost:8080/api/member/view/${decodeToken.memberImage}`);
+        }
+    }, [decodeToken.memberImage]);
 
     // 로그아웃
     const handleLogout = () => {
@@ -60,7 +70,7 @@ const NavLayout1 = () => {
                                 </li> */}
                         <li>
                             <Link to={'/mypage'} className="px-3 flex items-center">
-                                <img src="/images/profile.png" className="w-12 h-12 rounded-full border mr-1"/>
+                                <img src={profileImage} className="w-12 h-12 rounded-full border mr-1"/>
                                 {decodeToken.memberNickname}님, 환영합니다!
                             </Link>
                         </li>
