@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getOne, putOne, deleteOne } from "../../api/articleApi";
+import { useNavigate, useParams } from "react-router-dom";
+import { getOne, putOne } from "../../api/articleApi";
 import {
   Box,
   Button,
@@ -9,21 +9,13 @@ import {
   Input,
   Text,
   Textarea,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
+import useCustomToken from "../../hooks/useCustomToken";
 
 const initState = {
   id: 0,
   articleTitle: '',
-  articleAuthor: '',
   articleContent: '',
   articleCreated: null,
   articleUpdated: null
@@ -31,10 +23,12 @@ const initState = {
 
 const ArticleModifyComponent = () => {
   const { id } = useParams();
-  const { moveToList, moveToRead } = useCustomMove();
+  const { moveToRead } = useCustomMove();
+  const { isLogin } = useCustomToken();
+  const navigate = useNavigate();
   const [article, setArticle] = useState({ ...initState });
   const [loading, setLoading] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +44,15 @@ const ArticleModifyComponent = () => {
       fetchData();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (!isLogin) {
+
+      alert("잘못된 접근 방식입니다.");
+      navigate(-1);
+      return;
+  }
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,16 +78,9 @@ const ArticleModifyComponent = () => {
     moveToRead(id);
   };
 
-  const handleDeleteConfirm = async () => {
-    try {
-      await deleteOne(id);
-      moveToList();
-    } catch (error) {
-      console.error("삭제에 실패했습니다.", error);
-    } finally {
-      onClose();
-    }
-  };
+  if (!isLogin) {
+    return null;
+  }
 
   return (
     <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
@@ -98,6 +94,7 @@ const ArticleModifyComponent = () => {
           size="lg"
         />
       </Heading>
+
       <Text fontSize="lg" color="gray.600" mb={2}>
         작성자: {article.articleAuthor}
       </Text>
@@ -105,6 +102,7 @@ const ArticleModifyComponent = () => {
         작성일: {article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : 'N/A'}{" "}
         {article.articleUpdated && `(수정일: ${new Date(article.articleUpdated).toLocaleDateString()})`}
       </Text>
+
       <Box bg="gray.50" p={4} borderRadius="md" mb={4}>
         <Textarea
           name="articleContent"
@@ -117,10 +115,8 @@ const ArticleModifyComponent = () => {
           style={{whiteSpace: 'pre-wrap'}}
         />
       </Box>
+
       <Flex justify="space-between">
-        <Button colorScheme="red" onClick={onOpen} isLoading={loading}>
-          삭제
-        </Button>
         <Button colorScheme="teal" onClick={handleClickModify} isLoading={loading}>
           저장
         </Button>
@@ -128,27 +124,6 @@ const ArticleModifyComponent = () => {
           취소
         </Button>
       </Flex>
-
-      {/* Delete Confirmation Modal */}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>삭제 확인</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            정말로 이 글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="red" onClick={handleDeleteConfirm} mr={3}>
-              네
-            </Button>
-            <Button variant="ghost" onClick={onClose}>
-              아니오
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </Box>
   );
 };
