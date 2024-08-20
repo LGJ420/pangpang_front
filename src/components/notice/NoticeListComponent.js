@@ -1,10 +1,18 @@
-import { Select, FormControl, Input, Flex, IconButton, Text, Button } from '@chakra-ui/react';
+import { Select, Input, IconButton, Button } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
 import useCustomToken from '../../hooks/useCustomToken';
 import { useState } from 'react';
 
 const data = [
     { id: 1, title: '첫 번째 글', author: '홍길동', date: '2023-08-20', views: 150 },
+    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
+    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
+    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
+    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
+    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
+    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
+    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
+    { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
     { id: 2, title: '두 번째 글', author: '김철수', date: '2023-08-21', views: 85 },
 
   ];
@@ -81,7 +89,7 @@ const NoticeListComponent = () => {
 
 
             {/* 페이지네이션 */}
-            <div className='flex justify-center items-center'>
+            <div className='flex justify-center items-center relative mt-10'>
                     {/* 이전 페이지 */}
                     <IconButton
                         aria-label="Previous Page"
@@ -115,18 +123,15 @@ const NoticeListComponent = () => {
                         _hover={{ bg: 'teal.100', color: 'teal.700' }}
                         _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
                     />
+
+                    <button className='absolute right-0 text-xl text-white rounded h-14 w-32 bg-orange-500 hover:opacity-80'>
+                        글쓰기
+                    </button>
+
                 </div>
 
 
-                {isLogin ? 
-                    <div justifyContent="flex-end">
-                        <Button colorScheme='teal'>
-                            글쓰기
-                        </Button> 
-                    </div> 
-                    : 
-                    <></>
-                }
+
 
             </div>
         
