@@ -18,7 +18,7 @@ const initState = {
 
 const ProductModifyComponent = () => {
 
-  const [product, setProduct] = useState(initState);  
+  const [product, setProduct] = useState(initState);
   const [images, setImages] = useState([]);       // 기존 이미지
   const [newImages, setNewImages] = useState([]); // 새로 추가할 이미지
   const navigate = useNavigate();
@@ -57,26 +57,31 @@ const ProductModifyComponent = () => {
       navigate(-1);
       return;
     }
-  }, [])
+  }, [isLogin, navigate])
 
 
   // 이미지 저장할 함수
   const handleAddImages = (event) => {
     const fileList = event.target.files;
     let updatedImages = [...newImages];
+    const totalImages = images.length + updatedImages.length; // 전체 이미지 개수
+
+    if (totalImages >= 5) {
+      alert("기존 이미지와 새로 추가할 이미지를 합쳐서 최대 5개까지 등록 가능합니다.");
+      return;
+    }
 
     for (let i = 0; i < fileList.length; i++) {
+      if (updatedImages.length >= 5 - images.length) {
+        alert("상품 이미지는 최대 5개까지 등록 가능합니다.");
+        break;
+      }
       const file = fileList[i];
       const imageUrl = URL.createObjectURL(file); // 파일의 URL을 생성
 
       updatedImages.push({ file, url: imageUrl, name: file.name });
     }
 
-    // 이미지 업로드 5개 제한
-    if (updatedImages.length > 5) {
-      alert("이미지는 최대 5개까지 등록 가능합니다.")
-      updatedImages = updatedImages.slice(0, 5);
-    }
     setNewImages(updatedImages);
   };
 
@@ -106,7 +111,7 @@ const ProductModifyComponent = () => {
       formData.append('productCategory', product.productCategory);
 
       // 기존 이미지
-      // images.forEach(fileName => formData.append('existingImages', fileName));
+      images.forEach(fileName => formData.append('existingImages', fileName));
 
       // 새로운 이미지
       newImages.forEach(image => formData.append('files', image.file));
@@ -244,18 +249,19 @@ const ProductModifyComponent = () => {
             id="productDetailContent"
             name="productDetailContent"
             value={product.productDetailContent}
-              placeholder="자세한 설명을 적어주세요."
-              maxLength={500}
-              onChange={handleChangeProduct} />
-          </div>
-          <div className="flex justify-center">
-            <button onClick={handleClickModify}
-              className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80">
-              등록
-            </button>
-          </div>
-
+            placeholder="자세한 설명을 적어주세요."
+            maxLength={500}
+            onChange={handleChangeProduct} />
         </div>
+        <div className="flex justify-center">
+          <button onClick={handleClickModify}
+            className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80"
+            disabled={loading}>
+            {loading ? '수정 중...' : '등록'}
+          </button>
+        </div>
+
+      </div>
 
 
     </section>
