@@ -65,3 +65,23 @@ export const putOne = async (id, article) => {
     return res.data;
 }
 
+export const getMyArticles = async (pageParam) => {
+    const {page, size} = pageParam;
+    const token = localStorage.getItem('token');
+
+    try {
+        const res = await axios.get(`${prefix}/myArticles`, {
+            params: { 
+                page, 
+                size 
+            },
+            headers: { 
+                'Authorization': `Bearer ${token}` 
+            }
+        });
+        return res.data;
+    } catch (err) {
+        console.error("Error fetching user's articles:", err);
+        throw err;
+    }
+}
