@@ -59,7 +59,6 @@ const MemberProfileComponent = () => {
     const [detailAddressApi, setDetailAddressApi] = useState(detailAddress);
     const [extraAddressApi, setExtraAddressApi] = useState(extraAddress);
     const detailAddressRef = useRef(null);
-  
 
     useEffect(() => {
 
@@ -112,8 +111,40 @@ const MemberProfileComponent = () => {
     };
     /* ====================== 다음 주소찾기 API 끝 ====================== */
 
+
+    // // 프로필 사진 관련 코드
+
+    // 비번확인하면 memberId, memberImage...등 보내주는데, memberImage 유무로 있는사진띄워줄건지 너굴맨띄워줄건지 구분하는 코드
+    const [profileImage, setProfileImage] = useState(memberImage ? `http://localhost:8080/api/member/view/${memberImage}` : "/images/profile.png")
+    
+    // 사진 미리보기
+    const [file, setFile] = useState(); 
+    const saveFile = (e) => { 
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            // 파일명을 공백을 '_'로 바꾼 새로운 파일명 생성
+            const modifiedFileName = selectedFile.name.replace(/\s+/g, '_');
+            
+            // 새로운 File 객체 생성
+            const modifiedFile = new File([selectedFile], modifiedFileName, { type: selectedFile.type });
+    
+            setFile(modifiedFile);
+            setProfileImage(URL.createObjectURL(modifiedFile)); // 선택한 파일을 URL로 변환하여 미리보기에 사용
+            console.log("선택된 파일:", modifiedFile); // 디버깅
+        }
+    }; 
+
+    // 이거안하면 too many response? 이거생김
+    useEffect(() => {
+        if (memberImage) {
+            setProfileImage(`http://localhost:8080/api/member/view/${memberImage}`);
+        } else {
+            setProfileImage("/images/profile.png");
+        }
+    }, [memberImage]);
+
     // 수정하기 버튼
-    const clickModify = ()=>{
+    const clickModify = async()=>{
 
         console.log("click modify");
         console.log("ID : " + memberId);
@@ -143,82 +174,65 @@ const MemberProfileComponent = () => {
             return;
         }
 
-        // 서버로 보낼 데이터 구성
-        const updateData = {
-            memberId: memberId,
-            memberNickname: modifyMemberNickname,
-            memberPhone: phone1 + "-" + phone2 + "-" + phone3,
-            postcode: postcodeApi,
-            postAddress: postAddressApi,
-            detailAddress: detailAddressApi,
-            extraAddress: extraAddressApi,
-        };
+        try {
+            // FormData 객체에 모든 데이터를 추가
+            const formData = new FormData();
+            formData.append('memberId', memberId);
+            formData.append('memberNickname', modifyMemberNickname);
+            formData.append('memberPhone', phone1 + "-" + phone2 + "-" + phone3);
+            formData.append('postcode', postcodeApi);
+            formData.append('postAddress', postAddressApi);
+            formData.append('detailAddress', detailAddressApi);
+            formData.append('extraAddress', extraAddressApi);
+    
+            // 사용자가 새 비밀번호를 입력한 경우에만 비밀번호를 추가
+            if (modifyMemberPw) {
+                formData.append('memberPw', modifyMemberPw);
+            }
+    
+            // 사용자가 새 프로필 사진을 선택한 경우에만 파일 추가
+            if (file) {
+                formData.append('file', file);
+            }
 
-        // 사용자가 새 비밀번호를 입력한 경우에만 비밀번호를 포함
-        if (modifyMemberPw) {
-            updateData.memberPw = modifyMemberPw;
-        }
-
-        console.log(updateData);
-
-        // 토큰 가져오기(프린시펄 하려면 토큰을 보내야함)
-        // 로컬스토리지에 토큰을 가져옴
-        const token = localStorage.getItem("token");
-
-        // axios 요청
-        axios
-            .post("http://localhost:8080/api/member/mypage/modify", updateData, 
-            {
+            console.log("file 출력")
+            console.log(file)
+    
+            // 토큰 가져오기(프린시펄 하려면 토큰을 보내야함)
+            const token = localStorage.getItem("token");
+    
+            // 회원 정보 및 프로필 사진 수정 API 호출
+            const response = await axios.post("http://localhost:8080/api/member/mypage/modify", formData, {
                 headers: {
+                    // 'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`,
                 }
-            })
-            .then((response) => {
-                console.log(response);
-                localStorage.setItem("token", response.data);
-                setToken(response.data);
-                alert("수정이 완료되었습니다.");
-                navigate('/');
-            })
-            .catch((error) => {
-                console.error("내 정보 변경 요청 중 오류 발생", error);
             });
-    }
-
-    // 프로필 사진 관련 코드 (출처 : https://junikang.tistory.com/303)
-    const [profileImage, setProfileImage] = useState(memberImage); // 프사 바꾸기 전, 후 변경 필요해서 state 만듦
-
-    const [file, setFile] = useState(); 
     
-    const saveFile = (e) => { 
-        const selectedFile = e.target.files[0];
-        setFile(selectedFile);
-        setProfileImage(URL.createObjectURL(selectedFile)); // 선택한 파일을 URL로 변환하여 미리보기에 사용
-    }; 
+            console.log(response);
+            localStorage.setItem("token", response.data); // 로컬스토리지에 바뀐 token 저장
+            setToken(response.data); // useState에 바뀐 token 저장
+            alert("수정이 완료되었습니다.");
+            navigate('/');
+        } catch (error) {
+            console.error("내 정보 변경 요청 중 오류 발생", error);
+            alert("수정 중 오류가 발생했습니다.");
+        }
 
-    const submitImage = (e) => { 
-        e.preventDefault(); 
-        const formData = new FormData(); 
-
-        formData.append('file', file); 
-
-        
-        axios
-        .post("http://localhost:8080/api/member/mypage/image/post", formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization : `Bearer ${localStorage.getItem('token')}`
-            }
-        })
+    }
+    
+    //프로필 사진 삭제
+    const deleteImage = () => {
+        axios.delete(`http://localhost:8080/api/member/${memberId}/image`)
         .then((response)=>{
-            console.log("프로필사진 변경 성공");
             console.log(response.data);
-            // window.location.reload();
-        }).catch((error)=>{
-            console.log("프로필사진 변경 중 error 발생 : " + error);
+            setProfileImage("/images/profile.png");
         })
-    }; 
-
+        .catch((error)=>{
+            console.log("프로필 사진 삭제 중 에러 발생 : " + error);
+            alert("프로필 사진 삭제 중 오류가 발생했습니다.");
+        })
+    }
 
     return(
         <section>
@@ -232,17 +246,32 @@ const MemberProfileComponent = () => {
                             프로필 사진
                         </span>
                         <div className="ml-4 flex flex-col items-end">
-                            {/* 프로필 사진 관련 코드 (출처 : https://junikang.tistory.com/303) */}
-                            <form onSubmit={submitImage}>
+                            <div>
+                                {/* 기정 여기야 여기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                ☆★☆★☆★☆ㅁ87ㅁ8ㅁ87ㅁ878
+                                ☆ㅁ8☆ㅁ8ㅁ78ㅁ78ㅁ
+                                ☆8☆8☆8 */}
                                 <input 
                                 type="file" 
                                 id="file" 
+                                name="file"
+                                className="hidden"
                                 onChange={saveFile} /> 
-                                <button id="file" type="submit" className="w-24 h-6 mt-1 bg-slate-400 text-white rounded hover:opacity-80 text-sm">
+                                <button fortype="submit" 
+                                className="w-24 h-6 mt-1 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
+                                onClick={()=>{
+                                    document.getElementById('file').click();
+                                }}>
                                     사진 등록하기
                                 </button>
-                            </form> 
-                            {/* 프로필 사진 관련 코드 (출처 : https://junikang.tistory.com/303) */}
+                                <button 
+                                className="w-24 h-6 mt-1 bg-red-400 text-white rounded hover:opacity-80 text-sm"
+                                onClick={deleteImage}>사진 삭제하기</button>
+                                {/* 기정 여기야 여기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                ☆★☆★☆★☆ㅁ87ㅁ8ㅁ87ㅁ878
+                                ☆ㅁ8☆ㅁ8ㅁ78ㅁ78ㅁ
+                                ☆8☆8☆8 */}
+                            </div> 
                         </div>
                         <img 
                             className="ml-7 border w-32 h-32 object-cover"
