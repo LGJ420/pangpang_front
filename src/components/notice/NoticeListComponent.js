@@ -4,6 +4,7 @@ import useCustomToken from '../../hooks/useCustomToken';
 import { useEffect, useState } from 'react';
 import { getNoticeList } from '../../api/noticeApi';
 import useCustomMove from '../../hooks/useCustomMove';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -45,6 +46,7 @@ const NoticeListComponent = () => {
     const { isLogin } = useCustomToken();
     const [serverData, setServerData] = useState(initState);
 
+    const navigate = useNavigate();
 
     useEffect(()=>{
 
@@ -55,6 +57,13 @@ const NoticeListComponent = () => {
 
     },[search, page, size, refresh]);
 
+
+
+    const handleClickAdd = () => {
+
+        navigate('../add');
+
+    }
 
 
 
@@ -166,7 +175,8 @@ const NoticeListComponent = () => {
                         _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
                     />
 
-                    <button className='absolute right-0 text-xl text-white rounded h-14 w-32 bg-orange-500 hover:opacity-80'>
+                    <button className='absolute right-0 text-xl text-white rounded h-14 w-32 bg-orange-500 hover:opacity-80'
+                        onClick={handleClickAdd}>
                         글쓰기
                     </button>
 
