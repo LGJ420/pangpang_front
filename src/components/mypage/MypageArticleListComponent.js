@@ -1,8 +1,8 @@
-import { Box, Heading, Text, Button, Stack, Spinner, Alert, AlertIcon, IconButton, Flex } from '@chakra-ui/react';
+import { Box, Heading, Text, Button, Stack, Spinner, Alert, AlertIcon, IconButton, Flex, CloseButton, } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getMyArticles } from '../../api/articleApi';
+import {  useNavigate } from 'react-router-dom';
+import { deleteOne, getMyArticles } from '../../api/articleApi';
 
 const MypageArticleListComponent = () => {
     const [articles, setArticles] = useState([]);
@@ -12,6 +12,8 @@ const MypageArticleListComponent = () => {
     const [size, setSize] = useState(10); // Number of posts per page
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [refresh, setRefresh] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMyArticles = async () => {
@@ -30,13 +32,18 @@ const MypageArticleListComponent = () => {
         };
 
         fetchMyArticles();
-    }, [page, size]);
+    }, [page, size, refresh]);
 
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setPage(newPage);
         }
     };
+
+    const handleClickDelete = (id) => {
+        deleteOne(id);
+        setRefresh(!refresh);
+    }
 
     if (loading) return <Spinner size="xl" />;
     if (error) return (
@@ -61,19 +68,26 @@ const MypageArticleListComponent = () => {
                         borderRadius="md" 
                         bg="white"
                     >
-                        <Link to={`/article/read/${article.id}`}>
-                            <Heading fontSize="xl" mb={2}>
-                                글제목: {article.articleTitle}
-                            </Heading>
+                    <Flex justifyContent="space-between">
+                        <div className='cursor-pointer' onClick={() => navigate(`/article/read/${article.id}`)}>
+                            <Flex>
+                                <Heading fontSize="xl" mb={2}>
+                                    글제목: {article.articleTitle}
+                                </Heading> 
+                            </Flex>
                             <Text fontSize="sm" color="gray.600" mb={2}>
                                 글번호: {article.id}
                             </Text>
                             <Text mb={4}>{article.articleContent}</Text>
                             <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
                                 <Text>조회수: {article.viewCount}</Text>
-                                <Text>작성일: {new Date(article.articleCreated).toLocaleDateString()}</Text>
                             </Flex>
-                        </Link>
+                        </div>
+                        <div className='flex flex-col justify-between'>
+                            <CloseButton className='ml-auto' onClick={() => {handleClickDelete(article.id)}}/>
+                            <Text>작성일: {new Date(article.articleCreated).toLocaleDateString()}</Text>
+                        </div>
+                    </Flex>
                     </Box>
                 ))}
             </Stack>
