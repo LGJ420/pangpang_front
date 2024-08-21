@@ -61,7 +61,7 @@ const NoticeListComponent = () => {
 
     return (
 
-        <div className='pt-10 pl-10 pb-10 pr-3 mb-5'>
+        <section className='pt-10 pl-10 pb-10 pr-3 mb-5'>
             <h1 className="text-5xl mr-auto">공지사항</h1>
             <div className='flex justify-center text-xl mt-10 mb-5'>
                 <Select 
@@ -83,45 +83,45 @@ const NoticeListComponent = () => {
                     icon={<SearchIcon />}/>
             </div>
 
-
-            <div className='w-[80rem] h-[50rem] text-xl m-auto grid grid-cols-12 grid-rows-13'>
-                {/* 헤더 행 */}
-                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>
-                    글번호
+            <div className='h-[50rem]'>
+                <div className='w-[80rem] h-[4rem] text-xl m-auto grid grid-cols-12'>
+                    {/* 헤더 행 */}
+                    <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>
+                        글번호
+                    </div>
+                    <div className='flex items-center justify-center col-span-6 bg-[rgb(240,248,255)] font-bold'>
+                        제목
+                    </div>
+                    <div className='flex items-center justify-center col-span-2 bg-[rgb(240,248,255)] font-bold'>
+                        작성자
+                    </div>
+                    <div className='flex items-center justify-center col-span-2 bg-[rgb(240,248,255)] font-bold'>
+                        등록일
+                    </div>
+                    <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>
+                        조회수
+                    </div>
                 </div>
-                <div className='flex items-center justify-center col-span-6 bg-[rgb(240,248,255)] font-bold'>
-                    제목
-                </div>
-                <div className='flex items-center justify-center col-span-2 bg-[rgb(240,248,255)] font-bold'>
-                    작성자
-                </div>
-                <div className='flex items-center justify-center col-span-2 bg-[rgb(240,248,255)] font-bold'>
-                    등록일
-                </div>
-                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>
-                    조회수
-                </div>
-
-                {/* 데이터 행 */}
-                {serverData.dtoList.map((dto) => (
-                <>
-                <div className='flex items-center justify-center col-span-1'>
-                    {dto.id}
-                </div>
-                <div className='flex items-center justify-center col-span-6'>
-                    {dto.noticeTitle}
-                </div>
-                <div className='flex items-center justify-center col-span-2'>
-                    {dto.memberNickname}
-                </div>
-                <div className='flex items-center justify-center col-span-2'>
-                    {dto.noticeCreated.substring(0,10)}
-                </div>
-                <div className='flex items-center justify-center col-span-1'>
-                    {dto.noticeHit}
-                </div>
-                </>
-            ))}
+                    {/* 데이터 행 */}
+                    {serverData.dtoList.map((dto) => (
+                    <div className='w-[80rem] h-[4rem] text-xl m-auto grid grid-cols-12'>
+                        <div className='flex items-center justify-center col-span-1'>
+                            {dto.id}
+                        </div>
+                        <div className='flex items-center justify-center col-span-6 cursor-pointer hover:underline hover:text-blue-500'>
+                            {dto.noticeTitle}
+                        </div>
+                        <div className='flex items-center justify-center col-span-2'>
+                            {dto.memberNickname}
+                        </div>
+                        <div className='flex items-center justify-center col-span-2'>
+                            {dto.noticeCreated.substring(0,10)}
+                        </div>
+                        <div className='flex items-center justify-center col-span-1'>
+                            {dto.noticeHit}
+                        </div>
+                    </div>
+                ))}
             </div>
 
 
@@ -131,7 +131,7 @@ const NoticeListComponent = () => {
 
 
             {/* 페이지네이션 */}
-            <div className='flex justify-center items-center relative mt-10'>
+            <div className='flex justify-center items-center relative mt-16'>
                     {/* 이전 페이지 */}
                     <IconButton
                         aria-label="Previous Page"
@@ -170,12 +170,12 @@ const NoticeListComponent = () => {
                         글쓰기
                     </button>
 
-                </div>
-
-
-
-
             </div>
+
+
+
+
+        </section>
         
 
     );
