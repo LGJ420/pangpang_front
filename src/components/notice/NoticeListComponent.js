@@ -71,7 +71,7 @@ const NoticeListComponent = () => {
     return (
 
         <section className='pt-10 pl-10 pb-10 pr-3 mb-5'>
-            <h1 className="text-5xl mr-auto">공지사항</h1>
+            <h1 className="text-5xl">공지사항</h1>
             <div className='flex justify-center text-xl mt-10 mb-5'>
                 <Select 
                     placeholder='검색기준' 
