@@ -16,11 +16,19 @@ export const addProduct = async (formData) => {   // formData : 상품 정보를
 export const modifyProduct = async (id, formData) => {
   const res = await axios.put(`${prefix}/modify/${id}`, formData, {
     headers: {
-      "Content-Type": 'multipart/form-data',
+      "Content-Type": 'multipart/form-data',    // 파일 데이터 (이미지), 폼 데이터 처리 위해
     },
   });
   return res.data;
-};
+}
+
+
+/* 상품 삭제하기 */
+export const deleteProduct = async (id) => {
+  const res = await axios.delete(`${prefix}/read/${id}`);
+
+  return res.data;
+}
 
 
 

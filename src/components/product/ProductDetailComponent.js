@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react"
-import { Box, ButtonGroup, Flex, Grid, Image, Text } from '@chakra-ui/react'
+import { Box, ButtonGroup, Flex, Grid, Image, Text, useDisclosure } from '@chakra-ui/react'
 
-import { getOne } from "../../api/productApi";
+import { deleteProduct, getOne } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
 import { getReviewList } from "../../api/productReviewApi";
 import RatingStarCompoent from "../common/RatingStarComponent";
 import useCustomToken from "../../hooks/useCustomToken";
+import useCustomMove from "../../hooks/useCustomMove"
 
 /* 초기값 설정 */
 const initState = {
@@ -24,6 +25,7 @@ const ProductDetailComponent = ({ num }) => {
   const [selectedImages, setSelectedImages] = useState('');
   const [selectedTab, setSelectedTab] = useState('product');
   const { isLogin, decodeToken } = useCustomToken();
+  const { moveToList } = useCustomMove();
 
   // 임시
   const [reviewData, setReviewData] = useState([]);
@@ -58,8 +60,24 @@ const ProductDetailComponent = ({ num }) => {
       }
     };
 
-    fetchData();
+    if (num) {
+      fetchData();
+    }
   }, [num]);
+
+  // 상품 삭제
+  const handleDeleteProduct = async () => {
+    try {
+      // 상품 삭제 요청
+      const response = await deleteProduct(num);
+        // 삭제가 성공한 경우 목록 페이지로 이동
+        alert("상품이 삭제되었습니다.")
+        moveToList();
+      } catch (error) {
+      console.error('삭제 오류:', error);
+      alert(`상품 삭제에 실패했습니다: ${error.message}`);
+    }
+  }
 
 
   /* 이미지 클릭 시 대표 이미지 변경 */
@@ -116,10 +134,12 @@ const ProductDetailComponent = ({ num }) => {
     }
   }
 
+  // 상품 수정 페이지로 이동
   const handleClickModify = () => {
 
     navigate(`../modify/${product.id}`);
   }
+
 
   return (
     <section>
@@ -128,11 +148,17 @@ const ProductDetailComponent = ({ num }) => {
 
         {
           decodeToken.memberRole === 'Admin' &&
+          <div className="flex">
+            <button className="mr-5 bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold text-xl"
+              onClick={handleClickModify}>
+              상품 수정하기
+            </button>
 
-          <button className="bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold text-xl"
-            onClick={handleClickModify}>
-            상품 수정하기
-          </button>
+            <button className="bg-red-500 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold text-xl"
+              onClick={handleDeleteProduct}>
+              상품 삭제하기
+            </button>
+          </div>
         }
       </div>
 

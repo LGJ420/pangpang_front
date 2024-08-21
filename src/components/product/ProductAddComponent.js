@@ -95,11 +95,12 @@ const ProductAddComponent = () => {
         try {
             // formData 서버로 전송
             const response = await addProduct(formData);
-            console.log('상품이 성공적으로 추가되었습니다:', response);
+            // console.log('상품이 성공적으로 추가되었습니다:', response);
             alert("상품이 성공적으로 추가되었습니다!")
             moveToList();  // 상품 등록 후 목록 페이지로 이동
         } catch (error) {
-            console.error('상품 추가 중 오류가 발생했습니다:', error);
+            alert("상품 추가 중 오류가 발생했습니다.")
+            // console.error('상품 추가 중 오류가 발생했습니다:', error);
         }
     };
 

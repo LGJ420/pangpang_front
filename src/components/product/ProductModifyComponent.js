@@ -60,41 +60,6 @@ const ProductModifyComponent = () => {
   }, [])
 
 
-  // 상품 정보 변경 처리
-  const handleChangeProduct = (e) => {
-    const { name, value } = e.target;
-    setProduct((prev) => ({ ...prev, [name]: value }));
-  };
-
-
-  const handleClickModify = async () => {
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append('productTitle', product.productTitle);
-      formData.append('productContent', product.productContent);
-      formData.append('productPrice', product.productPrice);
-      formData.append('productDetailContent', product.productDetailContent);
-      formData.append('productCategory', product.productCategory);
-
-      // Add existing images
-      images.forEach(fileName => formData.append('existingImages', fileName));
-
-      // Add new images
-      newImages.forEach(image => formData.append('files', image.file));
-
-      await modifyProduct(id, formData);
-      alert('수정이 완료되었습니다!');
-      moveToRead(id);
-    } catch (error) {
-      // console.error("수정에 실패했습니다.", error);
-      alert("상품 수정에 실패했습니다.")
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
   // 이미지 저장할 함수
   const handleAddImages = (event) => {
     const fileList = event.target.files;
@@ -115,16 +80,47 @@ const ProductModifyComponent = () => {
   };
 
 
-  // 기존 이미지 삭제 함수
-  const handleDeleteImages = (index) => {
-    setImages(images.filter((_, idx) => idx !== index))
-  }
-
-
   // 새로운 이미지 삭제 함수
   const handleDeleteNewImages = (index) => {
     setNewImages(newImages.filter((_, idx) => idx !== index));
   };
+
+
+  // 상품 정보 변경 처리
+  const handleChangeProduct = (e) => {
+    const { name, value } = e.target;
+    setProduct((prev) => ({ ...prev, [name]: value }));
+  };
+
+
+  // 상품 수정 처리
+  const handleClickModify = async () => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('productTitle', product.productTitle);
+      formData.append('productContent', product.productContent);
+      formData.append('productPrice', product.productPrice);
+      formData.append('productDetailContent', product.productDetailContent);
+      formData.append('productCategory', product.productCategory);
+
+      // 기존 이미지
+      // images.forEach(fileName => formData.append('existingImages', fileName));
+
+      // 새로운 이미지
+      newImages.forEach(image => formData.append('files', image.file));
+
+      await modifyProduct(id, formData);
+      alert('수정이 완료되었습니다!');
+      moveToRead(id);
+    } catch (error) {
+      // console.error("수정에 실패했습니다.", error);
+      alert("상품 수정에 실패했습니다.")
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
 
 
@@ -167,14 +163,6 @@ const ProductModifyComponent = () => {
                   className="w-36 h-32 object-contain"
                   alt={`기존 이미지 ${index}`}
                 />
-                <div className="flex items-center mt-1">
-                  <span
-                    className="text-xl cursor-pointer text-red-500"
-                    onClick={() => handleDeleteImages(fileName)}
-                  >
-                    x
-                  </span>
-                </div>
               </div>
             ))}
 
@@ -186,7 +174,6 @@ const ProductModifyComponent = () => {
                   alt={image.name}
                 />
                 <div className="flex items-center mt-1">
-                  <span className="text-base mr-2">{image.name}</span>
                   <span
                     className="text-xl cursor-pointer text-red-500"
                     onClick={() => handleDeleteNewImages(index)}
