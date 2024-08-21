@@ -13,10 +13,14 @@ export const addProduct = async (formData) => {   // formData : 상품 정보를
 
 
 /* 상품 수정 */
-export const modifyProduct = async (id, product) => {
-  const res = await axios.put(`${prefix}/modify/${id}`, product);
+export const modifyProduct = async (id, formData) => {
+  const res = await axios.put(`${prefix}/modify/${id}`, formData, {
+    headers: {
+      "Content-Type": 'multipart/form-data',
+    },
+  });
   return res.data;
-}
+};
 
 
 

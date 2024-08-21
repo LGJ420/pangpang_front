@@ -68,23 +68,30 @@ const ProductModifyComponent = () => {
 
 
   const handleClickModify = async () => {
-    console.log('Handle Click Modify - Article ID:', id);
     setLoading(true);
     try {
-      await modifyProduct(id, product);
+      const formData = new FormData();
+      formData.append('productTitle', product.productTitle);
+      formData.append('productContent', product.productContent);
+      formData.append('productPrice', product.productPrice);
+      formData.append('productDetailContent', product.productDetailContent);
+      formData.append('productCategory', product.productCategory);
+
+      // Add existing images
+      images.forEach(fileName => formData.append('existingImages', fileName));
+
+      // Add new images
+      newImages.forEach(image => formData.append('files', image.file));
+
+      await modifyProduct(id, formData);
       alert('수정이 완료되었습니다!');
       moveToRead(id);
     } catch (error) {
-      console.error("수정에 실패했습니다.", error);
+      // console.error("수정에 실패했습니다.", error);
+      alert("상품 수정에 실패했습니다.")
     } finally {
       setLoading(false);
     }
-  };
-
-
-  const handleCancel = () => {
-    console.log("handleCancel called");
-    moveToRead(id);
   };
 
 
