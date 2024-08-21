@@ -24,6 +24,7 @@ const MemberSignupComponent = () => {
 
     const handleMemberId = (e)=>{
         setMemberId(e.target.value);
+        setCheckMemberId(false);
     }
     const handleMemberPw = (e)=>{
         setMemberPw(e.target.value);
@@ -172,7 +173,7 @@ const MemberSignupComponent = () => {
         }
 
         // 아이디 중복 확인 (false면 중복확인 안한 것으로 간주)
-        if(checkMemberId == false){ // === 이걸로하면 안됨
+        if(checkMemberId == false){ // === 이걸로하면 안됨 // 해결-성빈240821
             const errorMsg = "아이디 중복 확인은 필수입니다.";
             console.error(errorMsg);
             alert("아이디 중복 확인은 필수입니다."); 
