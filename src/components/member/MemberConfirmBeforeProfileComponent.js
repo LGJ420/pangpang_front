@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useCustomToken from "../../hooks/useCustomToken";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -11,6 +12,23 @@ const MemberConfirmBeforeProfileComponent = () => {
     const handleMemberPwInConfirmBeforeProfile = (e) => {
         setMemberPwInConfirmBeforeProfile(e.target.value);
     }
+
+    const {isLogin, decodeToken} = useCustomToken();
+
+    useEffect(()=>{
+        console.log("decode token : " +decodeToken);
+        console.log('User ID:', decodeToken.id);
+
+        // useEffect에도 이렇게 두번에 걸쳐 작업하는이유는
+        // 리액트의 비동기 특성때문
+        if(!isLogin){
+
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+            return; // 로그인하지 않은 경우, 나머지 코드 실행 방지
+        }
+
+        },[isLogin, decodeToken]);
 
     const navigate = useNavigate();
     
@@ -66,6 +84,15 @@ const MemberConfirmBeforeProfileComponent = () => {
         if (e.key === "Enter") {
             clickConfirmBeforeProfile();
         }
+    }
+
+    // 이 조건문은 반드시 리액트 훅보다
+    // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
+    // 리액트 자체가 작동하지 않는다
+    // 그래서 최하단에 배치한다
+    if(!isLogin){
+
+        return null;
     }
 
     return(
