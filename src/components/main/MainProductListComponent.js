@@ -14,7 +14,7 @@ const MainProductList = () => {
 
   const [serverData, setServerData] = useState(initState);
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const MainProductList = () => {
       } catch (error) {
         console.error(error);
       } finally {
-        setIsLoading(true);
+        setIsLoading(false);
       }
     };
 
@@ -99,7 +99,7 @@ const MainProductList = () => {
 
   return (
     <>
-      { !isLoading ?
+      { isLoading ?
 
       <div className="flex flex-col items-center justify-center text-2xl font-semibold border-3 border-stone-900/30 rounded-md h-full">
         <Spinner

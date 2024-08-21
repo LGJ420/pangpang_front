@@ -51,7 +51,7 @@ const NoticeListComponent = () => {
     useEffect(()=>{
 
         getNoticeList({page, size})
-            .then(data=>{setServerData(data); console.log(data)})
+            .then(data=>{setServerData(data)})
             .catch(e=>console.log(e))
             .finally(()=>setLoading(false));
 
