@@ -193,6 +193,20 @@ const MemberSignupComponent = () => {
         if (memberBirth.length !== 6){
             alert("생년월일을 6자리 숫자로 입력해주세요.");
             return;
+        } 
+
+        // 월을 추출하고 유효한 범위인지 확인 (01 ~ 12)
+        const month = parseInt(memberBirth.substring(2, 4), 10);
+        if (month < 1 || month > 12) {
+            alert("1월에서 12월 사이로 숫자를 입력해주세요.");
+            return;
+        }
+
+        // 일을 추출하고 유효한 범위인지 확인 (01 ~ 31)
+        const day = parseInt(memberBirth.substring(4, 6), 10);
+        if (day < 1 || day > 31) {
+            alert("1일에서 31일 사이로 숫자를 입력해주세요.");
+            return;
         }
 
 
