@@ -8,6 +8,7 @@ import managerRouter from "./managerRouter";
 import mypageRouter from "./mypageRouter";
 import commentRouter from "./commentRouter";
 import CommentIndexPage from "../pages/comment/CommentIndexPage";
+import noticeRouter from "./noticeRouter";
 
 
 const { createBrowserRouter } = require("react-router-dom");
@@ -96,7 +97,8 @@ const root = createBrowserRouter([
 
     {
         path: "notice",
-        element: <Suspense><Notice /></Suspense>
+        element: <Suspense><Notice /></Suspense>,
+        children: noticeRouter()
     },
     
     {
