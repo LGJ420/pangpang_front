@@ -43,8 +43,10 @@ const NoticeListComponent = () => {
     const {search, page, size, refresh, moveToRead, moveToList} = useCustomMove();
 
     const [loading, setLoading] = useState(true);
-    const { isLogin } = useCustomToken();
+    const { decodeToken } = useCustomToken();
     const [serverData, setServerData] = useState(initState);
+
+
 
     const navigate = useNavigate();
 
@@ -59,10 +61,15 @@ const NoticeListComponent = () => {
 
 
 
+    const handleClickTitle = (id) => {
+
+        moveToRead(id);
+    }
+
+
     const handleClickAdd = () => {
 
         navigate('../add');
-
     }
 
 
@@ -117,7 +124,8 @@ const NoticeListComponent = () => {
                         <div className='flex items-center justify-center col-span-1'>
                             {dto.id}
                         </div>
-                        <div className='flex items-center justify-center col-span-6 cursor-pointer hover:underline hover:text-blue-500'>
+                        <div className='flex items-center justify-center col-span-6 cursor-pointer hover:underline hover:text-blue-500'
+                            onClick={()=>handleClickTitle(dto.id)}>
                             {dto.noticeTitle}
                         </div>
                         <div className='flex items-center justify-center col-span-2'>

@@ -1,10 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
+import { getNoticeOne } from "../../api/noticeApi";
 
-const NoticeReadComponent = () => {
 
-    const [serverData, setServerData] = useState();
+const initData = {
+    id: 0,
+    noticeTitle: "",
+    noticeContent: "",
+    noticeHit: 0,
+    noticeCreated: "",
+    noticeUpdated: null,
+    memberId: 0,
+    memberNickname: ""
+}
+
+
+
+const NoticeReadComponent = ({id}) => {
+
+    const [serverData, setServerData] = useState(initData);
     const { moveToList, moveToModify } = useCustomMove();
+    const [isLoading, setIsLoading] = useState(true);
+
+
+    useEffect(()=>{
+
+        getNoticeOne(id)
+            .then(data=>setServerData(data))
+            .catch(error=>console.log(error))
+            .finally(()=>setIsLoading(false));
+    },[]);  
+
+
+
 
     return (
 
@@ -14,18 +42,18 @@ const NoticeReadComponent = () => {
             <div className="text-xl">
                 <div className="bg-gray-100 px-5">
                     <h3 className="text-4xl font-bold py-5">
-                        게임이벤트가 열렸습니당
+                        {serverData.noticeTitle}
                     </h3>
                     <div className="pb-5 flex">
-                        <div>작성자 : GM나다이놈아</div>
-                        <div className="px-2 ml-auto">조회수 : 1</div>
-                        <div className="px-2">댓글 : 7</div>
-                        <div className="px-2">작성일 : 2023-23-23</div>
+                        <div>작성자 : {serverData.memberNickname}</div>
+                        <div className="px-2 ml-auto">조회수 : {serverData.noticeHit}</div>
+                        <div className="px-2">댓글 : 하드코오디이잉</div>
+                        <div className="px-2">작성일 : {serverData.noticeCreated.substring(0,10)}</div>
                     </div>
                 </div>
             <hr />
                 <p className="p-5 rounded-xl">
-                    기 보여짐 일단 내용이 많이 보여짐 일단그리고 큼내용이 여기 보여짐 일단 내용이 많이 보여짐 일단그리고 큼
+                    {serverData.noticeContent}
                 </p>
                 <div className="h-32 mt-16 flex items-center justify-between">
                     <textarea className="w-5/6 h-24 p-4 border"/>

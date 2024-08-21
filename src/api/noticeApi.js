@@ -14,3 +14,12 @@ export const getNoticeList = async (pageParam) => {
 
   return res.data;
 }
+
+
+
+export const getNoticeOne = async (id) => {
+
+  const res = await axios.get(`${prefix}/${id}`);
+
+  return res.data;
+}
