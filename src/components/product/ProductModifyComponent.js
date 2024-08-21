@@ -74,6 +74,7 @@ const ProductModifyComponent = () => {
 
     // 이미지 업로드 5개 제한
     if (updatedImages.length > 5) {
+      alert("이미지는 최대 5개까지 등록 가능합니다.")
       updatedImages = updatedImages.slice(0, 5);
     }
     setNewImages(updatedImages);

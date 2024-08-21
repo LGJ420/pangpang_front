@@ -49,6 +49,7 @@ const ProductAddComponent = () => {
 
         // 이미지 업로드 5개 제한
         if (newImages.length > 5) {
+            alert("상품 이미지는 최대 5개까지 등록 가능합니다.");
             newImages = newImages.slice(0, 5);
         }
         setImages(newImages);
@@ -139,7 +140,6 @@ const ProductAddComponent = () => {
                             <div key={index} className="flex flex-col items-center mt-1 mr-1">
                                 <img src={image.url} className="w-36 h-32 object-contain" alt={image.name} />
                                 <div className="flex items-center mt-1">
-                                    <span className="text-base mr-2">{image.name}</span>
                                     <span
                                         className="text-xl cursor-pointer text-red-500"
                                         onClick={() => handleDeleteImages(index)}>
