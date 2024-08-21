@@ -21,7 +21,7 @@ const commentRouter = () => {
         },
         
         // {
-        //     path: "/create",
+        //     path: "",
         //     element: (
         //         <Suspense fallback={<div>Loading...</div>}>
         //             <CommentCreate />
