@@ -163,7 +163,7 @@ const MemberSignupComponent = () => {
         console.log("역할 : " + memberRole);
 
         // 안 채운 항목이 있는지 체크
-        if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth, phone1, phone2, phone3, postcode, postAddress, detailAddress, extraAddress ].includes('')){
+        if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth, phone1, phone2, phone3, postcode, postAddress, detailAddress].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg)
             alert(errorMsg);
