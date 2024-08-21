@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 const List = lazy(() => import("../pages/product/ProductListPage"));
 const Detail = lazy(() => import("../pages/product/ProductDetailPage"));
 const Add = lazy(() => import("../pages/product/ProductAddPage"));
+const Modify = lazy(() => import("../pages/product/ProductModifyPage"));
 
 const productRouter = () => {
 
@@ -27,6 +28,10 @@ const productRouter = () => {
     {
       path: "add",
       element: <Suspense><Add /></Suspense>
+    },
+    {
+      path: "modify/:id",
+      element: <Suspense><Modify /></Suspense>
     }
     
   ]

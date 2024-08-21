@@ -116,9 +116,9 @@ const ProductDetailComponent = ({ num }) => {
     }
   }
 
-  const handleClickAdd = () => {
+  const handleClickModify = () => {
 
-    navigate('../modify/{id}');
+    navigate(`../modify/${product.id}`);
   }
 
   return (
@@ -130,7 +130,7 @@ const ProductDetailComponent = ({ num }) => {
           decodeToken.memberRole === 'Admin' &&
 
           <button className="bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold text-xl"
-            onClick={handleClickAdd}>
+            onClick={handleClickModify}>
             상품 수정하기
           </button>
         }

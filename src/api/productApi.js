@@ -7,10 +7,16 @@ const prefix = `${API_SERVER_HOST}/api/product`;
 /* 상품 등록 */
 export const addProduct = async (formData) => {   // formData : 상품 정보를 담은 FormData 객체
 
-    const res = await axios.post(`${prefix}/add`, formData);
-    return res.data;
-  }
+  const res = await axios.post(`${prefix}/add`, formData);
+  return res.data;
+}
 
+
+/* 상품 수정 */
+export const modifyProduct = async (id, product) => {
+  const res = await axios.put(`${prefix}/modify/${id}`, product);
+  return res.data;
+}
 
 
 
