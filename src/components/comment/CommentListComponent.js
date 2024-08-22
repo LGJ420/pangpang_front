@@ -29,7 +29,7 @@ const CommentListComponent = ({ articleId }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deleteCommentId, setDeleteCommentId] = useState(null);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
-  const [isCommentSubmitMode, setIsCommentSubmitMode] = useState(false); // New state for comment submission confirmation
+  const [isCommentSubmitMode, setIsCommentSubmitMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { isLogin, decodeToken } = useCustomToken();
@@ -40,7 +40,9 @@ const CommentListComponent = ({ articleId }) => {
   // Fetch comments with pagination
   const fetchComments = async (page = 1) => {
     try {
-      const data = await getCommentsByArticleId(articleId, page);
+      console.log(`Fetching comments for page: ${page}`); // Debugging log
+      const data = await getCommentsByArticleId(articleId, { page, size: 5 });
+      console.log('Fetched comments:', data); // Debugging log
       setComments(data.content);
       setTotalPages(data.totalPages);
       setCurrentPage(page);
@@ -50,7 +52,7 @@ const CommentListComponent = ({ articleId }) => {
   };
 
   useEffect(() => {
-    fetchComments();
+    fetchComments(currentPage);
   }, [articleId, currentPage]);
 
   const handleFormSubmit = async (e) => {
@@ -72,7 +74,7 @@ const CommentListComponent = ({ articleId }) => {
       });
       setCommentContent('');
       setIsDialogOpen(false);
-      fetchComments(); // Refresh comments list
+      fetchComments(currentPage); // Refresh comments list
     } catch (error) {
       console.error('Error creating comment:', error);
     }
@@ -104,7 +106,9 @@ const CommentListComponent = ({ articleId }) => {
   };
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
 
   return (
