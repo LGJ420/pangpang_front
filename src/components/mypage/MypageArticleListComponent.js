@@ -1,7 +1,7 @@
-import { Box, Heading, Text, Button, Stack, Spinner, Alert, AlertIcon, IconButton, Flex, CloseButton, } from '@chakra-ui/react';
+import { Box, Heading, Text, Button, Stack, Spinner, Alert, AlertIcon, IconButton, Flex, CloseButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useEffect, useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { deleteOne, getMyArticles } from '../../api/articleApi';
 
 const MypageArticleListComponent = () => {
@@ -13,6 +13,8 @@ const MypageArticleListComponent = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [refresh, setRefresh] = useState(false);
+    const [selectedArticleId, setSelectedArticleId] = useState(null); // To store the article ID to delete
+    const { isOpen, onOpen, onClose } = useDisclosure(); // Modal controls
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,9 +43,25 @@ const MypageArticleListComponent = () => {
     };
 
     const handleClickDelete = (id) => {
-        deleteOne(id);
-        setRefresh(!refresh);
-    }
+        setSelectedArticleId(id); // Set the article ID to delete
+        onOpen(); // Open the confirmation modal
+    };
+
+    const handleConfirmDelete = async () => {
+        try {
+            await deleteOne(selectedArticleId); // Delete the article
+            setRefresh(!refresh); // Refresh the list
+        } catch (error) {
+            console.error('Error deleting article:', error);
+        } finally {
+            onClose(); // Close the modal
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setSelectedArticleId(null); // Clear the selected article ID
+        onClose(); // Close the modal
+    };
 
     if (loading) return <Spinner size="xl" />;
     if (error) return (
@@ -84,7 +102,7 @@ const MypageArticleListComponent = () => {
                             </Flex>
                         </div>
                         <div className='flex flex-col justify-between'>
-                            <CloseButton className='ml-auto' onClick={() => {handleClickDelete(article.id)}}/>
+                            <CloseButton className='ml-auto' onClick={() => handleClickDelete(article.id)} />
                             <Text>작성일: {new Date(article.articleCreated).toLocaleDateString()}</Text>
                         </div>
                     </Flex>
@@ -128,6 +146,26 @@ const MypageArticleListComponent = () => {
                     _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
                 />
             </Flex>
+
+            {/* Confirmation Modal */}
+            <Modal isOpen={isOpen} onClose={handleCancelDelete}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Confirm Delete</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text>정말로 이 글을 삭제하시겠습니까?</Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="red" mr={3} onClick={handleConfirmDelete}>
+                            네
+                        </Button>
+                        <Button variant="ghost" onClick={handleCancelDelete}>
+                            아니요
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     );
 };
