@@ -10,13 +10,13 @@ import {
   Heading,
   AlertDialog,
   AlertDialogBody,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
   Flex,
   IconButton,
-  useColorModeValue
+  useColorModeValue,
+  AlertDialogFooter
 } from '@chakra-ui/react';
 import { getCommentsByArticleId, postComment, deleteComment } from '../../api/commentApi';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
@@ -29,6 +29,7 @@ const CommentListComponent = ({ articleId }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deleteCommentId, setDeleteCommentId] = useState(null);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [isCommentSubmitMode, setIsCommentSubmitMode] = useState(false); // New state for comment submission confirmation
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { isLogin, decodeToken } = useCustomToken();
@@ -40,7 +41,6 @@ const CommentListComponent = ({ articleId }) => {
   const fetchComments = async (page = 1) => {
     try {
       const data = await getCommentsByArticleId(articleId, page);
-      console.log('Fetched Comments:', data);
       setComments(data.content);
       setTotalPages(data.totalPages);
       setCurrentPage(page);
@@ -53,7 +53,18 @@ const CommentListComponent = ({ articleId }) => {
     fetchComments();
   }, [articleId, currentPage]);
 
-  const handleSubmit = async () => {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    if (!isLogin) {
+      setIsDeleteMode(false);
+      setIsDialogOpen(true);
+    } else {
+      setIsCommentSubmitMode(true);
+      setIsDialogOpen(true);
+    }
+  };
+
+  const handleCommentSubmitConfirm = async () => {
     try {
       await postComment({
         articleId,
@@ -65,12 +76,6 @@ const CommentListComponent = ({ articleId }) => {
     } catch (error) {
       console.error('Error creating comment:', error);
     }
-  };
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setIsDeleteMode(false);
-    setIsDialogOpen(true);
   };
 
   const handleEditClick = (id) => {
@@ -205,20 +210,29 @@ const CommentListComponent = ({ articleId }) => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {isDeleteMode ? '댓글 삭제 확인' : '댓글 작성 확인'}
+              {isDeleteMode ? '댓글 삭제 확인' : isCommentSubmitMode ? '댓글 작성 확인' : '로그인 필요'}
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              {isDeleteMode ? '정말로 이 댓글을 삭제하시겠습니까?' : '정말로 댓글을 작성하시겠습니까?'}
+              {isDeleteMode 
+                ? '정말로 이 댓글을 삭제하시겠습니까?' 
+                : isCommentSubmitMode 
+                  ? '정말로 댓글을 작성하시겠습니까?' 
+                  : '로그인 먼저 해주십시오.'}
             </AlertDialogBody>
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
-                아니오
+                확인
               </Button>
-              <Button colorScheme={isDeleteMode ? 'red' : 'teal'} onClick={isDeleteMode ? handleDeleteConfirm : handleSubmit} ml={3}>
-                {isDeleteMode ? '네' : '저장'}
-              </Button>
+              {(isDeleteMode || isCommentSubmitMode) && (
+                <Button 
+                  colorScheme={isDeleteMode ? "red" : "teal"} 
+                  onClick={isDeleteMode ? handleDeleteConfirm : handleCommentSubmitConfirm} 
+                  ml={3}>
+                  네
+                </Button>
+              )}
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
