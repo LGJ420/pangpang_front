@@ -34,17 +34,25 @@ const MainNoticeListComponent = () => {
             </div>
 
             :
-            
-            serverData.dtoList.map((dto)=>
 
-                <div className="text-xl py-5 border-b">
-                    <span className="cursor-pointer rainbow-text">
-                        {dto.noticeTitle}
-                    </span>
+                serverData ?
+                
+                serverData.dtoList.map((dto)=>
+
+                    <div className="text-xl py-5 border-b">
+                        <span className="cursor-pointer rainbow-text">
+                            {dto.noticeTitle}
+                        </span>
+                    </div>
+
+                )
+                :
+
+                <div className="flex flex-col items-center justify-center text-2xl font-semibold h-full">
+                    <img src="/images/no_notice.png" className="w-60" />
+                    <div className="mt-10">현재 공지사항이 없습니다</div>
                 </div>
-
-            )
-
+                
             }
 
         </div>
