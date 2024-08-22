@@ -23,3 +23,18 @@ export const getNoticeOne = async (id) => {
 
   return res.data;
 }
+
+
+
+export const postNoticeOne = async (noticeDto) => {
+
+  const token = localStorage.getItem("token");
+
+  const res = await axios.post(`${prefix}`, noticeDto, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+  return res.data;
+}
