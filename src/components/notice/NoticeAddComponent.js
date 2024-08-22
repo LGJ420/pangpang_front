@@ -1,4 +1,53 @@
+import { useState } from "react";
+import useCustomToken from "../../hooks/useCustomToken";
+import { postNoticeOne } from "../../api/noticeApi";
+import { useNavigate } from "react-router-dom";
+
+const initState = {
+
+    noticeTitle: "",
+    noticeContent: "",
+}
+
+
 const NoticeAddComponent = () => {
+
+    const [noticeDto, setNoticeDto] = useState(initState);
+    const {decodeToken} = useCustomToken();
+
+    const navigate = useNavigate();
+
+
+    const handleChangeNotice = (e) => {
+
+        noticeDto[e.target.name] = e.target.value;
+
+        setNoticeDto({...noticeDto});
+    }
+
+
+    const handleClickSubmit = () => {
+        
+        if(noticeDto.noticeTitle.length === 0){
+
+            alert("제목을 입력해주세요");
+
+            return;
+        }
+        else if (noticeDto.noticeContent.length === 0) {
+
+            alert("내용을 입력해주세요");
+
+            return;
+        }
+
+        postNoticeOne(noticeDto)
+            .then(()=>navigate(`../list`, { replace: true }))
+            .catch(error=>{
+                alert("공지사항은 운영자만 등록할 수 있습니다.");
+            });
+    }
+
 
     return (
 
@@ -6,6 +55,28 @@ const NoticeAddComponent = () => {
             <h1 className="text-5xl mr-auto">공지사항 추가</h1>
 
             <div className="text-2xl my-10 m-auto">
+
+                <div className="pt-4 flex flex-col">
+                    <div>
+                        <span className="m-3 font-extrabold">
+                            작성자
+                        </span>
+                        <span className="px-3">
+                            {decodeToken.memberNickname}
+                        </span>
+                        {   decodeToken.memberRole === "Admin" ?
+
+                            <>
+                            </>
+                            
+                            :
+
+                            <span className="text-sm text-red-600 font-extrabold">
+                                (경고 : 공지사항은 운영자만 작성할 수 있습니다!)
+                            </span>
+                        }
+                    </div>
+                </div>
 
                 <div className="my-10 flex flex-col">
                     <label
@@ -15,6 +86,7 @@ const NoticeAddComponent = () => {
                     </label>
                     <input 
                         className="p-3 rounded border"
+                        onChange={(e)=>handleChangeNotice(e)}
                         id="noticeTitle"
                         name="noticeTitle"
                         placeholder="제목을 적어주세요."
@@ -30,6 +102,7 @@ const NoticeAddComponent = () => {
                     </label>
                     <textarea 
                         className="p-3 rounded border h-[50rem]"
+                        onChange={(e)=>handleChangeNotice(e)}
                         id="noticeContent"
                         name="noticeContent"
                         placeholder="자세한 설명을 적어주세요."
@@ -38,7 +111,8 @@ const NoticeAddComponent = () => {
 
                 <div className="flex justify-center">
                     <button
-                        className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80">
+                        className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80"
+                        onClick={handleClickSubmit}>
                         등록
                     </button>
                 </div>

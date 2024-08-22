@@ -1,4 +1,8 @@
-const NoticeModifyComponent = () => {
+import useCustomToken from "../../hooks/useCustomToken";
+
+const NoticeModifyComponent = ({id}) => {
+
+    const {decodeToken} = useCustomToken();
 
     return (
 
@@ -6,6 +10,28 @@ const NoticeModifyComponent = () => {
             <h1 className="text-5xl mr-auto">공지사항 수정</h1>
 
             <div className="text-2xl my-10 m-auto">
+
+                <div className="pt-4 flex flex-col">
+                    <div>
+                        <span className="m-3 font-extrabold">
+                            작성자
+                        </span>
+                        <span className="px-3">
+                            {decodeToken.memberNickname}
+                        </span>
+                        {   decodeToken.memberRole === "Admin" ?
+
+                            <>
+                            </>
+                            
+                            :
+
+                            <span className="text-sm text-red-600 font-extrabold">
+                                (경고 : 공지사항은 운영자만 작성할 수 있습니다!)
+                            </span>
+                        }
+                    </div>
+                </div>
 
                 <div className="my-10 flex flex-col">
                     <label

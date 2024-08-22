@@ -52,10 +52,18 @@ const NoticeReadComponent = ({id}) => {
                     </div>
                 </div>
             <hr />
-                <p className="p-5 rounded-xl">
+                <p className="p-5 mb-32 rounded-xl">
                     {serverData.noticeContent}
                 </p>
-                <div className="h-32 mt-16 flex items-center justify-between">
+                <div className="flex justify-end pr-3">
+                    <button className="pr-3 border-r hover:opacity-40">
+                        수정
+                    </button>
+                    <button className="pl-3 hover:opacity-40">
+                        삭제
+                    </button>
+                </div>
+                <div className="h-32 flex items-center justify-between">
                     <textarea className="w-5/6 h-24 p-4 border"/>
                     <button className="bg-blue-600 text-white hover:opacity-80 w-1/6 h-24 ml-5 rounded-2xl text-2xl">댓글 쓰기</button>
                 </div>
