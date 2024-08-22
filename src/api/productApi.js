@@ -54,13 +54,13 @@ export const getOne = async (id) => {
 
 
 /* 이미지 조회 */
-export const getImage = async (fileName) => {
+// export const getImage = async (fileName) => {
 
-  // 서버에서 이미지 파일 가져옴
-  const res = await axios.get(`${prefix}/view/${fileName}`, { responseType: 'blob' });
+//   // 서버에서 이미지 파일 가져옴
+//   const res = await axios.get(`${prefix}/view/${fileName}`, { responseType: 'blob' });
 
-  // 가져온 이미지 파일을 웹페이지에서 사용할 수 있는 URL로 변환
-  return URL.createObjectURL(res.data);
-};
+//   // 가져온 이미지 파일을 웹페이지에서 사용할 수 있는 URL로 변환
+//   return URL.createObjectURL(res.data);
+// };
 
 
