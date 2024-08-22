@@ -54,7 +54,7 @@ const MemberFindIdConfirmComponent = () => {
                     <hr></hr>
                 </h1>
 
-                <div className='my-20'>
+                <div className='my-12 text-2xl'>
                     <span>
                         회원님의 아이디는
                     </span>

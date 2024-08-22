@@ -22,8 +22,12 @@ const MemberSignupComponent = () => {
     const [phone3, setPhone3] = useState("");
     const [memberRole, setMemberRole] = useState("User");
 
+    const [idInputError, setIdInputError] = useState(''); // 아이디 인풋 빨갛게 체크함(seccess, error)
+    const [pwInputError, setPwInputError] = useState('')  // 비번 인풋 빨갛게 체크함(seccess, error)
+
     const handleMemberId = (e)=>{
         setMemberId(e.target.value);
+        setCheckMemberId(false);
     }
     const handleMemberPw = (e)=>{
         setMemberPw(e.target.value);
@@ -77,13 +81,15 @@ const MemberSignupComponent = () => {
         axios.post("http://localhost:8080/api/member/signup/checkMemberId",{memberId : memberId})
         .then((response)=>{
             console.log(response.data);
-            setCheckMemberId(true);
             alert("사용 가능한 아이디입니다.")
+            setCheckMemberId(true);
+            setIdInputError('success'); // Success state
         })
         .catch((error)=>{
             console.error(error);
             setCheckMemberId(false);
             alert("사용할 수 없는 아이디입니다.")
+            setIdInputError('error'); // 아이디 에러나면 인풋창 빨갛게 하려고 만듦
         })
     }
 
@@ -163,7 +169,7 @@ const MemberSignupComponent = () => {
         console.log("역할 : " + memberRole);
 
         // 안 채운 항목이 있는지 체크
-        if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth, phone1, phone2, phone3, postcode, postAddress, detailAddress, extraAddress ].includes('')){
+        if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth, phone1, phone2, phone3, postcode, postAddress, detailAddress].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg)
             alert(errorMsg);
@@ -172,12 +178,14 @@ const MemberSignupComponent = () => {
         }
 
         // 아이디 중복 확인 (false면 중복확인 안한 것으로 간주)
-        if(checkMemberId == false){ // === 이걸로하면 안됨
+        if(checkMemberId == false){ // === 이걸로하면 안됨 // 해결-성빈240821
             const errorMsg = "아이디 중복 확인은 필수입니다.";
             console.error(errorMsg);
             alert("아이디 중복 확인은 필수입니다."); 
-
+            setIdInputError('error'); // 아이디 에러나면 인풋창 빨갛게 하려고 만듦
             return;
+        } else {
+            setIdInputError('success');
         }
 
         // 비밀번호 = 비밀번호 확인 체크
@@ -185,13 +193,29 @@ const MemberSignupComponent = () => {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
             console.error(errorMsg);
             alert(errorMsg);
-
+            setPwInputError('error');
             return;
+        } else {
+            setPwInputError('success');
         }
         
         // 생년월일이 6자리인지 체크
         if (memberBirth.length !== 6){
             alert("생년월일을 6자리 숫자로 입력해주세요.");
+            return;
+        } 
+
+        // 월을 추출하고 유효한 범위인지 확인 (01 ~ 12)
+        const month = parseInt(memberBirth.substring(2, 4), 10);
+        if (month < 1 || month > 12) {
+            alert("1월에서 12월 사이로 숫자를 입력해주세요.");
+            return;
+        }
+
+        // 일을 추출하고 유효한 범위인지 확인 (01 ~ 31)
+        const day = parseInt(memberBirth.substring(4, 6), 10);
+        if (day < 1 || day > 31) {
+            alert("1일에서 31일 사이로 숫자를 입력해주세요.");
             return;
         }
 
@@ -249,11 +273,13 @@ const MemberSignupComponent = () => {
                     <FormLabel className="w-1/4">아이디</FormLabel>
                     <div className='flex w-3/4'>
                         <Input
-                            value={memberId}
-                            onChange={handleMemberId}
-                            placeholder='아이디를 입력해주세요.'/>
+                        type="text"
+                        value={memberId}
+                        onChange={handleMemberId}
+                        className={idInputError === 'success' ? 'border-blue-500' : idInputError === 'error' ? 'border-red-500' : ''}
+                        placeholder='아이디를 입력해주세요.'/>
                         <button className="w-32 ml-3 bg-slate-400 rounded text-white hover:opacity-80"
-                            onClick={onClickCheckMemberId}>
+                        onClick={onClickCheckMemberId}>
                             중복확인
                         </button>
                     </div>
@@ -264,7 +290,7 @@ const MemberSignupComponent = () => {
                 <FormControl isRequired className='flex items-center my-3'>
                     <FormLabel className="w-1/4">비밀번호</FormLabel>
                     <Input
-                        className='w-3/4'
+                        className={pwInputError === 'success' ? 'border-blue-500 w-3/4' : pwInputError === 'error' ? 'border-red-500 w-3/4' : 'w-3/4'}
                         type='password' 
                         value={memberPw}
                         onChange={handleMemberPw}
@@ -276,7 +302,7 @@ const MemberSignupComponent = () => {
                 <FormControl isRequired className='flex items-center my-3'>
                     <FormLabel className="w-1/4">비밀번호 확인</FormLabel>
                     <Input
-                        className='w-3/4'
+                        className={pwInputError === 'success' ? 'border-blue-500 w-3/4' : pwInputError === 'error' ? 'border-red-500 w-3/4' : 'w-3/4'}
                         type='password' 
                         value={memberPwConfirm}
                         onChange={handleMemberPwConfirm}

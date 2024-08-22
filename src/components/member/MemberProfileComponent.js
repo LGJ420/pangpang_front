@@ -4,14 +4,58 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
+import useCustomToken from "../../hooks/useCustomToken";
 
 const MemberProfileComponent = () => {
+
+    // 잠깐의 렌더링도 방지하기 위한 state
+    // 초기값이 false여야 처음부터 방지가능
+    const {isLogin, decodeToken} = useCustomToken();
+    const [isValid, setIsValid] = useState(false);
+
     const navigate = useNavigate();
-
-    const [token, setToken] = useRecoilState(tokenState);
-
+    
     const location = useLocation();
     const {memberImage, memberId, memberNickname, memberPw, memberPhone, postcode, postAddress, detailAddress, extraAddress} = location.state || {};
+
+    useEffect(() => {
+
+        // // useEffect에도 이렇게 두번에 걸쳐 작업하는이유는
+        // // 리액트의 비동기 특성때문
+        // if(!isLogin){
+        //     alert("잘못된 접근 방식입니다.");
+        //     navigate(-1);
+        //     return; // 로그인하지 않은 경우, 나머지 코드 실행 방지
+        // }
+
+        // 비밀번호로 확인하는 곳에서 건네주는 location.state이 없거나 필요한 데이터가 없으면 잘못된 접근으로 간주
+        if (!location.state) {
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+            return;
+        }
+
+        setIsValid(true);
+
+        // // 뒤로가기 방지 코드
+        // const preventGoBack = () => {
+        //     // change start
+        //     window.history.pushState(null, '', location.href);
+        //     // change end
+        //     console.log('prevent go back!');
+        //     alert("미친것");
+        // };
+        
+        // window.history.pushState(null, '', location.href);
+        // window.addEventListener('popstate', preventGoBack);
+        
+        // return () => window.removeEventListener('popstate', preventGoBack)
+        
+
+    },[location.state, navigate]);
+
+    // 내 정보 변경으로 바뀐 토큰을 localStorage에 저장하는 코드
+    const [token, setToken] = useRecoilState(tokenState);
 
     // 닉네임
     const [modifyMemberNickname, setModifyMemberNickname] = useState(memberNickname);
@@ -33,9 +77,19 @@ const MemberProfileComponent = () => {
 
     // 폰번호
     // memberPhone = "010-1234-5678"
-    const [phone1, setPhone1] = useState(memberPhone.split('-')[0]); // 010
-    const [phone2, setPhone2] = useState(memberPhone.split('-')[1]); // 1234
-    const [phone3, setPhone3] = useState(memberPhone.split('-')[2]); // 5678
+    const [phone1, setPhone1] = useState('');
+    const [phone2, setPhone2] = useState('');
+    const [phone3, setPhone3] = useState('');
+    
+    // 폰번호 있으면 010 / 1234 / 5678 쪼갬
+    useEffect(() => {
+        if (memberPhone) {
+            const phoneParts = memberPhone.split('-');
+            setPhone1(phoneParts[0] || '');
+            setPhone2(phoneParts[1] || '');
+            setPhone3(phoneParts[2] || '');
+        }
+    }, [memberPhone]);
 
     const handlePhone1 = (e) => {
         // 핸드폰 번호에 숫자만 허용하는 정규식 사용
@@ -157,7 +211,7 @@ const MemberProfileComponent = () => {
         console.log("기타주소 : " + extraAddressApi);
 
         // 안 채운 항목이 있는지 체크
-        if(!memberNickname && !modifyMemberNickname && !phone1 && !phone2 && !phone3 && !postcodeApi &&!postAddressApi && !detailAddressApi && !extraAddressApi){
+        if(!memberNickname && !modifyMemberNickname && !phone1 && !phone2 && !phone3 && !postcodeApi &&!postAddressApi && !detailAddressApi){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg)
             alert(errorMsg);
@@ -232,6 +286,17 @@ const MemberProfileComponent = () => {
             console.log("프로필 사진 삭제 중 에러 발생 : " + error);
             alert("프로필 사진 삭제 중 오류가 발생했습니다.");
         })
+    }
+
+    
+
+    // 이 조건문은 반드시 리액트 훅보다
+    // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
+    // 리액트 자체가 작동하지 않는다
+    // 그래서 최하단에 배치한다
+    if (!isValid) {
+
+        return null;
     }
 
     return(
