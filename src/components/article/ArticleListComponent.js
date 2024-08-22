@@ -27,7 +27,7 @@ const ArticleListComponent = () => {
     const [fetchData, setFetchData] = useState({ page: 1, search: '', searchBy: 'title' }); // 검색 조건 저장
 
     const { isLogin } = useCustomToken();
-    
+
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const page = parseInt(queryParams.get('page')) || 1;
@@ -149,7 +149,7 @@ const ArticleListComponent = () => {
                                                 transition: 'transform 0.2s ease, text-decoration 0.2s ease'
                                             }}
                                         >
-                                            {article.articleTitle}
+                                            {article.articleTitle} ({article.commentCount || 0} 댓글)
                                         </Td>
                                         <Td textAlign="center">{article.memberNickname}</Td> {/* 작성자 데이터 추가 */}
                                         <Td textAlign="center">{article.articleCreated ? formatDateTime(article.articleCreated) : '날짜 형식이 맞지 않음'}</Td>
@@ -210,7 +210,7 @@ const ArticleListComponent = () => {
                     : 
                     <></>
                 }
-                </Box>
+            </Box>
         </div>
     );
 };
