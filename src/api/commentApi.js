@@ -50,3 +50,25 @@ export const getCommentsByArticleId = async (articleId, pageParam) => {
     });
     return res.data;
 }
+
+export const getMyComments = async (pageParam) => {
+    const {page, size, memberId} = pageParam;
+    const token = localStorage.getItem("token");
+    
+    try{
+    const res = await axios.get(`${prefix}/myComments`,{
+        params: {
+            page,
+            size,
+            memberId
+        },
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    return res.data;
+    } catch (err){
+        console.error(err);
+        throw err;
+    }
+}

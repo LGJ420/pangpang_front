@@ -66,12 +66,13 @@ export const putOne = async (id, article) => {
 }
 
 export const getMyArticles = async (pageParam) => {
-    const {page, size} = pageParam;
+    const {memberId, page, size} = pageParam;
     const token = localStorage.getItem('token');
 
     try {
         const res = await axios.get(`${prefix}/myArticles`, {
             params: { 
+                memberId,
                 page, 
                 size 
             },
