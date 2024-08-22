@@ -23,6 +23,7 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { deleteComment, getMyComments } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
+import { useNavigate } from 'react-router-dom';
 
 const MypageCommentComponent = () => {
     const [comments, setComments] = useState([]);
@@ -33,6 +34,7 @@ const MypageCommentComponent = () => {
     const [commentToDelete, setCommentToDelete] = useState(null);
     const { isLogin, decodeToken } = useCustomToken();
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const navigate = useNavigate();
 
     const fetchComments = async (page = 1) => {
         if (!isLogin) return;
@@ -41,11 +43,12 @@ const MypageCommentComponent = () => {
         try {
             const memberId = decodeToken.id;
             const data = await getMyComments({ page, size: 5, memberId });
+            console.log(data);
             setComments(data.dtoList || []);
             setTotalPages(Math.ceil(data.totalCount / 5));
             setCurrentPage(page);
         } catch (error) {
-            setError('Failed to fetch comments.');
+            setError('Failed to fetch comments.', error);
         } finally {
             setLoading(false);
         }
@@ -109,11 +112,18 @@ const MypageCommentComponent = () => {
                             bg="white"
                         >
                             <Flex justifyContent="space-between">
-                                <div className='cursor-pointer'>
+                                <div >
                                     <Flex direction="column" mb={4}>
                                         <Flex align="center" mb={2}>
-                                            <Heading fontSize="xl" mb={2}>
-                                                글제목: {comment.articleTitle}
+                                            <Heading className='cursor-pointer' fontSize="xl" mb={2} onClick={() => navigate(`/article/read/${comment.articleId}`)}
+                                                _hover={{
+                                                textDecoration: 'underline',
+                                                transform: 'scale(1.05)',
+                                                transition: 'transform 0.2s ease, text-decoration 0.2s ease',
+                                                color: 'blue.600'
+                                            }}
+                                            >
+                                            글제목: {comment.articleTitle}
                                             </Heading>
                                         </Flex>
                                         <Text fontSize="sm" color="gray.600" mb={2}>
