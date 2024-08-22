@@ -31,7 +31,7 @@ const noticeRouter = () => {
     },
 
     {
-      path: "modify",
+      path: "modify/:id",
       element: <Suspense><Modify /></Suspense>
     }
     
