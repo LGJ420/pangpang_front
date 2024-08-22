@@ -34,8 +34,23 @@ const MemberProfileComponent = () => {
             navigate(-1);
             return;
         }
-        
+
         setIsValid(true);
+
+        // // 뒤로가기 방지 코드
+        // const preventGoBack = () => {
+        //     // change start
+        //     window.history.pushState(null, '', location.href);
+        //     // change end
+        //     console.log('prevent go back!');
+        //     alert("미친것");
+        // };
+        
+        // window.history.pushState(null, '', location.href);
+        // window.addEventListener('popstate', preventGoBack);
+        
+        // return () => window.removeEventListener('popstate', preventGoBack)
+        
 
     },[location.state, navigate]);
 
@@ -62,9 +77,19 @@ const MemberProfileComponent = () => {
 
     // 폰번호
     // memberPhone = "010-1234-5678"
-    const [phone1, setPhone1] = useState(memberPhone.split('-')[0]); // 010
-    const [phone2, setPhone2] = useState(memberPhone.split('-')[1]); // 1234
-    const [phone3, setPhone3] = useState(memberPhone.split('-')[2]); // 5678
+    const [phone1, setPhone1] = useState('');
+    const [phone2, setPhone2] = useState('');
+    const [phone3, setPhone3] = useState('');
+    
+    // 폰번호 있으면 010 / 1234 / 5678 쪼갬
+    useEffect(() => {
+        if (memberPhone) {
+            const phoneParts = memberPhone.split('-');
+            setPhone1(phoneParts[0] || '');
+            setPhone2(phoneParts[1] || '');
+            setPhone3(phoneParts[2] || '');
+        }
+    }, [memberPhone]);
 
     const handlePhone1 = (e) => {
         // 핸드폰 번호에 숫자만 허용하는 정규식 사용
