@@ -227,7 +227,7 @@ const CommentListComponent = ({ articleId }) => {
 
             <AlertDialogFooter>
               <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
-                확인
+                취소
               </Button>
               {(isDeleteMode || isCommentSubmitMode) && (
                 <Button 
