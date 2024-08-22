@@ -1,29 +1,53 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Text, VStack, Flex, IconButton, useColorModeValue, CloseButton, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@chakra-ui/react';
+import {
+    Box,
+    Heading,
+    Text,
+    VStack,
+    Flex,
+    IconButton,
+    CloseButton,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    useDisclosure,
+    Spinner,
+    Alert,
+    AlertIcon,
+    ModalCloseButton,
+    Button
+} from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { deleteComment, getMyComments } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
 
 const MypageCommentComponent = () => {
     const [comments, setComments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [commentToDelete, setCommentToDelete] = useState(null); // State for the comment to be deleted
+    const [commentToDelete, setCommentToDelete] = useState(null);
     const { isLogin, decodeToken } = useCustomToken();
-    const bgColor = useColorModeValue('gray.50', 'gray.800');
-    const { isOpen, onOpen, onClose } = useDisclosure(); // Chakra UI modal hooks
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const fetchComments = async (page = 1) => {
         if (!isLogin) return;
+        setLoading(true);
+        setError(null);
         try {
-            const memberId = decodeToken.id; // Get memberId from token
-            console.log('Member ID:', memberId); // Debug memberId
-            const data = await getMyComments({ page, size: 5, memberId }); // Fetch comments
-            setComments(data.dtoList || []); // Set comments from dtoList
-            setTotalPages(Math.ceil(data.totalCount / 5)); // Set total pages based on totalCount
+            const memberId = decodeToken.id;
+            const data = await getMyComments({ page, size: 5, memberId });
+            setComments(data.dtoList || []);
+            setTotalPages(Math.ceil(data.totalCount / 5));
             setCurrentPage(page);
         } catch (error) {
-            console.error('Error fetching comments:', error);
+            setError('Failed to fetch comments.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -40,20 +64,20 @@ const MypageCommentComponent = () => {
     };
 
     const handleClickDelete = (id) => {
-        setCommentToDelete(id); // Set the comment ID to be deleted
-        onOpen(); // Open the modal
+        setCommentToDelete(id);
+        onOpen();
     };
 
     const confirmDelete = async () => {
         if (commentToDelete) {
             try {
-                await deleteComment(commentToDelete); // Delete comment
-                fetchComments(currentPage); // Refresh comments after deletion
+                await deleteComment(commentToDelete);
+                fetchComments(currentPage);
             } catch (error) {
                 console.error('Error deleting comment:', error);
             }
-            setCommentToDelete(null); // Clear the comment ID
-            onClose(); // Close the modal
+            setCommentToDelete(null);
+            onClose();
         }
     };
 
@@ -62,84 +86,97 @@ const MypageCommentComponent = () => {
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     };
 
+    if (loading) return <Spinner size="xl" />;
+    if (error) return (
+        <Alert status="error" mb={4}>
+            <AlertIcon />
+            {error}
+        </Alert>
+    );
+
     return (
-        <>
-            <Box p={6} maxW="container.md" mx="auto" bg={bgColor} borderRadius="md" shadow="md">
-                <Text fontSize="2xl" fontWeight="bold" mb={6}>My Comments</Text>
-                {comments.length > 0 ? (
-                    <VStack spacing={4} align="stretch">
-                        {comments.map(comment => (
-                            <Box
-                                key={comment.id}
-                                p={4}
-                                borderWidth="1px"
-                                borderRadius="md"
-                                bg="white"
-                                shadow="md"
-                                borderColor="gray.200"
-                            >
-                                <Flex direction="column">
-                                    <Flex align="center" mb={2}>
-                                        <Text fontWeight="bold" mr={2}>글번호: {comment.articleId}</Text>
-                                        <Text fontSize="sm" color="gray.500">
-                                            작성일: {formatDateTime(comment.commentCreated)}
-                                            {comment.commentUpdated && (
-                                                <Text as="span" ml={2} fontSize="sm" color="gray.400">
-                                                    (수정일: {formatDateTime(comment.commentUpdated)})
-                                                </Text>
-                                            )}
+        <Box p={4} maxW="1200px" mx="auto">
+            <Heading as="h3" size="lg" mb={6}>내 댓글</Heading>
+            {comments.length > 0 ? (
+                <VStack spacing={6} align="stretch">
+                    {comments.map(comment => (
+                        <Box
+                            key={comment.id}
+                            p={6}
+                            shadow="lg"
+                            borderWidth="1px"
+                            borderRadius="md"
+                            bg="white"
+                        >
+                            <Flex justifyContent="space-between">
+                                <div className='cursor-pointer'>
+                                    <Flex direction="column" mb={4}>
+                                        <Flex align="center" mb={2}>
+                                            <Heading fontSize="xl" mb={2}>
+                                                글제목: {comment.articleTitle}
+                                            </Heading>
+                                        </Flex>
+                                        <Text fontSize="sm" color="gray.600" mb={2}>
+                                            글번호: {comment.articleId}
                                         </Text>
+                                        <Text mb={4}>{comment.commentContent}</Text>
+                                        <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
+                                            <Text>조회수: {comment.viewCount}</Text>
+                                        </Flex>
                                     </Flex>
-                                    <Text mb={2}>{comment.commentContent}</Text>
+                                </div>
+                                <div className='flex flex-col justify-between'>
                                     <CloseButton className='ml-auto' onClick={() => handleClickDelete(comment.id)} />
-                                </Flex>
-                            </Box>
+                                    <Text fontSize="sm" color="gray.500">작성일: {formatDateTime(comment.commentCreated)}</Text>
+                                </div>
+                            </Flex>
+                        </Box>
+                    ))}
+                    {/* Pagination Controls */}
+                    <Flex justifyContent="center" alignItems="center" mt={6} fontSize="lg">
+                        <IconButton
+                            aria-label="Previous Page"
+                            icon={<ChevronLeftIcon />}
+                            isDisabled={currentPage <= 1}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            mr={3}
+                            _hover={{ bg: 'teal.50', color: 'teal.600' }}
+                            _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
+                        />
+                        {[...Array(totalPages).keys()].map(page => (
+                            <Button
+                                key={page + 1}
+                                mx={1}
+                                size="sm"
+                                variant={currentPage === page + 1 ? 'solid' : 'outline'}
+                                colorScheme={currentPage === page + 1 ? 'teal' : 'gray'}
+                                onClick={() => handlePageChange(page + 1)}
+                                _hover={{ bg: 'teal.50', color: 'teal.600' }}
+                            >
+                                {page + 1}
+                            </Button>
                         ))}
-                        {/* Pagination */}
-                        <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
-                            <IconButton
-                                aria-label="Previous Page"
-                                icon={<ChevronLeftIcon />}
-                                isDisabled={currentPage <= 1}
-                                onClick={() => handlePageChange(currentPage - 1)}
-                                mr={3}
-                                _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                                _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
-                            />
-                            {[...Array(totalPages).keys()].map(page => (
-                                <Button
-                                    key={page + 1}
-                                    mx={1}
-                                    size="sm"
-                                    variant={currentPage === page + 1 ? 'solid' : 'outline'}
-                                    colorScheme={currentPage === page + 1 ? 'teal' : 'gray'}
-                                    onClick={() => handlePageChange(page + 1)}
-                                    _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                                >
-                                    {page + 1}
-                                </Button>
-                            ))}
-                            <IconButton
-                                aria-label="Next Page"
-                                icon={<ChevronRightIcon />}
-                                isDisabled={currentPage >= totalPages}
-                                onClick={() => handlePageChange(currentPage + 1)}
-                                ml={3}
-                                _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                                _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
-                            />
-                        </Flex>
-                    </VStack>
-                ) : (
-                    <Text textAlign="center">No comments found.</Text>
-                )}
-            </Box>
+                        <IconButton
+                            aria-label="Next Page"
+                            icon={<ChevronRightIcon />}
+                            isDisabled={currentPage >= totalPages}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            ml={3}
+                            _hover={{ bg: 'teal.50', color: 'teal.600' }}
+                            _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
+                        />
+                    </Flex>
+                </VStack>
+            ) : (
+                <Text textAlign="center" color="gray.500">댓글을 찾을 수 없습니다.</Text>
+            )}
 
             {/* Confirmation Modal */}
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal isOpen={isOpen} onClose={() => onClose()}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Confirm Deletion</ModalHeader>
+                    <ModalCloseButton />
                     <ModalBody>
                         <Text>정말로 댓글을 삭제하시겠습니까?</Text>
                     </ModalBody>
@@ -147,13 +184,13 @@ const MypageCommentComponent = () => {
                         <Button colorScheme="red" mr={3} onClick={confirmDelete}>
                             네
                         </Button>
-                        <Button variant="ghost" onClick={onClose}>
+                        <Button variant="outline" onClick={onClose}>
                             아니요
                         </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </>
+        </Box>
     );
 };
 
