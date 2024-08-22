@@ -72,8 +72,45 @@ const ProductAddComponent = () => {
         });
     };
 
+    console.log(product);
+    console.log(images);
+
     // 상품 추가 처리
-    const handleClickAdd = async () => {  // async 키워드 추가
+    const handleClickAdd = async () => {
+
+        if(!product.productTitle.trim()) {
+            alert("상품 제목을 입력해주세요.");
+            return;
+        }
+
+        if (!product.productContent.trim()) {
+            alert("상품 소제목을 입력해주세요.");
+            return;
+        }
+
+        if (!product.productDetailContent.trim()) {
+            alert("상품 상세설명을 입력해주세요.");
+            return;
+        }
+
+        if(product.productPrice <= 0) {
+            alert("상품 금액을 입력해주세요.");
+            return;
+        }
+
+        if(isNaN(product.productPrice)) {
+            alert("상품 금액을 입력해주세요. (숫자만 가능)");
+            return;
+        }
+
+        if(images.length == 0) {
+            alert("상품 이미지를 등록해주세요.");
+            return;
+        }
+
+
+
+
         const submit = window.confirm("상품을 등록하시겠습니까?");
 
         // 취소 클릭한 경우 그냥 종료
