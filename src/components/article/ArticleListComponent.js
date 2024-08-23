@@ -1,4 +1,4 @@
-import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, useColorModeValue } from '@chakra-ui/react';
+import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, useColorModeValue, Badge } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
 import { getList } from '../../api/articleApi';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -86,6 +86,19 @@ const ArticleListComponent = () => {
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; // 초 단위 제거
     };
 
+    // Function to check if the article is new
+    const isArticleNew = (dateTime) => {
+        const now = new Date();
+        const articleDate = new Date(dateTime);
+
+        // Calculate the difference in days between now and the article creation date
+        const differenceInTime = now.getTime() - articleDate.getTime();
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+        // Return true if the article was created today or yesterday
+        return differenceInDays < 1 || (differenceInDays >= 1 && differenceInDays < 2);
+    };
+
     const bgColor = useColorModeValue('gray.50', 'gray.800');
 
     return (
@@ -133,7 +146,7 @@ const ArticleListComponent = () => {
                                 <Tr>
                                     <Th textAlign="center">글번호</Th>
                                     <Th textAlign="center">제목</Th>
-                                    <Th textAlign="center">작성자</Th> {/* 작성자 열 추가 */}
+                                    <Th textAlign="center">작성자</Th>
                                     <Th textAlign="center">등록일</Th>
                                     <Th textAlign="center">조회수</Th>
                                 </Tr>
@@ -149,7 +162,11 @@ const ArticleListComponent = () => {
                                                 transition: 'transform 0.2s ease, text-decoration 0.2s ease'
                                             }}
                                         >
-                                            {article.articleTitle} ({article.commentCount || 0} 댓글)
+                                            {isArticleNew(article.articleCreated) && (
+                                                <Badge ml={2} colorScheme="red">new</Badge> // "new" label
+                                            )}
+                                            {article.articleTitle} 
+                                            ({article.commentCount || 0} 댓글)
                                         </Td>
                                         <Td textAlign="center">{article.memberNickname}</Td> {/* 작성자 데이터 추가 */}
                                         <Td textAlign="center">{article.articleCreated ? formatDateTime(article.articleCreated) : '날짜 형식이 맞지 않음'}</Td>
