@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteOne, getMyArticles } from '../../api/articleApi';
 
+
+
 const MypageArticleListComponent = () => {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,6 +18,8 @@ const MypageArticleListComponent = () => {
     const [selectedArticleId, setSelectedArticleId] = useState(null); // To store the article ID to delete
     const { isOpen, onOpen, onClose } = useDisclosure(); // Modal controls
     const navigate = useNavigate();
+
+
 
     useEffect(() => {
         const fetchMyArticles = async () => {
@@ -36,16 +40,22 @@ const MypageArticleListComponent = () => {
         fetchMyArticles();
     }, [page, size, refresh]);
 
+
+
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setPage(newPage);
         }
     };
 
+
+
     const handleClickDelete = (id) => {
         setSelectedArticleId(id); // Set the article ID to delete
         onOpen(); // Open the confirmation modal
     };
+
+
 
     const handleConfirmDelete = async () => {
         try {
@@ -58,10 +68,29 @@ const MypageArticleListComponent = () => {
         }
     };
 
+
+
     const handleCancelDelete = () => {
         setSelectedArticleId(null); // Clear the selected article ID
         onClose(); // Close the modal
     };
+
+
+
+    const formatDateTime = (dateTime) => {
+        const date = new Date(dateTime);
+        return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    };
+
+
+
+    const formatContent = (content) => {
+        if (!content) return '';
+        const urlPattern = /(https?:\/\/[^\s]+)/g;
+        return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+    };
+
+
 
     if (loading) return <Spinner size="xl" />;
     if (error) return (
@@ -71,11 +100,14 @@ const MypageArticleListComponent = () => {
         </Alert>
     );
 
+
+
     return (
         <Box p={4} maxW="1200px" mx="auto">
             <Heading as="h3" size="lg" mb={6} >
                 내가 쓴 글
             </Heading>
+
             <Stack spacing={6}>
                 {articles.map(article => (
                     <Box 
@@ -93,22 +125,43 @@ const MypageArticleListComponent = () => {
                                     글제목: {article.articleTitle}
                                 </Heading> 
                             </Flex>
-                            <Text fontSize="sm" color="gray.600" mb={2}>
-                                글번호: {article.id}
-                            </Text>
-                            <Text mb={4}>{article.articleContent}</Text>
-                            <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
-                                <Text>조회수: {article.viewCount}</Text>
-                            </Flex>
-                        </div>
-                        <div className='flex flex-col justify-between'>
-                            <CloseButton className='ml-auto' onClick={() => handleClickDelete(article.id)} />
-                            <Text>작성일: {new Date(article.articleCreated).toLocaleDateString()}</Text>
-                        </div>
-                    </Flex>
-                    </Box>
-                ))}
-            </Stack>
+
+                                <Text fontSize="sm" color="gray.600" mb={2}>
+                                    글번호: {article.id}
+                                </Text>
+
+                                {/*내용*/}
+                                <Text 
+                                    mb={4} 
+                                    style={{ whiteSpace: 'pre-wrap' }} 
+                                    dangerouslySetInnerHTML={{ __html: formatContent(article.articleContent) }}
+                                    sx={{
+                                        '& a': {
+                                                color: 'blue.500',
+                                                textDecoration: 'underline',
+                                                _hover: {
+                                                color: 'blue.700'
+                                                }
+                                            }
+                                        }}
+                                    />
+
+                                <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
+                                    <Text>조회수: {article.viewCount}</Text>
+                                </Flex>
+                            </div>
+
+                            <div className='flex flex-col justify-between'>
+                                <CloseButton className='ml-auto' onClick={() => handleClickDelete(article.id)} />
+                                <Text fontSize="sm" color="gray.500">작성일: {formatDateTime(article.articleCreated)}</Text>
+                            </div>
+                        </Flex>
+                        </Box>
+                    ))}
+                </Stack>
+
+
+                
             {/* Pagination Controls */}
             <Flex justifyContent="center" alignItems="center" mt={6} fontSize="lg">
                 <IconButton

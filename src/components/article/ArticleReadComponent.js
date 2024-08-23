@@ -6,16 +6,23 @@ import { deleteOne, getOne } from "../../api/articleApi";
 import CommentList from "../comment/CommentListComponent";
 import useCustomToken from "../../hooks/useCustomToken";
 
+
+
 // 날짜와 시간 포맷 함수
 const formatDateTime = (dateTime) => {
   const date = new Date(dateTime);
   return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; // 초 단위 제거
 };
 
+
+
+// https 링크 연결 함수
 const formatContent = (content) => {
   const urlPattern = /(https?:\/\/[^\s]+)/g;
   return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
 };
+
+
 
 const initState = {
   id: 0,
@@ -28,6 +35,8 @@ const initState = {
   viewCount: 0 
 };
 
+
+
 const ArticleReadComponent = () => {
   const { id } = useParams(); // URL에서 id를 추출
   const navigate = useNavigate();
@@ -37,6 +46,8 @@ const ArticleReadComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { moveToList, moveToModify } = useCustomMove();
   const { isLogin, decodeToken } = useCustomToken();
+
+
   
   useEffect(() => {
     const fetchData = async () => {
@@ -61,6 +72,8 @@ const ArticleReadComponent = () => {
     }
   }, [id, navigate, onOpen]);
 
+
+
   const handleDeleteConfirm = async () => {
     try {
       await deleteOne(id);
@@ -72,8 +85,12 @@ const ArticleReadComponent = () => {
     }
   };
     
+
+
   // 현재 사용자가 작성자인지 확인
   const isAuthor = isLogin && serverData.memberId === decodeToken.id;
+
+
 
   if (error) {
     return (
@@ -104,8 +121,11 @@ const ArticleReadComponent = () => {
     );
   }
 
+  
+
   return (
     <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
+      {/*제목*/}
       <Heading as="h1" size="xl" mb={4}>
         {serverData.articleTitle}
       </Heading>
@@ -126,6 +146,7 @@ const ArticleReadComponent = () => {
         조회수: {serverData.viewCount || 0}회 
       </Text>
 
+      {/*내용*/}
       <Box bg="gray.50" p={4} borderRadius="md" mb={4} style={{ whiteSpace: 'pre-wrap' }}>
         <Text as="div" dangerouslySetInnerHTML={{ __html: formatContent(serverData.articleContent) }}
           sx={{
@@ -133,7 +154,7 @@ const ArticleReadComponent = () => {
               color: 'blue.500',
               textDecoration: 'underline',
               _hover: {
-                color: 'blue.700'
+              color: 'blue.700'
               }
             }
           }} />

@@ -1,27 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Box,
-  Text,
-  VStack,
-  Button,
-  FormControl,
-  FormLabel,
-  Textarea,
-  Heading,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  Flex,
-  IconButton,
-  useColorModeValue,
-  AlertDialogFooter
-} from '@chakra-ui/react';
+import {Box,Text,VStack,Button,FormControl,FormLabel,Textarea,Heading,AlertDialog,AlertDialogBody,AlertDialogHeader,AlertDialogContent,AlertDialogOverlay,Flex,IconButton,useColorModeValue,AlertDialogFooter} from '@chakra-ui/react';
 import { getCommentsByArticleId, postComment, deleteComment } from '../../api/commentApi';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import useCustomToken from '../../hooks/useCustomToken';
+
+
 
 const CommentListComponent = ({ articleId }) => {
   const [commentContent, setCommentContent] = useState('');
@@ -37,6 +21,8 @@ const CommentListComponent = ({ articleId }) => {
   const navigate = useNavigate();
   const bgColor = useColorModeValue('gray.50', 'gray.800');
 
+
+
   // Fetch comments with pagination
   const fetchComments = async (page = 1) => {
     try {
@@ -50,6 +36,8 @@ const CommentListComponent = ({ articleId }) => {
       console.error('Error fetching comments:', error);
     }
   };
+
+
 
   useEffect(() => {
     fetchComments(currentPage);
@@ -66,6 +54,8 @@ const CommentListComponent = ({ articleId }) => {
     }
   };
 
+
+
   const handleCommentSubmitConfirm = async () => {
     try {
       await postComment({
@@ -80,15 +70,21 @@ const CommentListComponent = ({ articleId }) => {
     }
   };
 
+
+
   const handleEditClick = (id) => {
     navigate(`/comment/modify/${id}`);
   };
+
+
 
   const handleDeleteClick = (commentId) => {
     setDeleteCommentId(commentId);
     setIsDeleteMode(true);
     setIsDialogOpen(true);
   };
+
+
 
   const handleDeleteConfirm = async () => {
     try {
@@ -100,16 +96,31 @@ const CommentListComponent = ({ articleId }) => {
     }
   };
 
+
+
   const formatDateTime = (dateTime) => {
     const date = new Date(dateTime);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   };
+
+
+
+  // Format content to convert URLs to clickable links
+  const formatContent = (content) => {
+    if (!content) return '';
+    const urlPattern = /(https?:\/\/[^\s]+)/g;
+    return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+  };
+
+
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
   };
+
+
 
   return (
     <Box p={6} maxW="container.md" mx="auto">
@@ -140,7 +151,24 @@ const CommentListComponent = ({ articleId }) => {
                       )}
                     </Text>
                   </Flex>
-                  <Text mb={2}>{comment.commentContent}</Text>
+
+
+
+                  <Text mb={2} style={{ whiteSpace: 'pre-wrap' }}
+                        dangerouslySetInnerHTML={{ __html: formatContent(comment.commentContent) }}
+                        sx={{
+                            '& a': {
+                            color: 'blue.500',
+                            textDecoration: 'underline',
+                            _hover: {
+                            color: 'blue.700'
+                          }
+                        }
+                    }}
+                  />
+
+
+
                   {isLogin && decodeToken.id === comment.memberId && (
                     <Flex justify="flex-end" gap={2}>
                       <Button colorScheme="blue" onClick={() => handleEditClick(comment.id)}>수정</Button>
@@ -150,6 +178,9 @@ const CommentListComponent = ({ articleId }) => {
                 </Flex>
               </Box>
             ))}
+
+
+
             {/* Pagination */}
             <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
               <IconButton
@@ -161,6 +192,7 @@ const CommentListComponent = ({ articleId }) => {
                 _hover={{ bg: 'teal.100', color: 'teal.700' }}
                 _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
               />
+
               {[...Array(totalPages).keys()].map(page => (
                 <Button
                   key={page + 1}
@@ -174,6 +206,7 @@ const CommentListComponent = ({ articleId }) => {
                   {page + 1}
                 </Button>
               ))}
+
               <IconButton
                 aria-label="Next Page"
                 icon={<ChevronRightIcon />}
@@ -190,6 +223,9 @@ const CommentListComponent = ({ articleId }) => {
         )}
       </Box>
 
+
+
+      {/*댓글 작성 폼*/}
       <Heading mt={8} mb={6}>댓글 작성</Heading>
       <Box p={4} borderWidth="1px" borderRadius="md" bg="white">
         <form onSubmit={handleFormSubmit}>

@@ -1,29 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import {
-    Box,
-    Heading,
-    Text,
-    VStack,
-    Flex,
-    IconButton,
-    CloseButton,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    useDisclosure,
-    Spinner,
-    Alert,
-    AlertIcon,
-    ModalCloseButton,
-    Button
-} from '@chakra-ui/react';
+import {Box,Heading,Text,VStack,Flex,IconButton,CloseButton,Modal,ModalOverlay,ModalContent,ModalHeader,ModalBody,ModalFooter,useDisclosure,Spinner,Alert,AlertIcon,ModalCloseButton,Button} from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { deleteComment, getMyComments } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
 import { useNavigate } from 'react-router-dom';
+
+
 
 const MypageCommentComponent = () => {
     const [comments, setComments] = useState([]);
@@ -36,6 +18,8 @@ const MypageCommentComponent = () => {
     const { isLogin, decodeToken } = useCustomToken();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
+
+
 
     const fetchComments = async (page = 1) => {
         if (!isLogin) return;
@@ -56,6 +40,8 @@ const MypageCommentComponent = () => {
         }
     };
 
+
+
     useEffect(() => {
         if (isLogin) {
             fetchComments(currentPage);
@@ -68,10 +54,14 @@ const MypageCommentComponent = () => {
         }
     };
 
+
+
     const handleClickDelete = (id) => {
         setCommentToDelete(id);
         onOpen();
     };
+
+
 
     const confirmDelete = async () => {
         if (commentToDelete) {
@@ -86,10 +76,22 @@ const MypageCommentComponent = () => {
         }
     };
 
+
+
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     };
+
+
+
+    const formatContent = (content) => {
+        if (!content) return '';
+        const urlPattern = /(https?:\/\/[^\s]+)/g;
+        return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+    };
+
+
 
     if (loading) return <Spinner size="xl" />;
     if (error) return (
@@ -99,12 +101,18 @@ const MypageCommentComponent = () => {
         </Alert>
     );
 
+
+
     return (
         <Box p={4} maxW="1200px" mx="auto">
-            <Heading as="h3" size="lg" mb={6}>내가 쓴 댓글</Heading>
+            <Heading as="h3" size="lg" mb={6}>
+                내가 쓴 댓글
+            </Heading>
+
             <Text mb={4} fontSize="md" color="gray.600">
                 총 댓글 개수: {totalCount}
             </Text>
+
             {comments.length > 0 ? (
                 <VStack spacing={6} align="stretch">
                     {comments.map(comment => (
@@ -131,15 +139,33 @@ const MypageCommentComponent = () => {
                                             글제목: {comment.articleTitle}
                                             </Heading>
                                         </Flex>
+
                                         <Text fontSize="sm" color="gray.600" mb={2}>
                                             글번호: {comment.articleId}
                                         </Text>
-                                        <Text mb={4}>{comment.commentContent}</Text>
+                                        
+                                        {/*댓글 내용*/}
+                                        <Text 
+                                            mb={4} 
+                                            style={{ whiteSpace: 'pre-wrap' }} 
+                                            dangerouslySetInnerHTML={{ __html: formatContent(comment.commentContent) }}
+                                                sx={{
+                                                    '& a': {
+                                                    color: 'blue.500',
+                                                    textDecoration: 'underline',
+                                                    _hover: {
+                                                    color: 'blue.700'
+                                                    }
+                                                }
+                                            }}
+                                        />
+
                                         <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
                                             <Text>조회수: {comment.viewCount}</Text>
                                         </Flex>
                                     </Flex>
                                 </div>
+
                                 <div className='flex flex-col justify-between'>
                                     <CloseButton className='ml-auto' onClick={() => handleClickDelete(comment.id)} />
                                     <Text fontSize="sm" color="gray.500">작성일: {formatDateTime(comment.commentCreated)}</Text>
@@ -147,6 +173,9 @@ const MypageCommentComponent = () => {
                             </Flex>
                         </Box>
                     ))}
+
+
+
                     {/* Pagination Controls */}
                     <Flex justifyContent="center" alignItems="center" mt={6} fontSize="lg">
                         <IconButton
@@ -158,6 +187,7 @@ const MypageCommentComponent = () => {
                             _hover={{ bg: 'teal.50', color: 'teal.600' }}
                             _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
                         />
+
                         {[...Array(totalPages).keys()].map(page => (
                             <Button
                                 key={page + 1}
@@ -171,6 +201,7 @@ const MypageCommentComponent = () => {
                                 {page + 1}
                             </Button>
                         ))}
+
                         <IconButton
                             aria-label="Next Page"
                             icon={<ChevronRightIcon />}
@@ -185,6 +216,8 @@ const MypageCommentComponent = () => {
             ) : (
                 <Text textAlign="center" color="gray.500">댓글을 찾을 수 없습니다.</Text>
             )}
+
+
 
             {/* Confirmation Modal */}
             <Modal isOpen={isOpen} onClose={() => onClose()}>

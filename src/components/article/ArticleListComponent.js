@@ -154,6 +154,8 @@ const ArticleListComponent = () => {
                 </FormControl>
             </Flex>
 
+
+
             <Box p={4} bg={bgColor} borderWidth={1} borderRadius="md" boxShadow="md" className='w-11/12 m-auto' marginTop="20px">
                 {loading ? (
                     <Text textAlign="center">Loading...</Text>
@@ -202,6 +204,8 @@ const ArticleListComponent = () => {
                     </TableContainer>
                 )}
 
+
+
                 {/* 페이지네이션 */}
                 <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
                     {/* 이전 페이지 */}
@@ -230,6 +234,8 @@ const ArticleListComponent = () => {
                         </Button>
                     ))}
 
+
+
                     {/* 다음 페이지 */}
                     <IconButton
                         aria-label="Next Page"
@@ -241,6 +247,8 @@ const ArticleListComponent = () => {
                         _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
                     />
                 </Flex>
+
+
 
                 {isLogin ? 
                     <Flex justifyContent="flex-end">
