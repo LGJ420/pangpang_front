@@ -166,7 +166,16 @@ const ArticleListComponent = () => {
                                                 <Badge ml={2} colorScheme="red">new</Badge> // "new" label
                                             )}
                                             {article.articleTitle} 
-                                            ({article.commentCount || 0} 댓글)
+                                            
+                                            {article.commentCount === 0 ?
+                                            <></>
+                                            :
+                                            <>
+                                            &#91;
+                                            {article.commentCount}
+                                            &#93;
+                                            </>
+                                            }
                                         </Td>
                                         <Td textAlign="center">{article.memberNickname}</Td> {/* 작성자 데이터 추가 */}
                                         <Td textAlign="center">{article.articleCreated ? formatDateTime(article.articleCreated) : '날짜 형식이 맞지 않음'}</Td>

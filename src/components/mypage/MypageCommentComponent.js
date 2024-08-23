@@ -31,6 +31,7 @@ const MypageCommentComponent = () => {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(0); // 추가된 상태 변수
     const [commentToDelete, setCommentToDelete] = useState(null);
     const { isLogin, decodeToken } = useCustomToken();
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -46,6 +47,7 @@ const MypageCommentComponent = () => {
             console.log(data);
             setComments(data.dtoList || []);
             setTotalPages(Math.ceil(data.totalCount / 5));
+            setTotalCount(data.totalCount);
             setCurrentPage(page);
         } catch (error) {
             setError('Failed to fetch comments.', error);
@@ -99,7 +101,10 @@ const MypageCommentComponent = () => {
 
     return (
         <Box p={4} maxW="1200px" mx="auto">
-            <Heading as="h3" size="lg" mb={6}>내 댓글</Heading>
+            <Heading as="h3" size="lg" mb={6}>내가 쓴 댓글</Heading>
+            <Text mb={4} fontSize="md" color="gray.600">
+                총 댓글 개수: {totalCount}
+            </Text>
             {comments.length > 0 ? (
                 <VStack spacing={6} align="stretch">
                     {comments.map(comment => (
@@ -112,10 +117,10 @@ const MypageCommentComponent = () => {
                             bg="white"
                         >
                             <Flex justifyContent="space-between">
-                                <div >
+                                <div className='cursor-pointer' onClick={() => navigate(`/article/read/${comment.articleId}`)}>
                                     <Flex direction="column" mb={4}>
                                         <Flex align="center" mb={2}>
-                                            <Heading className='cursor-pointer' fontSize="xl" mb={2} onClick={() => navigate(`/article/read/${comment.articleId}`)}
+                                            <Heading className='cursor-pointer' fontSize="xl" mb={2} 
                                                 _hover={{
                                                 textDecoration: 'underline',
                                                 transform: 'scale(1.05)',
