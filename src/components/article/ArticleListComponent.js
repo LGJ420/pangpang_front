@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import useCustomToken from "../../hooks/useCustomToken";
 
+
+
 const ArticleListComponent = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -21,12 +23,16 @@ const ArticleListComponent = () => {
         current: 1
     });
 
+
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchValue, setSearchValue] = useState('');
     const [searchBy, setSearchBy] = useState('title'); // 검색 기준 기본값
     const [fetchData, setFetchData] = useState({ page: 1, search: '', searchBy: 'title' }); // 검색 조건 저장
     const { isLogin } = useCustomToken();
+
+    
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -109,7 +115,11 @@ const ArticleListComponent = () => {
         return differenceInDays < 1 || (differenceInDays >= 1 && differenceInDays < 2);
     };
 
+
+
     const bgColor = useColorModeValue('gray.50', 'gray.800');
+
+
 
     return (
         <div className='py-7'>
