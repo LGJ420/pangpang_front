@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Box, Button, Flex, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure } from "@chakra-ui/react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Box, Button, Flex, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, Alert, AlertIcon } from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { deleteOne, getOne } from "../../api/articleApi";
 import CommentList from "../comment/CommentListComponent";
 import useCustomToken from "../../hooks/useCustomToken";
-
 
 // 날짜와 시간 포맷 함수
 const formatDateTime = (dateTime) => {
@@ -31,8 +30,10 @@ const initState = {
 
 const ArticleReadComponent = () => {
   const { id } = useParams(); // URL에서 id를 추출
+  const navigate = useNavigate();
   const [serverData, setServerData] = useState({...initState});
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { moveToList, moveToModify } = useCustomMove();
   const { isLogin, decodeToken } = useCustomToken();
@@ -41,17 +42,24 @@ const ArticleReadComponent = () => {
     const fetchData = async () => {
       try {
         const data = await getOne(id);
-        setServerData(data);
-        console.log("data:", data);
+        if (data) {
+          setServerData(data);
+          setError(null); // Clear any previous errors
+        } else {
+          setError("Article not found");
+          onOpen(); // Open the alert modal
+        }
       } catch (error) {
         console.error("글을 불러오는데 실패했습니다.", error);
+        setError("Article not found");
+        onOpen(); // Open the alert modal
       }
     };
 
     if (id) {
       fetchData();
     }
-  }, [id]);
+  }, [id, navigate, onOpen]);
 
   const handleDeleteConfirm = async () => {
     try {
@@ -64,9 +72,37 @@ const ArticleReadComponent = () => {
     }
   };
     
-
   // 현재 사용자가 작성자인지 확인
   const isAuthor = isLogin && serverData.memberId === decodeToken.id;
+
+  if (error) {
+    return (
+      <Modal isOpen={isOpen} onClose={() => {
+        onClose();
+        navigate(-1); // Navigate back to the previous page
+      }}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>경고</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Alert status="warning">
+              <AlertIcon />
+              {error}
+            </Alert>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="teal" onClick={() => {
+              onClose();
+              navigate(-1); // Navigate back to the previous page
+            }}>
+              돌아가기
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    );
+  }
 
   return (
     <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
@@ -74,19 +110,16 @@ const ArticleReadComponent = () => {
         {serverData.articleTitle}
       </Heading>
 
-
       {/*작성자*/}
       <Text fontSize="lg" color="gray.600" mb={2}>
         작성자: {serverData.memberNickname}
       </Text>
-
 
       {/*작성일 및 수정일*/}
       <Text fontSize="sm" color="gray.500" mb={4}>
         작성일: {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}{" "}
         {serverData.articleUpdated && `(수정일: ${formatDateTime(serverData.articleUpdated)})`}
       </Text>
-
 
       {/*조회수*/}
       <Text fontSize="sm" color="gray.500" mb={4}>
@@ -125,8 +158,8 @@ const ArticleReadComponent = () => {
         </Flex>
       </Flex>
 
-            {/* Delete Confirmation Modal */}
-            <Modal isOpen={isOpen} onClose={onClose}>
+      {/* Delete Confirmation Modal */}
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>삭제 확인</ModalHeader>
