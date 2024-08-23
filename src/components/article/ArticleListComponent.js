@@ -20,12 +20,12 @@ const ArticleListComponent = () => {
         totalPage: 0,
         current: 1
     });
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchValue, setSearchValue] = useState('');
     const [searchBy, setSearchBy] = useState('title'); // 검색 기준 기본값
     const [fetchData, setFetchData] = useState({ page: 1, search: '', searchBy: 'title' }); // 검색 조건 저장
-
     const { isLogin } = useCustomToken();
 
     useEffect(() => {
@@ -63,11 +63,15 @@ const ArticleListComponent = () => {
         fetchArticles();
     }, [location.search]); // location.search가 변경될 때만 호출
 
+
+
     const handleSearch = () => {
         navigate({
             search: `?search=${encodeURIComponent(searchValue)}&page=1&searchBy=${searchBy}`
         });
     };
+
+
 
     const handleKeyEnter = (event) => {
         if (event.key === 'Enter') {
@@ -75,27 +79,33 @@ const ArticleListComponent = () => {
         }
     };
 
+
+
     const handlePageChange = (page) => {
         navigate({
             search: `?search=${encodeURIComponent(fetchData.search)}&page=${page}&searchBy=${fetchData.searchBy}`
         });
     };
 
+
+
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; // 초 단위 제거
     };
 
-    // Function to check if the article is new
+
+
+    // 게시글이 최근에 작성한 글인지 확인하는 함수
     const isArticleNew = (dateTime) => {
         const now = new Date();
         const articleDate = new Date(dateTime);
 
-        // Calculate the difference in days between now and the article creation date
+        // 현재 시간과 게시글 작성일 사이의 날짜 차이 계산
         const differenceInTime = now.getTime() - articleDate.getTime();
         const differenceInDays = differenceInTime / (1000 * 3600 * 24);
 
-        // Return true if the article was created today or yesterday
+        // 게시글이 어제, 오늘 작성되었을 때 true를 반환 
         return differenceInDays < 1 || (differenceInDays >= 1 && differenceInDays < 2);
     };
 
@@ -155,7 +165,11 @@ const ArticleListComponent = () => {
                                 {(serverData.articleList || []).map((article) => (
                                     <Tr key={article.id} _hover={{ bg: 'gray.100' }} >
                                         <Td textAlign="center">{article.id}</Td>
-                                        <Td textAlign="center" cursor='pointer' textColor="blue" onClick={() => navigate(`/article/read/${article.id}`)}
+                                        <Td 
+                                            textAlign="center" 
+                                            cursor='pointer' 
+                                            textColor="blue" 
+                                            onClick={() => navigate(`/article/read/${article.id}`)}
                                             _hover={{
                                                 textDecoration: 'underline',
                                                 transform: 'scale(1.05)',
@@ -163,19 +177,10 @@ const ArticleListComponent = () => {
                                             }}
                                         >
                                             {isArticleNew(article.articleCreated) && (
-                                                <Badge ml={2} colorScheme="red">new</Badge> // "new" label
+                                                <Badge ml={2} colorScheme="red">new</Badge>  // 최신글일 경우 new 생성 
                                             )}
-                                            {article.articleTitle} 
-                                            
-                                            {article.commentCount === 0 ?
-                                            <></>
-                                            :
-                                            <>
-                                            &#91;
-                                            {article.commentCount}
-                                            &#93;
-                                            </>
-                                            }
+                                            {article.articleTitle}                                            
+                                            {article.commentCount === 0 ? <></> : <>&#91; {article.commentCount} &#93;</>}   
                                         </Td>
                                         <Td textAlign="center">{article.memberNickname}</Td> {/* 작성자 데이터 추가 */}
                                         <Td textAlign="center">{article.articleCreated ? formatDateTime(article.articleCreated) : '날짜 형식이 맞지 않음'}</Td>

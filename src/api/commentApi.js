@@ -3,6 +3,8 @@ import axios from 'axios';
 export const API_SERVER_HOST = 'http://localhost:8080';
 const prefix = `${API_SERVER_HOST}/api/comment`;
 
+
+
 // 댓글 추가하기
 export const postComment = async (comment) => {
     const token = localStorage.getItem("token");
@@ -14,6 +16,8 @@ export const postComment = async (comment) => {
     });
     return res.data;
 };
+
+
 
 // 댓글 수정하기
 export const putComment = async (id, comment) => {
@@ -27,10 +31,14 @@ export const putComment = async (id, comment) => {
     return res.data;
 };
 
+
+
 // 댓글 삭제하기
 export const deleteComment = async (id) => {
     await axios.delete(`${prefix}/${id}`);
 };
+
+
 
 // 댓글 가져오기
 export const getCommentById = async (id) => {
@@ -38,7 +46,9 @@ export const getCommentById = async (id) => {
     return res.data;
 };
 
-// 특정 게시글의 댓글 목록 가져오기
+
+
+// 특정 게시글의 댓글 목록 조회
 export const getCommentsByArticleId = async (articleId, pageParam) => {
     const {page, size} = pageParam;
 
@@ -51,6 +61,9 @@ export const getCommentsByArticleId = async (articleId, pageParam) => {
     return res.data;
 }
 
+
+
+// 마이페이지 내가 쓴 댓글 목록 조회
 export const getMyComments = async (pageParam) => {
     const {page, size, memberId} = pageParam;
     const token = localStorage.getItem("token");
