@@ -155,12 +155,12 @@ const ProductListComponent = () => {
       <div className="flex flex-row border-b pt-10 pl-10 pb-10 pr-3 mb-5">
         <h1 className="text-5xl mr-auto">쇼핑 페이지</h1>
         <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
-          onChange={(e) => { setWord(e.target.value); console.log(word) }}
+          onChange={(e) => { setWord(e.target.value); }}
           onKeyDown={handleKeyDown}
           value={word} />
         <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
           icon={<SearchIcon />}
-          onClick={() => { moveToList({ search: word }); console.log(word); }}
+          onClick={() => { moveToList({ search: word }); }}
         />
       </div>
 

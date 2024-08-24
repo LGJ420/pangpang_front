@@ -201,9 +201,9 @@ const ProductModifyComponent = () => {
             value={product.productCategory}
             onChange={handleChangeProduct}
           >
-            <option value="게임 / CD">게임 / CD</option>
+            <option value="게임">게임 / CD</option>
             <option value="게임기기">게임기기</option>
-            <option value="피규어/굿즈">피규어 / 굿즈</option>
+            <option value="굿즈">피규어 / 굿즈</option>
           </select>
         </div>
         <div className="my-10 flex flex-col">
