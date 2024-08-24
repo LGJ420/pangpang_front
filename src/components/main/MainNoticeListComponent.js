@@ -19,9 +19,9 @@ const MainNoticeListComponent = () => {
 
     return (
         
-        <div className="px-7 border h-[50rem]">
+        <div className="border h-[50rem]">
 
-            <div className="pt-7 text-3xl font-bold mb-5">
+            <div className="h-14 flex items-center pl-7 text-3xl font-bold mb-5 bg-[rgb(198,199,163)]">
                 공지사항
             </div>
             { isLoading ?
@@ -41,6 +41,8 @@ const MainNoticeListComponent = () => {
                 serverData ?
                 
                 serverData.dtoList.map((dto, index)=>
+                
+                    <div className="px-5">
 
                     <div className={`flex justify-between text-xl px-2 py-5 ${index === serverData.dtoList.length - 1 ? "" : "border-b"}`}>
                         <div className="w-4/5 cursor-pointer rainbow-text whitespace-nowrap overflow-hidden text-ellipsis">
@@ -51,6 +53,7 @@ const MainNoticeListComponent = () => {
                         </div>    
                     </div>
 
+                    </div>
                 )
                 :
 

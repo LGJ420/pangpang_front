@@ -19,7 +19,7 @@ const MainPage = () => {
             <div className="w-1/2 h-[50rem]">
 
                 <div className="flex flex-col h-[calc(50%-1rem)] border mb-8 box-border">
-                    <div className="pt-7 pl-7 text-3xl font-bold mb-5">
+                    <div className="h-14 flex items-center pl-7 text-3xl font-bold mb-5 bg-[rgb(249,197,174)]">
                         추천 상품
                     </div>
                     <div className="h-3/4">
@@ -27,7 +27,7 @@ const MainPage = () => {
                     </div>
                 </div>
                 <div className="flex flex-col h-[calc(50%-1rem)] border">
-                    <div className="pt-7 pl-7 text-3xl font-bold mb-5">
+                    <div className="h-14 flex items-center pl-7 text-3xl font-bold mb-5 bg-[rgb(249,197,174)]">
                         신규 상품
                     </div>
                     <div className="h-3/4">

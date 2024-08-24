@@ -114,9 +114,9 @@ const MainProductList = () => {
       :
       
       serverData.length > 0 ? (
-        <SimpleGrid columns={3} height='100%'>
+        <SimpleGrid columns={3} spacing={3} paddingX={3} height='100%'>
           {serverData.map((product, index) => (
-            <div className={`border h-full p-4 ml-4 ${index === serverData.length - 1 ? "mr-4" : ""}`} key={product.id}>
+            <div className={`border h-full p-4`} key={product.id}>
               <div className="flex flex-col justify-between overflow-hidden">
                 <div className="relative hover:scale-125 duration-300 cursor-pointer">
                   <Image
