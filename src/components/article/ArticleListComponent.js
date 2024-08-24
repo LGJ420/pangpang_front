@@ -1,9 +1,11 @@
-import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, useColorModeValue } from '@chakra-ui/react';
+import { Select, FormControl, Input, Flex, IconButton, Table, Thead, Tbody, Tr, Th, Td, TableContainer, Text, Box, Button, useColorModeValue, Badge } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
 import { getList } from '../../api/articleApi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import useCustomToken from "../../hooks/useCustomToken";
+
+
 
 const ArticleListComponent = () => {
     const navigate = useNavigate();
@@ -20,14 +22,18 @@ const ArticleListComponent = () => {
         totalPage: 0,
         current: 1
     });
+
+
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchValue, setSearchValue] = useState('');
     const [searchBy, setSearchBy] = useState('title'); // 검색 기준 기본값
     const [fetchData, setFetchData] = useState({ page: 1, search: '', searchBy: 'title' }); // 검색 조건 저장
-
     const { isLogin } = useCustomToken();
+
     
+
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const page = parseInt(queryParams.get('page')) || 1;
@@ -63,11 +69,15 @@ const ArticleListComponent = () => {
         fetchArticles();
     }, [location.search]); // location.search가 변경될 때만 호출
 
+
+
     const handleSearch = () => {
         navigate({
             search: `?search=${encodeURIComponent(searchValue)}&page=1&searchBy=${searchBy}`
         });
     };
+
+
 
     const handleKeyEnter = (event) => {
         if (event.key === 'Enter') {
@@ -75,18 +85,41 @@ const ArticleListComponent = () => {
         }
     };
 
+
+
     const handlePageChange = (page) => {
         navigate({
             search: `?search=${encodeURIComponent(fetchData.search)}&page=${page}&searchBy=${fetchData.searchBy}`
         });
     };
 
+
+
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; // 초 단위 제거
     };
 
+
+
+    // 게시글이 최근에 작성한 글인지 확인하는 함수
+    const isArticleNew = (dateTime) => {
+        const now = new Date();
+        const articleDate = new Date(dateTime);
+
+        // 현재 시간과 게시글 작성일 사이의 날짜 차이 계산
+        const differenceInTime = now.getTime() - articleDate.getTime();
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+        // 게시글이 어제, 오늘 작성되었을 때 true를 반환 
+        return differenceInDays < 1 || (differenceInDays >= 1 && differenceInDays < 2);
+    };
+
+
+
     const bgColor = useColorModeValue('gray.50', 'gray.800');
+
+
 
     return (
         <div className='py-7'>
@@ -121,6 +154,8 @@ const ArticleListComponent = () => {
                 </FormControl>
             </Flex>
 
+
+
             <Box p={4} bg={bgColor} borderWidth={1} borderRadius="md" boxShadow="md" className='w-11/12 m-auto' marginTop="20px">
                 {loading ? (
                     <Text textAlign="center">Loading...</Text>
@@ -133,7 +168,7 @@ const ArticleListComponent = () => {
                                 <Tr>
                                     <Th textAlign="center">글번호</Th>
                                     <Th textAlign="center">제목</Th>
-                                    <Th textAlign="center">작성자</Th> {/* 작성자 열 추가 */}
+                                    <Th textAlign="center">작성자</Th>
                                     <Th textAlign="center">등록일</Th>
                                     <Th textAlign="center">조회수</Th>
                                 </Tr>
@@ -142,14 +177,22 @@ const ArticleListComponent = () => {
                                 {(serverData.articleList || []).map((article) => (
                                     <Tr key={article.id} _hover={{ bg: 'gray.100' }} >
                                         <Td textAlign="center">{article.id}</Td>
-                                        <Td textAlign="center" cursor='pointer' textColor="blue" onClick={() => navigate(`/article/read/${article.id}`)}
+                                        <Td 
+                                            textAlign="center" 
+                                            cursor='pointer' 
+                                            textColor="blue" 
+                                            onClick={() => navigate(`/article/read/${article.id}`)}
                                             _hover={{
                                                 textDecoration: 'underline',
                                                 transform: 'scale(1.05)',
                                                 transition: 'transform 0.2s ease, text-decoration 0.2s ease'
                                             }}
                                         >
-                                            {article.articleTitle}
+                                            {isArticleNew(article.articleCreated) && (
+                                                <Badge ml={2} colorScheme="red">new</Badge>  // 최신글일 경우 new 생성 
+                                            )}
+                                            {article.articleTitle}                                            
+                                            {article.commentCount === 0 ? <></> : <>&#91; {article.commentCount} &#93;</>}   
                                         </Td>
                                         <Td textAlign="center">{article.memberNickname}</Td> {/* 작성자 데이터 추가 */}
                                         <Td textAlign="center">{article.articleCreated ? formatDateTime(article.articleCreated) : '날짜 형식이 맞지 않음'}</Td>
@@ -160,6 +203,8 @@ const ArticleListComponent = () => {
                         </Table>
                     </TableContainer>
                 )}
+
+
 
                 {/* 페이지네이션 */}
                 <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
@@ -189,6 +234,8 @@ const ArticleListComponent = () => {
                         </Button>
                     ))}
 
+
+
                     {/* 다음 페이지 */}
                     <IconButton
                         aria-label="Next Page"
@@ -201,6 +248,8 @@ const ArticleListComponent = () => {
                     />
                 </Flex>
 
+
+
                 {isLogin ? 
                     <Flex justifyContent="flex-end">
                         <Button colorScheme='teal' onClick={() => navigate("/article/create")}>
@@ -210,7 +259,7 @@ const ArticleListComponent = () => {
                     : 
                     <></>
                 }
-                </Box>
+            </Box>
         </div>
     );
 };

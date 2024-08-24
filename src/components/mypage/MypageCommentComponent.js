@@ -1,29 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Text, VStack, Flex, IconButton, useColorModeValue } from '@chakra-ui/react';
+import {Box,Heading,Text,VStack,Flex,IconButton,CloseButton,Modal,ModalOverlay,ModalContent,ModalHeader,ModalBody,ModalFooter,useDisclosure,Spinner,Alert,AlertIcon,ModalCloseButton,Button} from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import { getMyComments } from '../../api/commentApi';
+import { deleteComment, getMyComments } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const MypageCommentComponent = () => {
     const [comments, setComments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(0); // 추가된 상태 변수
+    const [commentToDelete, setCommentToDelete] = useState(null);
     const { isLogin, decodeToken } = useCustomToken();
-    const bgColor = useColorModeValue('gray.50', 'gray.800');
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const navigate = useNavigate();
+
+
 
     const fetchComments = async (page = 1) => {
         if (!isLogin) return;
+        setLoading(true);
+        setError(null);
         try {
-            const memberId = decodeToken.id; // Get memberId from token
-            console.log('Member ID:', memberId); // Debug memberId
-            const data = await getMyComments({ page, size: 5, memberId }); // Fetch comments
-            setComments(data.dtoList || []); // Set comments from dtoList
-            setTotalPages(Math.ceil(data.totalCount / 5)); // Set total pages based on totalCount
+            const memberId = decodeToken.id;
+            const data = await getMyComments({ page, size: 5, memberId });
+            console.log(data);
+            setComments(data.dtoList || []);
+            setTotalPages(Math.ceil(data.totalCount / 5));
+            setTotalCount(data.totalCount);
             setCurrentPage(page);
         } catch (error) {
-            console.error('Error fetching comments:', error);
+            setError('Failed to fetch comments.', error);
+        } finally {
+            setLoading(false);
         }
     };
+
+
 
     useEffect(() => {
         if (isLogin) {
@@ -37,53 +54,140 @@ const MypageCommentComponent = () => {
         }
     };
 
+
+
+    const handleClickDelete = (id) => {
+        setCommentToDelete(id);
+        onOpen();
+    };
+
+
+
+    const confirmDelete = async () => {
+        if (commentToDelete) {
+            try {
+                await deleteComment(commentToDelete);
+                fetchComments(currentPage);
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+            }
+            setCommentToDelete(null);
+            onClose();
+        }
+    };
+
+
+
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
         return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     };
 
+
+
+    const formatContent = (content) => {
+        if (!content) return '';
+        const urlPattern = /(https?:\/\/[^\s]+)/g;
+        return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+    };
+
+
+
+    if (loading) return <Spinner size="xl" />;
+    if (error) return (
+        <Alert status="error" mb={4}>
+            <AlertIcon />
+            {error}
+        </Alert>
+    );
+
+
+
     return (
-        <Box p={6} maxW="container.md" mx="auto" bg={bgColor} borderRadius="md" shadow="md">
-            <Text fontSize="2xl" fontWeight="bold" mb={6}>My Comments</Text>
+        <Box p={4} maxW="1200px" mx="auto">
+            <Heading as="h3" size="lg" mb={6}>
+                내가 쓴 댓글
+            </Heading>
+
+            <Text mb={4} fontSize="md" color="gray.600">
+                총 댓글 개수: {totalCount}
+            </Text>
+
             {comments.length > 0 ? (
-                <VStack spacing={4} align="stretch">
+                <VStack spacing={6} align="stretch">
                     {comments.map(comment => (
                         <Box
                             key={comment.id}
-                            p={4}
+                            p={6}
+                            shadow="lg"
                             borderWidth="1px"
                             borderRadius="md"
                             bg="white"
-                            shadow="md"
-                            borderColor="gray.200"
                         >
-                            <Flex direction="column">
-                                <Flex align="center" mb={2}>
-                                    <Text fontWeight="bold" mr={2}>{comment.memberNickname}</Text>
-                                    <Text fontSize="sm" color="gray.500">
-                                        작성일: {formatDateTime(comment.commentCreated)}
-                                        {comment.commentUpdated && (
-                                            <Text as="span" ml={2} fontSize="sm" color="gray.400">
-                                                (수정일: {formatDateTime(comment.commentUpdated)})
-                                            </Text>
-                                        )}
-                                    </Text>
-                                </Flex>
-                                <Text mb={2}>{comment.commentContent}</Text>
+                            <Flex justifyContent="space-between">
+                                <div className='cursor-pointer' onClick={() => navigate(`/article/read/${comment.articleId}`)}>
+                                    <Flex direction="column" mb={4}>
+                                        <Flex align="center" mb={2}>
+                                            <Heading className='cursor-pointer' fontSize="xl" mb={2} 
+                                                _hover={{
+                                                textDecoration: 'underline',
+                                                transform: 'scale(1.05)',
+                                                transition: 'transform 0.2s ease, text-decoration 0.2s ease',
+                                                color: 'blue.600'
+                                            }}
+                                            >
+                                            글제목: {comment.articleTitle}
+                                            </Heading>
+                                        </Flex>
+
+                                        <Text fontSize="sm" color="gray.600" mb={2}>
+                                            글번호: {comment.articleId}
+                                        </Text>
+                                        
+                                        {/*댓글 내용*/}
+                                        <Text 
+                                            mb={4} 
+                                            style={{ whiteSpace: 'pre-wrap' }} 
+                                            dangerouslySetInnerHTML={{ __html: formatContent(comment.commentContent) }}
+                                                sx={{
+                                                    '& a': {
+                                                    color: 'blue.500',
+                                                    textDecoration: 'underline',
+                                                    _hover: {
+                                                    color: 'blue.700'
+                                                    }
+                                                }
+                                            }}
+                                        />
+
+                                        <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
+                                            <Text>조회수: {comment.viewCount}</Text>
+                                        </Flex>
+                                    </Flex>
+                                </div>
+
+                                <div className='flex flex-col justify-between'>
+                                    <CloseButton className='ml-auto' onClick={() => handleClickDelete(comment.id)} />
+                                    <Text fontSize="sm" color="gray.500">작성일: {formatDateTime(comment.commentCreated)}</Text>
+                                </div>
                             </Flex>
                         </Box>
                     ))}
-                    {/* Pagination */}
-                    <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
+
+
+
+                    {/* Pagination Controls */}
+                    <Flex justifyContent="center" alignItems="center" mt={6} fontSize="lg">
                         <IconButton
                             aria-label="Previous Page"
                             icon={<ChevronLeftIcon />}
                             isDisabled={currentPage <= 1}
                             onClick={() => handlePageChange(currentPage - 1)}
                             mr={3}
-                            _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                            _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
+                            _hover={{ bg: 'teal.50', color: 'teal.600' }}
+                            _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
                         />
+
                         {[...Array(totalPages).keys()].map(page => (
                             <Button
                                 key={page + 1}
@@ -92,25 +196,48 @@ const MypageCommentComponent = () => {
                                 variant={currentPage === page + 1 ? 'solid' : 'outline'}
                                 colorScheme={currentPage === page + 1 ? 'teal' : 'gray'}
                                 onClick={() => handlePageChange(page + 1)}
-                                _hover={{ bg: 'teal.100', color: 'teal.700' }}
+                                _hover={{ bg: 'teal.50', color: 'teal.600' }}
                             >
                                 {page + 1}
                             </Button>
                         ))}
+
                         <IconButton
                             aria-label="Next Page"
                             icon={<ChevronRightIcon />}
                             isDisabled={currentPage >= totalPages}
                             onClick={() => handlePageChange(currentPage + 1)}
                             ml={3}
-                            _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                            _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
+                            _hover={{ bg: 'teal.50', color: 'teal.600' }}
+                            _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
                         />
                     </Flex>
                 </VStack>
             ) : (
-                <Text textAlign="center">No comments found.</Text>
+                <Text textAlign="center" color="gray.500">댓글을 찾을 수 없습니다.</Text>
             )}
+
+
+
+            {/* Confirmation Modal */}
+            <Modal isOpen={isOpen} onClose={() => onClose()}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Confirm Deletion</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Text>정말로 댓글을 삭제하시겠습니까?</Text>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button colorScheme="red" mr={3} onClick={confirmDelete}>
+                            네
+                        </Button>
+                        <Button variant="outline" onClick={onClose}>
+                            아니요
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </Box>
     );
 };

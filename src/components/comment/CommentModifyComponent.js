@@ -1,25 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Textarea,
-  Heading,
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogContent,
-  AlertDialogOverlay,
-  Text,
-  Flex,
-  Spacer,
-  useColorModeValue
-} from '@chakra-ui/react';
+import { Box,Button,FormControl,FormLabel,Textarea,Heading,
+        AlertDialog,AlertDialogBody,AlertDialogFooter,AlertDialogHeader,AlertDialogContent,AlertDialogOverlay,
+        Text,Flex,Spacer,useColorModeValue } from '@chakra-ui/react';
 import { getCommentById, putComment } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
+
+
 
 const CommentModifyComponent = () => {
   const { id } = useParams();
@@ -32,6 +19,8 @@ const CommentModifyComponent = () => {
   const navigate = useNavigate();
   const { isLogin } = useCustomToken();
   const bgColor = useColorModeValue('gray.50', 'gray.800'); // For background color
+
+
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -48,6 +37,8 @@ const CommentModifyComponent = () => {
     fetchComment();
   }, [id]);
 
+
+
   const handleUpdate = (e) => {
     e.preventDefault();
     setConfirmAction(() => () => {
@@ -56,6 +47,8 @@ const CommentModifyComponent = () => {
     });
     setIsDialogOpen(true);
   };
+
+
 
   const saveComment = async () => {
     try {
@@ -66,10 +59,14 @@ const CommentModifyComponent = () => {
     }
   };
 
+
+
   const formatDateTime = (dateTime) => {
     const date = new Date(dateTime);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   };
+
+
 
   useEffect(() => {
     if (!isLogin) {
@@ -82,6 +79,8 @@ const CommentModifyComponent = () => {
     return null;
   }
 
+
+
   return (
     <Box p={6} maxW="container.md" mx="auto" bg={bgColor} borderRadius="md" shadow="md">
       <Heading mb={6}>댓글 수정</Heading>
@@ -90,6 +89,7 @@ const CommentModifyComponent = () => {
         <Text fontSize="sm" color="gray.500">
           작성일: {formatDateTime(commentCreated)}
         </Text>
+
         {commentUpdated && (
           <Text fontSize="sm" color="gray.500">
             수정일: {formatDateTime(commentUpdated)}
@@ -106,6 +106,7 @@ const CommentModifyComponent = () => {
               onChange={(e) => setCommentContent(e.target.value)}
             />
           </FormControl>
+          
           <Flex align="center">
             <Button colorScheme="teal" type="submit">저장하기</Button>
             <Spacer />

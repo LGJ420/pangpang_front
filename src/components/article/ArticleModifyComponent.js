@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getOne, putOne } from "../../api/articleApi";
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Input,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
+import {Box,Button,Flex,Heading,Input,Text,Textarea} from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomToken from "../../hooks/useCustomToken";
 
@@ -18,7 +10,8 @@ const initState = {
   articleTitle: '',
   articleContent: '',
   articleCreated: null,
-  articleUpdated: null
+  articleUpdated: null,
+  memberNickname: ''
 };
 
 const ArticleModifyComponent = () => {
@@ -28,6 +21,7 @@ const ArticleModifyComponent = () => {
   const navigate = useNavigate();
   const [article, setArticle] = useState({ ...initState });
   const [loading, setLoading] = useState(false);
+
 
 
   useEffect(() => {
@@ -45,6 +39,8 @@ const ArticleModifyComponent = () => {
     }
   }, [id]);
 
+
+
   useEffect(() => {
     if (!isLogin) {
 
@@ -54,10 +50,14 @@ const ArticleModifyComponent = () => {
   }
   }, [])
 
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setArticle((prev) => ({ ...prev, [name]: value }));
   };
+
+
 
   const handleClickModify = async () => {
     console.log('Handle Click Modify - Article ID:', id);
@@ -73,6 +73,8 @@ const ArticleModifyComponent = () => {
     }
   };
 
+
+
   const handleCancel = () => {
     console.log("handleCancel called");
     moveToRead(id);
@@ -81,6 +83,8 @@ const ArticleModifyComponent = () => {
   if (!isLogin) {
     return null;
   }
+
+
 
   return (
     <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
@@ -95,13 +99,20 @@ const ArticleModifyComponent = () => {
         />
       </Heading>
 
+
+
       <Text fontSize="lg" color="gray.600" mb={2}>
-        작성자: {article.articleAuthor}
+        작성자: {article.memberNickname}
       </Text>
+
+
+
       <Text fontSize="sm" color="gray.500" mb={4}>
         작성일: {article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : 'N/A'}{" "}
-        {article.articleUpdated && `(수정일: ${new Date(article.articleUpdated).toLocaleDateString()})`}
+               {article.articleUpdated && `(수정일: ${new Date(article.articleUpdated).toLocaleDateString()})`}
       </Text>
+
+
 
       <Box bg="gray.50" p={4} borderRadius="md" mb={4}>
         <Textarea
@@ -115,6 +126,8 @@ const ArticleModifyComponent = () => {
           style={{whiteSpace: 'pre-wrap'}}
         />
       </Box>
+
+      
 
       <Flex justify="space-between">
         <Button colorScheme="teal" onClick={handleClickModify} isLoading={loading}>

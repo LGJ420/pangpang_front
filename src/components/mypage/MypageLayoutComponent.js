@@ -109,6 +109,10 @@ const MypageLayoutComponent = ({children}) => {
                         onClick={()=>navigate({pathname: `/manager/product`})}>
                             상품 관리
                         </li>
+                        <li className="text-xl my-7 cursor-pointer"
+                        onClick={()=>navigate({pathname: `/manager/article`})}>
+                            글 관리
+                        </li>
                     </ul>
                 </div>
                 <div className="w-4/5 p-5">
