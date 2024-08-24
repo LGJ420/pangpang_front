@@ -45,7 +45,7 @@ const MainNoticeListComponent = () => {
                     <div className="px-5">
 
                     <div className={`flex justify-between text-xl px-2 py-5 ${index === serverData.dtoList.length - 1 ? "" : "border-b"}`}>
-                        <div className="w-4/5 cursor-pointer rainbow-text whitespace-nowrap overflow-hidden text-ellipsis">
+                        <div className="w-4/5 cursor-pointer rainbow-text truncate">
                             {dto.noticeTitle}
                         </div>
                         <div>
