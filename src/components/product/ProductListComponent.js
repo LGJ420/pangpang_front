@@ -158,10 +158,12 @@ const ProductListComponent = () => {
           onChange={(e) => { setWord(e.target.value); }}
           onKeyDown={handleKeyDown}
           value={word} />
-        <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
-          icon={<SearchIcon />}
+
+        <IconButton height={12} width={14}
+          className='bg-[rgb(49,49,49)]'
+          aria-label='Search database'
           onClick={() => { moveToList({ search: word }); }}
-        />
+          icon={<SearchIcon className='text-white text-2xl'/>}/>
       </div>
 
       { !isLoading ?
@@ -227,9 +229,9 @@ const ProductListComponent = () => {
           {
           decodeToken.memberRole === 'Admin' &&
 
-          <button className="absolute -bottom-48 right-0 bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold"
+          <button className="absolute right-0 bg-[rgb(77,160,124)] text-white w-40 h-16 rounded-xl hover:opacity-80 font-bold"
             onClick={handleClickAdd}>
-            상품 추가하기
+            상품 추가
           </button>
           }
         
@@ -258,9 +260,9 @@ const ProductListComponent = () => {
         {
           decodeToken.memberRole === 'Admin' &&
 
-          <button className="absolute right-0 bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold"
+          <button className="absolute right-0 bg-[rgb(77,160,124)] text-white w-40 h-16 rounded-xl hover:opacity-80 font-bold"
             onClick={handleClickAdd}>
-            상품 추가하기
+            상품 추가
           </button>
         }
 

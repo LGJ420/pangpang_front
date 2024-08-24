@@ -56,14 +56,8 @@ const NoticeAddComponent = () => {
 
             <div className="text-2xl my-10 m-auto">
 
-                <div className="pt-4 flex flex-col">
+
                     <div>
-                        <span className="m-3 font-extrabold">
-                            작성자
-                        </span>
-                        <span className="px-3">
-                            {decodeToken.memberNickname}
-                        </span>
                         {   decodeToken.memberRole === "Admin" ?
 
                             <>
@@ -76,7 +70,7 @@ const NoticeAddComponent = () => {
                             </span>
                         }
                     </div>
-                </div>
+
 
                 <div className="my-10 flex flex-col">
                     <label
@@ -111,7 +105,7 @@ const NoticeAddComponent = () => {
 
                 <div className="flex justify-center">
                     <button
-                        className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80"
+                        className="w-52 h-16 text-3xl bg-[rgb(77,160,124)] text-white rounded-2xl hover:opacity-80"
                         onClick={handleClickSubmit}>
                         등록
                     </button>

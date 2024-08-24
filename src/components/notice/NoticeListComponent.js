@@ -1,4 +1,4 @@
-import { Select, Input, IconButton, Button, Spinner } from '@chakra-ui/react';
+import { Select, Input, IconButton, Button, Spinner, Flex, Box } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
 import useCustomToken from '../../hooks/useCustomToken';
 import { useEffect, useState } from 'react';
@@ -114,33 +114,33 @@ const NoticeListComponent = () => {
                                 value=""/>
 
                             <IconButton
-                                colorScheme='teal'
+                                className='bg-[rgb(49,49,49)]'
                                 aria-label='Search database'
-                                icon={<SearchIcon />}/>
+                                icon={<SearchIcon className='text-white text-2xl'/>}/>
                         </div>
 
                         <div className='h-[50rem]'>
                             <div className='w-[80rem] h-[4rem] text-xl m-auto grid grid-cols-12'>
                                 {/* 헤더 행 */}
-                                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>
+                                <div className='flex items-center justify-center col-span-1 bg-gray-100 font-bold'>
                                     글번호
                                 </div>
-                                <div className='flex items-center justify-center col-span-6 bg-[rgb(240,248,255)] font-bold'>
+                                <div className='flex items-center justify-center col-span-6 bg-gray-100 font-bold'>
                                     제목
                                 </div>
-                                <div className='flex items-center justify-center col-span-2 bg-[rgb(240,248,255)] font-bold'>
+                                <div className='flex items-center justify-center col-span-2 bg-gray-100 font-bold'>
                                     작성자
                                 </div>
-                                <div className='flex items-center justify-center col-span-2 bg-[rgb(240,248,255)] font-bold'>
+                                <div className='flex items-center justify-center col-span-2 bg-gray-100 font-bold'>
                                     등록일
                                 </div>
-                                <div className='flex items-center justify-center col-span-1 bg-[rgb(240,248,255)] font-bold'>
+                                <div className='flex items-center justify-center col-span-1 bg-gray-100 font-bold'>
                                     조회수
                                 </div>
                             </div>
                                 {/* 데이터 행 */}
                                 {serverData.dtoList.map((dto) => (
-                                <div className='w-[80rem] h-[4rem] text-xl m-auto grid grid-cols-12'>
+                                <div className='w-[80rem] h-[4rem] text-xl m-auto grid grid-cols-12 border-b'>
                                     <div className='flex items-center justify-center col-span-1'>
                                         {dto.id}
                                     </div>
@@ -161,49 +161,31 @@ const NoticeListComponent = () => {
                             ))}
                         </div>
 
+                            <div className='relative mt-10'>
+                                <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700">
+                                    {/* 이전 페이지 */}
+                                    {serverData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage })}>{'\u003c'}</Box> :
+                                    <></>}
 
-                        {/* 페이지네이션 */}
-                        <div className='flex justify-center items-center relative mt-16'>
-                            {/* 이전 페이지 */}
-                            <IconButton
-                                aria-label="Previous Page"
-                                icon={<ChevronLeftIcon />}
-                                isDisabled={!serverData.prev}
-                                mr={3}
-                                _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                                _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
-                            />
+                                    {/* 페이지 넘버 */}
+                                    {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
+                                    (<Box key={pageNum}
+                                        marginRight={7} cursor={"pointer"}
+                                        className={serverData.current === pageNum ? 'text-blue-600 border-b' : ''}
+                                        onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
 
-                            {/* 페이지 넘버 */}
-                            {serverData.pageNumList.map(pageNum => (
-                                <Button
-                                    key={pageNum}
-                                    mx={1}
-                                    size="sm"
-                                    variant={serverData.current === pageNum ? 'solid' : 'outline'}
-                                    colorScheme={serverData.current === pageNum ? 'teal' : 'gray'}
-                                    _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                                >
-                                    {pageNum}
-                                </Button>
-                            ))}
+                                    {/* 다음 페이지 */}
+                                    {serverData.next ? <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.nextPage })}>{'\u003e'}</Box> : <></>}
 
-                            {/* 다음 페이지 */}
-                            <IconButton
-                                aria-label="Next Page"
-                                icon={<ChevronRightIcon />}
-                                isDisabled={!serverData.next}
-                                ml={3}
-                                _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                                _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
-                            />
-                            {
-                            decodeToken.memberRole === 'Admin' &&
-                            <button className='absolute right-0 text-xl text-white rounded h-14 w-32 bg-pink-300 hover:opacity-80'
-                            onClick={handleClickAdd}>
-                                글쓰기
-                            </button>
-                            }
+                                    {
+                                    decodeToken.memberRole === 'Admin' &&
+                                    <button className='absolute right-0 text-2xl text-white rounded h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'
+                                    onClick={handleClickAdd}>
+                                        글쓰기
+                                    </button>
+                                    }
+                                </Flex>
+
                         </div>
 
                     </>
@@ -215,7 +197,7 @@ const NoticeListComponent = () => {
                         <div className="mt-10">현재 공지사항이 없습니다</div>
                         {
                         decodeToken.memberRole === 'Admin' &&
-                        <button className='absolute bottom-0 right-0 text-xl text-white rounded h-14 w-32 bg-pink-300 hover:opacity-80'
+                        <button className='absolute bottom-0 right-0 text-2xl text-white rounded h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'
                             onClick={handleClickAdd}>
                             글쓰기
                         </button>

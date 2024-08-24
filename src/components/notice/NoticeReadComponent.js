@@ -65,7 +65,7 @@ const NoticeReadComponent = ({id}) => {
                 </div>
                 <div className="h-32 flex items-center justify-between">
                     <textarea className="w-5/6 h-24 p-4 border"/>
-                    <button className="bg-blue-600 text-white hover:opacity-80 w-1/6 h-24 ml-5 rounded-2xl text-2xl">댓글 쓰기</button>
+                    <button className="bg-[rgb(224,26,109)] text-white hover:opacity-80 w-1/6 h-24 ml-5 rounded-2xl text-2xl">댓글 쓰기</button>
                 </div>
             </div>
             
