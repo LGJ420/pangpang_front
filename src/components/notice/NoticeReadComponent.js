@@ -41,9 +41,19 @@ const NoticeReadComponent = ({id}) => {
             <hr />
             <div className="text-xl">
                 <div className="bg-gray-100 px-5">
-                    <h3 className="text-4xl font-bold py-5">
-                        {serverData.noticeTitle}
-                    </h3>
+                    <div className="flex justify-between py-5 pr-3">
+                        <h3 className="text-4xl font-bold">
+                            {serverData.noticeTitle}
+                        </h3>
+                        <div>
+                            <button className="pr-3 border-r hover:opacity-40">
+                                수정
+                            </button>
+                            <button className="pl-3 hover:opacity-40">
+                                삭제
+                            </button>
+                        </div>
+                    </div>
                     <div className="pb-5 flex">
                         <div>작성자 : {serverData.memberNickname}</div>
                         <div className="px-2 ml-auto">조회수 : {serverData.noticeHit}</div>
@@ -55,17 +65,9 @@ const NoticeReadComponent = ({id}) => {
                 <p className="p-5 mb-32 rounded-xl">
                     {serverData.noticeContent}
                 </p>
-                <div className="flex justify-end pr-3">
-                    <button className="pr-3 border-r hover:opacity-40">
-                        수정
-                    </button>
-                    <button className="pl-3 hover:opacity-40">
-                        삭제
-                    </button>
-                </div>
                 <div className="h-32 flex items-center justify-between">
                     <textarea className="w-5/6 h-24 p-4 border"/>
-                    <button className="bg-[rgb(224,26,109)] text-white hover:opacity-80 w-1/6 h-24 ml-5 rounded-2xl text-2xl">댓글 쓰기</button>
+                    <button className="bg-[rgb(224,26,109)] text-white hover:opacity-80 w-1/6 h-24 ml-5 text-2xl">댓글 쓰기</button>
                 </div>
             </div>
             

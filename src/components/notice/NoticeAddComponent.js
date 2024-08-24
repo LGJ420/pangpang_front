@@ -52,7 +52,7 @@ const NoticeAddComponent = () => {
     return (
 
         <section className='pt-10 pl-10 pb-10 pr-3 mb-5'>
-            <h1 className="text-5xl mr-auto">공지사항 추가</h1>
+            <h1 className="text-5xl mr-auto">공지사항</h1>
 
             <div className="text-2xl my-10 m-auto">
 
