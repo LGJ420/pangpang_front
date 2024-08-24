@@ -101,7 +101,7 @@ const MainProductList = () => {
     <>
       { isLoading ?
 
-      <div className="flex flex-col items-center justify-center text-2xl font-semibold border-3 border-stone-900/30 rounded-md h-full">
+      <div className="flex flex-col items-center justify-center h-full">
         <Spinner
           thickness='4px'
           speed='0.65s'
@@ -114,46 +114,32 @@ const MainProductList = () => {
       :
       
       serverData.length > 0 ? (
-        <SimpleGrid columns={3} spacing={5}>
-          {serverData.map(product => (
-            <Card maxW='sm' className="text-center border-3 border-stone-900/30" key={product.id}>
-              <CardBody className="flex flex-col justify-between overflow-hidden">
+        <SimpleGrid columns={3} height='100%'>
+          {serverData.map((product, index) => (
+            <div className={`border h-full p-4 ml-4 ${index === serverData.length - 1 ? "mr-4" : ""}`} key={product.id}>
+              <div className="flex flex-col justify-between overflow-hidden">
                 <div className="relative hover:scale-125 duration-300 cursor-pointer">
                   <Image
                     onClick={() => navigate({ pathname: `product/read/${product.id}` })}
                     src={images[product.id] || '/images/chi1.jpg'}
                     alt={product.productTitle}
-                    className='mx-auto h-40 object-contain'
+                    className='mx-auto h-[10rem] object-contain'
                   />
                 </div>
-                <Stack mt='7' className="border-b border-gray-300 z-10 bg-white">
-                  <Heading size='md' fontSize="1.1rem">
-                    {product.productTitle.length > 8
-                      ? product.productTitle.substring(0, 8) + '...'
-                      : product.productTitle}
-                  </Heading>
-                  <Text fontSize='20px'>{product.productPrice.toLocaleString()}원</Text>
+                <Stack mt='7' className="border-gray-300 z-10 bg-white">
+                  <div className="whitespace-nowrap overflow-hidden text-ellipsis ">
+                    {product.productTitle}
+                  </div>
+                  <div className="text-2xl">
+                    {product.productPrice.toLocaleString()}원
+                  </div>
                 </Stack>
-                <ButtonGroup spacing='5' className='mx-auto mt-3'>
-                  <button
-                    className="text-xl font-extrabold hover:opacity-70 bg-stone-700 rounded-lg w-14 h-12"
-                    onClick={() => handleClickBuy(product)}
-                  >
-                    <img src="/images/credit-card-regular.svg" className="w-8 h-8 mx-auto" />
-                  </button>
-                  <button
-                    className="text-xl border hover:opacity-70 border-stone-700 rounded-lg w-14 h-12"
-                    onClick={() => handleClickCart(product)}
-                  >
-                    <img src="/images/cart-shopping-solid.svg" className="w-8 h-8 mx-auto" />
-                  </button>
-                </ButtonGroup>
-              </CardBody>
-            </Card>
+              </div>
+            </div>
           ))}
         </SimpleGrid>
       ) : (
-        <div className="flex flex-col items-center justify-center text-2xl font-semibold border-3 border-stone-900/30 rounded-md h-full">
+        <div className="flex flex-col items-center justify-center text-2xl font-semibold border border-stone-900/30 h-full">
           <img src="/images/product_none.png" className="w-60" />
           <div>지금은 상품 준비중입니다</div>
         </div>

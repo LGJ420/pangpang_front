@@ -19,8 +19,11 @@ const MainNoticeListComponent = () => {
 
     return (
         
-        <div className="p-10 border-3 border-stone-900/30 rounded-md h-[50rem]">
+        <div className="px-7 border h-[50rem]">
 
+            <div className="pt-7 text-3xl font-bold mb-5">
+                공지사항
+            </div>
             { isLoading ?
 
             <div className="h-full flex items-center justify-center">
@@ -37,12 +40,15 @@ const MainNoticeListComponent = () => {
 
                 serverData ?
                 
-                serverData.dtoList.map((dto)=>
+                serverData.dtoList.map((dto, index)=>
 
-                    <div className="text-xl py-5 border-b">
-                        <span className="cursor-pointer rainbow-text">
+                    <div className={`flex justify-between text-xl px-2 py-5 ${index === serverData.dtoList.length - 1 ? "" : "border-b"}`}>
+                        <div className="w-4/5 cursor-pointer rainbow-text whitespace-nowrap overflow-hidden text-ellipsis">
                             {dto.noticeTitle}
-                        </span>
+                        </div>
+                        <div>
+                            {dto.noticeCreated.substring(0,10)}
+                        </div>    
                     </div>
 
                 )
