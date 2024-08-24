@@ -287,7 +287,7 @@ const CratListComponent = () => {
                 <div className="mx-10 font-semibold text-3xl">
                     결제금액 : {totalAmount.toLocaleString()}원
                 </div>
-                <button className="bg-[rgb(224,26,109)] text-white px-10 h-full text-3xl font-bold hover:bg-neutral-700"
+                <button className="bg-[rgb(224,26,109)] text-white px-10 h-full text-3xl font-bold hover:bg-indigo-500"
                     onClick={handleClickAllOrder}>
                     결제하러 가기
                 </button>
