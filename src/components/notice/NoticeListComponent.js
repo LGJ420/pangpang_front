@@ -171,7 +171,7 @@ const NoticeListComponent = () => {
                                     {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
                                     (<Box key={pageNum}
                                         marginRight={7} cursor={"pointer"}
-                                        className={serverData.current === pageNum ? 'text-blue-600 border-b' : ''}
+                                        className={serverData.current === pageNum ? 'text-[rgb(224,26,109)] border-b' : ''}
                                         onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
 
                                     {/* 다음 페이지 */}
@@ -179,7 +179,7 @@ const NoticeListComponent = () => {
 
                                     {
                                     decodeToken.memberRole === 'Admin' &&
-                                    <button className='absolute right-0 text-2xl text-white rounded h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'
+                                    <button className='absolute right-0 text-2xl text-white h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'
                                     onClick={handleClickAdd}>
                                         글쓰기
                                     </button>

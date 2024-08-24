@@ -213,7 +213,7 @@ const ProductDetailComponent = ({ num }) => {
       <h4 className="bg-red-50 p-3 text-center">
         판매자가 타 사이트 안내 및 현금 결제, 개인정보 유도 시 결제/입력 마시고 즉시 고객센터로 신고해주세요.
       </h4>
-      <div className="border">
+      <div className="border mb-10">
 
 
         <div className="flex text-center text-xl">

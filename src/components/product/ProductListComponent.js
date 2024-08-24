@@ -183,8 +183,8 @@ const ProductListComponent = () => {
       
         <SimpleGrid columns={ 4 } spacing={10}>
           {serverData.dtoList.map(product =>
-            <Card key={product.id} className="border">
-              <CardBody className="flex flex-col justify-between overflow-hidden">
+            <div key={product.id} className="border p-5">
+              <div className="flex flex-col justify-between overflow-hidden">
                 <div className="relative hover:scale-125 duration-300 cursor-pointer"
                   onClick={() => moveToRead(product.id)}>
                   <Image
@@ -193,30 +193,14 @@ const ProductListComponent = () => {
                     borderRadius='lg'
                     className='mx-auto h-52 object-contain' />
                 </div>
-                <div className="py-5 pb-3 text-xl z-10 bg-white">
+                <div className="py-5 pb-3 text-xl z-10 bg-white whitespace-nowrap overflow-hidden text-ellipsis">
                   {product.productTitle}
                 </div>
-                <Text fontSize='2xl' className="text-3xl font-bold">
+                <div className="text-3xl font-bold">
                   {product.productPrice.toLocaleString()}원
-                </Text>
-              </CardBody> 
-              {/* <Divider borderColor='gray.400' /> */}
-
-              {/* <CardFooter>
-                <ButtonGroup className="w-full flex justify-between">
-
-                    <button className="text-white bg-[rgb(0,0,150)] text-xl font-extrabold hover:opacity-70 w-32 h-16"
-                      onClick={()=>{handleClickBuy(product)}}>
-                      구매하기
-                    </button>
-                    <button className="text-[rgb(0,0,139)] border-[rgb(0,0,139)] text-xl border hover:opacity-70 w-32"
-                      onClick={() => { handleClickCart(product) }}>
-                      장바구니
-                    </button>
-
-                </ButtonGroup>
-              </CardFooter> */}
-            </Card>
+                </div>
+              </div> 
+            </div>
           )}
         </SimpleGrid>
         :
@@ -229,7 +213,7 @@ const ProductListComponent = () => {
           {
           decodeToken.memberRole === 'Admin' &&
 
-          <button className="absolute right-0 bg-[rgb(77,160,124)] text-white w-40 h-16 rounded-xl hover:opacity-80 font-bold"
+          <button className="absolute right-0 bg-[rgb(77,160,124)] text-white w-40 h-16 hover:opacity-80 font-bold"
             onClick={handleClickAdd}>
             상품 추가
           </button>
@@ -251,7 +235,7 @@ const ProductListComponent = () => {
         {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
           (<Box key={pageNum}
             marginRight={7} cursor={"pointer"}
-            className={serverData.current === pageNum ? 'text-blue-600 border-b' : ''}
+            className={serverData.current === pageNum ? 'text-[rgb(224,26,109)] border-b' : ''}
             onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
 
         {/* 다음 페이지 */}
@@ -260,7 +244,7 @@ const ProductListComponent = () => {
         {
           decodeToken.memberRole === 'Admin' &&
 
-          <button className="absolute right-0 bg-[rgb(77,160,124)] text-white w-40 h-16 rounded-xl hover:opacity-80 font-bold"
+          <button className="absolute right-0 bg-[rgb(77,160,124)] text-white w-40 h-16 hover:opacity-80 font-bold"
             onClick={handleClickAdd}>
             상품 추가
           </button>
