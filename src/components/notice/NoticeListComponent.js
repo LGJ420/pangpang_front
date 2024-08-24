@@ -44,7 +44,7 @@ const NoticeListComponent = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const { decodeToken } = useCustomToken();
-    const [serverData, setServerData] = useState();
+    const [serverData, setServerData] = useState(initState);
 
 
 
@@ -95,9 +95,10 @@ const NoticeListComponent = () => {
 
                 :
 
-                    serverData ?
+                    serverData.dtoList[0].id !== 0 ?
 
                     <>
+                    {console.log(serverData)}
                         <div className='flex justify-center text-xl mt-10 mb-5'>
                             <Select 
                                 placeholder='검색기준' 
@@ -196,20 +197,29 @@ const NoticeListComponent = () => {
                                 _hover={{ bg: 'teal.100', color: 'teal.700' }}
                                 _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
                             />
-
+                            {
+                            decodeToken.memberRole === 'Admin' &&
                             <button className='absolute right-0 text-xl text-white rounded h-14 w-32 bg-orange-500 hover:opacity-80'
-                                onClick={handleClickAdd}>
+                            onClick={handleClickAdd}>
                                 글쓰기
                             </button>
+                            }
                         </div>
 
                     </>
 
                     :
 
-                    <div className="flex flex-col items-center justify-center text-2xl font-semibold h-[45rem]">
+                    <div className="relative flex flex-col items-center justify-center text-2xl font-semibold h-[45rem]">
                         <img src="/images/no_notice.png" className="w-60" />
                         <div className="mt-10">현재 공지사항이 없습니다</div>
+                        {
+                        decodeToken.memberRole === 'Admin' &&
+                        <button className='absolute bottom-0 right-0 text-xl text-white rounded h-14 w-32 bg-orange-500 hover:opacity-80'
+                            onClick={handleClickAdd}>
+                            글쓰기
+                        </button>
+                        }
                     </div>
             }
 

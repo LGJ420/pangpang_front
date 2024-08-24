@@ -218,11 +218,22 @@ const ProductListComponent = () => {
           )}
         </SimpleGrid>
         :
-        <div className="p-4 flex flex-col items-center justify-center text-2xl font-semibold">
+        <div className="relative p-4 flex flex-col items-center justify-center text-2xl font-semibold">
           <img src="/images/product_none.png"/>
           <div>
             지금은 상품 준비중입니다
           </div>
+
+          {
+          decodeToken.memberRole === 'Admin' &&
+
+          <button className="absolute -bottom-48 right-0 bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold"
+            onClick={handleClickAdd}>
+            상품 추가하기
+          </button>
+          }
+        
+
         </div>
       }
 
