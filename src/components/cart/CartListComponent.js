@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteCartOne, getCartList, putCartOne } from "../../api/cartApi";
 import useCustomToken from "../../hooks/useCustomToken";
-import { Spinner } from "@chakra-ui/react";
+import { CloseButton, Spinner } from "@chakra-ui/react";
 
 // const initState = [{
 //     productId: 0,
@@ -178,7 +178,7 @@ const CratListComponent = () => {
                         className="sr-only peer"
                         checked={selectAll}
                         onChange={(e)=>handleClickAllCheck(e.target.checked)} />
-                    <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-blue-500 peer-focus:ring peer-focus:ring-blbg-blue-500 peer-focus:ring-opacity-50"></div>
+                    <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-[rgb(224,26,109)] peer-focus:ring peer-focus:ring-[rgb(224,26,109)] peer-focus:ring-opacity-50"></div>
                     <svg className="hidden w-10 h-10 text-white pointer-events-none absolute top-0.5 left-0.5 peer-checked:block" fill="none" viewBox="0 0 80 80" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
                     </svg>
@@ -216,7 +216,7 @@ const CratListComponent = () => {
                                 className="sr-only peer"
                                 checked={data.checked}
                                 onChange={()=>handleClickCheck(data.productId)} />
-                            <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-blue-500 peer-focus:ring peer-focus:ring-blbg-blue-500 peer-focus:ring-opacity-50"></div>
+                            <div className="w-10 h-10 bg-white cursor-pointer border-2 border-gray-300 rounded peer-checked:bg-[rgb(224,26,109)] peer-focus:ring peer-focus:ring-[rgb(224,26,109)] peer-focus:ring-opacity-50"></div>
                             <svg className="hidden w-10 h-10 text-white pointer-events-none absolute top-0.5 left-0.5 peer-checked:block" fill="none" viewBox="0 0 80 80" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" d="M22,35 l10,10 l20,-20" />
                             </svg>
@@ -232,14 +232,17 @@ const CratListComponent = () => {
                             <p className="mt-3">{data.productContent}</p>
                         </div>
                         <div className="text-center text-2xl w-40">
-                            <h3>수량</h3>
-                            <div className="flex justify-between items-center">
-                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30"
+                            <h3 className="mb-3">수량</h3>
+                            <div className="flex justify-between items-center border-3">
+                                
+
+                                
+                                <button className="w-10 h-10 text-sm font-semibold hover:opacity-30"
                                     onClick={()=>handleClickAmount(data.productId, -1)}>
-                                    -
+                                    ㅡ
                                 </button>
-                                <div className="mx-2">{data.cartCount}개</div>
-                                <button className="w-10 h-10 pb-3 border-3 rounded-xl hover:opacity-30"
+                                <div className="mx-2 font-bold">{data.cartCount}</div>
+                                <button className="w-10 h-10 hover:opacity-30"
                                     onClick={()=>handleClickAmount(data.productId, 1)}>
                                     +
                                 </button>
@@ -249,14 +252,11 @@ const CratListComponent = () => {
                             {(data.productPrice * data.cartCount).toLocaleString()}원
                         </div>
                         <div className="flex flex-col">
-                            <button className="bg-blue-500 text-white w-32 h-10 m-1"
+                            {/* <button className="bg-[rgb(224,26,109)] text-white w-32 h-10 m-1"
                                 onClick={()=>{handleClickOrder(data)}}>
                                 이 상품 주문
-                            </button>
-                            <button className="bg-rose-600 text-white w-32 h-10 m-1"
-                                onClick={()=>{handleClickDelete(data)}}>
-                                이 상품 제거
-                            </button>
+                            </button> */}
+                            <CloseButton className="mb-28" onClick={()=>{handleClickDelete(data)}}/>
                         </div>
                     </div>
 
@@ -279,15 +279,15 @@ const CratListComponent = () => {
         
         { serverData.length > 0 ?
 
-        <section className="bg-blue-600 fixed bottom-0 w-screen h-20">
-            <div className="max-w-[1350px] m-auto h-full flex items-center justify-end text-white">
-                <div className="font-semibold text-2xl">
+        <section className="border-t bg-white fixed bottom-0 w-screen h-20">
+            <div className="max-w-[1350px] m-auto h-full flex items-center justify-end text-[rgb(224,26,109)]">
+                <div className="font-semibold text-3xl">
                     총 {orderList.length}건
                 </div>
                 <div className="mx-10 font-semibold text-3xl">
                     결제금액 : {totalAmount.toLocaleString()}원
                 </div>
-                <button className="bg-slate-950 px-10 h-full text-xl hover:bg-neutral-700"
+                <button className="bg-[rgb(224,26,109)] text-white px-10 h-full text-3xl font-bold hover:bg-neutral-700"
                     onClick={handleClickAllOrder}>
                     결제하러 가기
                 </button>
