@@ -44,7 +44,7 @@ const NoticeListComponent = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const { decodeToken } = useCustomToken();
-    const [serverData, setServerData] = useState(initState);
+    const [serverData, setServerData] = useState();
 
 
 
@@ -95,7 +95,7 @@ const NoticeListComponent = () => {
 
                 :
 
-                    serverData.dtoList[0].id !== 0 ?
+                    serverData.dtoList.length > 0 ?
 
                     <>
                     {console.log(serverData)}
@@ -199,7 +199,7 @@ const NoticeListComponent = () => {
                             />
                             {
                             decodeToken.memberRole === 'Admin' &&
-                            <button className='absolute right-0 text-xl text-white rounded h-14 w-32 bg-orange-500 hover:opacity-80'
+                            <button className='absolute right-0 text-xl text-white rounded h-14 w-32 bg-pink-300 hover:opacity-80'
                             onClick={handleClickAdd}>
                                 글쓰기
                             </button>
@@ -215,7 +215,7 @@ const NoticeListComponent = () => {
                         <div className="mt-10">현재 공지사항이 없습니다</div>
                         {
                         decodeToken.memberRole === 'Admin' &&
-                        <button className='absolute bottom-0 right-0 text-xl text-white rounded h-14 w-32 bg-orange-500 hover:opacity-80'
+                        <button className='absolute bottom-0 right-0 text-xl text-white rounded h-14 w-32 bg-pink-300 hover:opacity-80'
                             onClick={handleClickAdd}>
                             글쓰기
                         </button>

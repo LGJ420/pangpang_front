@@ -153,7 +153,7 @@ const ProductListComponent = () => {
     <section>
 
       <div className="flex flex-row border-b pt-10 pl-10 pb-10 pr-3 mb-5">
-        <h1 className="text-5xl mr-auto">쇼핑 페이지</h1>
+        <h1 className="text-5xl mr-auto">쇼핑</h1>
         <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
           onChange={(e) => { setWord(e.target.value); }}
           onKeyDown={handleKeyDown}
@@ -191,29 +191,29 @@ const ProductListComponent = () => {
                     borderRadius='lg'
                     className='mx-auto h-52 object-contain' />
                 </div>
-                <Heading size='md' fontSize="2xl" className="py-3 text-center z-10 bg-white">
+                <div className="py-5 pb-3 text-xl z-10 bg-white">
                   {product.productTitle}
-                </Heading>
-                <Text fontSize='2xl' className="text-center">
+                </div>
+                <Text fontSize='2xl' className="text-3xl font-bold">
                   {product.productPrice.toLocaleString()}원
                 </Text>
               </CardBody> 
-              <Divider borderColor='gray.400' />
+              {/* <Divider borderColor='gray.400' /> */}
 
-              <CardFooter>
+              {/* <CardFooter>
                 <ButtonGroup className="w-full flex justify-between">
 
-                    <button className="text-white bg-[rgb(68,107,216)] text-lg font-extrabold hover:opacity-70 rounded-lg w-32 h-16"
+                    <button className="text-white bg-[rgb(0,0,150)] text-xl font-extrabold hover:opacity-70 w-32 h-16"
                       onClick={()=>{handleClickBuy(product)}}>
                       구매하기
                     </button>
-                    <button className="text-[rgb(68,107,216)] border-[rgb(68,107,216)] text-lg border hover:opacity-70 rounded-lg w-32"
+                    <button className="text-[rgb(0,0,139)] border-[rgb(0,0,139)] text-xl border hover:opacity-70 w-32"
                       onClick={() => { handleClickCart(product) }}>
-                      장바구니 담기
+                      장바구니
                     </button>
 
                 </ButtonGroup>
-              </CardFooter>
+              </CardFooter> */}
             </Card>
           )}
         </SimpleGrid>
