@@ -66,7 +66,14 @@ const ProductDetailComponent = ({ num }) => {
   }, [num]);
 
   // 상품 삭제
-  const handleDeleteProduct = async () => {
+  const handleClickDelete = async () => {
+
+    // 여유가 되면 모달창을 제작해서 바꿀예정
+    // eslint-disable-next-line no-restricted-globals
+    const ifDel = confirm("정말로 삭제하시겠습니까?");
+
+    if (ifDel) {
+
     try {
       // 상품 삭제 요청
       const response = await deleteProduct(num);
@@ -76,6 +83,8 @@ const ProductDetailComponent = ({ num }) => {
       } catch (error) {
       console.error('삭제 오류:', error);
       alert(`상품 삭제에 실패했습니다: ${error.message}`);
+    }
+
     }
   }
 
@@ -144,7 +153,10 @@ const ProductDetailComponent = ({ num }) => {
   return (
     <section>
       <div className="flex p-10 mb-10 border-b justify-between">
-        <h1 className="text-5xl ">쇼핑</h1>
+        <h1 className="text-5xl cursor-pointer"
+          onClick={()=>navigate(`/product`)}>
+          쇼핑
+        </h1>
 
         {
           decodeToken.memberRole === 'Admin' &&
@@ -155,7 +167,7 @@ const ProductDetailComponent = ({ num }) => {
             </button>
 
             <button className="border border-[rgb(166,23,45)] text-[rgb(166,23,45)] w-20 h-16 hover:opacity-80 font-bold text-xl"
-              onClick={handleDeleteProduct}>
+              onClick={handleClickDelete}>
               삭제
             </button>
           </div>
