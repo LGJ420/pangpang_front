@@ -212,17 +212,6 @@ const ProductListComponent = () => {
           <div>
             지금은 상품 준비중입니다
           </div>
-
-          {
-          decodeToken.memberRole === 'Admin' &&
-
-          <button className="absolute right-0 bg-[rgb(77,160,124)] text-white w-40 h-16 hover:opacity-80 font-bold"
-            onClick={handleClickAdd}>
-            상품 추가
-          </button>
-          }
-        
-
         </div>
       }
 
