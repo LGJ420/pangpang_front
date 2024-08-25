@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useCustomToken from "../../hooks/useCustomToken";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import MypageTitleComponent from '../common/MypageTitleComponent';
 
 const MemberConfirmBeforeProfileComponent = () => {
 
@@ -97,7 +98,9 @@ const MemberConfirmBeforeProfileComponent = () => {
 
     return(
         <section className='text-xl'>
-            <h3 className='text-xl font-bold'>내 정보 수정</h3>
+            <MypageTitleComponent>
+                내 정보 변경
+            </MypageTitleComponent>
             <div className='flex flex-col items-center'>
                 <p className='my-16 font-semibold'>회원님의 개인정보 보호를 위해 본인확인을 진행합니다.</p>
                 <p className='mb-5'>비밀번호를 입력해주세요.</p>

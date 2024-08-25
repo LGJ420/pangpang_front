@@ -8,6 +8,7 @@ import { getList } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
 import { SearchIcon } from "@chakra-ui/icons";
+import SearchBarComponent from "../common/SearchBarComponent";
 
 /* 초기값 설정 */
 const initState = {
@@ -134,11 +135,15 @@ const ProductListComponent = () => {
   }
 
 
-  /* 검색 인풋창 엔터키만 눌러도 검색 */
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      moveToList({ search: word });
-    }
+  const handleChangeSearch = (e) => {
+
+    setWord(e.target.value);
+  }
+
+
+  const handleClickSearch = () => {
+
+    moveToList({ search: word });
   }
 
 
@@ -152,21 +157,14 @@ const ProductListComponent = () => {
   return (
     <section>
 
-      <div className="flex flex-row border-b pt-10 pl-10 pb-10 pr-3 mb-5">
-        <h1 className="text-5xl mr-auto cursor-pointer"
+      <div className="flex items-center border-b pt-10 pl-10 pb-10 pr-3 mb-5">
+        <h1 className="text-5xl mr-auto cursor-pointer w-52"
           onClick={()=>navigate(`/product`)}>
           쇼핑
         </h1>
-        <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
-          onChange={(e) => { setWord(e.target.value); }}
-          onKeyDown={handleKeyDown}
-          value={word} />
 
-        <IconButton height={12} width={14}
-          className='bg-[rgb(49,49,49)]'
-          aria-label='Search database'
-          onClick={() => { moveToList({ search: word }); }}
-          icon={<SearchIcon className='text-white text-2xl'/>}/>
+        <SearchBarComponent width="70%" changeFn={handleChangeSearch} clickFn={handleClickSearch}/>
+
       </div>
 
       { !isLoading ?

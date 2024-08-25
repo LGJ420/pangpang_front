@@ -4,6 +4,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { deleteComment, getMyComments } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
 import { useNavigate } from 'react-router-dom';
+import MypageTitleComponent from '../common/MypageTitleComponent';
 
 
 
@@ -104,14 +105,14 @@ const MypageCommentComponent = () => {
 
 
     return (
-        <Box p={4} maxW="1200px" mx="auto">
-            <Heading as="h3" size="lg" mb={6}>
+        <section>
+            <MypageTitleComponent>
                 내가 쓴 댓글
-            </Heading>
+            </MypageTitleComponent>
 
-            <Text mb={4} fontSize="md" color="gray.600">
+            <h3 className="text-xl my-5 ml-4">
                 총 댓글 개수: {totalCount}
-            </Text>
+            </h3>
 
             {comments.length > 0 ? (
                 <VStack spacing={6} align="stretch">
@@ -238,7 +239,7 @@ const MypageCommentComponent = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </Box>
+        </section>
     );
 };
 

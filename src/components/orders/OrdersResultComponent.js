@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { getOrdersList } from "../../api/ordersApi";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
+import MypageTitleComponent from "../common/MypageTitleComponent";
+import SearchBarComponent from "../common/SearchBarComponent";
 
 // const initData = [{
 //     name: "",
@@ -47,16 +49,10 @@ const OrdersResultComponent = () => {
         setWord(e.target.value);
     }
 
+    const handleClickSearch = () => {
 
-    /* 검색 인풋창 엔터키만 눌러도 검색 */
-    const handleKeyDown = (e) => {
-
-        if (e.key === "Enter") {
-
-            handleClickSearch();
-        }
+        setRefresh(!refresh);
     }
-
 
     const handleClickTitle = (id) => {
 
@@ -67,12 +63,6 @@ const OrdersResultComponent = () => {
     const handleClickReview = (dto) => {
 
         navigate(`/review/add`, {state: {dto}});
-    }
-
-
-    const handleClickSearch = () => {
-
-        setRefresh(!refresh);
     }
 
 
@@ -168,18 +158,10 @@ const OrdersResultComponent = () => {
 
 
             <div className="flex justify-between items-center pb-5">
-                <h1 className="text-4xl font-bold">구매내역</h1>
-                <div className="flex h-10 justify-around border-2 w-1/3 overflow-hidden focus-within:border-blue-500 focus-within:shadow-outline">
-                    <input className="px-4 py-2 w-11/12 focus:outline-none" type="text" placeholder="검색"
-                        onChange={(e)=>handleChangeSearch(e)}
-                        onKeyDown={handleKeyDown} />
-                    <button className="flex items-center justify-center px-4 border-l"
-                        onClick={handleClickSearch}>
-                        <svg className="w-6 h-6 text-gray-600" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </button>
-                </div>
+                <MypageTitleComponent>구매내역</MypageTitleComponent>
+                <SearchBarComponent
+                    width="40%"
+                    changeFn={handleChangeSearch} clickFn={handleClickSearch}/>
             </div>
     
 
@@ -226,8 +208,8 @@ const OrdersResultComponent = () => {
                     <div className="text-2xl w-1/6 text-center">
                         {(dto.cartCount * dto.productPrice).toLocaleString()} 원
                     </div>
-                    <div className="w-1/7 flex flex-col justify-center items-center">
-                        <div className="w-[7rem] text-center text-2xl">
+                    <div className="w-1/6 flex flex-col justify-center items-center">
+                        <div className="text-center text-2xl">
                             주문완료
                         </div>
                         {!dto.reviewExist && 

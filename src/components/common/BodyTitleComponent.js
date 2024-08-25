@@ -11,16 +11,16 @@ const BodyTitleComponent = ({title, path}) => {
 
 
     return (
-        <section>
-            <h1 className="pt-10 pl-7 mb-10 w-96 text-5xl cursor-pointer"
-                onClick={()=>{
-                    if(path){
-                        handleClickTitle();
-                    }
-                }}>
-                {title}
-            </h1>
-        </section>
+
+        <h1 className="pt-10 pl-7 mb-10 w-96 text-5xl cursor-pointer"
+            onClick={()=>{
+                if(path){
+                    handleClickTitle();
+                }
+            }}>
+            {title}
+        </h1>
+
     );
 
 }
