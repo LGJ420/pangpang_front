@@ -1,5 +1,3 @@
-import BasicLayout from "../../layouts/BasicLayout";
-
 import {
     Accordion,
     AccordionItem,
