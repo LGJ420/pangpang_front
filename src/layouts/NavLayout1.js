@@ -85,7 +85,7 @@ const NavLayout1 = () => {
                         <li>
                             <Link to={'/mypage'} className="px-3 flex items-center">
                                 <img src={imageUrl} className="object-cover w-12 h-12 rounded-full border mr-1"/>
-                                {decodeToken.memberNickname}님, 환영합니다!
+                                <span className="font-extrabold">{decodeToken.memberNickname}</span>님, 환영합니다!
                             </Link>
                         </li>
                         <li className="border-l border-l-black">

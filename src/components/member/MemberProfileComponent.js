@@ -311,36 +311,34 @@ const MemberProfileComponent = () => {
                             프로필 사진
                         </span>
                         <div className="ml-4 flex flex-col items-end">
-                            <div>
-                                {/* 기정 여기야 여기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                ☆★☆★☆★☆ㅁ87ㅁ8ㅁ87ㅁ878
-                                ☆ㅁ8☆ㅁ8ㅁ78ㅁ78ㅁ
-                                ☆8☆8☆8 */}
+                            <div className="flex flex-col items-center">
+                                <img 
+                                    className="border w-48 h-48 object-cover rounded-full"
+                                    src={profileImage}/>
                                 <input 
-                                type="file" 
-                                id="file" 
-                                name="file"
-                                className="hidden"
-                                onChange={saveFile} /> 
-                                <button fortype="submit" 
-                                className="w-24 h-6 mt-1 bg-slate-400 text-white rounded hover:opacity-80 text-sm"
-                                onClick={()=>{
-                                    document.getElementById('file').click();
-                                }}>
-                                    사진 등록하기
-                                </button>
-                                <button 
-                                className="w-24 h-6 mt-1 bg-red-400 text-white rounded hover:opacity-80 text-sm"
-                                onClick={deleteImage}>사진 삭제하기</button>
-                                {/* 기정 여기야 여기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                ☆★☆★☆★☆ㅁ87ㅁ8ㅁ87ㅁ878
-                                ☆ㅁ8☆ㅁ8ㅁ78ㅁ78ㅁ
-                                ☆8☆8☆8 */}
+                                    type="file" 
+                                    id="file" 
+                                    name="file"
+                                    className="hidden"
+                                    onChange={saveFile} /> 
+                                    <div className="flex justify-center mt-3">
+                                        <button fortype="submit" 
+                                            className="w-24 h-8 mr-3 bg-slate-400 text-white rounded hover:opacity-80"
+                                            onClick={()=>{
+                                                document.getElementById('file').click();
+                                            }}>
+                                            등록하기
+                                        </button>
+                                        <button 
+                                            className="w-24 h-8 bg-red-400 text-white rounded hover:opacity-80"
+                                            onClick={deleteImage}>
+                                            삭제하기
+                                        </button>
+                                    </div>
+                                
                             </div> 
                         </div>
-                        <img 
-                            className="ml-7 border w-32 h-32 object-cover"
-                            src={profileImage}/>
+                        
                     </div>
                     <div className="my-10">
                         <span className="w-32 inline-block">
@@ -452,7 +450,7 @@ const MemberProfileComponent = () => {
                     </div>
                     <div className="flex justify-center mt-10">
                         <button
-                            className="text-white bg-[rgb(68,107,216)] text-lg font-extrabold hover:opacity-70 rounded-lg w-28 h-12"
+                            className="text-white bg-[rgb(224,26,109)] text-xl font-extrabold hover:opacity-70 w-28 h-12"
                             onClick={clickModify}>
                             수정하기
                         </button>

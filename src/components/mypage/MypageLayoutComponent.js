@@ -6,6 +6,7 @@ import axios from 'axios';
 const MypageLayoutComponent = ({children}) => {
 
     const {isLogin, decodeToken} = useCustomToken();
+    const [currentPath, setCurrentPath] = useState();
 
     const navigate = useNavigate();
 
@@ -52,6 +53,16 @@ const MypageLayoutComponent = ({children}) => {
         }
     },[isLogin, decodeToken]);
 
+
+    const handleClickTab = (path) => {
+
+        navigate({pathname: `${path}`});
+        setCurrentPath();
+    }
+
+
+
+
     // 이 조건문은 반드시 리액트 훅보다
     // 그렇지 않으면 이조건이 통과되야 리액트가 발생하는 오류가 생겨
     // 리액트 자체가 작동하지 않는다
@@ -73,9 +84,26 @@ const MypageLayoutComponent = ({children}) => {
             <div className="min-h-[60rem] flex">
                 <div className="w-1/5 p-5 border-r bg-slate-200">
                     <h3 className="text-2xl font-bold">
+                        관리자
+                    </h3>
+                    <ul className="m-0 ml-2">
+                        <li className="text-xl my-7 cursor-pointer"
+                        onClick={()=>navigate({pathname: `/manager/member`})}>
+                            회원 관리
+                        </li>
+                        <li className="text-xl my-7 cursor-pointer"
+                        onClick={()=>navigate({pathname: `/manager/product`})}>
+                            상품 관리
+                        </li>
+                        <li className="text-xl my-7 cursor-pointer"
+                        onClick={()=>navigate({pathname: `/manager/article`})}>
+                            글 관리
+                        </li>
+                    </ul>
+                    <h3 className="text-2xl font-bold">
                         메뉴
                     </h3>
-                    <ul className="m-0">
+                    <ul className="m-0 ml-2">
                         <li className="text-xl my-7 cursor-pointer"
                             onClick={()=>navigate({pathname: `/mypage/profile/confirm`})}>
                             내 정보 변경
@@ -97,25 +125,8 @@ const MypageLayoutComponent = ({children}) => {
                             구매내역
                         </li>
                     </ul>
-                    <h3 className="text-2xl font-bold mt-10">
-                        관리자
-                    </h3>
-                    <ul className="m-0">
-                        <li className="text-xl my-7 cursor-pointer"
-                        onClick={()=>navigate({pathname: `/manager/member`})}>
-                            회원 관리
-                        </li>
-                        <li className="text-xl my-7 cursor-pointer"
-                        onClick={()=>navigate({pathname: `/manager/product`})}>
-                            상품 관리
-                        </li>
-                        <li className="text-xl my-7 cursor-pointer"
-                        onClick={()=>navigate({pathname: `/manager/article`})}>
-                            글 관리
-                        </li>
-                    </ul>
                 </div>
-                <div className="w-4/5 p-5">
+                <div className="w-4/5 p-7">
                     {children}
                 </div>
             </div>

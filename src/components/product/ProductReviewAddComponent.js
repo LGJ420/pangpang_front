@@ -218,7 +218,7 @@ const ProductReviewAddComponent = ({productId}) => {
                 </div>
                 
                 <div className="w-3/4 flex justify-end">
-                    <button className="text-white bg-[rgb(68,107,216)] text-2xl m-3 w-32 h-12 rounded-xl hover:opacity-90"
+                    <button className="text-white bg-[rgb(224,26,109)] text-2xl m-3 w-32 h-12 hover:opacity-90"
                         onClick={handleClickSubmit}>
                         등록
                     </button>

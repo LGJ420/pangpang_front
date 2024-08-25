@@ -34,7 +34,8 @@ const MypageReviewComponent = () => {
     return (
         <section>
 
-            <h3 className="text-xl font-bold mb-5">
+            <h1 className="text-4xl font-bold">내가 쓴 리뷰</h1>
+            <h3 className="text-xl my-5 ml-4">
                 총 {reviewData.length}개 리뷰
             </h3>
 
@@ -56,7 +57,7 @@ const MypageReviewComponent = () => {
 
             reviewData.map((review) =>
 
-                <div className="w-11/12 m-auto p-5 mb-5 border rounded-lg">
+                <div className="p-5 ml-4 mb-5 border">
                     <div className="border-b pb-5 flex items-center">
                         <img className="w-32 h-20 object-cover mr-5"
                             src="/images/pr_mario.png"/>

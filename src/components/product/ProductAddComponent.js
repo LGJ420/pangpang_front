@@ -247,7 +247,7 @@ const ProductAddComponent = () => {
                 <div className="flex justify-center">
                     <button
                         onClick={handleClickAdd} // 함수 호출 시 () 제거
-                        className="w-52 h-16 text-3xl bg-[rgb(77,160,124)] text-white rounded-2xl hover:opacity-80">
+                        className="w-52 h-16 text-3xl bg-[rgb(77,160,124)] text-white hover:opacity-80">
                         등록
                     </button>
                 </div>

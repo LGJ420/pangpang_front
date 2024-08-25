@@ -107,28 +107,56 @@ const OrdersResultComponent = () => {
         
             <div className="fixed w-full h-full top-0 left-0 z-20 bg-white/90 flex justify-center items-center close"
                 onClick={handleClickClose}>
-                <div className="w-[720px] p-4 bg-white border rounded-lg shadow-md flex flex-col justify-center">
+                <div className="w-[720px] p-4 bg-white border shadow-md flex flex-col justify-center">
 
                     <div className="flex">
                             <img src={modal.uploadFileNames[0] ? `http://localhost:8080/api/product/view/${modal.uploadFileNames[0]}` : '/images/chi1.jpg'}
-                                alt={modal.productTitle} className="w-56 border rounded m-3"></img>
+                                alt={modal.productTitle} className="w-56 m-3"></img>
                         <div className="flex flex-col flex-1 ml-7">
-                            <button className="self-end m-3 bg-red-500 px-3 py-1 text-white rounded-sm close"
+                            <button className="self-end m-3 px-3 py-1 text-2xl font-bold rounded-sm hover:opacity-80 close"
                                 onClick={handleClickClose}>
-                                X
+                                ×
                             </button>
                             <div className="w-4/5 text-3xl font-bold">{modal.productTitle}</div>
                             <div className="my-3">{modal.productContent}</div>
                             <div className="text-2xl mb-5">{modal.productPrice.toLocaleString()}원</div>
                         </div>
                     </div>
-                    <div className="mx-3 mt-5 border rounded p-3">
+                    <div className="mx-3 mt-5 p-3">
                         <h3 className="text-xl font-extrabold mb-5">주문 정보</h3>
-                        <div className="mb-1">이름 : {modal.name}</div>
-                        <div className="mb-1">전화번호 : {modal.phone}</div>
-                        <div>주소 : {modal.address}</div>
+                        <div className="mb-2">
+                            <span className="w-32 inline-block">
+                                이름
+                            </span>
+                            <span>
+                                {modal.name}
+                            </span>
+                        </div>
+                        <div className="mb-2">
+                            <span className="w-32 inline-block">
+                                전화번호
+                            </span>
+                            <span>
+                                {modal.phone}
+                            </span>
+                        </div>
+                        <div className="mb-2">
+                            <span className="w-32 inline-block">
+                                주소
+                            </span>
+                            <span>
+                                {modal.address}
+                            </span>
+                        </div>
+                        <div className="mb-2">
+                            <span className="w-32 inline-block">
+                                결제일자
+                            </span>
+                            <span>
+                                {modal.orderDate}
+                            </span>
+                        </div>
                     </div>
-                    <div className="text-right my-2 mr-3">결제일자 : {modal.orderDate}</div>
                 </div>
             </div>
 
@@ -138,10 +166,10 @@ const OrdersResultComponent = () => {
 
         }
 
-            <h1 className="text-xl font-bold">구매내역</h1>
 
-            <div className="flex justify-center">
-                <div className="flex justify-around border-2 rounded-3xl w-3/4 overflow-hidden focus-within:border-blue-500 focus-within:shadow-outline">
+            <div className="flex justify-between items-center pb-5">
+                <h1 className="text-4xl font-bold">구매내역</h1>
+                <div className="flex h-10 justify-around border-2 w-1/3 overflow-hidden focus-within:border-blue-500 focus-within:shadow-outline">
                     <input className="px-4 py-2 w-11/12 focus:outline-none" type="text" placeholder="검색"
                         onChange={(e)=>handleChangeSearch(e)}
                         onKeyDown={handleKeyDown} />
@@ -171,16 +199,17 @@ const OrdersResultComponent = () => {
 
         serverData.length > 0 ? 
 
-        serverData.map((data)=>
+        serverData.map((data, index)=>
 
-            data.dtoList.map((dto)=>
+            data.dtoList.map((dto, dtoIndex)=>
 
-                <div className="bg-white flex justify-around w-11/12 mx-auto my-4 p-4 items-center border content-center"
+                <>
+                <div className=" bg-white ml-3 flex justify-around mx-auto my-4 p-4 items-center content-center"
                     key={`${data.memberId}-${dto.productId}`}>
                     <img src={dto.uploadFileNames[0] ? `http://localhost:8080/api/product/view/${dto.uploadFileNames[0]}` : '/images/chi1.jpg'}
-                        alt={dto.productTitle} className="w-40 h-40 object-contain border rounded-xl"></img>
+                        alt={dto.productTitle} className="w-40 h-40 object-contain"></img>
                     <div className="w-1/3">
-                        <h3 className="font-extrabold text-2xl cursor-pointer"
+                        <h3 className="font-extrabold text-2xl cursor-pointer truncate"
                             onClick={()=>handleClickTitle(dto.productId)}>
                             {dto.productTitle}
                         </h3>
@@ -198,15 +227,19 @@ const OrdersResultComponent = () => {
                         {(dto.cartCount * dto.productPrice).toLocaleString()} 원
                     </div>
                     <div className="w-1/7 flex flex-col justify-center items-center">
-                        <div className="w-[7rem] text-center">주문완료</div>
+                        <div className="w-[7rem] text-center text-2xl">
+                            주문완료
+                        </div>
                         {!dto.reviewExist && 
-                            <button className="bg-yellow-600 px-2 py-1 mt-3 text-white rounded-xl hover:opacity-90"
+                            <button className="bg-[rgb(224,26,109)] px-2 py-1 mt-3 text-white hover:opacity-80 text-xl font-bold"
                                 onClick={()=>handleClickReview(dto)}>
                                 리뷰 작성하기
                             </button>
                         }
                     </div>
                 </div>
+                { (serverData.length - 1 !== index || data.dtoList.length - 1 !== dtoIndex) && <hr className="text-gray-400 ml-3"></hr> }
+                </>
                 )
 
             )

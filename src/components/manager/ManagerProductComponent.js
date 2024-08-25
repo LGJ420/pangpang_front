@@ -181,14 +181,11 @@ const ManagerProductComponent = () => {
                     0개     
                 </div>
                 <div>
-                    <span className="ml-2">
+                    <div>
                         1개
-                    </span>
-                    <button className="font-bold text-emerald-300 ml-3">
-                        추가
-                    </button>
-                    <button className="font-bold text-red-500 ml-2">
-                        제거
+                    </div>
+                    <button className="text-white px-2 bg-[rgb(77,160,124)] ml-2">
+                        변경
                     </button>
                 </div>
             </div>
@@ -213,7 +210,7 @@ const ManagerProductComponent = () => {
                 {/* 페이지 넘버 */}
                 {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
                 (<div key={pageNum}
-                    className={`cursor-pointer p-3 ${serverData.current === pageNum ? 'text-blue-600 border-b' : ''}`}
+                    className={`cursor-pointer p-3 ${serverData.current === pageNum ? 'text-[rgb(224,26,109)] border-b' : ''}`}
                     onClick={() => moveToList({ page: pageNum })}>{pageNum}</div>) : <></>)}
 
 
