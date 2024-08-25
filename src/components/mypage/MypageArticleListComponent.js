@@ -14,6 +14,7 @@ const MypageArticleListComponent = () => {
     const [size, setSize] = useState(10); // Number of posts per page
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
     const [refresh, setRefresh] = useState(false);
     const [selectedArticleId, setSelectedArticleId] = useState(null); // To store the article ID to delete
     const { isOpen, onOpen, onClose } = useDisclosure(); // Modal controls
@@ -27,9 +28,11 @@ const MypageArticleListComponent = () => {
             setError(null);
             try {
                 const response = await getMyArticles({ page, size });
+                console.log(response);
                 setArticles(response.dtoList);
                 setTotalPages(response.totalPage); // Set the total number of pages
                 setCurrentPage(response.current); // Set the current page number
+                setTotalCount(response.totalCount);
             } catch (err) {
                 setError('Failed to fetch your articles.');
             } finally {
@@ -107,6 +110,10 @@ const MypageArticleListComponent = () => {
             <Heading as="h3" size="lg" mb={6} >
                 내가 쓴 글
             </Heading>
+
+            <Text mb={4} fontSize="md" color="gray.600">
+                총 글 개수: {totalCount}
+            </Text>
 
             <Stack spacing={6}>
                 {articles.map(article => (
