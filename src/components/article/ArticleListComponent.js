@@ -102,18 +102,19 @@ const ArticleListComponent = () => {
 
 
 
-    // 게시글이 최근에 작성한 글인지 확인하는 함수
-    const isArticleNew = (dateTime) => {
-        const now = new Date();
-        const articleDate = new Date(dateTime);
+// 게시글이 특정 시점(다음 날 자정)까지 '최신'으로 간주되는지 확인하는 함수
+const isArticleNew = (dateTime) => {
+    const articleDate = new Date(dateTime);
+    const now = new Date();
 
-        // 현재 시간과 게시글 작성일 사이의 날짜 차이 계산
-        const differenceInTime = now.getTime() - articleDate.getTime();
-        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+    // 다음 날 자정을 계산
+    const nextDayMidnight = new Date(articleDate);
+    nextDayMidnight.setDate(articleDate.getDate() + 1); // 다음 날로 설정
+    nextDayMidnight.setHours(0, 0, 0, 0); // 다음 날 자정으로 설정
 
-        // 게시글이 어제, 오늘 작성되었을 때 true를 반환 
-        return differenceInDays < 1 || (differenceInDays >= 1 && differenceInDays < 2);
-    };
+    // 현재 시간이 게시글 작성일의 다음 날 자정 전이면 true 반환
+    return now < nextDayMidnight;
+};
 
 
 
