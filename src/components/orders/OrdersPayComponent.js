@@ -395,7 +395,7 @@ const OrdersPayComponent = () => {
                                 총 {productData.reduce((acc, item) => acc + item.productPrice * item.cartCount, 0).toLocaleString()}원
                             </div>
 
-                            <button className="bg-blue-500 rounded-md text-white h-14 w-52 absolute bottom-7 right-1/2 translate-x-1/2 hover:opacity-80"
+                            <button className="bg-[rgb(224,26,109)] text-2xl font-bold text-white h-14 w-52 absolute bottom-7 right-1/2 translate-x-1/2 hover:opacity-80"
                                 onClick={handleClickPay}>
                                 결제하기
                             </button>

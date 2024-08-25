@@ -51,19 +51,11 @@ const NoticeAddComponent = () => {
 
     return (
 
-        <section className='pt-10 pl-10 pb-10 pr-3 mb-5'>
-            <h1 className="text-5xl mr-auto">공지사항 추가</h1>
+        <section>
 
             <div className="text-2xl my-10 m-auto">
 
-                <div className="pt-4 flex flex-col">
                     <div>
-                        <span className="m-3 font-extrabold">
-                            작성자
-                        </span>
-                        <span className="px-3">
-                            {decodeToken.memberNickname}
-                        </span>
                         {   decodeToken.memberRole === "Admin" ?
 
                             <>
@@ -76,7 +68,7 @@ const NoticeAddComponent = () => {
                             </span>
                         }
                     </div>
-                </div>
+
 
                 <div className="my-10 flex flex-col">
                     <label
@@ -90,7 +82,7 @@ const NoticeAddComponent = () => {
                         id="noticeTitle"
                         name="noticeTitle"
                         placeholder="제목을 적어주세요."
-                        maxLength={100}/>
+                        maxLength={50}/>
                 </div>
 
 
@@ -111,7 +103,7 @@ const NoticeAddComponent = () => {
 
                 <div className="flex justify-center">
                     <button
-                        className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80"
+                        className="w-52 h-16 text-3xl bg-[rgb(77,160,124)] text-white hover:opacity-80"
                         onClick={handleClickSubmit}>
                         등록
                     </button>

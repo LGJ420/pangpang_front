@@ -153,15 +153,20 @@ const ProductListComponent = () => {
     <section>
 
       <div className="flex flex-row border-b pt-10 pl-10 pb-10 pr-3 mb-5">
-        <h1 className="text-5xl mr-auto">쇼핑 페이지</h1>
+        <h1 className="text-5xl mr-auto cursor-pointer"
+          onClick={()=>navigate(`/product`)}>
+          쇼핑
+        </h1>
         <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft={20} fontSize="xl"
           onChange={(e) => { setWord(e.target.value); }}
           onKeyDown={handleKeyDown}
           value={word} />
-        <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
-          icon={<SearchIcon />}
+
+        <IconButton height={12} width={14}
+          className='bg-[rgb(49,49,49)]'
+          aria-label='Search database'
           onClick={() => { moveToList({ search: word }); }}
-        />
+          icon={<SearchIcon className='text-white text-2xl'/>}/>
       </div>
 
       { !isLoading ?
@@ -181,8 +186,8 @@ const ProductListComponent = () => {
       
         <SimpleGrid columns={ 4 } spacing={10}>
           {serverData.dtoList.map(product =>
-            <Card key={product.id} className="border">
-              <CardBody className="flex flex-col justify-between overflow-hidden">
+            <div key={product.id} className="border p-5">
+              <div className="flex flex-col justify-between overflow-hidden">
                 <div className="relative hover:scale-125 duration-300 cursor-pointer"
                   onClick={() => moveToRead(product.id)}>
                   <Image
@@ -191,34 +196,18 @@ const ProductListComponent = () => {
                     borderRadius='lg'
                     className='mx-auto h-52 object-contain' />
                 </div>
-                <Heading size='md' fontSize="2xl" className="py-3 text-center z-10 bg-white">
+                <div className="py-5 pb-3 text-xl z-10 bg-white whitespace-nowrap overflow-hidden text-ellipsis">
                   {product.productTitle}
-                </Heading>
-                <Text fontSize='2xl' className="text-center">
+                </div>
+                <div className="text-3xl font-bold">
                   {product.productPrice.toLocaleString()}원
-                </Text>
-              </CardBody> 
-              <Divider borderColor='gray.400' />
-
-              <CardFooter>
-                <ButtonGroup className="w-full flex justify-between">
-
-                    <button className="text-white bg-[rgb(68,107,216)] text-lg font-extrabold hover:opacity-70 rounded-lg w-32 h-16"
-                      onClick={()=>{handleClickBuy(product)}}>
-                      구매하기
-                    </button>
-                    <button className="text-[rgb(68,107,216)] border-[rgb(68,107,216)] text-lg border hover:opacity-70 rounded-lg w-32"
-                      onClick={() => { handleClickCart(product) }}>
-                      장바구니 담기
-                    </button>
-
-                </ButtonGroup>
-              </CardFooter>
-            </Card>
+                </div>
+              </div> 
+            </div>
           )}
         </SimpleGrid>
         :
-        <div className="p-4 flex flex-col items-center justify-center text-2xl font-semibold">
+        <div className="relative p-4 flex flex-col items-center justify-center text-2xl font-semibold">
           <img src="/images/product_none.png"/>
           <div>
             지금은 상품 준비중입니다
@@ -238,7 +227,7 @@ const ProductListComponent = () => {
         {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
           (<Box key={pageNum}
             marginRight={7} cursor={"pointer"}
-            className={serverData.current === pageNum ? 'text-blue-600 border-b' : ''}
+            className={serverData.current === pageNum ? 'text-[rgb(224,26,109)] border-b' : ''}
             onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
 
         {/* 다음 페이지 */}
@@ -247,9 +236,9 @@ const ProductListComponent = () => {
         {
           decodeToken.memberRole === 'Admin' &&
 
-          <button className="absolute right-0 bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold"
+          <button className="absolute right-0 bg-[rgb(77,160,124)] text-white w-40 h-16 hover:opacity-80 font-bold"
             onClick={handleClickAdd}>
-            상품 추가하기
+            상품 추가
           </button>
         }
 

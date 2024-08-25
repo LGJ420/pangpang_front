@@ -66,7 +66,14 @@ const ProductDetailComponent = ({ num }) => {
   }, [num]);
 
   // 상품 삭제
-  const handleDeleteProduct = async () => {
+  const handleClickDelete = async () => {
+
+    // 여유가 되면 모달창을 제작해서 바꿀예정
+    // eslint-disable-next-line no-restricted-globals
+    const ifDel = confirm("정말로 삭제하시겠습니까?");
+
+    if (ifDel) {
+
     try {
       // 상품 삭제 요청
       const response = await deleteProduct(num);
@@ -76,6 +83,8 @@ const ProductDetailComponent = ({ num }) => {
       } catch (error) {
       console.error('삭제 오류:', error);
       alert(`상품 삭제에 실패했습니다: ${error.message}`);
+    }
+
     }
   }
 
@@ -144,19 +153,22 @@ const ProductDetailComponent = ({ num }) => {
   return (
     <section>
       <div className="flex p-10 mb-10 border-b justify-between">
-        <h1 className="text-5xl ">상세 페이지</h1>
+        <h1 className="text-5xl cursor-pointer"
+          onClick={()=>navigate(`/product`)}>
+          쇼핑
+        </h1>
 
         {
           decodeToken.memberRole === 'Admin' &&
           <div className="flex">
-            <button className="mr-5 bg-orange-600 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold text-xl"
+            <button className="mr-5 border border-[rgb(77,160,124)] text-[rgb(77,160,124)] w-20 h-16 hover:opacity-80 font-bold text-xl"
               onClick={handleClickModify}>
-              상품 수정하기
+              수정
             </button>
 
-            <button className="bg-red-500 text-white w-52 h-16 rounded-xl hover:opacity-80 font-bold text-xl"
-              onClick={handleDeleteProduct}>
-              상품 삭제하기
+            <button className="border border-[rgb(166,23,45)] text-[rgb(166,23,45)] w-20 h-16 hover:opacity-80 font-bold text-xl"
+              onClick={handleClickDelete}>
+              삭제
             </button>
           </div>
         }
@@ -199,13 +211,13 @@ const ProductDetailComponent = ({ num }) => {
           <Text fontSize='2xl' mb={4} >{product.productContent}</Text>
           <Text fontSize='3xl' mb={6}>{product.productPrice.toLocaleString()}원</Text>
           <ButtonGroup spacing='7' className='mx-auto mt-5'>
-            <button className="text-white bg-[rgb(68,107,216)] text-xl font-extrabold hover:opacity-70 rounded-lg w-36 h-16"
+            <button className="text-white bg-[rgb(224,26,109)] text-xl font-extrabold hover:opacity-70 w-36 h-16"
               onClick={() => { handleClickBuy(product) }}>
               구매하기
             </button>
-            <button className="text-[rgb(68,107,216)] border-[rgb(68,107,216)] text-xl border hover:opacity-70 rounded-lg w-36"
+            <button className="text-[rgb(224,26,109)] border-[rgb(224,26,109)] text-xl border hover:opacity-70 w-36"
               onClick={() => { handleClickCart(product) }}>
-              장바구니 담기
+              장바구니
             </button>
           </ButtonGroup>
         </Box>
@@ -213,15 +225,15 @@ const ProductDetailComponent = ({ num }) => {
       <h4 className="bg-red-50 p-3 text-center">
         판매자가 타 사이트 안내 및 현금 결제, 개인정보 유도 시 결제/입력 마시고 즉시 고객센터로 신고해주세요.
       </h4>
-      <div className="border">
+      <div className="border mb-10">
 
 
         <div className="flex text-center text-xl">
-          <div className={`w-1/2 p-5 border-r cursor-pointer ${selectedTab === 'product' ? 'font-extrabold bg-orange-400 text-white' : 'bg-gray-200'}`} // 조건부 스타일 적용
+          <div className={`w-1/2 p-5 border-r cursor-pointer ${selectedTab === 'product' ? 'font-extrabold  text-[rgb(224,26,109)]' : 'bg-gray-200'}`} // 조건부 스타일 적용
             onClick={() => setSelectedTab('product')}>
             상품정보
           </div>
-          <div className={`w-1/2 p-5 border-l cursor-pointer ${selectedTab === 'review' ? 'font-extrabold bg-orange-400 text-white' : 'bg-gray-200'}`} // 조건부 스타일 적용
+          <div className={`w-1/2 p-5 border-l cursor-pointer ${selectedTab === 'review' ? 'font-extrabold  text-[rgb(224,26,109)]' : 'bg-gray-200'}`} // 조건부 스타일 적용
             onClick={() => setSelectedTab('review')}>
             리뷰
           </div>
@@ -335,7 +347,7 @@ const ProductDetailComponent = ({ num }) => {
 
             {reviewData.map((review) =>
 
-              <div className="py-5 pl-6 mb-5 flex items-center justify-between border rounded-lg">
+              <div className="py-5 pl-6 mb-5 flex items-center justify-between border">
                 <div className="w-5/6 min-h-40">
                   <div className="flex items-center">
                     <img

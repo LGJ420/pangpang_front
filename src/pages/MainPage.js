@@ -9,30 +9,34 @@ const MainPage = () => {
         <BasicLayout minWidth={'85rem'}>
         <BannerComponent />
         
-        <section className="w-[1350px] my-5 mx-auto flex">
-            <div className="w-1/2 mr-2 flex flex-col">
-                <div className="text-2xl m-4">
-                    공지사항
-                </div>
+        <section className="w-[1350px] my-14 mx-auto flex">
+            <div className="w-1/2 mr-8 flex flex-col">
                 
                 <MainNoticeListComponent />
                     
             </div>
             
-            <div className="w-1/2">
-                <div className="text-2xl m-4">
-                    추천 상품
+            <div className="w-1/2 h-[50rem]">
+
+                <div className="flex flex-col h-[calc(50%-1rem)] border mb-8 box-border">
+                    <div className="h-14 flex items-center pl-7 text-3xl font-bold mb-5 bg-[rgb(249,197,174)]">
+                        추천 상품
+                    </div>
+                    <div className="h-3/4">
+                        <MainProductList />
+                    </div>
                 </div>
-                <div className="h-[23rem] ml-2 rounded-md">
-                    <MainProductList />
+                <div className="flex flex-col h-[calc(50%-1rem)] border">
+                    <div className="h-14 flex items-center pl-7 text-3xl font-bold mb-5 bg-[rgb(249,197,174)]">
+                        신규 상품
+                    </div>
+                    <div className="h-3/4">
+                        <MainProductList />
+                    </div>
                 </div>
-                <div className="text-2xl m-4">
-                    신규 상품
-                </div>
-                <div className="h-[23rem] ml-2 rounded-md">
-                    <MainProductList />
-                </div>
+
             </div>
+
         </section>
 
         </BasicLayout>

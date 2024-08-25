@@ -4,6 +4,7 @@ import { addProduct } from "../../api/productApi"; // API 호출 함수 임포�
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomToken from '../../hooks/useCustomToken';
 import { useNavigate } from "react-router-dom";
+import BodyTitleComponent from "../common/BodyTitleComponent";
 
 // 초기 상태 설정
 const initState = {
@@ -148,9 +149,11 @@ const ProductAddComponent = () => {
     
     return (
         <section>
-            <div className="border-b p-10">
-                <h1 className="text-5xl">상품 추가</h1>
-            </div>
+
+            <BodyTitleComponent title={`상품 추가`} />
+
+            <hr></hr>
+
             <div className="text-2xl my-10 m-auto">
                 <div>
                     <label className="m-3 font-extrabold">사진</label>
@@ -244,7 +247,7 @@ const ProductAddComponent = () => {
                 <div className="flex justify-center">
                     <button
                         onClick={handleClickAdd} // 함수 호출 시 () 제거
-                        className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80">
+                        className="w-52 h-16 text-3xl bg-[rgb(77,160,124)] text-white rounded-2xl hover:opacity-80">
                         등록
                     </button>
                 </div>

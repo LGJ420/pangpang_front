@@ -5,7 +5,7 @@ const ProductIndexPage = () => {
 
     return (
 
-        <BasicLayout width={'85rem'} minHeight={'115rem'}>
+        <BasicLayout width={'85rem'} minHeight={'90rem'}>
 
             <Outlet />
         
