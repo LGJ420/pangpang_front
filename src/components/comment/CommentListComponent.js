@@ -265,15 +265,27 @@ const CommentListComponent = ({ articleId }) => {
               <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
                 취소
               </Button>
+              
+              {!isLogin && !isDeleteMode && !isCommentSubmitMode && (
+                <Button 
+                  colorScheme="blue" 
+                  onClick={() => navigate('/login')} 
+                  ml={3}
+                >
+                  로그인하러 가기
+                </Button>
+              )}
+              
               {(isDeleteMode || isCommentSubmitMode) && (
                 <Button 
                   colorScheme={isDeleteMode ? "red" : "teal"} 
                   onClick={isDeleteMode ? handleDeleteConfirm : handleCommentSubmitConfirm} 
-                  ml={3}>
+                  ml={3}
+                >
                   네
                 </Button>
               )}
-            </AlertDialogFooter>
+          </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
