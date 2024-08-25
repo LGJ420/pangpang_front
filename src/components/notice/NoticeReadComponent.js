@@ -36,13 +36,12 @@ const NoticeReadComponent = ({id}) => {
 
     return (
 
-        <section className='pt-10 pl-10 pr-3'>
-            <h1 className="text-5xl mb-10">공지사항</h1>
+        <section>
             <hr />
             <div className="text-xl">
                 <div className="bg-gray-100 px-5">
-                    <div className="flex justify-between py-5 pr-3">
-                        <h3 className="text-4xl font-bold">
+                    <div className="flex justify-between pt-5 pr-3 pb-20">
+                        <h3 className="w-4/5 text-4xl font-bold">
                             {serverData.noticeTitle}
                         </h3>
                         <div>

@@ -77,9 +77,7 @@ const NoticeListComponent = () => {
 
     return (
 
-        <section className='pt-10 pb-5'>
-            <h1 className="text-5xl pl-10">공지사항</h1>
-
+        <section>
             {
                 isLoading ? 
 
