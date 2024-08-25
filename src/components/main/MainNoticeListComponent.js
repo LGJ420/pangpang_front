@@ -21,7 +21,7 @@ const MainNoticeListComponent = () => {
         
         <div className="border h-[50rem]">
 
-            <div className="h-14 flex items-center pl-7 text-3xl font-bold mb-5 bg-[rgb(198,199,163)]">
+            <div className="h-14 flex items-center pl-7 pt-5 text-3xl font-bold mb-5 bg-[rgb(255,255,255)]">
                 공지사항
             </div>
             { isLoading ?
