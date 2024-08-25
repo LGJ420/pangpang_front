@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton, Spinner } from '@chakra-ui/react'
+import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton, Spinner, Select, Button } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
 import useCustomToken from "../../hooks/useCustomToken";
@@ -26,13 +26,13 @@ const initState = {
 // 서버에서 데이터 가져오기
 const ProductListComponent = () => {
 
-  const { search, page, size, refresh, moveToRead, moveToList } = useCustomMove();
+  const { search, page, size, category, refresh, moveToRead, moveToList } = useCustomMove();
 
   const [serverData, setServerData] = useState(initState);
   const [word, setWord] = useState("");   // 상품 검색용
   const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
   const [isLoading, setIsLoading] = useState(false);
-
+  const [selectedCategory, setSelectedCategory] = useState(category);
   const navigate = useNavigate();
   const {isLogin, decodeToken} = useCustomToken();
 
@@ -43,7 +43,7 @@ const ProductListComponent = () => {
         // 상품 목록 데이터 가져오기
         const data = search
           ? await getList({ search, page, size })
-          : await getList({ page, size });
+          : await getList({ page, size, category: selectedCategory });
         setServerData(data);
         // console.log(data);   // 데이터 확인용
 
@@ -67,71 +67,7 @@ const ProductListComponent = () => {
     };
 
     fetchData();
-  }, [search, page, size, refresh]);
-
-
-
-  /* 구매하기 */
-  const handleClickBuy = (product) => {
-
-    if (!isLogin) {
-
-      alert("로그인이 필요합니다");
-
-      return;
-    }
-
-    // eslint-disable-next-line no-restricted-globals
-    const goBuy = confirm("구매하시겠습니까?");
-  
-    if (!goBuy) {
-      
-      return;
-    }
-
-    const order = {
-
-      productId: product.id,
-      productTitle: product.productTitle,
-      productContent: product.productContent,
-      productPrice: product.productPrice,
-      uploadFileNames: product.uploadFileNames,
-      cartCount: 1
-    }
-
-    navigate("/orders/pay", {state : {order}});
-  }
-
-
-  /* 장바구니 */
-  const handleClickCart = (product) => {
-
-    if (!isLogin) {
-
-      alert("로그인이 필요합니다");
-
-      return;
-    }
-
-    const cartObj = {
-
-      productId: product.id,
-      cartCount: 1,
-    }
-
-    postCartAdd(cartObj);
-    alert("장바구니에 상품이 등록되었습니다")
-
-
-    // 여유가 되면 모달창을 제작해서 바꿀예정
-    // eslint-disable-next-line no-restricted-globals
-    const goToCart = confirm("장바구니 페이지로 이동하시겠습니까?");
-
-    if (goToCart) {
-
-      navigate({ pathname: '/cart' });
-    }
-  }
+  }, [search, page, size, category, refresh]);
 
 
   /* 검색 인풋창 엔터키만 눌러도 검색 */
@@ -146,6 +82,7 @@ const ProductListComponent = () => {
 
     navigate('../add');
   }
+
 
 
 
@@ -169,6 +106,7 @@ const ProductListComponent = () => {
           icon={<SearchIcon className='text-white text-2xl'/>}/>
       </div>
 
+
       { !isLoading ?
       <div className="h-96 flex items-center justify-center">
         <Spinner
@@ -183,6 +121,35 @@ const ProductListComponent = () => {
       :
       
       serverData.dtoList.length > 0 ?
+
+      <>
+
+      <div className="flex space-x-2 ml-3 mb-7">
+        <button
+          onClick={() => { setSelectedCategory(""); setWord(""); moveToList(); }}
+          className={`px-4 py-2 rounded ${selectedCategory === "" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
+        >
+          모두
+        </button>
+        <button
+                onClick={() => { setSelectedCategory("게임"); setWord(""); moveToList({ category: "게임", search: "" }); }}
+          className={`px-4 py-2 rounded ${selectedCategory === "게임" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
+        >
+          게임
+        </button>
+        <button
+                onClick={() => { setSelectedCategory("게임기기"); setWord(""); moveToList({ category: "게임기기", search: "" }); }}
+          className={`px-4 py-2 rounded ${selectedCategory === "게임기기" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
+        >
+          게임기기
+        </button>
+        <button
+                onClick={() => { setSelectedCategory("굿즈"); setWord(""); moveToList({ category: "굿즈", search: "" }); }}
+          className={`px-4 py-2 rounded ${selectedCategory === "굿즈" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
+        >
+          굿즈
+        </button>
+      </div>
       
         <SimpleGrid columns={ 4 } spacing={10}>
           {serverData.dtoList.map(product =>
@@ -206,6 +173,8 @@ const ProductListComponent = () => {
             </div>
           )}
         </SimpleGrid>
+
+          </>
         :
         <div className="relative p-4 flex flex-col items-center justify-center text-2xl font-semibold">
           <img src="/images/product_none.png"/>
@@ -220,8 +189,7 @@ const ProductListComponent = () => {
 
       <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700">
         {/* 이전 페이지 */}
-        {serverData.current > 1 ? <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage })}>{'\u003c'}</Box> :
-          <></>}
+        <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage })}>{'\u003c'}</Box>
 
         {/* 페이지 넘버 */}
         {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
@@ -231,7 +199,7 @@ const ProductListComponent = () => {
             onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
 
         {/* 다음 페이지 */}
-        {serverData.next ? <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.nextPage })}>{'\u003e'}</Box> : <></>}
+        <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.nextPage })}>{'\u003e'}</Box>
 
         {
           decodeToken.memberRole === 'Admin' &&
