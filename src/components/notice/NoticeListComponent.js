@@ -77,8 +77,8 @@ const NoticeListComponent = () => {
 
     return (
 
-        <section className='pt-10 pl-10 pb-10 pr-3 mb-5'>
-            <h1 className="text-5xl">공지사항</h1>
+        <section className='pt-10 pb-5'>
+            <h1 className="text-5xl pl-10">공지사항</h1>
 
             {
                 isLoading ? 
@@ -95,7 +95,7 @@ const NoticeListComponent = () => {
 
                 :
 
-                    serverData.dtoList.length > 0 ?
+                    serverData !== undefined ?
 
                     <>
                     {console.log(serverData)}
@@ -192,12 +192,14 @@ const NoticeListComponent = () => {
 
                     :
 
-                    <div className="relative flex flex-col items-center justify-center text-2xl font-semibold h-[45rem]">
-                        <img src="/images/no_notice.png" className="w-60" />
-                        <div className="mt-10">현재 공지사항이 없습니다</div>
+                    <div className="relative flex flex-col items-center justify-center text-2xl font-semibold h-[60rem]">
+                        <div className='pb-20'>
+                            <img src="/images/no_notice.png" className="w-60" />
+                            <div className="mt-10">현재 공지사항이 없습니다</div>
+                        </div>
                         {
                         decodeToken.memberRole === 'Admin' &&
-                        <button className='absolute bottom-0 right-0 text-2xl text-white rounded h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'
+                        <button className='absolute bottom-0 right-0 text-2xl text-white h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'
                             onClick={handleClickAdd}>
                             글쓰기
                         </button>

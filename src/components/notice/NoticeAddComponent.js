@@ -84,7 +84,7 @@ const NoticeAddComponent = () => {
                         id="noticeTitle"
                         name="noticeTitle"
                         placeholder="제목을 적어주세요."
-                        maxLength={100}/>
+                        maxLength={50}/>
                 </div>
 
 
@@ -105,7 +105,7 @@ const NoticeAddComponent = () => {
 
                 <div className="flex justify-center">
                     <button
-                        className="w-52 h-16 text-3xl bg-[rgb(77,160,124)] text-white rounded-2xl hover:opacity-80"
+                        className="w-52 h-16 text-3xl bg-[rgb(77,160,124)] text-white hover:opacity-80"
                         onClick={handleClickSubmit}>
                         등록
                     </button>
