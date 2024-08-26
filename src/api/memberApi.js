@@ -12,4 +12,19 @@ export const getMemberList = async () => {
     return res.data;
 }
 
+// 마이페이지- 내 정보 변경 전 비밀번호 확인하기
+export const confirmMemberPassword = async (password) => {
+    const token = localStorage.getItem("token");
 
+    try {
+        const res = await axios.post(`${prefix}/confirm_before_profile`, { memberPw: password }, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return res.data;
+    } catch (err) {
+        console.error("Error confirming member password:", err);
+        throw err;
+    }
+}
