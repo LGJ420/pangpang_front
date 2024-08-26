@@ -98,3 +98,18 @@ export const deleteProfileImage = async (memberId) => {
         throw err;
     }
 };
+
+// 비밀번호 찾기->비밀번호 변경
+export const resetMemberPassword = async (memberId, newPassword) => {
+    try {
+        const res = await axios.post(`${prefix}/find/pw/reset`, {
+            memberId,
+            memberPw: newPassword
+        });
+        return res;
+    } catch (err) {
+        console.error("Error resetting member password:", err);
+        throw err;
+    }
+};
+

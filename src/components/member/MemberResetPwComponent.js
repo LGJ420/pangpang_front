@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { resetMemberPassword } from '../../api/memberApi';
 
 const MemberResetPwComponent = () => {
     const navigate = useNavigate();
@@ -44,7 +45,7 @@ const MemberResetPwComponent = () => {
         setMemberPwConfirmInFindPwForReset(e.target.value);
     }
 
-    const resetMemberPw = () => {
+    const resetMemberPw = async () => {
 
         // 1. 안 채운 항목이 있는지 확인하기
         if([memberPwInFindPwForReset, memberPwConfirmInFindPwForReset].includes('')){
@@ -64,21 +65,13 @@ const MemberResetPwComponent = () => {
         }
 
         // 3. axios 포스트 하기
-        axios
-        .post("http://localhost:8080/api/member/find_pw/reset",{
-            // 비밀번호만 보내려고 했는데 Repository.findByMemberId()<-이걸로 데이터 찾고 비번 바꿔야해서 회원번호(id)도 같이 전송해야됨
-            memberId : memberId,
-            memberPw : memberPwInFindPwForReset
-        })
-
-        .then((response)=>{
-            console.log(response.data)
-            navigate("/reset/pw/confirm", { replace: true })
-        })
-
-        .catch((error)=>{
+        try {
+            const response = await resetMemberPassword(memberId, memberPwInFindPwForReset);
+            console.log(response);
+            navigate("/reset/pw/confirm", { replace: true });
+        } catch (error) {
             console.error("비밀번호 변경 중 오류 발생", error);
-        });
+        }
     }
 
 
