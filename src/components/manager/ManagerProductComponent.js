@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "../../css/memberPage.module.css"
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
-import { getList } from "../../api/productApi";
+import { getList, modifyProduct } from "../../api/productApi";
 import { IconButton, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import MypageTitleComponent from "../common/MypageTitleComponent";
@@ -46,6 +46,7 @@ const ManagerProductComponent = () => {
     const [word, setWord] = useState("");   // 상품 검색용
     const [refresh, setRefresh] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [modal, setModal] = useState(null); // 모달창
     const [queryParams] = useSearchParams();
 
     const navigate = useNavigate();
@@ -101,7 +102,7 @@ const ManagerProductComponent = () => {
     }, [search, page, size, refresh]);
 
 
-
+    // 검색
     const handleChangeSearch = (e) => {
 
         setWord(e.target.value);
@@ -113,8 +114,96 @@ const ManagerProductComponent = () => {
     }
 
 
+    // 상품 재고량 수정 모달
+    const handleClickInfo = (data) => {
+
+        const modalData = {
+            ...data
+        }
+
+        setModal(modalData);
+    }
+
+
+    const handleClickClose = (e) => {
+        setModal(null);
+
+    }
+
+
+    // 상품 정보 변경 처리
+    const handleChangeStock = (e) => {
+        const { name, value } = e.target;
+        setModal((prev) => ({ ...prev, [name]: value }));
+    };
+
+    // 상품 수정 처리
+    const handleStockModify = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('productTitle', serverData.productTitle);
+            formData.append('productContent', serverData.productContent);
+            formData.append('productPrice', serverData.productPrice);
+            formData.append('productDetailContent', serverData.productDetailContent);
+            formData.append('productCategory', serverData.productCategory);
+
+
+            await modifyProduct(serverData.id, formData);
+            alert('수정이 완료되었습니다!');
+            moveToList();
+        } catch (error) {
+            // console.error("수정에 실패했습니다.", error);
+            alert("상품 수정에 실패했습니다.")
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
     return (
         <div>
+
+            {modal ?
+
+                <div className="fixed w-full h-full top-0 left-0 z-20 bg-white/90 flex justify-center items-center close">
+                    <div className="w-[575px] h-[400px] p-4 bg-white border shadow-md flex flex-col justify-center">
+                        <div className="flex">
+                            <div className="flex flex-col flex-1 ml-7">
+
+                                <div className="w-4/5 text-4xl font-bold mt-7">{modal.productTitle}</div>
+                                <div className="my-5 text-xl">{modal.productContent}</div>
+                                <label className="mb-3 font-extrabold text-2xl" htmlFor="productStock">재고량</label>
+                                <input
+                                    className="rounded border text-xl w-20 h-12"
+                                    id="productStock"
+                                    name="productStock"
+
+                                    value={modal.productStock}
+                                    maxLength={50}
+                                    onChange={handleChangeStock}
+                                />
+
+                                <div className="flex text-xl mt-7 justify-end">
+                                    <button className="mr-3 p-2 px-5 bg-[rgb(77,160,124)] text-white"
+                                        onClick={handleStockModify}>
+                                        수정
+                                    </button>
+                                    <button className="mr-3 p-2 px-5 bg-[rgb(240,113,113)] text-white"
+                                        onClick={handleClickClose}>
+                                        취소
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                :
+
+                <></>
+
+            }
+
             <div className="flex items-center justify-between mb-5">
                 <MypageTitleComponent>
                     상품 관리
@@ -142,7 +231,7 @@ const ManagerProductComponent = () => {
                     <div>{data.id}</div>
                     <div>{data.productCategory}</div>
                     <div className="hover:cursor-pointer hover:text-gray-500"
-                    onClick={() => navigate(`/product/read/${data.id}`)}
+                        onClick={() => navigate(`/product/read/${data.id}`)}
                     >
                         {data.productTitle}
                     </div>
@@ -156,7 +245,8 @@ const ManagerProductComponent = () => {
                         <div>
                             {data.productStock}개
                         </div>
-                        <button className="text-white px-2 bg-[rgb(77,160,124)] ml-2">
+                        <button onClick={() => handleClickInfo(data)}
+                            className="text-white px-2 bg-[rgb(77,160,124)] ml-2">
                             변경
                         </button>
                     </div>

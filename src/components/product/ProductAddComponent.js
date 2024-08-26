@@ -73,8 +73,8 @@ const ProductAddComponent = () => {
         });
     };
 
-    console.log(product);
-    console.log(images);
+    // console.log(product);
+    // console.log(images);
 
     // 상품 추가 처리
     const handleClickAdd = async () => {
