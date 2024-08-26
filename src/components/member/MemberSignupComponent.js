@@ -26,7 +26,9 @@ const MemberSignupComponent = () => {
     const [pwInputError, setPwInputError] = useState('')  // 비번 인풋 빨갛게 체크함(seccess, error)
 
     const handleMemberId = (e)=>{
-        setMemberId(e.target.value);
+        // 아이디에 영어, 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9A-Za-z]/ig, '')
+        setMemberId(validInputValue);
         setCheckMemberIdStatus(false);
     }
     const handleMemberPw = (e)=>{
@@ -175,7 +177,7 @@ const MemberSignupComponent = () => {
         }
 
         // 아이디 중복 확인 (false면 중복확인 안한 것으로 간주)
-        if(checkMemberId == false){ // === 이걸로하면 안됨 // 해결-성빈240821
+        if(checkMemberIdStatus == false){ // === 이걸로하면 안됨 // 해결-성빈240821
             const errorMsg = "아이디 중복 확인은 필수입니다.";
             console.error(errorMsg);
             alert("아이디 중복 확인은 필수입니다."); 
@@ -271,6 +273,7 @@ const MemberSignupComponent = () => {
                         className={idInputError === 'success' ? 'border-blue-500' : idInputError === 'error' ? 'border-red-500' : ''}
                         placeholder='아이디를 입력해주세요.'/>
                         <button className="w-32 ml-3 bg-slate-400 rounded text-white hover:opacity-80"
+                        style = "ime-mode:inactive"
                         onClick={onClickCheckMemberId}>
                             중복확인
                         </button>
