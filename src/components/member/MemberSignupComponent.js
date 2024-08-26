@@ -7,10 +7,11 @@ import {
 import { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { checkMemberId, signupMember, loadPostcodeScript } from '../../api/memberApi';
 
 const MemberSignupComponent = () => {
 
-    const [checkMemberId, setCheckMemberId] = useState("");
+    const [checkMemberIdStatus, setCheckMemberIdStatus] = useState("");
     const [memberId, setMemberId] = useState("");
     const [memberPw, setMemberPw] = useState("");
     const [memberPwConfirm, setMemberPwConfirm] = useState("");
@@ -27,7 +28,7 @@ const MemberSignupComponent = () => {
 
     const handleMemberId = (e)=>{
         setMemberId(e.target.value);
-        setCheckMemberId(false);
+        setCheckMemberIdStatus(false);
     }
     const handleMemberPw = (e)=>{
         setMemberPw(e.target.value);
@@ -77,21 +78,18 @@ const MemberSignupComponent = () => {
     }, [navigate]);
 
     // 아이디 중복확인 버튼
-    const onClickCheckMemberId = () => {
-        axios.post("http://localhost:8080/api/member/signup/checkMemberId",{memberId : memberId})
-        .then((response)=>{
-            console.log(response.data);
-            alert("사용 가능한 아이디입니다.")
-            setCheckMemberId(true);
-            setIdInputError('success'); // Success state
-        })
-        .catch((error)=>{
-            console.error(error);
-            setCheckMemberId(false);
-            alert("사용할 수 없는 아이디입니다.")
-            setIdInputError('error'); // 아이디 에러나면 인풋창 빨갛게 하려고 만듦
-        })
-    }
+    const onClickCheckMemberId = async () => {
+        try {
+            await checkMemberId(memberId);
+            alert("사용 가능한 아이디입니다.");
+            setCheckMemberIdStatus(true);
+            setIdInputError('success');
+        } catch (error) {
+            alert("사용할 수 없는 아이디입니다.");
+            setCheckMemberIdStatus(false);
+            setIdInputError('error');
+        }
+    };
 
     /* ====================== 다음 주소찾기 API 시작 ====================== */
     const [postcode, setPostcode] = useState('');
@@ -153,7 +151,7 @@ const MemberSignupComponent = () => {
     /* ====================== 다음 주소찾기 API 끝 ====================== */
 
     // 회원가입 버튼
-    const onClicksignup = ()=>{
+    const onClicksignup = async ()=>{
         console.log("click signup");
         console.log("ID : " + memberId);
         console.log("PW : " + memberPw);
@@ -220,29 +218,24 @@ const MemberSignupComponent = () => {
         }
 
 
-        axios
-        .post("http://localhost:8080/api/member/signup",{
-            memberId : memberId,
-            memberPw : memberPw,
-            memberName : memberName,
-            memberNickname : memberNickname,
-            memberBirth : memberBirth,
-            memberPhone : phone1+"-"+phone2+"-"+phone3,
-            postcode : postcode,
-            postAddress : postAddress,
-            detailAddress : detailAddress,
-            extraAddress : extraAddress,
-            memberRole : memberRole
-        })
-        .then((response)=>{
-            console.log("axios.post 성공 후 response")
-            console.log(response.data)
-            navigate("/signup_confirm")
-        })
-        .catch((error)=>{
-            console.log("axios.post 실패 후 response")
+        try {
+            await signupMember({
+                memberId,
+                memberPw,
+                memberName,
+                memberNickname,
+                memberBirth,
+                memberPhone: `${phone1}-${phone2}-${phone3}`,
+                postcode,
+                postAddress,
+                detailAddress,
+                extraAddress,
+                memberRole
+            });
+            navigate("/signup_confirm");
+        } catch (error) {
             console.error("회원가입 요청 중 오류 발생", error);
-        });
+        }
     }
         
     return (

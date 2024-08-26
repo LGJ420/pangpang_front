@@ -113,3 +113,25 @@ export const resetMemberPassword = async (memberId, newPassword) => {
     }
 };
 
+// 회원가입 - 아이디 중복 확인
+export const checkMemberId = async (memberId) => {
+    try {
+        const res = await axios.post(`${prefix}/signup/checkMemberId`, { memberId });
+        return res;
+    } catch (err) {
+        console.error("Error checking member ID:", err);
+        throw err;
+    }
+};
+
+// 회원가입
+export const signupMember = async (formData) => {
+    try {
+        const res = await axios.post(`${prefix}/signup`, formData);
+        return res.data;
+    } catch (err) {
+        console.error("Error signing up member:", err);
+        throw err;
+    }
+};
+
