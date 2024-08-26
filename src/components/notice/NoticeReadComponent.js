@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { getNoticeOne } from "../../api/noticeApi";
+import { getNoticeComments } from "../../api/commentApi";
 
 
-const initData = {
+const initNoticeData = {
     id: 0,
     noticeTitle: "",
     noticeContent: "",
@@ -15,10 +16,43 @@ const initData = {
 }
 
 
+const initCommentData = {
+    
+    dtoList: [
+        {
+            id: 0,
+            articleId: null,
+            commentContent: "",
+            memberNickname: "",
+            memberId: 0,
+            commentCreated: "",
+            commentUpdated: null,
+            articleTitle: null,
+            viewCount: null
+        }
+    ],
+    pageNumList: [],
+    pageRequestDTO: {
+        page: 1,
+        size: 50,
+        search: null,
+        searchBy: null,
+        category: null
+    },
+    prev: false,
+    next: false,
+    totalCount: 0,
+    prevPage: 0,
+    nextPage: 0,
+    totalPage: 0,
+    current: 0
+}
+
 
 const NoticeReadComponent = ({id}) => {
 
-    const [serverData, setServerData] = useState(initData);
+    const [noticeData, setNoticeData] = useState(initNoticeData);
+    const [commentData, setCommentData] = useState();
     const { moveToList, moveToModify } = useCustomMove();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -26,10 +60,15 @@ const NoticeReadComponent = ({id}) => {
     useEffect(()=>{
 
         getNoticeOne(id)
-            .then(data=>setServerData(data))
+            .then(data=>setNoticeData(data))
+            .catch(error=>console.log(error));
+
+        getNoticeComments()
+            .then(data=>setCommentData(data))
             .catch(error=>console.log(error))
             .finally(()=>setIsLoading(false));
-    },[]);  
+
+    },[]);
 
 
 
@@ -42,7 +81,7 @@ const NoticeReadComponent = ({id}) => {
                 <div className="bg-gray-100 px-5">
                     <div className="flex justify-between pt-5 pr-3 pb-20">
                         <h3 className="w-4/5 text-4xl font-bold">
-                            {serverData.noticeTitle}
+                            {noticeData.noticeTitle}
                         </h3>
                         <div>
                             <button className="pr-3 border-r hover:opacity-40">
@@ -54,15 +93,15 @@ const NoticeReadComponent = ({id}) => {
                         </div>
                     </div>
                     <div className="pb-5 flex">
-                        <div>작성자 : {serverData.memberNickname}</div>
-                        <div className="px-2 ml-auto">조회수 : {serverData.noticeHit}</div>
+                        <div>작성자 : {noticeData.memberNickname}</div>
+                        <div className="px-2 ml-auto">조회수 : {noticeData.noticeHit}</div>
                         <div className="px-2">댓글 : 하드코오디이잉</div>
-                        <div className="px-2">작성일 : {serverData.noticeCreated.substring(0,10)}</div>
+                        <div className="px-2">작성일 : {noticeData.noticeCreated.substring(0,10)}</div>
                     </div>
                 </div>
             <hr />
                 <p className="p-5 mb-32 rounded-xl">
-                    {serverData.noticeContent}
+                    {noticeData.noticeContent}
                 </p>
                 <div className="h-32 flex items-center justify-between">
                     <textarea className="w-5/6 h-24 p-4 border"/>
