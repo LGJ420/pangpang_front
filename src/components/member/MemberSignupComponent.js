@@ -411,7 +411,7 @@ const MemberSignupComponent = () => {
                 {/* 회원가입 버튼 */}
                 <div className='flex mt-3'>
                     <button
-                        className="ml-auto text-xl bg-[rgb(224,26,109)] text-white px-4 py-2 rounded hover:opacity-80"
+                        className="w-full h-16 text-xl bg-[rgb(224,26,109)] text-white font-bold mt-1 px-4 py-2 rounded hover:opacity-80"
                         onClick={onClicksignup}>
                         회원가입
                     </button>
