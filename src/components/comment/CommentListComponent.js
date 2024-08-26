@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Text, VStack, Button, Flex, IconButton, useColorModeValue } from '@chakra-ui/react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { Box, Text, VStack, Button, Flex, useColorModeValue, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import useCustomToken from '../../hooks/useCustomToken';
 import { getCommentsByArticleId, deleteComment } from '../../api/commentApi';
+
+
 
 const CommentListComponent = ({ articleId, onCommentAdded }) => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [totalComments, setTotalComments] = useState(0); // Track total comments
+  const [totalComments, setTotalComments] = useState(0); 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
   const { isLogin, decodeToken } = useCustomToken();
   const navigate = useNavigate();
   const bgColor = useColorModeValue('gray.100', 'gray.800');
+
+
 
   // Fetch comments with pagination
   const fetchComments = async (page = 1) => {
@@ -20,16 +25,20 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
       const data = await getCommentsByArticleId(articleId, { page, size: 5 });
       setComments(data.content);
       setTotalPages(data.totalPages);
-      setTotalComments(data.totalElements); // Update total comments
+      setTotalComments(data.totalElements); 
       setCurrentPage(page);
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
   };
 
+
+
   useEffect(() => {
     fetchComments(currentPage);
   }, [articleId, currentPage]);
+
+
 
   useEffect(() => {
     if (onCommentAdded) {
@@ -37,32 +46,51 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
     }
   }, [onCommentAdded]);
 
+
+
   const handleEditClick = (id) => {
     navigate(`/comment/modify/${id}`);
   };
 
+
+
   const handleDeleteClick = (commentId) => {
-    if (window.confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
-      handleDeleteConfirm(commentId);
-    }
+    setCommentToDelete(commentId);
+    setIsDeleteModalOpen(true);
   };
 
-  const handleDeleteConfirm = async (commentId) => {
+
+
+  const handleDeleteConfirm = async () => {
     try {
-      await deleteComment(commentId);
+      await deleteComment(commentToDelete);
       fetchComments(currentPage); // Fetch the updated list of comments
       if (onCommentAdded) {
         onCommentAdded(); // Notify the parent component to update the comment count
       }
     } catch (error) {
       console.error('Error deleting comment:', error);
+    } finally {
+      setIsDeleteModalOpen(false);
+      setCommentToDelete(null);
     }
   };
+
+
+
+  const handleCloseModal = () => {
+    setIsDeleteModalOpen(false);
+    setCommentToDelete(null);
+  };
+
+
 
   const formatDateTime = (dateTime) => {
     const date = new Date(dateTime);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   };
+
+
 
   const formatContent = (content) => {
     if (!content) return '';
@@ -70,12 +98,16 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
     return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
   };
 
+
+
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
       fetchComments(page); // Fetch comments for the new page
     }
   };
+
+
 
   return (
     <section>
@@ -128,47 +160,62 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
               </Box>
             ))}
 
-            {/* Pagination */}
-            <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
-              <IconButton
-                aria-label="Previous Page"
-                icon={<ChevronLeftIcon />}
-                isDisabled={currentPage <= 1}
-                onClick={() => handlePageChange(currentPage - 1)}
-                mr={3}
-                _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
-              />
 
-              {[...Array(totalPages).keys()].map(page => (
-                <Button
-                  key={page + 1}
-                  mx={1}
-                  size="sm"
-                  variant={currentPage === page + 1 ? 'solid' : 'outline'}
-                  colorScheme={currentPage === page + 1 ? 'teal' : 'gray'}
-                  onClick={() => handlePageChange(page + 1)}
-                  _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                >
-                  {page + 1}
-                </Button>
+
+            {/* Pagination */}
+            <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
+              {/* Previous Page */}
+              {currentPage > 1 && (
+                <Box cursor={"pointer"} marginRight={7} onClick={() => handlePageChange(currentPage - 1)}>
+                  {'\u003c'}
+                </Box>
+              )}
+
+              {/* Page Numbers */}
+              {[...Array(totalPages).keys()].map(pageNum => (
+                <Box key={pageNum + 1}
+                     marginRight={7}
+                     cursor={"pointer"}
+                     className={currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
+                     onClick={() => handlePageChange(pageNum + 1)}>
+                  {pageNum + 1}
+                </Box>
               ))}
 
-              <IconButton
-                aria-label="Next Page"
-                icon={<ChevronRightIcon />}
-                isDisabled={currentPage >= totalPages}
-                onClick={() => handlePageChange(currentPage + 1)}
-                ml={3}
-                _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
-              />
+              {/* Next Page */}
+              {currentPage < totalPages && (
+                <Box cursor={"pointer"} onClick={() => handlePageChange(currentPage + 1)}>
+                  {'\u003e'}
+                </Box>
+              )}
             </Flex>
           </VStack>
         ) : (
           <Text textAlign="center">아직 댓글이 없습니다.</Text>
         )}
       </Box>
+
+
+
+      {/* Delete Confirmation Modal */}
+      <Modal isOpen={isDeleteModalOpen} onClose={handleCloseModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>댓글 삭제 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            정말로 이 댓글을 삭제하시겠습니까?
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" onClick={handleDeleteConfirm} mr={3}>
+              삭제
+            </Button>
+            <Button variant="ghost" onClick={handleCloseModal}>
+              취소
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </section>
   );
 };

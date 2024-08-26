@@ -1,24 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  Alert,
-  AlertIcon,
-  Textarea,
-} from "@chakra-ui/react";
+import {Button,Modal,ModalBody,ModalCloseButton,ModalContent,ModalFooter,ModalHeader,ModalOverlay,useDisclosure,Alert,AlertIcon,Textarea,} from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { deleteOne, getOne } from "../../api/articleApi";
 import CommentList from "../comment/CommentListComponent";
 import useCustomToken from "../../hooks/useCustomToken";
 import { getCommentsByArticleId, postComment } from "../../api/commentApi";
+
+
 
 // Date and time format function
 const formatDateTime = (dateTime) => {
@@ -29,11 +18,15 @@ const formatDateTime = (dateTime) => {
   })}`;
 };
 
+
+
 // URL format function
 const formatContent = (content) => {
   const urlPattern = /(https?:\/\/[^\s]+)/g;
   return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline hover:text-blue-700">${url}</a>`);
 };
+
+
 
 const initState = {
   id: 0,
@@ -47,6 +40,8 @@ const initState = {
   commentCount: 0
 };
 
+
+
 const ArticleReadComponent = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -59,6 +54,8 @@ const ArticleReadComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { moveToList, moveToModify } = useCustomMove();
   const { isLogin, decodeToken } = useCustomToken();
+
+
 
   // Fetch article data
   const fetchArticleData = async () => {
@@ -79,6 +76,8 @@ const ArticleReadComponent = () => {
     }
   };
 
+
+
   // Fetch comments separately
   const fetchComments = async () => {
     try {
@@ -93,6 +92,8 @@ const ArticleReadComponent = () => {
     }
   };
 
+
+
   const handleCommentUpdate = async () => {
     const data = await getCommentsByArticleId(id, { page: 1, size: 5 });
     setComments(data.content || []);
@@ -102,12 +103,16 @@ const ArticleReadComponent = () => {
     }));
   };
 
+
+
   useEffect(() => {
     if (id) {
       fetchArticleData();
       fetchComments();
     }
   }, [id]);
+
+
 
   const handleDeleteConfirm = async () => {
     try {
@@ -120,25 +125,29 @@ const ArticleReadComponent = () => {
     }
   };
 
-  const handleCommentSubmit = async (e) => {
+
+
+  const handleCommentSubmit = (e) => {
     e.preventDefault();
     if (!isLogin) {
       setIsLoginRequired(true);
       onOpen();
       return;
     }
+    if (!commentContent.trim()) {
+      alert("내용을 입력해주세요");
+      return;
+    }
     setIsCommentSubmitMode(true);
     onOpen();
   };
 
+
+
   const handleCommentSubmitConfirm = async () => {
     try {
-      // Post the comment and get the response
       await postComment({ articleId: id, commentContent });
-
-      // Trigger comment list update
       handleCommentUpdate();
-
       setCommentContent('');
       setIsCommentSubmitMode(false);
     } catch (error) {
@@ -148,7 +157,11 @@ const ArticleReadComponent = () => {
     }
   };
 
+
+
   const isAuthor = isLogin && serverData.memberId === decodeToken.id;
+
+
 
   if (error) {
     return (
@@ -178,6 +191,8 @@ const ArticleReadComponent = () => {
       </Modal>
     );
   }
+
+
 
   return (
     <section>
@@ -213,6 +228,7 @@ const ArticleReadComponent = () => {
               </button>
             </div>
           </div>
+
           <div className="pb-5 flex">
             <div>작성자 : {serverData.memberNickname}</div>
             <div className="px-2 ml-auto">조회수 : {serverData.viewCount || 0}회</div>
@@ -249,6 +265,8 @@ const ArticleReadComponent = () => {
           onCommentAdded={handleCommentUpdate}
         />
 
+
+
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
@@ -270,7 +288,7 @@ const ArticleReadComponent = () => {
                 </Button>
               ) : (
                 <>
-                  <Button colorScheme="red" onClick={isCommentSubmitMode ? handleCommentSubmitConfirm : handleDeleteConfirm} mr={3}>
+                  <Button colorScheme="teal" onClick={isCommentSubmitMode ? handleCommentSubmitConfirm : handleDeleteConfirm} mr={3}>
                     {isCommentSubmitMode ? '작성' : '네'}
                   </Button>
                   <Button variant="ghost" onClick={onClose}>
