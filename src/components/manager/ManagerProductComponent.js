@@ -140,15 +140,19 @@ const ManagerProductComponent = () => {
     // 상품 수정 처리
     const handleStockModify = async () => {
         try {
+            
             const formData = new FormData();
-            formData.append('productTitle', serverData.productTitle);
-            formData.append('productContent', serverData.productContent);
-            formData.append('productPrice', serverData.productPrice);
-            formData.append('productDetailContent', serverData.productDetailContent);
-            formData.append('productCategory', serverData.productCategory);
+            formData.append('productTitle', modal.productTitle);
+            formData.append('productContent', modal.productContent);
+            formData.append('productPrice', modal.productPrice);
+            formData.append('productDetailContent', modal.productDetailContent);
+            formData.append('productCategory', modal.productCategory);
+            formData.append('productStock', modal.productStock);
+
+            formData.append('files', modal.uploadFilNames);
 
 
-            await modifyProduct(serverData.id, formData);
+            await modifyProduct(modal.id, formData);
             alert('수정이 완료되었습니다!');
             moveToList();
         } catch (error) {
@@ -185,7 +189,8 @@ const ManagerProductComponent = () => {
 
                                 <div className="flex text-xl mt-7 justify-end">
                                     <button className="mr-3 p-2 px-5 bg-[rgb(77,160,124)] text-white"
-                                        onClick={handleStockModify}>
+                                        onClick={handleStockModify}
+                                        onKeyDown={handleStockModify}>
                                         수정
                                     </button>
                                     <button className="mr-3 p-2 px-5 bg-[rgb(240,113,113)] text-white"
