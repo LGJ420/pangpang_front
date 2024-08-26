@@ -7,6 +7,8 @@ import useCustomToken from "../../hooks/useCustomToken";
 import { getList } from "../../api/productApi";
 import { IconButton, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
+import MypageTitleComponent from "../common/MypageTitleComponent";
+import SearchBarComponent from "../common/SearchBarComponent";
 
 
 /* 초기값 설정 */
@@ -133,30 +135,29 @@ const ManagerProductComponent = () => {
   
   
 
-    /* 검색 인풋창 엔터키만 눌러도 검색 */
-    const handleKeyDown = (e) => {
-        if (e.key === "Enter") {
+    const handleChangeSearch = (e) => {
+
+        setWord(e.target.value);
+    }
+
+    const handleClickSearch = () => {
+
         moveToList({ search: word });
-        }
     }
 
 
-
     return(
-        // ▼이거 class는 그냥 빨간선때문에 한거임 나중에 알아서 바꾸세욤 ㅎㅁㅎ)>
-        <div className={styles.test}>
-            <div className="flex items-center">
-                <div>총 상품 수 : {serverData.dtoList.length}</div>
+        <div>
+            <div className="flex items-center justify-between mb-5">
+                <MypageTitleComponent>
+                    상품 관리
+                </MypageTitleComponent>
 
-                <Input placeholder="검색어를 입력하세요" width={500} height={12} marginRight={3} marginLeft="auto" fontSize="xl"
-                    onChange={(e) => { setWord(e.target.value); console.log(word) }}
-                    onKeyDown={handleKeyDown}
-                    value={word} />
-                <IconButton colorScheme='gray' aria-label='Search database' fontSize="25px" height={12} width={14}
-                    icon={<SearchIcon />}
-                    onClick={() => { moveToList({ search: word }); }} />
+                <SearchBarComponent width="40%" changeFn={handleChangeSearch} clickFn={handleClickSearch}/>
             </div>
-
+            <h3 className="text-xl my-5 ml-4">
+                총 상품 수 : {serverData.dtoList.length}
+            </h3>
             <div className={styles.productsHeader}>
 
                 <div>상품번호</div>

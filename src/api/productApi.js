@@ -1,8 +1,8 @@
 import axios from "axios"
 
-export const API_SERVER_HOST = 'http://localhost:8080';
-
+export const API_SERVER_HOST = process.env.REACT_APP_API_SERVER_HOST;
 const prefix = `${API_SERVER_HOST}/api/product`;
+
 
 /* 상품 등록 */
 export const addProduct = async (formData) => {   // formData : 상품 정보를 담은 FormData 객체

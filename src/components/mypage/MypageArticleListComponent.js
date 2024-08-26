@@ -3,6 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteOne, getMyArticles } from '../../api/articleApi';
+import MypageTitleComponent from '../common/MypageTitleComponent';
 
 
 
@@ -106,14 +107,14 @@ const MypageArticleListComponent = () => {
 
 
     return (
-        <Box p={4} maxW="1200px" mx="auto">
-            <Heading as="h3" size="lg" mb={6} >
+        <section>
+            <MypageTitleComponent>
                 내가 쓴 글
-            </Heading>
+            </MypageTitleComponent>
 
-            <Text mb={4} fontSize="md" color="gray.600">
+            <h3 className="text-xl my-5 ml-4">
                 총 글 개수: {totalCount}
-            </Text>
+            </h3>
 
             <Stack spacing={6}>
                 {articles.map(article => (
@@ -226,7 +227,7 @@ const MypageArticleListComponent = () => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </Box>
+        </section>
     );
 };
 

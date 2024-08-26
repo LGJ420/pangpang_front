@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { getNoticeList } from '../../api/noticeApi';
 import useCustomMove from '../../hooks/useCustomMove';
 import { useNavigate } from 'react-router-dom';
+import SearchBarComponent from '../common/SearchBarComponent';
 
 
 
@@ -97,24 +98,14 @@ const NoticeListComponent = () => {
 
                     <>
                     {console.log(serverData)}
-                        <div className='flex justify-center text-xl mt-10 mb-5'>
-                            <Select 
-                                placeholder='검색기준' 
-                                w="10rem" mr={2} fontSize="xl"
-                                value="">
+                        <div className='flex justify-center items-center text-xl mt-10 mb-5 w-11/12 m-auto'>
+                            <select
+                                className='border h-14 focus:outline-none focus-within:border-blue-500'>
                                 <option value="">제목</option>
                                 <option value="">작성자명</option>
-                            </Select>
+                            </select>
 
-                            <Input 
-                                placeholder='검색어를 입력하세요' 
-                                w="70%" mr={2} fontSize="xl"
-                                value=""/>
-
-                            <IconButton
-                                className='bg-[rgb(49,49,49)]'
-                                aria-label='Search database'
-                                icon={<SearchIcon className='text-white text-2xl'/>}/>
+                            <SearchBarComponent />
                         </div>
 
                         <div className='h-[50rem]'>

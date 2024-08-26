@@ -4,6 +4,7 @@ import axios from "axios";
 
 // 빨간선때문에 import함 나중에 삭제하시길 ㅎㅎ
 import styles from "../../css/memberPage.module.css"
+import MypageTitleComponent from "../common/MypageTitleComponent";
 
 // const initData =     {
 //     id: 0,
@@ -71,9 +72,13 @@ const ManagerMemberComponent = () => {
     }
 
     return(
-        // ▼이거 class는 그냥 빨간선때문에 한거임 나중에 알아서 바꾸세욤 ㅎㅁㅎ)>
-        <div className={styles.test}> 
-            <div>총 회원 수 : {serverData.length}</div>
+        <div>
+            <div className="mb-5">
+                <MypageTitleComponent>회원 관리</MypageTitleComponent>
+            </div>
+            <h3 className="text-xl my-5 ml-4">
+                총 회원 수 : {serverData.length}
+            </h3>
             <div className={styles.membersGrid}>
                 <div className={styles.membersHeader}>
                     <div>회원번호</div>

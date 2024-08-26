@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
 import useCustomToken from "../../hooks/useCustomToken";
+import MypageTitleComponent from "../common/MypageTitleComponent";
 
 const MemberProfileComponent = () => {
 
@@ -303,7 +304,9 @@ const MemberProfileComponent = () => {
         <section>
             <div className="text-xl mb-3">
 
-                <h3 className='text-xl font-bold'>내 정보 수정</h3>
+                <MypageTitleComponent>
+                    내 정보 변경
+                </MypageTitleComponent>
 
                 <div className="w-11/12 m-auto">
                     <div className="my-10 flex items-center">

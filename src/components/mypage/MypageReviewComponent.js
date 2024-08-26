@@ -3,6 +3,7 @@ import { getMyReview } from "../../api/productReviewApi";
 import "../../css/mypageReviewComponent.css";
 import RatingStarCompoent from "../common/RatingStarComponent";
 import { Spinner } from "@chakra-ui/react";
+import MypageTitleComponent from "../common/MypageTitleComponent";
 
 // const initData = {
 //     rating: 0,
@@ -34,7 +35,9 @@ const MypageReviewComponent = () => {
     return (
         <section>
 
-            <h1 className="text-4xl font-bold">내가 쓴 리뷰</h1>
+            <MypageTitleComponent>
+                내가 쓴 리뷰
+            </MypageTitleComponent>
             <h3 className="text-xl my-5 ml-4">
                 총 {reviewData.length}개 리뷰
             </h3>
