@@ -1,6 +1,7 @@
 import styles from '../../css/memberPage.module.css';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { findMemberPassword } from '../../api/memberApi';
 import {
     Input,
     FormControl,
@@ -33,7 +34,7 @@ const MemberFindPwComponent = () => {
     const navigate = useNavigate();
 
     // 비밀번호 찾기 버튼
-    const handleFindPw = () => {
+    const handleFindPw = async () => {
         
         // 1. 제대로 입력되었는지 확인
         console.log("click find_pw");
@@ -57,37 +58,23 @@ const MemberFindPwComponent = () => {
         }
         
         // 3. post로 아이디, 이름, 생년월일 제출 함수 작성
-        axios
-        .post("http://localhost:8080/api/member/find_pw",{
-                memberId : memberIdInFindPw,
-                memberName : memberNameInFindPw,
-                memberBirth : memberBirthInFindPw
-            })
-            
-            // 3-1. 제출한 아이디, 이름, 생년월일이 있으면 아래 링크로 이동
-            .then((response)=>{
-                console.log("axios.post->response 데이터")
-                console.log(response.data)
+        try {
+            const response = await findMemberPassword(memberIdInFindPw, memberNameInFindPw, memberBirthInFindPw);
+            console.log("axios.post->response 데이터");
+            console.log(response);
 
-                // response 데이터 정리용
-                const {id, memberId, memberName, memberBirth} = response.data;
-                // ▼▼▼ 출력 제대로 되는지 확인용 ▼▼▼
-                console.log("회원번호 : " + id)
-                console.log("ID : " + memberId)
-                console.log("이름 : " + memberName)
-                console.log("생년월일 : " + memberBirth)
-                // ▲▲▲ 출력 제대로 되는지 확인용 ▲▲▲
+            const { id, memberId, memberName, memberBirth } = response;
+            console.log("회원번호 : " + id);
+            console.log("ID : " + memberId);
+            console.log("이름 : " + memberName);
+            console.log("생년월일 : " + memberBirth);
 
-                // 데이터 전달
-                navigate("/reset/pw", {state : {memberId}})
-            })
-            
-            // 3-2. 없으면 에러 발생
-            .catch((error)=>{
-                const errorMsg = "회원이 존재하지 않습니다.";
-                alert(errorMsg);
-                console.error(errorMsg);
-            });
+            navigate("/reset/pw", { state: { memberId } });
+        } catch (error) {
+            const errorMsg = "회원이 존재하지 않습니다.";
+            alert(errorMsg);
+            console.error(errorMsg);
+        }
     }
                 
     return (

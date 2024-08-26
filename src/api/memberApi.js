@@ -42,3 +42,18 @@ export const findMemberId = async (name, birth) => {
         throw err;
     }
 };
+
+// 비밀번호 찾기
+export const findMemberPassword = async (id, name, birth) => {
+    try {
+        const res = await axios.post(`${prefix}/find/pw`, {
+            memberId: id,
+            memberName: name,
+            memberBirth: birth
+        });
+        return res.data;
+    } catch (err) {
+        console.error("Error finding member password:", err);
+        throw err;
+    }
+};
