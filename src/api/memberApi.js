@@ -57,3 +57,17 @@ export const findMemberPassword = async (id, name, birth) => {
         throw err;
     }
 };
+
+// 로그인
+export const loginMember = async (id, password) => {
+    try {
+        const res = await axios.post(`${prefix}/login`, {
+            memberId: id,
+            memberPw: password
+        });
+        return res.data;
+    } catch (err) {
+        console.error("Error logging in member:", err);
+        throw err;
+    }
+};

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
 import { Spinner } from 'react-bootstrap';
+import { loginMember } from '../../api/memberApi';
 
 const MemberLoginComponent = () => {
 
@@ -25,7 +26,7 @@ const MemberLoginComponent = () => {
             // 이미 로그인된 상태라면 홈으로 리다이렉트
             navigate("/");
         }
-    }, [navigate]);
+    }, [navigate, token]);
     
     const handleMemberId = (e)=>{
         setMemberId(e.target.value);
@@ -34,7 +35,7 @@ const MemberLoginComponent = () => {
         setMemberPw(e.target.value);
     }
 
-    const onClickLogin = ()=>{
+    const onClickLogin = async ()=>{
         
         setIsLoading(true);
         
@@ -42,61 +43,51 @@ const MemberLoginComponent = () => {
         console.log("ID : " + memberId);
         console.log("PW : " + memberPw);
         
-        axios
-        .post("http://localhost:8080/api/member/login",{
-            memberId : memberId,
-            memberPw : memberPw
-        })
-            .then((response)=>{
-                console.log(response.data);
-                console.log("======================", "로그인 성공");
+        try {
+            const response = await loginMember(memberId, memberPw);
+            console.log(response);
+            console.log("======================", "로그인 성공");
+
+            if (response) {
+                localStorage.setItem("memberId", memberId);
+                localStorage.setItem("token", response); // Adjust according to response structure
+                console.log("로그인 성공, 로컬 스토리지에 저장됨");
                 
-                if (response.data) {
-                    localStorage.setItem("memberId", memberId);
-                    localStorage.setItem("token", response.data);
-                    console.log("로그인 성공, 로컬 스토리지에 저장됨");
-                    
-                    // // ▼로컬스토리지 저장하는데 굳이 세션스토리지까지 저장안해도 될듯?!▼
-                    // sessionStorage.setItem("memberId", memberId);
-                    // sessionStorage.setItem("token", response.data.token);
-                    // console.log("로그인 성공, 세션 스토리지에 저장됨");
+                setToken(response);
 
-                    setToken(response.data);
-
-                } else {
-                    alert("토큰이 응답에 없습니다.");
-                }
-
-                // 로그인 후 홈으로 리다이렉트
+                // Navigate to home after login
                 navigate("/");
-            })
-            .catch((error)=>{
-                console.error("로그인 요청 중 오류 발생", error);
-                
-                if (error.response) {
-                    // 서버가 응답을 반환했지만 오류 코드가 포함되어 있는 경우
-                    if (error.response.status === 401) {
-                        alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
-                    } else if (error.response.status === 500) {
-                        alert("서버 오류: 활동이 정지되었습니다.");
-                    } else {
-                        alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
-                    }
+            } else {
+                alert("토큰이 응답에 없습니다.");
+            }
+        } catch (error) {
+            console.error("로그인 요청 중 오류 발생", error);
+            
+            if (error.response) {
+                // Server response errors
+                if (error.response.status === 401) {
+                    alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
+                } else if (error.response.status === 500) {
+                    alert("서버 오류: 활동이 정지되었습니다.");
                 } else {
-                    // 서버가 응답하지 않거나 요청 자체에서 오류가 발생한 경우
                     alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
                 }
-            })
-            .finally(()=>setIsLoading(false));
-
-        }
-
-        /* 검색 인풋창 엔터키만 눌러도 검색 */
-        const handleKeyDown = (e) => {
-            if (e.key === "Enter") {
-                onClickLogin();
+            } else {
+                // Request or network errors
+                alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
             }
+        } finally {
+            setIsLoading(false);
         }
+    }   
+
+    /* 검색 인풋창 엔터키만 눌러도 검색 */
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            onClickLogin();
+        }
+    }
+
 
     return (
             <section className={styles.account_management}>
