@@ -1,5 +1,5 @@
 import { Select, Input, IconButton, Button, Spinner, Flex, Box, Badge } from '@chakra-ui/react';
-import { ChevronLeftIcon, ChevronRightIcon, SearchIcon } from '@chakra-ui/icons';
+import { SearchIcon } from '@chakra-ui/icons';
 import { getList } from '../../api/articleApi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';

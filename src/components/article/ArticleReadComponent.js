@@ -54,6 +54,7 @@ const ArticleReadComponent = () => {
   const [error, setError] = useState(null);
   const [commentContent, setCommentContent] = useState('');
   const [isCommentSubmitMode, setIsCommentSubmitMode] = useState(false);
+  const [isLoginRequired, setIsLoginRequired] = useState(false);
   const [comments, setComments] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { moveToList, moveToModify } = useCustomMove();
@@ -122,6 +123,7 @@ const ArticleReadComponent = () => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!isLogin) {
+      setIsLoginRequired(true);
       onOpen();
       return;
     }
@@ -251,21 +253,31 @@ const ArticleReadComponent = () => {
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>
-              {isCommentSubmitMode ? '댓글 작성 확인' : '삭제 확인'}
+              {isLoginRequired ? '로그인 필요' : isCommentSubmitMode ? '댓글 작성 확인' : '삭제 확인'}
             </ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              {isCommentSubmitMode
+              {isLoginRequired
+                ? '댓글을 작성하려면 먼저 로그인해 주세요.'
+                : isCommentSubmitMode
                 ? '댓글을 작성하시겠습니까?'
                 : '정말로 이 글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.'}
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="red" onClick={isCommentSubmitMode ? handleCommentSubmitConfirm : handleDeleteConfirm} mr={3}>
-                {isCommentSubmitMode ? '작성' : '네'}
-              </Button>
-              <Button variant="ghost" onClick={onClose}>
-                취소
-              </Button>
+              {isLoginRequired ? (
+                <Button colorScheme="teal" onClick={() => navigate('/login')} mr={3}>
+                  로그인하기
+                </Button>
+              ) : (
+                <>
+                  <Button colorScheme="red" onClick={isCommentSubmitMode ? handleCommentSubmitConfirm : handleDeleteConfirm} mr={3}>
+                    {isCommentSubmitMode ? '작성' : '네'}
+                  </Button>
+                  <Button variant="ghost" onClick={onClose}>
+                    취소
+                  </Button>
+                </>
+              )}
             </ModalFooter>
           </ModalContent>
         </Modal>
