@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import useCustomToken from "../../hooks/useCustomToken";
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { confirmMemberPassword } from '../../api/memberApi'; // Updated import
 import MypageTitleComponent from '../common/MypageTitleComponent';
 

@@ -8,7 +8,6 @@ import {
     FormLabel,
     } from '@chakra-ui/react'
 import { useState } from "react";
-import axios from 'axios';
 
 const MemberFindIdComponent = () => {
 

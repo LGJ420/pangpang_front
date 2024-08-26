@@ -1,7 +1,6 @@
 import styles from '../../css/memberPage.module.css';
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
 import { Spinner } from 'react-bootstrap';
