@@ -27,4 +27,18 @@ export const confirmMemberPassword = async (password) => {
         console.error("Error confirming member password:", err);
         throw err;
     }
-}
+};
+
+// 아이디 찾기
+export const findMemberId = async (name, birth) => {
+    try {
+        const res = await axios.post(`${prefix}/find/id`, {
+            memberName: name,
+            memberBirth: birth
+        });
+        return res.data;
+    } catch (err) {
+        console.error("Error finding member ID:", err);
+        throw err;
+    }
+};
