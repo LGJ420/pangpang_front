@@ -15,11 +15,7 @@ const initState = {
   dtoList: [],    // 상품 데이터 리스트
   pageNumList: [],    // 페이지 번호 리스트
   pageRequestDTO: null,   // 현재 페이지 요청 정보
-  prev: false,            // 이전 페이지 존재 여부
-  next: false,            // 다음 페이지 존재 여부
   totalCount: 0,          // 전체 데이터 총 개수
-  prevPage: 0,            // 이전 페이지 번호, 존재하지 않으면 0 또는 null
-  nextPage: 0,            // 다음 페이지 번호, 존재하지 않으면 0 또는 null
   totalPage: 0,           // 전체 페이지 수
   current: 0              // 현재 페이지 번호
 }
@@ -186,7 +182,7 @@ const ProductListComponent = () => {
 
       <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700">
         {/* 이전 페이지 */}
-        <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData.prevPage })}>{'\u003c'}</Box>
+        <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData - 1 })}>{'\u003c'}</Box>
 
         {/* 페이지 넘버 */}
         {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
@@ -196,7 +192,7 @@ const ProductListComponent = () => {
             onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
 
         {/* 다음 페이지 */}
-        <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.nextPage })}>{'\u003e'}</Box>
+        <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.current + 1 })}>{'\u003e'}</Box>
 
         {
           decodeToken.memberRole === 'Admin' &&

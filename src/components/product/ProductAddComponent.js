@@ -89,6 +89,16 @@ const ProductAddComponent = () => {
             return;
         }
 
+        if (product.productStock <= 0) {
+            alert("재고량을 입력해주세요.");
+            return;
+        }
+
+        if (isNaN(product.productStock)) {
+            alert("제고량을 입력해주세요. (숫자만 가능)");
+            return;
+        }
+
         if (!product.productDetailContent.trim()) {
             alert("상품 상세설명을 입력해주세요.");
             return;
@@ -121,6 +131,7 @@ const ProductAddComponent = () => {
 
         const formData = new FormData();
         formData.append("productCategory", product.productCategory);
+        formData.append("productStock", product.productStock);
         formData.append("productTitle", product.productTitle);
         formData.append("productContent", product.productContent);
         formData.append("productPrice", product.productPrice);
@@ -203,6 +214,16 @@ const ProductAddComponent = () => {
                         <option value="게임기기">게임기기</option>
                         <option value="굿즈">피규어 / 굿즈</option>
                     </select>
+                </div>
+                <div className="my-10 flex flex-col">
+                    <label className="m-3 font-extrabold" htmlFor="productStock">재고량</label>
+                    <input
+                        className="p-3 rounded border w-1/5"
+                        id="productStock"
+                        name="productStock"
+                        placeholder="재고량을 적어주세요."
+                        maxLength={10}
+                        onChange={handleChangeProduct} />
                 </div>
                 <div className="my-10 flex flex-col">
                     <label className="m-3 font-extrabold" htmlFor="productTitle">제목</label>

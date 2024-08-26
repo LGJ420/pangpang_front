@@ -105,9 +105,7 @@ const ManagerProductComponent = () => {
       const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
         try {
           // 상품 목록 데이터 가져오기
-          const data = search
-            ? await getList({ search, page, size })
-            : await getList({ page, size });
+          const data =  await getList({ search, page, size });
           setServerData(data);
           // console.log(data);   // 데이터 확인용
   
@@ -156,7 +154,7 @@ const ManagerProductComponent = () => {
                 <SearchBarComponent width="40%" changeFn={handleChangeSearch} clickFn={handleClickSearch}/>
             </div>
             <h3 className="text-xl my-5 ml-4">
-                총 상품 수 : {serverData.dtoList.length}
+                총 상품 수 : {serverData.totalCount}
             </h3>
             <div className={styles.productsHeader}>
 
@@ -183,7 +181,7 @@ const ManagerProductComponent = () => {
                 </div>
                 <div>
                     <div>
-                        1개
+                        {data.productStock}개
                     </div>
                     <button className="text-white px-2 bg-[rgb(77,160,124)] ml-2">
                         변경
@@ -198,15 +196,12 @@ const ManagerProductComponent = () => {
 
             <div className="py-10 text-gray-700 flex justify-center">
                 {/* 이전 페이지 */}
-                {serverData.current > 1 ?
+                
                     <div className="cursor-pointer p-3"
-                        onClick={() => moveToList({ page: serverData.prevPage })}>
+                        onClick={() => moveToList({ page: serverData.current - 1 })}>
                             {'\u003c'}
                         </div>
-                    :
-
-                    <></>
-                }
+   
 
                 {/* 페이지 넘버 */}
                 {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
@@ -216,15 +211,10 @@ const ManagerProductComponent = () => {
 
 
                 {/* 다음 페이지 */}
-                {serverData.next ?
                     <div className="cursor-pointer p-3"
-                        onClick={() => moveToList({ page: serverData.nextPage })}>
+                        onClick={() => moveToList({ page: serverData.current + 1 })}>
                             {'\u003e'}
                         </div>
-                    :
-                    
-                    <></>
-                }
 
             </div>
 
