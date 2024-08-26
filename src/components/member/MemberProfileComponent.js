@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
 import useCustomToken from "../../hooks/useCustomToken";
 import MypageTitleComponent from "../common/MypageTitleComponent";
+import { updateMemberProfile, deleteProfileImage } from '../../api/memberApi';
 
 const MemberProfileComponent = () => {
 
@@ -250,43 +251,39 @@ const MemberProfileComponent = () => {
                 formData.append('file', file);
             }
 
-            console.log("file 출력")
+            console.log("fime(memberImage) 출력")
             console.log(file)
     
-            // 토큰 가져오기(프린시펄 하려면 토큰을 보내야함)
-            const token = localStorage.getItem("token");
-    
             // 회원 정보 및 프로필 사진 수정 API 호출
-            const response = await axios.post("http://localhost:8080/api/member/mypage/modify", formData, {
-                headers: {
-                    // 'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`,
-                }
-            });
-    
-            console.log(response);
-            localStorage.setItem("token", response.data); // 로컬스토리지에 바뀐 token 저장
-            setToken(response.data); // useState에 바뀐 token 저장
-            alert("수정이 완료되었습니다.");
-            navigate('/');
-        } catch (error) {
-            console.error("내 정보 변경 요청 중 오류 발생", error);
-            alert("수정 중 오류가 발생했습니다.");
+            const res = await updateMemberProfile(formData);
+            if (res) {
+                alert("프로필 수정이 완료되었습니다.");
+            } else {
+                alert("프로필 수정에 실패하였습니다.");
+            }
+        } catch (err) {
+            console.error("Error updating member profile:", err);
+            alert("프로필 수정 중 오류가 발생했습니다.");
         }
 
     }
     
     //프로필 사진 삭제
-    const deleteImage = () => {
-        axios.delete(`http://localhost:8080/api/member/${memberId}/image`)
-        .then((response)=>{
-            console.log(response.data);
-            setProfileImage("/images/profile.png");
-        })
-        .catch((error)=>{
-            console.log("프로필 사진 삭제 중 에러 발생 : " + error);
-            alert("프로필 사진 삭제 중 오류가 발생했습니다.");
-        })
+    const deleteImage = async () => {
+        if (window.confirm("프로필 사진을 삭제하시겠습니까?")) {
+            try {
+                const res = await deleteProfileImage(memberId);
+                if (res) {
+                    setProfileImage("/images/profile.png");
+                    alert("프로필 사진이 삭제되었습니다.");
+                } else {
+                    alert("프로필 사진 삭제에 실패하였습니다.");
+                }
+            } catch (err) {
+                console.error("Error deleting profile image:", err);
+                alert("프로필 사진 삭제 중 오류가 발생했습니다.");
+            }
+        }
     }
 
     

@@ -71,3 +71,30 @@ export const loginMember = async (id, password) => {
         throw err;
     }
 };
+
+// 마이페이지 - 내 정보 변경
+export const updateMemberProfile = async (formData) => {
+    const token = localStorage.getItem("token");
+    try {
+        const res = await axios.post(`${prefix}/mypage/modify`, formData, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return res.data;
+    } catch (err) {
+        console.error("Error updating member profile:", err);
+        throw err;
+    }
+};
+
+// 마이페이지 - 내 정보 변경 - 프로필 사진 삭제
+export const deleteProfileImage = async (memberId) => {
+    try {
+        const res = await axios.delete(`${prefix}/${memberId}/image`);
+        return res.data;
+    } catch (err) {
+        console.error("Error deleting profile image:", err);
+        throw err;
+    }
+};
