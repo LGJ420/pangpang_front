@@ -59,9 +59,6 @@ const ManagerProductComponent = () => {
     const queryDefault = createSearchParams({ search, page, size }).toString();
 
 
-
-
-
     const moveToList = (pageParam) => {
 
         let queryStr = "";
@@ -87,9 +84,8 @@ const ManagerProductComponent = () => {
     useEffect(() => {
       const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
         try {
-            const cacheBuster = new Date().getTime(); 
           // 상품 목록 데이터 가져오기
-            const data = await getList({ search, page, size, cacheBuster });
+            const data = await getList({ search, page, size });
           setServerData(data);
           // console.log(data);   // 데이터 확인용
         }
