@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
 import useCustomToken from "../../hooks/useCustomToken";
 import MypageTitleComponent from "../common/MypageTitleComponent";
-import { updateMemberProfile, deleteProfileImage } from '../../api/memberApi';
+import { updateMemberProfile, deleteProfileImage, prefix } from '../../api/memberApi';
 
 const MemberProfileComponent = () => {
 
@@ -164,7 +164,7 @@ const MemberProfileComponent = () => {
     // // 프로필 사진 관련 코드
 
     // 비번확인하면 memberId, memberImage...등 보내주는데, memberImage 유무로 있는사진띄워줄건지 너굴맨띄워줄건지 구분하는 코드
-    const [profileImage, setProfileImage] = useState(memberImage ? `http://localhost:8080/api/member/view/${memberImage}` : "/images/profile.png")
+    const [profileImage, setProfileImage] = useState(memberImage ? `${prefix}/view/${memberImage}` : "/images/profile.png")
     
     // 사진 미리보기
     const [file, setFile] = useState(); 
@@ -186,7 +186,7 @@ const MemberProfileComponent = () => {
     // 이거안하면 too many response? 이거생김
     useEffect(() => {
         if (memberImage) {
-            setProfileImage(`http://localhost:8080/api/member/view/${memberImage}`);
+            setProfileImage(`${prefix}/view/${memberImage}`);
         } else {
             setProfileImage("/images/profile.png");
         }
@@ -214,12 +214,6 @@ const MemberProfileComponent = () => {
             return;
         }
 
-        // 비밀번호 글자수 제한
-        if(modifyMemberPw.length >7 || modifyMemberPw.length <20){
-            alert("비밀번호는 8-20자리로 입력해주세요.");
-            return;
-        }
-        
         // 비밀번호 = 비밀번호 확인 체크
         if(modifyMemberPw !== modifyMemberPwConfirm ) {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
@@ -242,6 +236,12 @@ const MemberProfileComponent = () => {
     
             // 사용자가 새 비밀번호를 입력한 경우에만 비밀번호를 추가
             if (modifyMemberPw) {
+                // 비밀번호 글자수 제한
+                if(modifyMemberPw.length >7 || modifyMemberPw.length <20){
+                    alert("비밀번호는 8-20자리로 입력해주세요.");
+                    return;
+                }
+
                 formData.append('memberPw', modifyMemberPw);
             }
     
@@ -250,7 +250,7 @@ const MemberProfileComponent = () => {
                 formData.append('file', file);
             }
 
-            console.log("fime(memberImage) 출력")
+            console.log("file(memberImage) 출력")
             console.log(file)
     
             // 회원 정보 및 프로필 사진 수정 API 호출
