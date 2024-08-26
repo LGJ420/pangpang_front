@@ -19,7 +19,9 @@ const MemberFindPwComponent = () => {
     const [memberBirthInFindPw, setMemberBirthInFindPw] = useState('');
     
     const handleMemberIdInFindPw = (e)=>{
-        setMemberIdInFindPw(e.target.value);
+        // 아이디에 영어, 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9A-Za-z]/ig, '')
+        setMemberIdInFindPw(validInputValue);
     }
     const handleMemberNameInFindPw = (e)=>{
         setMemberNameInFindPw(e.target.value);

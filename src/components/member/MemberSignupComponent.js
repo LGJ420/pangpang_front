@@ -197,7 +197,7 @@ const MemberSignupComponent = () => {
         }
 
         // 비밀번호 8자리 이상인지 체크
-        if(memberPwInFindPwForReset < 7 || memberPwInFindPwForReset > 20){
+        if(memberPw.length < 7 || memberPw.length > 20){
             alert("비밀번호는 8-20자리로 입력해주세요.");
             setPwInputError('error');
             return;

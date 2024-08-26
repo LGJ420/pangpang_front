@@ -215,7 +215,7 @@ const MemberProfileComponent = () => {
         }
 
         // 비밀번호 글자수 제한
-        if(modifyMemberPw>7 || modifyMemberPw<20){
+        if(modifyMemberPw.length >7 || modifyMemberPw.length <20){
             alert("비밀번호는 8-20자리로 입력해주세요.");
             return;
         }
