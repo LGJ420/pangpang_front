@@ -80,13 +80,22 @@ const MemberSignupComponent = () => {
 
     // 아이디 중복확인 버튼
     const onClickCheckMemberId = async () => {
-        try {
-            await checkMemberId(memberId);
-            alert("사용 가능한 아이디입니다.");
-            setCheckMemberIdStatus(true);
-            setIdInputError('success');
-        } catch (error) {
-            alert("사용할 수 없는 아이디입니다.");
+        
+        // 아이디 길이 확인
+        if(memberId.length >= 6 ){
+
+            try {
+                await checkMemberId(memberId);
+                alert("사용 가능한 아이디입니다.");
+                setCheckMemberIdStatus(true);
+                setIdInputError('success');
+            } catch (error) {
+                alert("사용할 수 없는 아이디입니다.");
+                setCheckMemberIdStatus(false);
+                setIdInputError('error');
+            }
+        } else {
+            alert("아이디는 6자리 이상 입력해주세요.");
             setCheckMemberIdStatus(false);
             setIdInputError('error');
         }
@@ -187,6 +196,13 @@ const MemberSignupComponent = () => {
             setIdInputError('success');
         }
 
+        // 비밀번호 8자리 이상인지 체크
+        if(memberPw.length < 8){
+            alert("비밀번호는 8자리 이상 입력해주세요.");
+            setPwInputError('error');
+            return;
+        }
+
         // 비밀번호 = 비밀번호 확인 체크
         if(memberPw !== memberPwConfirm ) {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
@@ -271,9 +287,10 @@ const MemberSignupComponent = () => {
                         value={memberId}
                         onChange={handleMemberId}
                         className={idInputError === 'success' ? 'border-blue-500' : idInputError === 'error' ? 'border-red-500' : ''}
-                        placeholder='아이디를 입력해주세요.'/>
+                        placeholder='6자리 이상 입력해주세요.'
+                        minLength={6}
+                        maxLength={20}/>
                         <button className="w-32 ml-3 bg-slate-400 rounded text-white hover:opacity-80"
-                        style = "ime-mode:inactive"
                         onClick={onClickCheckMemberId}>
                             중복확인
                         </button>
@@ -289,7 +306,9 @@ const MemberSignupComponent = () => {
                         type='password' 
                         value={memberPw}
                         onChange={handleMemberPw}
-                        placeholder='비밀번호를 입력해주세요.' />
+                        placeholder='8자리 이상 입력해주세요.'
+                        minLength={8}
+                        maxLength={20} />
                 </FormControl>
                 {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
 
@@ -301,7 +320,9 @@ const MemberSignupComponent = () => {
                         type='password' 
                         value={memberPwConfirm}
                         onChange={handleMemberPwConfirm}
-                        placeholder='비밀번호를 입력해주세요.' />
+                        placeholder='비밀번호를 다시 입력해주세요.'
+                        minLength={8}
+                        maxLength={20} />
                 </FormControl>
 
                 {/* 이름 */}
