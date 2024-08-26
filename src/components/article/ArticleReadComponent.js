@@ -71,7 +71,7 @@ const ArticleReadComponent = () => {
       }
     } catch (error) {
       console.error("글을 불러오는데 실패했습니다.", error);
-      setError("Article not found");
+      setError("존재하지 않는 글입니다.");
       onOpen();
     }
   };
