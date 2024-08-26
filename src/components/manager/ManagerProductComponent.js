@@ -13,26 +13,10 @@ import SearchBarComponent from "../common/SearchBarComponent";
 
 /* 초기값 설정 */
 const initState = {
-    dtoList: [{
-        id: 0,
-        productTitle: "",
-        productContent: "",
-        productPrice: 0,
-        productDetailContent: null,
-        productCategory: null,
-        productCreated: "2024-08-19T11:12:08.57246",
-        files: [],
-        uploadFileNames: [
-            ""
-        ]
-        }],    // 상품 데이터 리스트
+    dtoList: [],    // 상품 데이터 리스트
     pageNumList: [],    // 페이지 번호 리스트
     pageRequestDTO: null,   // 현재 페이지 요청 정보
-    prev: false,            // 이전 페이지 존재 여부
-    next: false,            // 다음 페이지 존재 여부
     totalCount: 0,          // 전체 데이터 총 개수
-    prevPage: 0,            // 이전 페이지 번호, 존재하지 않으면 0 또는 null
-    nextPage: 0,            // 다음 페이지 번호, 존재하지 않으면 0 또는 null
     totalPage: 0,           // 전체 페이지 수
     current: 0              // 현재 페이지 번호
   }
@@ -69,7 +53,7 @@ const ManagerProductComponent = () => {
 
 
     const page = getNum(queryParams.get('page'), 1);
-    const size = getNum(queryParams.get('size'), 12);   // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
+    const size = getNum(queryParams.get('size'), 10);   // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
     const search = getString(queryParams.get('search'), '');   // 상품 목록에서 필요한 검색
 
     const queryDefault = createSearchParams({ search, page, size }).toString();
@@ -85,7 +69,7 @@ const ManagerProductComponent = () => {
         if (pageParam) {
 
             const pageNum = getNum(pageParam.page, 1);
-            const sizeNum = getNum(pageParam.size, 12); // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
+            const sizeNum = getNum(pageParam.size, 10); // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
             const searchStr = getString(pageParam.search, search);      // 상품 목록 - 검색에서 사용
 
             queryStr = createSearchParams({ search: searchStr, page: pageNum, size: sizeNum, }).toString();
@@ -103,8 +87,9 @@ const ManagerProductComponent = () => {
     useEffect(() => {
       const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
         try {
+            const cacheBuster = new Date().getTime(); 
           // 상품 목록 데이터 가져오기
-          const data =  await getList({ search, page, size });
+            const data = await getList({ search, page, size, cacheBuster });
           setServerData(data);
           // console.log(data);   // 데이터 확인용
         }
