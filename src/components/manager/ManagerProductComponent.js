@@ -19,25 +19,25 @@ const initState = {
     totalCount: 0,          // 전체 데이터 총 개수
     totalPage: 0,           // 전체 페이지 수
     current: 0              // 현재 페이지 번호
-  }
+}
 
-  const getNum = (param, defaultValue) => {
+const getNum = (param, defaultValue) => {
 
-      if (!param) {
-          return defaultValue;
-      }
-  
-      return parseInt(param);
-  }   
+    if (!param) {
+        return defaultValue;
+    }
 
-  const getString = (param, defaultValue) => {
+    return parseInt(param);
+}
 
-      if (!param) {
-          return defaultValue;
-      }
-  
-      return param;
-  }
+const getString = (param, defaultValue) => {
+
+    if (!param) {
+        return defaultValue;
+    }
+
+    return param;
+}
 
 
 const ManagerProductComponent = () => {
@@ -47,9 +47,9 @@ const ManagerProductComponent = () => {
     const [refresh, setRefresh] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [queryParams] = useSearchParams();
-  
+
     const navigate = useNavigate();
-    const {isLogin, decodeToken} = useCustomToken();
+    const { isLogin, decodeToken } = useCustomToken();
 
 
     const page = getNum(queryParams.get('page'), 1);
@@ -78,29 +78,29 @@ const ManagerProductComponent = () => {
         setRefresh(!refresh);
         navigate({ pathname: `../product`, search: queryStr });
     }
-  
-  
+
+
 
     useEffect(() => {
-      const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
-        try {
-          // 상품 목록 데이터 가져오기
-            const data = await getList({ search, page, size });
-          setServerData(data);
-          // console.log(data);   // 데이터 확인용
-        }
-        catch (error) {
-          console.error(error);
-        }
-        finally {
-          setIsLoading(true);
-        }
-      };
-  
-      fetchData();
+        const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
+            try {
+                // 상품 목록 데이터 가져오기
+                const data = await getList({ search, page, size });
+                setServerData(data);
+                // console.log(data);   // 데이터 확인용
+            }
+            catch (error) {
+                console.error(error);
+            }
+            finally {
+                setIsLoading(true);
+            }
+        };
+
+        fetchData();
     }, [search, page, size, refresh]);
-  
-  
+
+
 
     const handleChangeSearch = (e) => {
 
@@ -113,14 +113,14 @@ const ManagerProductComponent = () => {
     }
 
 
-    return(
+    return (
         <div>
             <div className="flex items-center justify-between mb-5">
                 <MypageTitleComponent>
                     상품 관리
                 </MypageTitleComponent>
 
-                <SearchBarComponent width="40%" changeFn={handleChangeSearch} clickFn={handleClickSearch}/>
+                <SearchBarComponent width="40%" changeFn={handleChangeSearch} clickFn={handleClickSearch} />
             </div>
             <h3 className="text-xl my-5 ml-4">
                 총 상품 수 : {serverData.totalCount}
@@ -138,52 +138,56 @@ const ManagerProductComponent = () => {
 
             {serverData.dtoList.map((data, index) => (
 
-            <div className={styles.productsBody} key={index}>
-                <div>{data.id}</div>
-                <div>{data.productCategory}</div>
-                <div>{data.productTitle}</div>
-                <div>
-                    {data.productCreated.substring(0,10)}
-                </div>
-                <div>
-                    0개     
-                </div>
-                <div>
-                    <div>
-                        {data.productStock}개
+                <div className={styles.productsBody} key={index}>
+                    <div>{data.id}</div>
+                    <div>{data.productCategory}</div>
+                    <div className="hover:cursor-pointer hover:text-gray-500"
+                    onClick={() => navigate(`/product/read/${data.id}`)}
+                    >
+                        {data.productTitle}
                     </div>
-                    <button className="text-white px-2 bg-[rgb(77,160,124)] ml-2">
-                        변경
-                    </button>
+                    <div>
+                        {data.productCreated.substring(0, 10)}
+                    </div>
+                    <div>
+                        0개
+                    </div>
+                    <div>
+                        <div>
+                            {data.productStock}개
+                        </div>
+                        <button className="text-white px-2 bg-[rgb(77,160,124)] ml-2">
+                            변경
+                        </button>
+                    </div>
                 </div>
-            </div>
 
             ))}
-            
+
 
             {/* 페이지네이션 */}
 
             <div className="py-10 text-gray-700 flex justify-center">
                 {/* 이전 페이지 */}
-                
-                    <div className="cursor-pointer p-3"
-                        onClick={() => moveToList({ page: serverData.current - 1 })}>
-                            {'\u003c'}
-                        </div>
-   
+
+                <div className="cursor-pointer p-3"
+                    onClick={() => moveToList({ page: serverData.current - 1 })}>
+                    {'\u003c'}
+                </div>
+
 
                 {/* 페이지 넘버 */}
                 {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
-                (<div key={pageNum}
-                    className={`cursor-pointer p-3 ${serverData.current === pageNum ? 'text-[rgb(224,26,109)] border-b' : ''}`}
-                    onClick={() => moveToList({ page: pageNum })}>{pageNum}</div>) : <></>)}
+                    (<div key={pageNum}
+                        className={`cursor-pointer p-3 ${serverData.current === pageNum ? 'text-[rgb(224,26,109)] border-b' : ''}`}
+                        onClick={() => moveToList({ page: pageNum })}>{pageNum}</div>) : <></>)}
 
 
                 {/* 다음 페이지 */}
-                    <div className="cursor-pointer p-3"
-                        onClick={() => moveToList({ page: serverData.current + 1 })}>
-                            {'\u003e'}
-                        </div>
+                <div className="cursor-pointer p-3"
+                    onClick={() => moveToList({ page: serverData.current + 1 })}>
+                    {'\u003e'}
+                </div>
 
             </div>
 
