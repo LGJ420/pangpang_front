@@ -80,7 +80,7 @@ const MemberSignupComponent = () => {
 
     // 아이디 중복확인 버튼
     const onClickCheckMemberId = async () => {
-        
+
         // 아이디 길이 확인
         if(memberId.length >= 6 ){
 
@@ -197,8 +197,8 @@ const MemberSignupComponent = () => {
         }
 
         // 비밀번호 8자리 이상인지 체크
-        if(memberPw.length < 8){
-            alert("비밀번호는 8자리 이상 입력해주세요.");
+        if(memberPwInFindPwForReset < 7 || memberPwInFindPwForReset > 20){
+            alert("비밀번호는 8-20자리로 입력해주세요.");
             setPwInputError('error');
             return;
         }
@@ -219,6 +219,12 @@ const MemberSignupComponent = () => {
             alert("생년월일을 6자리 숫자로 입력해주세요.");
             return;
         } 
+
+        // 닉네임 길이 10자리 체크
+        if(memberNickname >= 10){
+            alert("닉네임은 10자리 이내로 입력해주세요.");
+            return
+        }
 
         // 월을 추출하고 유효한 범위인지 확인 (01 ~ 12)
         const month = parseInt(memberBirth.substring(2, 4), 10);
@@ -339,6 +345,7 @@ const MemberSignupComponent = () => {
                 <FormControl isRequired className='flex items-center my-3'>
                     <FormLabel className="w-1/4">닉네임</FormLabel>
                     <Input
+                        maxLength={10}
                         className='w-3/4'
                         value={memberNickname}
                         onChange={handleMemberNickname}

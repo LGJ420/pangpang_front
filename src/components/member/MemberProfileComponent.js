@@ -214,6 +214,12 @@ const MemberProfileComponent = () => {
             return;
         }
 
+        // 비밀번호 글자수 제한
+        if(modifyMemberPw>7 || modifyMemberPw<20){
+            alert("비밀번호는 8-20자리로 입력해주세요.");
+            return;
+        }
+        
         // 비밀번호 = 비밀번호 확인 체크
         if(modifyMemberPw !== modifyMemberPwConfirm ) {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
@@ -359,7 +365,7 @@ const MemberProfileComponent = () => {
                         </label>
                         <input
                             className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                            maxLength={24}
+                            maxLength={20}
                             id='password1'
                             placeholder='비밀번호를 변경해주세요.' 
                             type='password'
@@ -372,7 +378,7 @@ const MemberProfileComponent = () => {
                         </label>
                         <input
                             className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                            maxLength={24}
+                            maxLength={20}
                             id='password2'
                             type='password'
                             placeholder='비밀번호를 다시 입력해주세요.'

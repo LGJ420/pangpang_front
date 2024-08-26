@@ -55,6 +55,12 @@ const MemberResetPwComponent = () => {
             return;
         }
 
+        // 비밀번호 8-20자리인지 체크
+        if(memberPwInFindPwForReset < 7 || memberPwInFindPwForReset > 20){
+            alert("비밀번호는 8-20자리로 입력해주세요.");
+            return
+        }
+
         // 2. 비밀번호 = 비밀번호확인 확인하기
         if(memberPwInFindPwForReset !== memberPwConfirmInFindPwForReset ) {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
@@ -106,10 +112,11 @@ const MemberResetPwComponent = () => {
                         <FormControl isRequired>    
                             <FormLabel>비밀번호</FormLabel>
                             <Input 
+                            maxLength={20}
                             type='password' 
                             value={memberPwInFindPwForReset}
                             onChange={handleMemberPwInFindPwForReset}
-                            placeholder='비밀번호를 입력해주세요.' />
+                            placeholder='8자리 이상 입력해주세요.' />
                         </FormControl>
                         {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
 
@@ -117,10 +124,11 @@ const MemberResetPwComponent = () => {
                         <FormControl isRequired>
                             <FormLabel>비밀번호 확인</FormLabel>
                             <Input 
+                            maxLength={20}
                             type='password' 
                             value={memberPwConfirmInFindPwForReset}
                             onChange={handleMemberPwConfirmInFindPwForReset}
-                            placeholder='비밀번호를 입력해주세요.' />
+                            placeholder='비밀번호를 다시 입력해주세요.' />
                         </FormControl>
                     </div>
 

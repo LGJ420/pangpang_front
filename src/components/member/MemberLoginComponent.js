@@ -114,6 +114,7 @@ const MemberLoginComponent = () => {
                     <div>
                         <div>
                             <input 
+                            maxLength={20}
                             value={memberId}
                             onChange={handleMemberId}
                             onKeyDown={handleKeyDown}
@@ -122,6 +123,7 @@ const MemberLoginComponent = () => {
                         </div>
                         <div>
                             <input 
+                            maxLength={20}
                             value={memberPw}
                             onChange={handleMemberPw}
                             onKeyDown={handleKeyDown}

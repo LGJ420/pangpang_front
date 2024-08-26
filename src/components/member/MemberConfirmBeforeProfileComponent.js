@@ -94,7 +94,7 @@ const MemberConfirmBeforeProfileComponent = () => {
                         id='password'
                         type='password'
                         placeholder='비밀번호를 입력해주세요.'
-                        maxLength={24}
+                        maxLength={20}
                         onChange={handleMemberPwInConfirmBeforeProfile}
                         value={memberPwInConfirmBeforeProfile}
                         onKeyDown={handleKeyDown}/>

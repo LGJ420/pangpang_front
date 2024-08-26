@@ -98,6 +98,7 @@ const MemberFindPwComponent = () => {
                         <FormControl isRequired>
                             <FormLabel>아이디</FormLabel>
                             <Input 
+                            maxLength={20}
                             value={memberIdInFindPw}
                             onChange={handleMemberIdInFindPw}
                             placeholder='아이디를 입력해주세요.' />
