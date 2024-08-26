@@ -20,6 +20,15 @@ const MemberProfileComponent = () => {
     const location = useLocation();
     const {memberImage, memberId, memberNickname, memberPw, memberPhone, postcode, postAddress, detailAddress, extraAddress} = location.state || {};
 
+
+    // 페이지 로드 시 새로운 상태를 히스토리에 추가
+    window.history.pushState(null, '', window.location.href);
+
+    // 뒤로가기 버튼을 눌렀을 때 히스토리를 조작 => 내 정보 변경 전 비번확인하게 바꿈
+    window.onpopstate = function(event) {
+        window.history.pushState(null, '', window.location.replace('../profile/confirm')); // http://localhost:3000/mypage/profile/confirm
+    };
+
     useEffect(() => {
 
         // // useEffect에도 이렇게 두번에 걸쳐 작업하는이유는
@@ -38,21 +47,6 @@ const MemberProfileComponent = () => {
         }
 
         setIsValid(true);
-
-        // // 뒤로가기 방지 코드
-        // const preventGoBack = () => {
-        //     // change start
-        //     window.history.pushState(null, '', location.href);
-        //     // change end
-        //     console.log('prevent go back!');
-        //     alert("미친것");
-        // };
-        
-        // window.history.pushState(null, '', location.href);
-        // window.addEventListener('popstate', preventGoBack);
-        
-        // return () => window.removeEventListener('popstate', preventGoBack)
-        
 
     },[location.state, navigate]);
 
