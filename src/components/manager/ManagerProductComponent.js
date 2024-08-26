@@ -174,7 +174,7 @@ const ManagerProductComponent = () => {
                                 <div className="my-5 text-xl">{modal.productContent}</div>
                                 <label className="mb-3 font-extrabold text-2xl" htmlFor="productStock">재고량</label>
                                 <input
-                                    className="rounded border text-xl w-20 h-12"
+                                    className="rounded border text-xl w-20 h-12 p-3"
                                     id="productStock"
                                     name="productStock"
 
