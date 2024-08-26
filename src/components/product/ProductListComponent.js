@@ -42,9 +42,8 @@ const ProductListComponent = () => {
     const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
       try {
         // 상품 목록 데이터 가져오기
-        const data = search
-          ? await getList({ search, page, size })
-          : await getList({ page, size, category: selectedCategory });
+        const data = await getList({ search, page, size, category: selectedCategory });
+        console.log("Fetching data with", { search, page, size, selectedCategory });
         setServerData(data);
         // console.log(data);   // 데이터 확인용
 
@@ -124,25 +123,25 @@ const ProductListComponent = () => {
 
       <div className="flex space-x-2 ml-3 mb-7">
         <button
-          onClick={() => { setSelectedCategory(""); setWord(""); moveToList(); }}
+          onClick={() => navigate('/product') }
           className={`px-4 py-2 rounded ${selectedCategory === "" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
         >
           모두
         </button>
         <button
-                onClick={() => { setSelectedCategory("게임"); setWord(""); moveToList({ category: "게임", search: "" }); }}
+                onClick={() => { setSelectedCategory("게임"); moveToList({ category: "게임", search: "" }); }}
           className={`px-4 py-2 rounded ${selectedCategory === "게임" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
         >
           게임
         </button>
         <button
-                onClick={() => { setSelectedCategory("게임기기"); setWord(""); moveToList({ category: "게임기기", search: "" }); }}
+                onClick={() => { setSelectedCategory("게임기기"); moveToList({ category: "게임기기", search: "" }); }}
           className={`px-4 py-2 rounded ${selectedCategory === "게임기기" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
         >
           게임기기
         </button>
         <button
-                onClick={() => { setSelectedCategory("굿즈"); setWord(""); moveToList({ category: "굿즈", search: "" }); }}
+                onClick={() => { setSelectedCategory("굿즈"); setWord(""); moveToList({ category: "굿즈", search: word }); }}
           className={`px-4 py-2 rounded ${selectedCategory === "굿즈" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
         >
           굿즈
