@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getOne, putOne } from "../../api/articleApi";
-import {Box,Button,Flex,Heading,Input,Text,Textarea} from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomToken from "../../hooks/useCustomToken";
 
@@ -9,20 +8,15 @@ const initState = {
   id: 0,
   articleTitle: '',
   articleContent: '',
-  articleCreated: null,
-  articleUpdated: null,
-  memberNickname: ''
 };
 
 const ArticleModifyComponent = () => {
   const { id } = useParams();
   const { moveToRead } = useCustomMove();
-  const { isLogin } = useCustomToken();
+  const { isLogin, decodeToken } = useCustomToken();
   const navigate = useNavigate();
   const [article, setArticle] = useState({ ...initState });
   const [loading, setLoading] = useState(false);
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,28 +33,20 @@ const ArticleModifyComponent = () => {
     }
   }, [id]);
 
-
-
   useEffect(() => {
     if (!isLogin) {
-
       alert("잘못된 접근 방식입니다.");
       navigate(-1);
       return;
-  }
-  }, [])
-
-
+    }
+  }, [isLogin, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setArticle((prev) => ({ ...prev, [name]: value }));
   };
 
-
-
   const handleClickModify = async () => {
-    console.log('Handle Click Modify - Article ID:', id);
     setLoading(true);
     try {
       await putOne(id, article);
@@ -73,10 +59,7 @@ const ArticleModifyComponent = () => {
     }
   };
 
-
-
   const handleCancel = () => {
-    console.log("handleCancel called");
     moveToRead(id);
   };
 
@@ -84,60 +67,59 @@ const ArticleModifyComponent = () => {
     return null;
   }
 
-
-
   return (
-    <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
-      <Heading as="h1" size="xl" mb={4}>
-        <Input
-          name="articleTitle"
-          value={article.articleTitle}
-          onChange={handleChange}
-          placeholder="제목을 입력하세요"
-          variant="flushed"
-          size="lg"
-        />
-      </Heading>
+    <section className='pt-10 pl-10 pb-10 pr-3 mb-5'>
+      <h1 className="text-5xl mr-auto">게시글 수정</h1>
+        <div className="my-10 flex flex-col">
+          <label
+            className="m-3 font-extrabold"
+            htmlFor="articleTitle">
+            제목
+          </label>
+          <input 
+            className="p-3 rounded border"
+            id="articleTitle"
+            name="articleTitle"
+            value={article.articleTitle}
+            onChange={handleChange}
+            placeholder="제목을 적어주세요."
+            maxLength={100}/>
+        </div>
 
+        <div className="my-10 flex flex-col">
+          <label
+            className="m-3 font-extrabold"
+            htmlFor="articleContent">
+            내용
+          </label>
+          <textarea 
+            className="p-3 rounded border h-[50rem]"
+            id="articleContent"
+            name="articleContent"
+            value={article.articleContent}
+            onChange={handleChange}
+            placeholder="내용을 입력하세요."
+            maxLength={2000}
+            style={{whiteSpace: 'pre-wrap'}}
+          />
+        </div>
 
-
-      <Text fontSize="lg" color="gray.600" mb={2}>
-        작성자: {article.memberNickname}
-      </Text>
-
-
-
-      <Text fontSize="sm" color="gray.500" mb={4}>
-        작성일: {article.articleCreated ? new Date(article.articleCreated).toLocaleDateString() : 'N/A'}{" "}
-               {article.articleUpdated && `(수정일: ${new Date(article.articleUpdated).toLocaleDateString()})`}
-      </Text>
-
-
-
-      <Box bg="gray.50" p={4} borderRadius="md" mb={4}>
-        <Textarea
-          name="articleContent"
-          value={article.articleContent}
-          onChange={handleChange}
-          placeholder="내용을 입력하세요"
-          size="lg"
-          minHeight="200px"
-          variant="flushed"
-          style={{whiteSpace: 'pre-wrap'}}
-        />
-      </Box>
-
-      
-
-      <Flex justify="space-between">
-        <Button colorScheme="teal" onClick={handleClickModify} isLoading={loading}>
-          저장
-        </Button>
-        <Button colorScheme="gray" onClick={handleCancel}>
-          취소
-        </Button>
-      </Flex>
-    </Box>
+        <div className="flex justify-center space-x-4">
+          <button
+            className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80"
+            onClick={handleClickModify}
+            disabled={loading}
+          >
+            {loading ? '저장 중...' : '저장'}
+          </button>
+          <button
+            className="w-52 h-16 text-3xl bg-gray-600 text-white rounded-2xl hover:opacity-80"
+            onClick={handleCancel}
+          >
+            취소
+          </button>
+        </div>
+    </section>
   );
 };
 

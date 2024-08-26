@@ -1,132 +1,85 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {Box,Text,VStack,Button,FormControl,FormLabel,Textarea,Heading,AlertDialog,AlertDialogBody,AlertDialogHeader,AlertDialogContent,AlertDialogOverlay,Flex,IconButton,useColorModeValue,AlertDialogFooter} from '@chakra-ui/react';
-import { getCommentsByArticleId, postComment, deleteComment } from '../../api/commentApi';
+import React, { useState, useEffect } from 'react';
+import { Box, Text, VStack, Button, Flex, IconButton, useColorModeValue } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import useCustomToken from '../../hooks/useCustomToken';
+import { getCommentsByArticleId, deleteComment } from '../../api/commentApi';
 
-
-
-const CommentListComponent = ({ articleId }) => {
-  const [commentContent, setCommentContent] = useState('');
+const CommentListComponent = ({ articleId, onCommentAdded }) => {
   const [comments, setComments] = useState([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [deleteCommentId, setDeleteCommentId] = useState(null);
-  const [isDeleteMode, setIsDeleteMode] = useState(false);
-  const [isCommentSubmitMode, setIsCommentSubmitMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalComments, setTotalComments] = useState(0); // Track total comments
   const { isLogin, decodeToken } = useCustomToken();
-  const cancelRef = useRef();
   const navigate = useNavigate();
-  const bgColor = useColorModeValue('gray.50', 'gray.800');
-
-
+  const bgColor = useColorModeValue('gray.100', 'gray.800');
 
   // Fetch comments with pagination
   const fetchComments = async (page = 1) => {
     try {
-      console.log(`Fetching comments for page: ${page}`); // Debugging log
       const data = await getCommentsByArticleId(articleId, { page, size: 5 });
-      console.log('Fetched comments:', data); // Debugging log
       setComments(data.content);
       setTotalPages(data.totalPages);
+      setTotalComments(data.totalElements); // Update total comments
       setCurrentPage(page);
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
   };
 
-
-
   useEffect(() => {
     fetchComments(currentPage);
   }, [articleId, currentPage]);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    if (!isLogin) {
-      setIsDeleteMode(false);
-      setIsDialogOpen(true);
-    } else {
-      setIsCommentSubmitMode(true);
-      setIsDialogOpen(true);
+  useEffect(() => {
+    if (onCommentAdded) {
+      fetchComments(currentPage);
     }
-  };
-
-
-
-  const handleCommentSubmitConfirm = async () => {
-    try {
-      await postComment({
-        articleId,
-        commentContent,
-      });
-      setCommentContent('');
-      setIsDialogOpen(false);
-      fetchComments(currentPage); // Refresh comments list
-    } catch (error) {
-      console.error('Error creating comment:', error);
-    }
-  };
-
-
+  }, [onCommentAdded]);
 
   const handleEditClick = (id) => {
     navigate(`/comment/modify/${id}`);
   };
 
-
-
   const handleDeleteClick = (commentId) => {
-    setDeleteCommentId(commentId);
-    setIsDeleteMode(true);
-    setIsDialogOpen(true);
+    if (window.confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+      handleDeleteConfirm(commentId);
+    }
   };
 
-
-
-  const handleDeleteConfirm = async () => {
+  const handleDeleteConfirm = async (commentId) => {
     try {
-      await deleteComment(deleteCommentId);
-      setComments((prevComments) => prevComments.filter(comment => comment.id !== deleteCommentId));
-      setIsDialogOpen(false);
+      await deleteComment(commentId);
+      fetchComments(currentPage); // Fetch the updated list of comments
+      if (onCommentAdded) {
+        onCommentAdded(); // Notify the parent component to update the comment count
+      }
     } catch (error) {
       console.error('Error deleting comment:', error);
     }
   };
-
-
 
   const formatDateTime = (dateTime) => {
     const date = new Date(dateTime);
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   };
 
-
-
-  // Format content to convert URLs to clickable links
   const formatContent = (content) => {
     if (!content) return '';
     const urlPattern = /(https?:\/\/[^\s]+)/g;
     return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
   };
 
-
-
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+      fetchComments(page); // Fetch comments for the new page
     }
   };
 
-
-
   return (
-    <Box p={6} maxW="container.md" mx="auto">
-      <Heading mb={6}>댓글 목록</Heading>
-
-      <Box mt={6} p={4} borderWidth="1px" borderRadius="md" bg={bgColor}>
+    <section>
+      <Box p={4} borderWidth="1px" borderRadius="md" bg={bgColor}>
         {comments.length > 0 ? (
           <VStack spacing={4} align="stretch">
             {comments.map(comment => (
@@ -152,8 +105,6 @@ const CommentListComponent = ({ articleId }) => {
                     </Text>
                   </Flex>
 
-
-
                   <Text mb={2} style={{ whiteSpace: 'pre-wrap' }}
                         dangerouslySetInnerHTML={{ __html: formatContent(comment.commentContent) }}
                         sx={{
@@ -167,8 +118,6 @@ const CommentListComponent = ({ articleId }) => {
                     }}
                   />
 
-
-
                   {isLogin && decodeToken.id === comment.memberId && (
                     <Flex justify="flex-end" gap={2}>
                       <Button colorScheme="blue" onClick={() => handleEditClick(comment.id)}>수정</Button>
@@ -178,8 +127,6 @@ const CommentListComponent = ({ articleId }) => {
                 </Flex>
               </Box>
             ))}
-
-
 
             {/* Pagination */}
             <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
@@ -222,74 +169,7 @@ const CommentListComponent = ({ articleId }) => {
           <Text textAlign="center">아직 댓글이 없습니다.</Text>
         )}
       </Box>
-
-
-
-      {/*댓글 작성 폼*/}
-      <Heading mt={8} mb={6}>댓글 작성</Heading>
-      <Box p={4} borderWidth="1px" borderRadius="md" bg="white">
-        <form onSubmit={handleFormSubmit}>
-          <FormControl mb={6} isRequired>
-            <FormLabel>댓글 내용</FormLabel>
-            <Textarea
-              value={commentContent}
-              onChange={(e) => setCommentContent(e.target.value)}
-            />
-          </FormControl>
-          <Button colorScheme="teal" type="submit" width="full">
-            저장
-          </Button>
-        </form>
-      </Box>
-
-      <AlertDialog
-        isOpen={isDialogOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setIsDialogOpen(false)}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {isDeleteMode ? '댓글 삭제 확인' : isCommentSubmitMode ? '댓글 작성 확인' : '로그인 필요'}
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              {isDeleteMode 
-                ? '정말로 이 댓글을 삭제하시겠습니까?' 
-                : isCommentSubmitMode 
-                  ? '정말로 댓글을 작성하시겠습니까?' 
-                  : '로그인 먼저 해주십시오.'}
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
-                취소
-              </Button>
-              
-              {!isLogin && !isDeleteMode && !isCommentSubmitMode && (
-                <Button 
-                  colorScheme="blue" 
-                  onClick={() => navigate('/login')} 
-                  ml={3}
-                >
-                  로그인하러 가기
-                </Button>
-              )}
-              
-              {(isDeleteMode || isCommentSubmitMode) && (
-                <Button 
-                  colorScheme={isDeleteMode ? "red" : "teal"} 
-                  onClick={isDeleteMode ? handleDeleteConfirm : handleCommentSubmitConfirm} 
-                  ml={3}
-                >
-                  네
-                </Button>
-              )}
-          </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </Box>
+    </section>
   );
 };
 

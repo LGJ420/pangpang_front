@@ -1,28 +1,39 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Box, Button, Flex, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, useDisclosure, Alert, AlertIcon } from "@chakra-ui/react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+  Alert,
+  AlertIcon,
+  Textarea,
+} from "@chakra-ui/react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { deleteOne, getOne } from "../../api/articleApi";
 import CommentList from "../comment/CommentListComponent";
 import useCustomToken from "../../hooks/useCustomToken";
+import { getCommentsByArticleId, postComment } from "../../api/commentApi";
 
-
-
-// 날짜와 시간 포맷 함수
+// Date and time format function
 const formatDateTime = (dateTime) => {
   const date = new Date(dateTime);
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`; // 초 단위 제거
+  return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  })}`;
 };
 
-
-
-// https 링크 연결 함수
+// URL format function
 const formatContent = (content) => {
   const urlPattern = /(https?:\/\/[^\s]+)/g;
-  return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+  return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline hover:text-blue-700">${url}</a>`);
 };
-
-
 
 const initState = {
   id: 0,
@@ -32,47 +43,70 @@ const initState = {
   articleContent: '',
   articleCreated: null,
   articleUpdated: null,
-  viewCount: 0 
+  viewCount: 0,
+  commentCount: 0
 };
 
-
-
 const ArticleReadComponent = () => {
-  const { id } = useParams(); // URL에서 id를 추출
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [serverData, setServerData] = useState({...initState});
-  const [loading, setLoading] = useState(false);
+  const [serverData, setServerData] = useState({ ...initState });
   const [error, setError] = useState(null);
+  const [commentContent, setCommentContent] = useState('');
+  const [isCommentSubmitMode, setIsCommentSubmitMode] = useState(false);
+  const [comments, setComments] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { moveToList, moveToModify } = useCustomMove();
   const { isLogin, decodeToken } = useCustomToken();
 
-
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getOne(id);
-        if (data) {
-          setServerData(data);
-          setError(null); // Clear any previous errors
-        } else {
-          setError("Article not found");
-          onOpen(); // Open the alert modal
-        }
-      } catch (error) {
-        console.error("글을 불러오는데 실패했습니다.", error);
+  // Fetch article data
+  const fetchArticleData = async () => {
+    try {
+      const data = await getOne(id);
+      if (data) {
+        setServerData(data);
+        setComments(data.comments || []);
+        setError(null);
+      } else {
         setError("Article not found");
-        onOpen(); // Open the alert modal
+        onOpen();
       }
-    };
-
-    if (id) {
-      fetchData();
+    } catch (error) {
+      console.error("글을 불러오는데 실패했습니다.", error);
+      setError("Article not found");
+      onOpen();
     }
-  }, [id, navigate, onOpen]);
+  };
 
+  // Fetch comments separately
+  const fetchComments = async () => {
+    try {
+      const data = await getCommentsByArticleId(id, { page: 1, size: 5 });
+      setComments(data.content || []);
+      setServerData(prevData => ({
+        ...prevData,
+        commentCount: data.totalElements // Update comment count based on API response
+      }));
+    } catch (error) {
+      console.error('댓글을 불러오는데 실패했습니다.', error);
+    }
+  };
 
+  const handleCommentUpdate = async () => {
+    const data = await getCommentsByArticleId(id, { page: 1, size: 5 });
+    setComments(data.content || []);
+    setServerData(prevData => ({
+      ...prevData,
+      commentCount: data.totalElements // Update comment count based on API response
+    }));
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchArticleData();
+      fetchComments();
+    }
+  }, [id]);
 
   const handleDeleteConfirm = async () => {
     try {
@@ -84,19 +118,41 @@ const ArticleReadComponent = () => {
       onClose();
     }
   };
-    
 
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if (!isLogin) {
+      onOpen();
+      return;
+    }
+    setIsCommentSubmitMode(true);
+    onOpen();
+  };
 
-  // 현재 사용자가 작성자인지 확인
+  const handleCommentSubmitConfirm = async () => {
+    try {
+      // Post the comment and get the response
+      await postComment({ articleId: id, commentContent });
+
+      // Trigger comment list update
+      handleCommentUpdate();
+
+      setCommentContent('');
+      setIsCommentSubmitMode(false);
+    } catch (error) {
+      console.error("Error creating comment:", error);
+    } finally {
+      onClose();
+    }
+  };
+
   const isAuthor = isLogin && serverData.memberId === decodeToken.id;
-
-
 
   if (error) {
     return (
       <Modal isOpen={isOpen} onClose={() => {
         onClose();
-        navigate(-1); // Navigate back to the previous page
+        navigate(-1);
       }}>
         <ModalOverlay />
         <ModalContent>
@@ -111,7 +167,7 @@ const ArticleReadComponent = () => {
           <ModalFooter>
             <Button colorScheme="teal" onClick={() => {
               onClose();
-              navigate(-1); // Navigate back to the previous page
+              navigate(-1);
             }}>
               돌아가기
             </Button>
@@ -121,88 +177,100 @@ const ArticleReadComponent = () => {
     );
   }
 
-  
-
   return (
-    <Box p={5} bg="white" borderRadius="md" boxShadow="md" maxW="container.md" mx="auto" my={8}>
-      {/*제목*/}
-      <Heading as="h1" size="xl" mb={4}>
-        {serverData.articleTitle}
-      </Heading>
-
-      {/*작성자*/}
-      <Text fontSize="lg" color="gray.600" mb={2}>
-        작성자: {serverData.memberNickname}
-      </Text>
-
-      {/*작성일 및 수정일*/}
-      <Text fontSize="sm" color="gray.500" mb={4}>
-        작성일: {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}{" "}
-        {serverData.articleUpdated && `(수정일: ${formatDateTime(serverData.articleUpdated)})`}
-      </Text>
-
-      {/*조회수*/}
-      <Text fontSize="sm" color="gray.500" mb={4}>
-        조회수: {serverData.viewCount || 0}회 
-      </Text>
-
-      {/*내용*/}
-      <Box bg="gray.50" p={4} borderRadius="md" mb={4} style={{ whiteSpace: 'pre-wrap' }}>
-        <Text as="div" dangerouslySetInnerHTML={{ __html: formatContent(serverData.articleContent) }}
-          sx={{
-            '& a': {
-              color: 'blue.500',
-              textDecoration: 'underline',
-              _hover: {
-              color: 'blue.700'
-              }
-            }
-          }} />
-      </Box>
-
-      <Flex direction="column" mb={6}>
-        <Flex justify="space-between" mb={4}>
-          <Button colorScheme="teal" onClick={() => moveToList()}>
-            목록으로 돌아가기
-          </Button>
-          {isAuthor?
-            <Button colorScheme="orange" onClick={() => moveToModify(id)}>
-              수정하기
+    <section>
+      <hr />
+      <div className="text-xl">
+        <div className="bg-gray-100 px-5">
+          <div className="flex justify-between pt-5 pr-3 pb-20">
+            <h3 className="w-4/5 text-4xl font-bold">
+              {serverData.articleTitle}
+            </h3>
+            <div>
+              {isAuthor && (
+                <>
+                  <button
+                    className="pr-3 border-r hover:opacity-40"
+                    onClick={() => moveToModify(id)}
+                  >
+                    수정
+                  </button>
+                  <button
+                    className="pl-3 hover:opacity-40"
+                    onClick={onOpen}
+                  >
+                    삭제
+                  </button>
+                </>
+              )}
+              <button
+                className="pl-3 hover:opacity-40"
+                onClick={() => navigate('/article/list')}
+              >
+                목록으로 이동
+              </button>
+            </div>
+          </div>
+          <div className="pb-5 flex">
+            <div>작성자 : {serverData.memberNickname}</div>
+            <div className="px-2 ml-auto">조회수 : {serverData.viewCount || 0}회</div>
+            <div className="px-2">작성일 : {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}</div>
+            {serverData.articleUpdated && (
+              <div className="px-2">수정일 : {formatDateTime(serverData.articleUpdated)}</div>
+            )}
+          </div>
+        </div>
+        <hr />
+        <p
+          className="p-5 mb-32 rounded-xl"
+          style={{ whiteSpace: 'pre-wrap' }}
+          dangerouslySetInnerHTML={{ __html: formatContent(serverData.articleContent) }}
+        />
+        <form onSubmit={handleCommentSubmit}>
+          <div className="h-32 flex items-center justify-between">
+            <Textarea
+              className="w-5/6 h-24 p-4 border"
+              value={commentContent}
+              onChange={(e) => setCommentContent(e.target.value)}
+            />
+            <Button className="bg-[rgb(224,26,109)] text-white hover:opacity-80 w-1/6 h-24 text-3xl" type="submit">
+              등록
             </Button>
-          :<></>}
+          </div>
+        </form>
+        <div className="pb-3">
+          전체 댓글 <span className="text-red-600 font-bold">{serverData.commentCount}</span>개
+        </div>
+        <hr />
+        <CommentList
+          articleId={id}
+          onCommentAdded={handleCommentUpdate}
+        />
 
-          {isAuthor?
-          <Button colorScheme="red" onClick={onOpen} isLoading={loading}>
-            삭제
-          </Button>
-          :<></>}
-        </Flex>
-      </Flex>
-
-      {/* Delete Confirmation Modal */}
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>삭제 확인</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            정말로 이 글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="red" onClick={handleDeleteConfirm} mr={3}>
-              네
-            </Button>
-            <Button variant="ghost" onClick={onClose}>
-              아니오
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      {/* 댓글 리스트 및 작성 컴포넌트 */}
-      <CommentList articleId={id} />
-    </Box>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>
+              {isCommentSubmitMode ? '댓글 작성 확인' : '삭제 확인'}
+            </ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {isCommentSubmitMode
+                ? '댓글을 작성하시겠습니까?'
+                : '정말로 이 글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.'}
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="red" onClick={isCommentSubmitMode ? handleCommentSubmitConfirm : handleDeleteConfirm} mr={3}>
+                {isCommentSubmitMode ? '작성' : '네'}
+              </Button>
+              <Button variant="ghost" onClick={onClose}>
+                취소
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </div>
+    </section>
   );
 };
 
