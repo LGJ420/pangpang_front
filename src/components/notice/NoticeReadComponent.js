@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { getNoticeOne } from "../../api/noticeApi";
 import { getNoticeComments } from "../../api/commentApi";
+import { useSearchParams } from "react-router-dom";
 
 
 const initNoticeData = {
@@ -48,14 +49,25 @@ const initCommentData = {
     current: 0
 }
 
+const getNum = (param, defaultValue) => {
+
+    if (!param) {
+        return defaultValue;
+    }
+
+    return parseInt(param);
+}
 
 const NoticeReadComponent = ({id}) => {
 
     const [noticeData, setNoticeData] = useState(initNoticeData);
-    const [commentData, setCommentData] = useState();
+    const [commentData, setCommentData] = useState(initCommentData);
     const { moveToList, moveToModify } = useCustomMove();
     const [isLoading, setIsLoading] = useState(true);
+    const [queryParams] = useSearchParams();
 
+    const page = getNum(queryParams.get('page'), 1);
+    const size = getNum(queryParams.get('size'), 50);
 
     useEffect(()=>{
 
@@ -63,7 +75,7 @@ const NoticeReadComponent = ({id}) => {
             .then(data=>setNoticeData(data))
             .catch(error=>console.log(error));
 
-        getNoticeComments()
+        getNoticeComments(id, {page, size})
             .then(data=>setCommentData(data))
             .catch(error=>console.log(error))
             .finally(()=>setIsLoading(false));
@@ -95,7 +107,7 @@ const NoticeReadComponent = ({id}) => {
                     <div className="pb-5 flex">
                         <div>작성자 : {noticeData.memberNickname}</div>
                         <div className="px-2 ml-auto">조회수 : {noticeData.noticeHit}</div>
-                        <div className="px-2">댓글 : 하드코오디이잉</div>
+                        <div className="px-2">댓글 : {commentData.dtoList.length}</div>
                         <div className="px-2">작성일 : {noticeData.noticeCreated.substring(0,10)}</div>
                     </div>
                 </div>
@@ -112,59 +124,33 @@ const NoticeReadComponent = ({id}) => {
 
 
             <div className="pb-3">
-                전체 댓글 <span className="text-red-600 font-bold">7</span>개
+                전체 댓글 <span className="text-red-600 font-bold">{commentData.dtoList.length}</span>개
             </div>
-            <hr />
-            <div className="py-4 flex justify-between">
-                <div>
-                    <div className="flex items-center">
-                        <img
-                            className="w-10 h-10 mr-2 rounded-full border"
-                            src="/images/profile.png" />
-                        <div className="mr-2">
-                            아이디입니당
+
+            {
+                commentData.dtoList.map(dto=>
+                    <>
+                    <hr />
+                    <div className="py-4 flex justify-between">
+                        <div>
+                            <div className="flex items-center">
+                                <img
+                                    className="w-10 h-10 mr-2 rounded-full border"
+                                    src="/images/profile.png" />
+                                <div className="mr-2">
+                                    {dto.memberNickname}
+                                </div>
+                            </div>
                         </div>
+                        <p className="w-2/3">
+                            {dto.commentContent}
+                        </p>
+                        <div>{dto.commentCreated}</div>
                     </div>
-                </div>
-                <p className="w-2/3">
-                    야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐
-                </p>
-                <div>2023-01-01</div>
-            </div>
-            <hr />
-            <div className="py-4 flex justify-between">
-                <div>
-                    <div className="flex items-center">
-                        <img
-                            className="w-10 h-10 mr-2 rounded-full border"
-                            src="/images/profile.png" />
-                        <div className="mr-2">
-                            아이디입니당
-                        </div>
-                    </div>
-                </div>
-                <p className="w-2/3">
-                    야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐
-                </p>
-                <div>2023-01-01</div>
-            </div>
-            <hr />
-            <div className="py-4 flex justify-between">
-                <div>
-                    <div className="flex items-center">
-                        <img
-                            className="w-10 h-10 mr-2 rounded-full border"
-                            src="/images/profile.png" />
-                        <div className="mr-2">
-                            아이디입니당
-                        </div>
-                    </div>
-                </div>
-                <p className="w-2/3">
-                    야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐야이 새끼야 이딴걸 패치라고하냐
-                </p>
-                <div>2023-01-01</div>
-            </div>
+                    </>
+                )
+            }
+            
 
 
         </section>

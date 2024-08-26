@@ -90,11 +90,11 @@ export const getMyComments = async (pageParam) => {
 
 
 // 공지사항 댓글 불러오기
-export const getNoticeComments = async (pageParam) => {
+export const getNoticeComments = async (noticeId, pageParam) => {
 
     const { page, size } = pageParam;
 
-    const res = await axios.get(`${prefix}/notice`, {params:{page,size}});
+    const res = await axios.get(`${prefix}/notice/${noticeId}`, {params:{page,size}});
 
     return res.data;
 }
