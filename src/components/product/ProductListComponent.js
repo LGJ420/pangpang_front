@@ -65,6 +65,7 @@ const ProductListComponent = () => {
   }, [search, page, size, category, refresh]);
 
 
+  // 상품 검색
   const handleChangeSearch = (e) => {
 
     setWord(e.target.value);
@@ -77,10 +78,19 @@ const ProductListComponent = () => {
   }
 
 
+  // 상품 추가 페이지로 이동
   const handleClickAdd = () => {
 
     navigate('../add');
   }
+
+
+  // 상품 카테고리 선택
+  const handleClickCategory = (category) => {
+    moveToList({category});
+  }
+
+
 
 
 
@@ -124,19 +134,19 @@ const ProductListComponent = () => {
           모두
         </button>
         <button
-                onClick={() => { setSelectedCategory("게임"); moveToList({ category: "게임", search: "" }); }}
+                onClick={() => handleClickCategory("게임")}
           className={`px-4 py-2 rounded ${selectedCategory === "게임" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
         >
           게임
         </button>
         <button
-                onClick={() => { setSelectedCategory("게임기기"); moveToList({ category: "게임기기", search: "" }); }}
+                onClick={() => handleClickCategory("게임기기")}
           className={`px-4 py-2 rounded ${selectedCategory === "게임기기" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
         >
           게임기기
         </button>
         <button
-                onClick={() => { setSelectedCategory("굿즈"); setWord(""); moveToList({ category: "굿즈", search: word }); }}
+                onClick={() => handleClickCategory("굿즈")}
           className={`px-4 py-2 rounded ${selectedCategory === "굿즈" ? "bg-[rgb(224,26,109)] text-white font-bold" : "bg-gray-200 text-gray-700"}`}
         >
           굿즈
