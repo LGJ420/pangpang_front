@@ -6,6 +6,7 @@ import { tokenState } from '../../atoms/tokenState';
 import useCustomToken from "../../hooks/useCustomToken";
 import MypageTitleComponent from "../common/MypageTitleComponent";
 import { updateMemberProfile, deleteProfileImage, prefix } from '../../api/memberApi';
+import { logout } from '../../hooks/logout';
 
 const MemberProfileComponent = () => {
 
@@ -266,9 +267,16 @@ const MemberProfileComponent = () => {
             console.error("비밀번호 검증 중 오류 발생", error);
 
             // Server response errors
-            if (error.response.status === 403) {
+            if (error.response.status === 401) {
+                alert("토큰 유효 시간이 만료되었습니다.")
+                logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+            }
+
+            else if (error.response.status === 403) {
                 alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
-            } else {
+            } 
+            
+            else {
                 alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
             }
         } 

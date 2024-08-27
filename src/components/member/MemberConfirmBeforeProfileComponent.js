@@ -62,16 +62,14 @@ const MemberConfirmBeforeProfileComponent = () => {
             if (error.response.status === 401) {
                 alert("토큰 유효 시간이 만료되었습니다.")
                 logout(); // import { logout } from '../../hooks/logout'; 추가 필요
-                // navigate("/login");
-                return;
-            }
-            if (error.response.status === 403) {
+            } 
+            
+            else if (error.response.status === 403) {
                 alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
-                return;
-
-            } else {
+            } 
+            
+            else {
                 alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
-                return;
             }
         }
     }
