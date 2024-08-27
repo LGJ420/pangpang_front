@@ -93,6 +93,18 @@ export const loginMember = async (id, password) => {
     }
 };
 
+// 로그아웃
+export const logoutMember = async () => {
+    try {
+        await axios.post(`${prefix}/logout`);
+    } catch (error) {
+        console.error("로그아웃 실패", error);
+        throw error; 
+    }
+};
+
+
+
 // ============ 마이페이지 관련 api ============
 // navBar, 마이페이지 레이아웃 프로필사진 불러오기
 export const getMemberProfileImage = async (memberId) => {
