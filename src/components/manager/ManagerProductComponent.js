@@ -88,7 +88,7 @@ const ManagerProductComponent = () => {
                 // 상품 목록 데이터 가져오기
                 const data = await getList({ search, page, size });
                 setServerData(data);
-                // console.log(data);   // 데이터 확인용
+                console.log(data);   // 데이터 확인용
             }
             catch (error) {
                 console.error(error);
@@ -260,7 +260,7 @@ const ManagerProductComponent = () => {
                         {data.productCreated.substring(0, 10)}
                     </div>
                     <div>
-                        0개
+                        {data.productSales}개
                     </div>
                     <div>
                         <div>
