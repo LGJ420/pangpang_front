@@ -8,6 +8,7 @@ import useCustomToken from "../../hooks/useCustomToken";
 import { getCommentsByArticleId, postComment } from "../../api/commentApi";
 import { formatDateTime } from "../../util/dateUtil";
 import DOMPurify from "dompurify";
+import { logout } from '../../hooks/logout';
 
 
 
@@ -117,7 +118,14 @@ const ArticleReadComponent = () => {
       await deleteOne(id);
       moveToList();
     } catch (error) {
+      
+      if (error.response.status === 401) {
+        alert("토큰 유효 시간이 만료되었습니다.")
+        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+      }
+
       console.error("삭제에 실패했습니다.", error);
+      
     } finally {
       onClose();
     }

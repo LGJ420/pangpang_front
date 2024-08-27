@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getOne, putOne } from "../../api/articleApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomToken from "../../hooks/useCustomToken";
+import { logout } from '../../hooks/logout';
 
 
 
@@ -64,6 +65,12 @@ const ArticleModifyComponent = () => {
       moveToRead(id);
     } catch (error) {
       console.error("수정에 실패했습니다.", error);
+
+      if (error.response.status === 401) {
+        alert("토큰 유효 시간이 만료되었습니다.")
+        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+      }
+      
     } finally {
       setLoading(false);
     }
