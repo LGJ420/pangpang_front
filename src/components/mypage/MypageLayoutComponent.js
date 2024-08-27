@@ -76,23 +76,32 @@ const MypageLayoutComponent = ({children}) => {
         <section>
             <div className="min-h-[60rem] flex">
                 <div className="w-1/5 p-5 border-r bg-slate-200">
-                    <h3 className="text-2xl font-bold">
-                        관리자
-                    </h3>
-                    <ul className="m-0 ml-2">
-                        <li className="text-xl my-7 cursor-pointer"
-                        onClick={()=>navigate({pathname: `/manager/member`})}>
-                            회원 관리
-                        </li>
-                        <li className="text-xl my-7 cursor-pointer"
-                        onClick={()=>navigate({pathname: `/manager/product`})}>
-                            상품 관리
-                        </li>
-                        <li className="text-xl my-7 cursor-pointer"
-                        onClick={()=>navigate({pathname: `/manager/article`})}>
-                            글 관리
-                        </li>
-                    </ul>
+                
+                { decodeToken.memberRole === "Admin" ? 
+                    <>
+                        <h3 className="text-2xl font-bold">
+                            관리자
+                        </h3>
+                        <ul className="m-0 ml-2">
+                            <li className="text-xl my-7 cursor-pointer"
+                            onClick={()=>navigate({pathname: `/manager/member`})}>
+                                회원 관리
+                            </li>
+                            <li className="text-xl my-7 cursor-pointer"
+                            onClick={()=>navigate({pathname: `/manager/product`})}>
+                                상품 관리
+                            </li>
+                            <li className="text-xl my-7 cursor-pointer"
+                            onClick={()=>navigate({pathname: `/manager/article`})}>
+                                글 관리
+                            </li>
+                        </ul>
+                    </>
+                    : <></>
+
+                }
+
+
                     <h3 className="text-2xl font-bold">
                         메뉴
                     </h3>
