@@ -38,12 +38,14 @@ const MypageArticleListComponent = () => {
                 setTotalCount(response.totalCount);
             } catch (err) {
 
+                
                 if (err.response.status === 401) {
                     alert("토큰 유효 시간이 만료되었습니다.")
                     logout(); // import { logout } from '../../hooks/logout'; 추가 필요
                 }
-
+                
                 setError('Failed to fetch your articles.');
+                
             } finally {
                 setLoading(false);
             }
@@ -74,13 +76,14 @@ const MypageArticleListComponent = () => {
             await deleteOne(selectedArticleId); // Delete the article
             setRefresh(!refresh); // Refresh the list
         } catch (error) {
+            
+            console.error('Error deleting article:', error);
 
             if (error.response.status === 401) {
                 alert("토큰 유효 시간이 만료되었습니다.")
                 logout(); // import { logout } from '../../hooks/logout'; 추가 필요
             }
 
-            console.error('Error deleting article:', error);
         } finally {
             onClose(); // Close the modal
         }

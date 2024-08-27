@@ -157,13 +157,14 @@ const ArticleReadComponent = () => {
       setCommentContent('');
       setIsCommentSubmitMode(false);
     } catch (error) {
-
+      
+      console.error("Error creating comment:", error);
+      
       if (error.response.status === 401) {
         alert("토큰 유효 시간이 만료되었습니다.")
         logout(); // import { logout } from '../../hooks/logout'; 추가 필요
       } 
       
-      console.error("Error creating comment:", error);
     } finally {
       onClose();
     }
