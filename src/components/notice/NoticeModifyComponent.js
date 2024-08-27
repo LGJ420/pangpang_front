@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useCustomToken from "../../hooks/useCustomToken";
 import { getNoticeOne, putNotice } from "../../api/noticeApi";
 import { useNavigate } from "react-router-dom";
+import BodyTitleComponent from "../common/BodyTitleComponent";
 
 const initData = {
 
@@ -59,6 +60,8 @@ const NoticeModifyComponent = ({id}) => {
     return (
 
         <section>
+            <BodyTitleComponent title={`공지사항`} path={`notice`}/>
+
             <div className="pb-10 text-2xl m-auto">
 
                 <div className="flex flex-col">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import useCustomToken from "../../hooks/useCustomToken";
 import { postNoticeOne } from "../../api/noticeApi";
 import { useNavigate } from "react-router-dom";
+import BodyTitleComponent from "../common/BodyTitleComponent";
 
 const initState = {
 
@@ -52,10 +53,17 @@ const NoticeAddComponent = () => {
     return (
 
         <section>
+            <BodyTitleComponent title={`공지사항`} path={`notice`}/>
 
             <div className="text-2xl my-10 m-auto">
 
                     <div>
+                        <span className="m-3 font-extrabold">
+                            관리자
+                        </span>
+                        <span className="px-3">
+                            {decodeToken.memberNickname}
+                        </span>
                         {   decodeToken.memberRole === "Admin" ?
 
                             <>

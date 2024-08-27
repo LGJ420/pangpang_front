@@ -5,6 +5,7 @@ import { deleteNoticeComment, getNoticeComments, postNoticeComment, putNoticeCom
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { formatDateTime } from "../../util/dateUtil";
 import useCustomToken from "../../hooks/useCustomToken";
+import BodyTitleComponent from "../common/BodyTitleComponent";
 
 
 const initNoticeData = {
@@ -190,6 +191,7 @@ const NoticeReadComponent = ({id}) => {
     return (
 
         <section>
+            <BodyTitleComponent title={`공지사항`} path={`notice`}/>
             <hr />
             <div className="text-xl">
                 <div className="bg-gray-100 px-5">
