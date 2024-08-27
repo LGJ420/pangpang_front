@@ -82,7 +82,7 @@ const MypageReviewComponent = () => {
                             <div className="flex items-center">
                                 <img
                                     className="w-10 h-10 mr-2 rounded-full border"
-                                    src={review.memberProfile != null ? `${prefix}/${review.memberProfile}` : '/images/profile.png'} />
+                                    src={review.memberImage != null ? `${prefix}/${review.memberImage}` : '/images/profile.png'} />
                                 <div className="mr-2">
                                     {review.memberNickName}
                                 </div>
