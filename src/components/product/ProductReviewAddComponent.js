@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../../css/productReviewAddComponent.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { postReviewAdd } from "../../api/productReviewApi";
+import { logout } from '../../hooks/logout';
 
 const initReview = {
     rating: 0,
@@ -108,9 +109,16 @@ const ProductReviewAddComponent = ({productId}) => {
             formData.append("reviewFile", uploadFile);
         }
 
-        postReviewAdd(formData).then(()=>{
+        postReviewAdd(formData)
+        .then(()=>{
             alert("등록이 완료되었습니다");
             navigate('/mypage/review', { replace: true });
+        })
+        .catch(error=>{
+            if (error.response.status === 401) {
+                alert("토큰 유효 시간이 만료되었습니다.")
+                logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+            }
         });
         
     }
