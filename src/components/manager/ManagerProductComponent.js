@@ -9,6 +9,7 @@ import { IconButton, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import MypageTitleComponent from "../common/MypageTitleComponent";
 import SearchBarComponent from "../common/SearchBarComponent";
+import { logout } from '../../hooks/logout';
 
 
 /* 초기값 설정 */
@@ -158,6 +159,12 @@ const ManagerProductComponent = () => {
                 moveToList();
             })
             .catch((error)=>{
+
+                if (error.response.status === 401) {
+                    alert("토큰 유효 시간이 만료되었습니다.")
+                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                }
+
                 // console.error("수정에 실패했습니다.", error);
                 alert("상품 수정에 실패했습니다.")
             })
