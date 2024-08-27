@@ -114,7 +114,7 @@ const NoticeReadComponent = ({id}) => {
     // 공지사항 수정
     const handleClickNoticeModify = (noticeId) => {
 
-        navigate(`./modify/${noticeId}`);
+        navigate(`../modify/${noticeId}`);
     }
 
     // 공지사항 삭제

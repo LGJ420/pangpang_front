@@ -40,6 +40,23 @@ export const postNoticeOne = async (noticeDto) => {
 
 
 
+
+export const putNotice = async (noticeDto) => {
+
+  const token = localStorage.getItem("token");
+
+  const res = await axios.put(`${prefix}`, noticeDto, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+  });
+
+  return res.data;
+}
+
+
+
+
 export const deleteNotice = async (noticeId) => {
 
   const token = localStorage.getItem("token");
