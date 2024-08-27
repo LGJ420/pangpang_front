@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useCustomToken from '../../hooks/useCustomToken';
 import { getCommentsByArticleId, deleteComment } from '../../api/commentApi';
 import { formatDateTime } from "../../util/dateUtil";
+import { logout } from '../../hooks/logout';
 
 
 
@@ -70,6 +71,12 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
         onCommentAdded(); // Notify the parent component to update the comment count
       }
     } catch (error) {
+
+      if (error.response.status === 401) {
+        alert("토큰 유효 시간이 만료되었습니다.")
+        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+      }
+
       console.error('Error deleting comment:', error);
     } finally {
       setIsDeleteModalOpen(false);
