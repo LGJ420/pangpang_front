@@ -7,6 +7,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { checkMemberId, signupMember, loadPostcodeScript } from '../../api/memberApi';
+import { Inko } from 'inko';
 
 const MemberSignupComponent = () => {
 
@@ -26,10 +27,9 @@ const MemberSignupComponent = () => {
     const [pwInputError, setPwInputError] = useState('')  // 비번 인풋 빨갛게 체크함(seccess, error)
 
     const handleMemberId = (e)=>{
-        // 아이디에 영어, 숫자만 허용하는 정규식 사용
-        const validInputValue = e.target.value.replace(/[^0-9A-Za-z]/ig, '')
+        let inko = new Inko();
+        const validInputValue = inko.ko2en(e.target.value);
         setMemberId(validInputValue);
-        setCheckMemberIdStatus(false);
     }
     const handleMemberPw = (e)=>{
         setMemberPw(e.target.value);
