@@ -5,7 +5,7 @@ const ArticleList = lazy(() => import("../pages/mypage/MypageArticleListPage"));
 const CommentList = lazy(() => import("../pages/mypage/MypageCommentPage"));
 const ReviewList = lazy(() => import("../pages/mypage/MypageReviewPage"));
 const OrdersResult = lazy(() => import("../pages/mypage/MypageOrdersResultPage"));
-const ConfirmBeforeProfile = lazy(() => import("../pages/mypage/MypageConfirmBeforeProfilePage"));
+const ProfileBefore = lazy(() => import("../pages/mypage/MypageProfileBeforePage"));
 const Profile = lazy(() => import("../pages/mypage/MypageProfilePage"));
 
 const mypageRouter = () => {
@@ -19,7 +19,12 @@ const mypageRouter = () => {
 
     {
       path: "profile/confirm",
-      element: <Suspense><ConfirmBeforeProfile /></Suspense>
+      element: <Suspense><ProfileBefore /></Suspense>
+    },
+
+    {
+      path: "profile/modify",
+      element: <Suspense><Profile /></Suspense>
     },
 
     {
@@ -40,11 +45,6 @@ const mypageRouter = () => {
     {
       path: "orders/result",
       element: <Suspense><OrdersResult /></Suspense>
-    },
-
-    {
-      path: "profile/modify",
-      element: <Suspense><Profile /></Suspense>
     },
 
   ]
