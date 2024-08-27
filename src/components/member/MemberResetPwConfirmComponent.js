@@ -28,12 +28,12 @@ const MemberResetPwConfirmComponent = () => {
             <hr></hr>
                 <div>
                     <button
-                        className="bg-[rgb(0,0,139)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
+                        className="bg-[rgb(224,26,109)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
                         onClick={()=>navigate(`/`, { replace: true })}>
                         홈으로 가기
                     </button>
                     <button
-                        className="bg-[rgb(0,0,139)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
+                        className="bg-[rgb(224,26,109)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
                         onClick={()=>navigate(`/login`, { replace: true })}>
                         로그인 하기
                     </button>

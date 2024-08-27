@@ -35,10 +35,10 @@ const MemberSignupConfirmComponent = () => {
             </h1>
 
             <div className='flex mt-5'>
-                <Link to={'/'} className={`bg-[rgb(0,0,139)] text-white p-3 rounded m-5 w-32 text-xl`}>
+                <Link to={'/'} className={`bg-[rgb(224,26,109)] text-white p-3 rounded m-5 w-32 text-xl`}>
                     홈으로 가기
                 </Link>
-                <Link to={'/login'} className={`bg-[rgb(0,0,139)] text-white p-3 rounded m-5 w-32 text-xl`}>
+                <Link to={'/login'} className={`bg-[rgb(224,26,109)] text-white p-3 rounded m-5 w-32 text-xl`}>
                     로그인 하기
                 </Link>
             </div>

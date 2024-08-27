@@ -5,12 +5,12 @@ import {
     } from '@chakra-ui/react'
 
 import { useEffect, useRef, useState } from "react";
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { checkMemberId, signupMember, loadPostcodeScript } from '../../api/memberApi';
 
 const MemberSignupComponent = () => {
 
-    const [checkMemberId, setCheckMemberId] = useState("");
+    const [checkMemberIdStatus, setCheckMemberIdStatus] = useState("");
     const [memberId, setMemberId] = useState("");
     const [memberPw, setMemberPw] = useState("");
     const [memberPwConfirm, setMemberPwConfirm] = useState("");
@@ -26,8 +26,10 @@ const MemberSignupComponent = () => {
     const [pwInputError, setPwInputError] = useState('')  // 비번 인풋 빨갛게 체크함(seccess, error)
 
     const handleMemberId = (e)=>{
-        setMemberId(e.target.value);
-        setCheckMemberId(false);
+        // 아이디에 영어, 숫자만 허용하는 정규식 사용
+        const validInputValue = e.target.value.replace(/[^0-9A-Za-z]/ig, '')
+        setMemberId(validInputValue);
+        setCheckMemberIdStatus(false);
     }
     const handleMemberPw = (e)=>{
         setMemberPw(e.target.value);
@@ -77,21 +79,27 @@ const MemberSignupComponent = () => {
     }, [navigate]);
 
     // 아이디 중복확인 버튼
-    const onClickCheckMemberId = () => {
-        axios.post("http://localhost:8080/api/member/signup/checkMemberId",{memberId : memberId})
-        .then((response)=>{
-            console.log(response.data);
-            alert("사용 가능한 아이디입니다.")
-            setCheckMemberId(true);
-            setIdInputError('success'); // Success state
-        })
-        .catch((error)=>{
-            console.error(error);
-            setCheckMemberId(false);
-            alert("사용할 수 없는 아이디입니다.")
-            setIdInputError('error'); // 아이디 에러나면 인풋창 빨갛게 하려고 만듦
-        })
-    }
+    const onClickCheckMemberId = async () => {
+
+        // 아이디 길이 확인
+        if(memberId.length >= 6 ){
+
+            try {
+                await checkMemberId(memberId);
+                alert("사용 가능한 아이디입니다.");
+                setCheckMemberIdStatus(true);
+                setIdInputError('success');
+            } catch (error) {
+                alert("사용할 수 없는 아이디입니다.");
+                setCheckMemberIdStatus(false);
+                setIdInputError('error');
+            }
+        } else {
+            alert("아이디는 6자리 이상 입력해주세요.");
+            setCheckMemberIdStatus(false);
+            setIdInputError('error');
+        }
+    };
 
     /* ====================== 다음 주소찾기 API 시작 ====================== */
     const [postcode, setPostcode] = useState('');
@@ -153,7 +161,7 @@ const MemberSignupComponent = () => {
     /* ====================== 다음 주소찾기 API 끝 ====================== */
 
     // 회원가입 버튼
-    const onClicksignup = ()=>{
+    const onClicksignup = async ()=>{
         console.log("click signup");
         console.log("ID : " + memberId);
         console.log("PW : " + memberPw);
@@ -178,7 +186,7 @@ const MemberSignupComponent = () => {
         }
 
         // 아이디 중복 확인 (false면 중복확인 안한 것으로 간주)
-        if(checkMemberId == false){ // === 이걸로하면 안됨 // 해결-성빈240821
+        if(checkMemberIdStatus == false){ // === 이걸로하면 안됨 // 해결-성빈240821
             const errorMsg = "아이디 중복 확인은 필수입니다.";
             console.error(errorMsg);
             alert("아이디 중복 확인은 필수입니다."); 
@@ -186,6 +194,13 @@ const MemberSignupComponent = () => {
             return;
         } else {
             setIdInputError('success');
+        }
+
+        // 비밀번호 8자리 이상인지 체크
+        if(memberPw.length < 7 || memberPw.length > 20){
+            alert("비밀번호는 8-20자리로 입력해주세요.");
+            setPwInputError('error');
+            return;
         }
 
         // 비밀번호 = 비밀번호 확인 체크
@@ -205,6 +220,12 @@ const MemberSignupComponent = () => {
             return;
         } 
 
+        // 닉네임 길이 10자리 체크
+        if(memberNickname >= 10){
+            alert("닉네임은 10자리 이내로 입력해주세요.");
+            return
+        }
+
         // 월을 추출하고 유효한 범위인지 확인 (01 ~ 12)
         const month = parseInt(memberBirth.substring(2, 4), 10);
         if (month < 1 || month > 12) {
@@ -220,29 +241,24 @@ const MemberSignupComponent = () => {
         }
 
 
-        axios
-        .post("http://localhost:8080/api/member/signup",{
-            memberId : memberId,
-            memberPw : memberPw,
-            memberName : memberName,
-            memberNickname : memberNickname,
-            memberBirth : memberBirth,
-            memberPhone : phone1+"-"+phone2+"-"+phone3,
-            postcode : postcode,
-            postAddress : postAddress,
-            detailAddress : detailAddress,
-            extraAddress : extraAddress,
-            memberRole : memberRole
-        })
-        .then((response)=>{
-            console.log("axios.post 성공 후 response")
-            console.log(response.data)
-            navigate("/signup_confirm")
-        })
-        .catch((error)=>{
-            console.log("axios.post 실패 후 response")
+        try {
+            await signupMember({
+                memberId,
+                memberPw,
+                memberName,
+                memberNickname,
+                memberBirth,
+                memberPhone: `${phone1}-${phone2}-${phone3}`,
+                postcode,
+                postAddress,
+                detailAddress,
+                extraAddress,
+                memberRole
+            });
+            navigate("/signup_confirm");
+        } catch (error) {
             console.error("회원가입 요청 중 오류 발생", error);
-        });
+        }
     }
         
     return (
@@ -277,7 +293,9 @@ const MemberSignupComponent = () => {
                         value={memberId}
                         onChange={handleMemberId}
                         className={idInputError === 'success' ? 'border-blue-500' : idInputError === 'error' ? 'border-red-500' : ''}
-                        placeholder='아이디를 입력해주세요.'/>
+                        placeholder='6자리 이상 입력해주세요.'
+                        minLength={6}
+                        maxLength={20}/>
                         <button className="w-32 ml-3 bg-slate-400 rounded text-white hover:opacity-80"
                         onClick={onClickCheckMemberId}>
                             중복확인
@@ -294,7 +312,9 @@ const MemberSignupComponent = () => {
                         type='password' 
                         value={memberPw}
                         onChange={handleMemberPw}
-                        placeholder='비밀번호를 입력해주세요.' />
+                        placeholder='8자리 이상 입력해주세요.'
+                        minLength={8}
+                        maxLength={20} />
                 </FormControl>
                 {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
 
@@ -306,7 +326,9 @@ const MemberSignupComponent = () => {
                         type='password' 
                         value={memberPwConfirm}
                         onChange={handleMemberPwConfirm}
-                        placeholder='비밀번호를 입력해주세요.' />
+                        placeholder='비밀번호를 다시 입력해주세요.'
+                        minLength={8}
+                        maxLength={20} />
                 </FormControl>
 
                 {/* 이름 */}
@@ -323,6 +345,7 @@ const MemberSignupComponent = () => {
                 <FormControl isRequired className='flex items-center my-3'>
                     <FormLabel className="w-1/4">닉네임</FormLabel>
                     <Input
+                        maxLength={10}
                         className='w-3/4'
                         value={memberNickname}
                         onChange={handleMemberNickname}
@@ -419,7 +442,7 @@ const MemberSignupComponent = () => {
                 {/* 회원가입 버튼 */}
                 <div className='flex mt-3'>
                     <button
-                        className="ml-auto text-xl bg-[rgb(224,26,109)] text-white px-4 py-2 rounded hover:opacity-80"
+                        className="w-full h-16 text-xl bg-[rgb(224,26,109)] text-white font-bold mt-1 px-4 py-2 rounded hover:opacity-80"
                         onClick={onClicksignup}>
                         회원가입
                     </button>

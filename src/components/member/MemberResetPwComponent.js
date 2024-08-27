@@ -6,9 +6,9 @@ import {
     } from '@chakra-ui/react'
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { resetMemberPassword } from '../../api/memberApi';
 
 const MemberResetPwComponent = () => {
     const navigate = useNavigate();
@@ -44,7 +44,7 @@ const MemberResetPwComponent = () => {
         setMemberPwConfirmInFindPwForReset(e.target.value);
     }
 
-    const resetMemberPw = () => {
+    const resetMemberPw = async () => {
 
         // 1. 안 채운 항목이 있는지 확인하기
         if([memberPwInFindPwForReset, memberPwConfirmInFindPwForReset].includes('')){
@@ -53,6 +53,12 @@ const MemberResetPwComponent = () => {
             alert(errorMsg);
 
             return;
+        }
+
+        // 비밀번호 8-20자리인지 체크
+        if(memberPwInFindPwForReset.length < 7 || memberPwInFindPwForReset.length > 20){
+            alert("비밀번호는 8-20자리로 입력해주세요.");
+            return
         }
 
         // 2. 비밀번호 = 비밀번호확인 확인하기
@@ -64,21 +70,13 @@ const MemberResetPwComponent = () => {
         }
 
         // 3. axios 포스트 하기
-        axios
-        .post("http://localhost:8080/api/member/find_pw/reset",{
-            // 비밀번호만 보내려고 했는데 Repository.findByMemberId()<-이걸로 데이터 찾고 비번 바꿔야해서 회원번호(id)도 같이 전송해야됨
-            memberId : memberId,
-            memberPw : memberPwInFindPwForReset
-        })
-
-        .then((response)=>{
-            console.log(response.data)
-            navigate("/reset/pw/confirm", { replace: true })
-        })
-
-        .catch((error)=>{
+        try {
+            const response = await resetMemberPassword(memberId, memberPwInFindPwForReset);
+            console.log(response);
+            navigate("/reset/pw/confirm", { replace: true });
+        } catch (error) {
             console.error("비밀번호 변경 중 오류 발생", error);
-        });
+        }
     }
 
 
@@ -114,10 +112,11 @@ const MemberResetPwComponent = () => {
                         <FormControl isRequired>    
                             <FormLabel>비밀번호</FormLabel>
                             <Input 
+                            maxLength={20}
                             type='password' 
                             value={memberPwInFindPwForReset}
                             onChange={handleMemberPwInFindPwForReset}
-                            placeholder='비밀번호를 입력해주세요.' />
+                            placeholder='8자리 이상 입력해주세요.' />
                         </FormControl>
                         {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
 
@@ -125,10 +124,11 @@ const MemberResetPwComponent = () => {
                         <FormControl isRequired>
                             <FormLabel>비밀번호 확인</FormLabel>
                             <Input 
+                            maxLength={20}
                             type='password' 
                             value={memberPwConfirmInFindPwForReset}
                             onChange={handleMemberPwConfirmInFindPwForReset}
-                            placeholder='비밀번호를 입력해주세요.' />
+                            placeholder='비밀번호를 다시 입력해주세요.' />
                         </FormControl>
                     </div>
 

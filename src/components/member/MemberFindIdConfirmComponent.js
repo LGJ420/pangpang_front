@@ -68,12 +68,12 @@ const MemberFindIdConfirmComponent = () => {
 
                 <div>
                     <button
-                        className="bg-[rgb(0,0,139)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
+                        className="bg-[rgb(224,26,109)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
                         onClick={()=>navigate(`/login`, { replace: true })}>
                         로그인
                     </button>
                     <button
-                        className="bg-[rgb(0,0,139)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
+                        className="bg-[rgb(224,26,109)] text-white w-40 h-12 mx-2 text-2xl font-semibold rounded hover:opacity-80"
                         onClick={()=>navigate(`/find/pw`, { replace: true })}>
                         비밀번호 찾기
                     </button>

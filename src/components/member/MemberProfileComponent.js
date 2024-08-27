@@ -1,11 +1,12 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
 import useCustomToken from "../../hooks/useCustomToken";
 import MypageTitleComponent from "../common/MypageTitleComponent";
+import { updateMemberProfile, deleteProfileImage, prefix } from '../../api/memberApi';
+import { logout } from '../../hooks/logout';
 
 const MemberProfileComponent = () => {
 
@@ -18,6 +19,15 @@ const MemberProfileComponent = () => {
     
     const location = useLocation();
     const {memberImage, memberId, memberNickname, memberPw, memberPhone, postcode, postAddress, detailAddress, extraAddress} = location.state || {};
+
+
+    // 페이지 로드 시 새로운 상태를 히스토리에 추가
+    window.history.pushState(null, '', window.location.href);
+
+    // 뒤로가기 버튼을 눌렀을 때 히스토리를 조작 => 내 정보 변경 전 비번확인하게 바꿈
+    window.onpopstate = function(event) {
+        window.history.pushState(null, '', window.location.replace('../profile/confirm')); // http://localhost:3000/mypage/profile/confirm
+    };
 
     useEffect(() => {
 
@@ -37,21 +47,6 @@ const MemberProfileComponent = () => {
         }
 
         setIsValid(true);
-
-        // // 뒤로가기 방지 코드
-        // const preventGoBack = () => {
-        //     // change start
-        //     window.history.pushState(null, '', location.href);
-        //     // change end
-        //     console.log('prevent go back!');
-        //     alert("미친것");
-        // };
-        
-        // window.history.pushState(null, '', location.href);
-        // window.addEventListener('popstate', preventGoBack);
-        
-        // return () => window.removeEventListener('popstate', preventGoBack)
-        
 
     },[location.state, navigate]);
 
@@ -170,7 +165,7 @@ const MemberProfileComponent = () => {
     // // 프로필 사진 관련 코드
 
     // 비번확인하면 memberId, memberImage...등 보내주는데, memberImage 유무로 있는사진띄워줄건지 너굴맨띄워줄건지 구분하는 코드
-    const [profileImage, setProfileImage] = useState(memberImage ? `http://localhost:8080/api/member/view/${memberImage}` : "/images/profile.png")
+    const [profileImage, setProfileImage] = useState(memberImage ? `${prefix}/view/${memberImage}` : "/images/profile.png")
     
     // 사진 미리보기
     const [file, setFile] = useState(); 
@@ -192,7 +187,7 @@ const MemberProfileComponent = () => {
     // 이거안하면 too many response? 이거생김
     useEffect(() => {
         if (memberImage) {
-            setProfileImage(`http://localhost:8080/api/member/view/${memberImage}`);
+            setProfileImage(`${prefix}/view/${memberImage}`);
         } else {
             setProfileImage("/images/profile.png");
         }
@@ -242,6 +237,12 @@ const MemberProfileComponent = () => {
     
             // 사용자가 새 비밀번호를 입력한 경우에만 비밀번호를 추가
             if (modifyMemberPw) {
+                // 비밀번호 글자수 제한
+                if(modifyMemberPw.length >7 || modifyMemberPw.length <20){
+                    alert("비밀번호는 8-20자리로 입력해주세요.");
+                    return;
+                }
+
                 formData.append('memberPw', modifyMemberPw);
             }
     
@@ -250,43 +251,53 @@ const MemberProfileComponent = () => {
                 formData.append('file', file);
             }
 
-            console.log("file 출력")
+            console.log("file(memberImage) 출력")
             console.log(file)
     
-            // 토큰 가져오기(프린시펄 하려면 토큰을 보내야함)
-            const token = localStorage.getItem("token");
-    
             // 회원 정보 및 프로필 사진 수정 API 호출
-            const response = await axios.post("http://localhost:8080/api/member/mypage/modify", formData, {
-                headers: {
-                    // 'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${token}`,
-                }
-            });
-    
-            console.log(response);
-            localStorage.setItem("token", response.data); // 로컬스토리지에 바뀐 token 저장
-            setToken(response.data); // useState에 바뀐 token 저장
-            alert("수정이 완료되었습니다.");
-            navigate('/');
+            const res = await updateMemberProfile(formData);
+            if (res) {
+                alert("프로필 수정이 완료되었습니다.");
+                setToken(res); // 리코일로 재발급 받은 토큰 적용
+                navigate("/")
+            } else {
+                alert("프로필 수정에 실패하였습니다.");
+            }
         } catch (error) {
-            console.error("내 정보 변경 요청 중 오류 발생", error);
-            alert("수정 중 오류가 발생했습니다.");
-        }
+            console.error("비밀번호 검증 중 오류 발생", error);
 
+            // Server response errors
+            if (error.response.status === 401) {
+                alert("토큰 유효 시간이 만료되었습니다.")
+                logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+            }
+
+            else if (error.response.status === 403) {
+                alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
+            } 
+            
+            else {
+                alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
+            }
+        } 
     }
     
     //프로필 사진 삭제
-    const deleteImage = () => {
-        axios.delete(`http://localhost:8080/api/member/${memberId}/image`)
-        .then((response)=>{
-            console.log(response.data);
-            setProfileImage("/images/profile.png");
-        })
-        .catch((error)=>{
-            console.log("프로필 사진 삭제 중 에러 발생 : " + error);
-            alert("프로필 사진 삭제 중 오류가 발생했습니다.");
-        })
+    const deleteImage = async () => {
+        if (window.confirm("프로필 사진을 삭제하시겠습니까?")) {
+            try {
+                const res = await deleteProfileImage(memberId);
+                if (res) {
+                    setProfileImage("/images/profile.png");
+                    alert("프로필 사진이 삭제되었습니다.");
+                } else {
+                    alert("프로필 사진 삭제에 실패하였습니다.");
+                }
+            } catch (err) {
+                console.error("Error deleting profile image:", err);
+                alert("프로필 사진 삭제 중 오류가 발생했습니다.");
+            }
+        }
     }
 
     
@@ -368,7 +379,7 @@ const MemberProfileComponent = () => {
                         </label>
                         <input
                             className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                            maxLength={24}
+                            maxLength={20}
                             id='password1'
                             placeholder='비밀번호를 변경해주세요.' 
                             type='password'
@@ -381,7 +392,7 @@ const MemberProfileComponent = () => {
                         </label>
                         <input
                             className="p-2 ml-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-600"
-                            maxLength={24}
+                            maxLength={20}
                             id='password2'
                             type='password'
                             placeholder='비밀번호를 다시 입력해주세요.'
