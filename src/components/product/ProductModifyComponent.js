@@ -138,7 +138,7 @@ const ProductModifyComponent = () => {
     }
 
     setLoading(true);
-    
+
     try {
       const formData = new FormData();
       formData.append('productTitle', product.productTitle);
@@ -146,6 +146,7 @@ const ProductModifyComponent = () => {
       formData.append('productPrice', product.productPrice);
       formData.append('productDetailContent', product.productDetailContent);
       formData.append('productCategory', product.productCategory);
+      formData.append('productStock', product.productStock);
 
       // 기존 이미지
       images.forEach(fileName => formData.append('existingImages', fileName));
