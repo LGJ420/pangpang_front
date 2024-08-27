@@ -23,7 +23,7 @@ export const postComment = async (comment) => {
 export const putComment = async (id, comment) => {
     const token = localStorage.getItem("token");
 
-    const res = await axios.put(`${prefix}/modify/${id}`, comment, {
+    const res = await axios.put(`${prefix}/${id}`, comment, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
