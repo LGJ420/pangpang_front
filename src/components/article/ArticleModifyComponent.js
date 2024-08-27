@@ -4,11 +4,15 @@ import { getOne, putOne } from "../../api/articleApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomToken from "../../hooks/useCustomToken";
 
+
+
 const initState = {
   id: 0,
   articleTitle: '',
   articleContent: '',
 };
+
+
 
 const ArticleModifyComponent = () => {
   const { id } = useParams();
@@ -33,6 +37,8 @@ const ArticleModifyComponent = () => {
     }
   }, [id]);
 
+
+
   useEffect(() => {
     if (!isLogin) {
       alert("잘못된 접근 방식입니다.");
@@ -41,10 +47,14 @@ const ArticleModifyComponent = () => {
     }
   }, [isLogin, navigate]);
 
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setArticle((prev) => ({ ...prev, [name]: value }));
   };
+
+
 
   const handleClickModify = async () => {
     setLoading(true);
@@ -59,13 +69,19 @@ const ArticleModifyComponent = () => {
     }
   };
 
+
+
   const handleCancel = () => {
     moveToRead(id);
   };
 
+
+
   if (!isLogin) {
     return null;
   }
+
+  
 
   return (
     <section className='pt-10 pl-10 pb-10 pr-3 mb-5'>

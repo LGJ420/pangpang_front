@@ -80,7 +80,6 @@ const MypageCommentComponent = () => {
 
 
 
-
     const formatContent = (content) => {
         if (!content) return '';
         const urlPattern = /(https?:\/\/[^\s]+)/g;

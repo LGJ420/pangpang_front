@@ -4,10 +4,14 @@ import useCustomMove from "../../hooks/useCustomMove";
 import { postCreate } from "../../api/articleApi";
 import useCustomToken from '../../hooks/useCustomToken';
 
+
+
 const initState = {
   articleTitle: '',
   articleContent: ''
 }
+
+
 
 const ArticleCreateComponent = () => {
   const [article, setArticle] = useState({...initState});
@@ -24,10 +28,14 @@ const ArticleCreateComponent = () => {
     }
   }, [isLogin, navigate]);
 
+
+
   const handleChangeArticle = (e) => {
     article[e.target.name] = e.target.value;
     setArticle({ ...article });
   }
+
+
 
   const handleClickCreate = async () => {
     if (article.articleTitle.length === 0) {
@@ -53,9 +61,13 @@ const ArticleCreateComponent = () => {
     }
   };
 
+
+
   if (!isLogin) {
     return null;
   }
+
+  
 
   return (
     <section className="my-10 m-auto text-2xl">
