@@ -177,6 +177,8 @@ const ProductDetailComponent = ({ num }) => {
     navigate(`../modify/${product.id}`);
   }
 
+  console.log(reviewData);
+
 
   return (
     <section>
@@ -381,7 +383,7 @@ const ProductDetailComponent = ({ num }) => {
                   <div className="flex items-center">
                     <img
                       className="w-10 h-10 mr-2 rounded-full border"
-                      src={review.memberImage != null ? `${prefix}/${review.memberImage}` : 'images/profile/png'} />
+                      src={review.memberImage != null ? `${prefix}/${review.memberImage}` : '/images/profile.png'} />
                     <div className="mr-2">
                       {review.memberNickName}
                     </div>
