@@ -87,7 +87,7 @@ const ProductListComponent = () => {
 
   // 상품 카테고리 선택
   const handleClickCategory = (category) => {
-    moveToList({category});
+    moveToList({category, search: ""});
   }
 
 

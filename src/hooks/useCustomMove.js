@@ -46,7 +46,7 @@ const useCustomMove = () => {
 
             const pageNum = getNum(pageParam.page, 1);
             const sizeNum = getNum(pageParam.size, 12); // 상품 목록에서 한 페이지 당 데이터 12개씩 가져오기 위해 변경
-            const searchStr = getString(pageParam.search, search);      // 상품 목록 - 검색에서 사용
+            const searchStr = getString(pageParam.search, '');      // 상품 목록 - 검색에서 사용
             const categoryStr = getString(pageParam?.category, category);
 
             queryStr = createSearchParams({ category: categoryStr, search: searchStr, page: pageNum, size: sizeNum, }).toString();
