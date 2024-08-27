@@ -13,6 +13,8 @@ const initState = {
   productDetailContent: "",
   productPrice: 0,
   productCategory: "",
+  productStock: 0,
+  productSales : 0,
   files: []
 }
 
@@ -113,16 +115,6 @@ const ProductModifyComponent = () => {
       return;
     }
 
-    if (product.productStock <= 0) {
-      alert("재고량을 입력해주세요.");
-      return;
-    }
-
-    if (isNaN(product.productStock)) {
-      alert("제고량을 입력해주세요. (숫자만 가능)");
-      return;
-    }
-
     if (!product.productDetailContent.trim()) {
       alert("상품 상세설명을 입력해주세요.");
       return;
@@ -148,6 +140,7 @@ const ProductModifyComponent = () => {
       formData.append('productDetailContent', product.productDetailContent);
       formData.append('productCategory', product.productCategory);
       formData.append('productStock', product.productStock);
+      formData.append('productSales', product.productSales);
 
       // 기존 이미지
       images.forEach(fileName => formData.append('existingImages', fileName));
