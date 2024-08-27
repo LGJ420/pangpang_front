@@ -84,7 +84,7 @@ const ManagerMemberComponent = () => {
                 <div className={styles.membersHeader}>
                     <div>회원번호</div>
                     <div>회원 아이디</div>
-                    <div>회원 닉네임</div>
+                    {/* <div>회원 닉네임</div> */}
                     <div>회원 등급</div>
                     <div>회원 가입 날짜</div>
                     <div>회원 활동 상태</div>
@@ -95,18 +95,24 @@ const ManagerMemberComponent = () => {
                     <div className={styles.membersBody} key={index}>
                         <div>{data.id}</div>
                         <div>{data.memberId}</div>
-                        <div>{data.memberNickname}</div>
+                        {/* <div>{data.memberNickname}</div> */}
                         <div>
                             {data.memberRole}
-                            <button onClick={()=>clickMemberRole(data)}>
-                                {data.memberRole === "User" ? "🔄️Admin" : "🔄️User"}
+                            <button 
+                                className="text-white px-2 bg-[rgb(77,160,124)] ml-2" 
+                                onClick={()=>clickMemberRole(data)}>
+                                {/* {data.memberRole === "User" ? "Admin으로 변경" : "User으로 변경"} */}
+                                변경
                             </button>
                         </div>
                         <div>{data.memberSignupDate.substr(0, 10)}</div>
                         <div>
                             {data.active === false ? "활동" : "활동정지"}
-                            <button onClick={()=>clickMemberActive(data)}>
-                                {data.active === false ? "🔄️활동정지" : "🔄️활동"}
+                            <button 
+                                className="text-white px-2 bg-[rgb(77,160,124)] ml-2"
+                                onClick={()=>clickMemberActive(data)}>
+                                {/* {data.active === false ? "활동정지로 변경" : "활동으로 변경"} */}
+                                변경
                             </button>
                         </div>
                     </div>
