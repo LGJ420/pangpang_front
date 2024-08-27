@@ -14,7 +14,8 @@ const initState = {
   id: 0,
   productTitle: '',
   productContent: '',
-  productPrice: 0
+  productPrice: 0,
+  productDetailContent: ''
 }
 
 const prefix = "http://localhost:8080/api/productreview/view";
@@ -128,7 +129,9 @@ const ProductDetailComponent = ({ num }) => {
       productContent: product.productContent,
       productPrice: product.productPrice,
       uploadFileNames: product.uploadFileNames,
-      cartCount: 1
+      cartCount: 1,
+      productSales : product.productSales + 1,
+      productStocl: product.productStock - 1
     }
 
     navigate("/orders/pay", { state: { order } });
@@ -313,6 +316,7 @@ const ProductDetailComponent = ({ num }) => {
               <div className="flex border">
                 <div className="w-1/4 font-bold bg-slate-100 flex items-center justify-center">지정 택배사</div>
                 <div className="w-2/3 p-3">한진 택배</div>
+
               </div>
 
               {/* <!-- 반품 배송비 및 교환 배송비 --> */}

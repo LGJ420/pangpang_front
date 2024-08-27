@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "../../css/memberPage.module.css"
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
-import { getList, modifyProduct } from "../../api/productApi";
+import { getList, modifyProduct, modifyProductStock } from "../../api/productApi";
 import { IconButton, Input } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import MypageTitleComponent from "../common/MypageTitleComponent";
@@ -88,7 +88,7 @@ const ManagerProductComponent = () => {
                 // 상품 목록 데이터 가져오기
                 const data = await getList({ search, page, size });
                 setServerData(data);
-                // console.log(data);   // 데이터 확인용
+                console.log(data);   // 데이터 확인용
             }
             catch (error) {
                 console.error(error);
@@ -138,7 +138,7 @@ const ManagerProductComponent = () => {
     };
 
     // 상품 수정 처리
-    const handleStockModify = async () => {
+    const handleStockModify = async (productId) => {
 
         if (modal.productStock <= 0) {
             alert("재고량을 입력해주세요.");
@@ -146,33 +146,28 @@ const ManagerProductComponent = () => {
         }
 
         if (isNaN(modal.productStock)) {
-            alert("제고량을 입력해주세요. (숫자만 가능)");
+            alert("재고량을 입력해주세요. (숫자만 가능)");
             return;
         }
 
-        try {
-            
-            const formData = new FormData();
-            formData.append('productTitle', modal.productTitle);
-            formData.append('productContent', modal.productContent);
-            formData.append('productPrice', modal.productPrice);
-            formData.append('productDetailContent', modal.productDetailContent);
-            formData.append('productCategory', modal.productCategory);
-            formData.append('productStock', modal.productStock);
-
-            formData.append('files', modal.uploadFilNames);
 
 
-            await modifyProduct(modal.id, formData);
-            alert('수정이 완료되었습니다!');
-            moveToList();
-        } catch (error) {
-            // console.error("수정에 실패했습니다.", error);
-            alert("상품 수정에 실패했습니다.")
-        } finally {
-            setIsLoading(false);
+        modifyProductStock(productId, {productStock: modal.productStock})
+            .then(()=>{
+                alert('수정이 완료되었습니다!');
+                moveToList();
+            })
+            .catch((error)=>{
+                // console.error("수정에 실패했습니다.", error);
+                alert("상품 수정에 실패했습니다.")
+            })
+            .finally(()=>{
+                setIsLoading(false);
+            })
         }
-    };
+
+
+
 
     if (!isLogin || decodeToken.memberRole !== 'Admin') {
         return <div>관리자 페이지입니다.</div>;
@@ -205,8 +200,8 @@ const ManagerProductComponent = () => {
 
                                 <div className="flex text-xl mt-7 justify-end">
                                     <button className="mr-3 p-2 px-5 bg-[rgb(77,160,124)] text-white"
-                                        onClick={handleStockModify}
-                                        onKeyDown={handleStockModify}>
+                                        onClick={()=>handleStockModify(modal.id)}
+                                        onKeyDown={()=>handleStockModify(modal.id)}>
                                         수정
                                     </button>
                                     <button className="mr-3 p-2 px-5 bg-[rgb(240,113,113)] text-white"

@@ -50,3 +50,18 @@ export const getOne = async (id) => {
 
   return res.data;
 }
+
+
+/* 상품 재고량만 수정 */
+export const modifyProductStock = async (productId, productDTO) => {
+
+  const token = localStorage.getItem("token");
+
+  const res = await axios.put(`${prefix}/stock/${productId}`, productDTO, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+
+  return res.data;
+}

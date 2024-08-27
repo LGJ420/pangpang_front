@@ -52,6 +52,8 @@ const OrdersPayComponent = () => {
 
     }, [location.state]);
 
+    console.log(productData);
+
     
 
     const handleChangeUserData = (e) => {
