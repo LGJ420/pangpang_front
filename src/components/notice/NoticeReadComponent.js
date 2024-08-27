@@ -125,9 +125,11 @@ const NoticeReadComponent = ({id}) => {
         const ifDel = confirm("정말로 삭제하시겠습니까?");
         if(ifDel){
             deleteNotice(noticeId)
-                .then(alert("삭제가 완료되었습니다."))
-                .catch(error=>console.log(error))
-                .finally(()=>navigate(`/notice`))
+                .then(()=>{
+                    alert("삭제가 완료되었습니다.");
+                    navigate(`/notice`, {replace: true});
+                })
+                .catch(error=>console.log(error));
         }
         
     }
