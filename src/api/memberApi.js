@@ -166,15 +166,18 @@ export const deleteProfileImage = async (memberId) => {
 
 // ============ 관리자 관련 api============
 // 관리자 - 회원 정보 리스트 불러오기
-export const getMemberList = async () => {
+export const getMemberList = async (pageParam) => {
+    const { search, page, size } = pageParam;
     try {
-        const response = await axios.get(`${prefix}`);
+        const response = await axios.get(`${prefix}`, { params: { search, page, size } });
         return response.data;
     } catch (error) {
         console.error('Failed to fetch member list:', error);
         return [];
     }
 }
+
+
 
 // 관리자 - 회원 등급 변경(관리자<->유저)
 export const changeMemberRole = async (id, newRole) => {
