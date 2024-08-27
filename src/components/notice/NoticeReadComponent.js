@@ -216,7 +216,6 @@ const NoticeReadComponent = ({id}) => {
                     <div className="pb-5 flex">
                         <div>작성자 : {noticeData.memberNickname}</div>
                         <div className="px-2 ml-auto">조회수 : {noticeData.noticeHit}</div>
-                        <div className="px-2">댓글 : {commentData.dtoList.length}</div>
                         <div className="px-2">작성일 : {formatDateTime(noticeData.noticeCreated)}</div>
                     </div>
                 </div>
@@ -224,93 +223,7 @@ const NoticeReadComponent = ({id}) => {
                 <p className="p-5 mb-32 rounded-xl">
                     {noticeData.noticeContent}
                 </p>
-                <div className="h-32 flex items-center justify-between">
-                    <textarea className="w-5/6 h-24 p-4 border"
-                        name="commentContent"
-                        onChange={handleChangeComment}/>
-                    <button className="bg-[rgb(224,26,109)] text-white hover:opacity-80 w-1/6 h-24 text-3xl"
-                        onClick={handleClickComment}>
-                        등록
-                    </button>
-                </div>
             </div>
-            
-
-
-            <div className="pb-3">
-                전체 댓글 <span className="text-red-600 font-bold">{commentData.dtoList.length}</span>개
-            </div>
-
-            {
-                commentData.dtoList.map(dto=>
-                    <>
-                    <hr />
-                    <div className="pt-2 pb-4 min-h-24 flex justify-between">
-                        <div>
-                            <div className="flex items-center">
-                                <img
-                                    className="w-10 h-10 mr-2 rounded-full border"
-                                    src={`${prefix}/${dto.memberImage}`} />
-                                <div>
-                                    {dto.memberNickname}
-                                </div>
-                            </div>
-                        </div>
-                        {dto.id === commentEdit ?
-                        
-                            <textarea
-                                className="pt-2 w-2/3 border resize-none"
-                                key={dto.id}
-                                value={modifyComment.commentContent}
-                                name="commentContent"
-                                rows={3}
-                                maxLength={200}
-                                onChange={handleChangeModifyComment}/>
-                        :
-                            <p className="pt-2 w-2/3">
-                                {dto.commentContent}
-                            </p>
-                        }
-                        <div className="pt-2 flex flex-col items-end justify-between">
-                            <div>
-                                {formatDateTime(dto.commentCreated)}
-                            </div>
-
-                            {decodeToken.id === dto.memberId ?
-                                
-                                <div>
-                                    {dto.id === commentEdit ?
-
-                                    <button className="px-2 hover:opacity-80"
-                                        onClick={()=>handleClickModifyCommentComplete(dto.id)}>
-                                        수정 완료
-                                    </button>
-                                    :
-                                    <button className="px-2 hover:opacity-80"
-                                        onClick={()=>handleClickModifyComment(dto.id)}>
-                                        수정
-                                    </button>
-                                    }
-                                    <span className="border-l"/>
-                                    <button className="px-2 hover:opacity-80"
-                                        onClick={()=>handleClickCommentDelete(dto.id)}>
-                                        삭제
-                                    </button>
-                                </div>
-
-                                :
-
-                                <>
-                                </>
-
-                            }
-                        </div>
-                    </div>
-                    </>
-                )
-            }
-            
-
 
         </section>
 
