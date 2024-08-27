@@ -26,7 +26,7 @@ const MemberProfileComponent = () => {
 
     // 뒤로가기 버튼을 눌렀을 때 히스토리를 조작 => 내 정보 변경 전 비번확인하게 바꿈
     window.onpopstate = function(event) {
-        window.history.pushState(null, '', window.location.replace('../profile/confirm')); // http://localhost:3000/mypage/profile/confirm
+        window.history.pushState(null, '', window.location.replace('../mypage/profile/confirm')); // http://localhost:3000/mypage/profile/confirm
     };
 
     useEffect(() => {

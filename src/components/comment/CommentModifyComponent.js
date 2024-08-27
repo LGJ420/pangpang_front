@@ -8,6 +8,7 @@ import {
 import { getCommentById, putComment } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
 import { formatDateTime } from "../../util/dateUtil";
+import { logout } from '../../hooks/logout';
 
 
 
@@ -85,6 +86,12 @@ const CommentModifyComponent = () => {
         duration: 3000,
         isClosable: true,
       });
+
+      if (error.response.status === 401) {
+        alert("토큰 유효 시간이 만료되었습니다.")
+        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+      }
+
     } finally {
       setIsSubmitting(false);
     }

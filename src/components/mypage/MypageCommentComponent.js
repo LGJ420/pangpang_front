@@ -6,6 +6,7 @@ import useCustomToken from '../../hooks/useCustomToken';
 import { useNavigate } from 'react-router-dom';
 import MypageTitleComponent from '../common/MypageTitleComponent';
 import { formatDateTime } from "../../util/dateUtil";
+import { logout } from '../../hooks/logout';
 
 
 
@@ -37,6 +38,12 @@ const MypageCommentComponent = () => {
             setCurrentPage(page);
         } catch (error) {
             setError('Failed to fetch comments.', error);
+
+            if (error.response.status === 401) {
+                alert("토큰 유효 시간이 만료되었습니다.")
+                logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+            }
+            
         } finally {
             setLoading(false);
         }
@@ -71,6 +78,12 @@ const MypageCommentComponent = () => {
                 await deleteComment(commentToDelete);
                 fetchComments(currentPage);
             } catch (error) {
+
+                if (error.response.status === 401) {
+                    alert("토큰 유효 시간이 만료되었습니다.")
+                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                }
+                
                 console.error('Error deleting comment:', error);
             }
             setCommentToDelete(null);

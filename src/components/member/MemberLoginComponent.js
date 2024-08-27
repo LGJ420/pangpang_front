@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil';
 import { tokenState } from '../../atoms/tokenState';
 import { Spinner } from 'react-bootstrap';
 import { loginMember } from '../../api/memberApi';
+import { Inko } from 'inko';
 
 const MemberLoginComponent = () => {
 
@@ -28,8 +29,8 @@ const MemberLoginComponent = () => {
     }, [navigate, token]);
     
     const handleMemberId = (e)=>{
-        // 아이디에 영어, 숫자만 허용하는 정규식 사용
-        const validInputValue = e.target.value.replace(/[^0-9A-Za-z]/ig, '')
+        let inko = new Inko();
+        const validInputValue = inko.ko2en(e.target.value);
         setMemberId(validInputValue);
     }
     const handleMemberPw = (e)=>{
