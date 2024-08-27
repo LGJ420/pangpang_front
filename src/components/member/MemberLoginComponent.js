@@ -64,19 +64,20 @@ const MemberLoginComponent = () => {
         } catch (error) {
             console.error("로그인 요청 중 오류 발생", error);
             
-            if (error.response) {
-                // Server response errors
-                if (error.response.status === 401) {
-                    alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
-                } else if (error.response.status === 500) {
-                    alert("서버 오류: 활동이 정지되었습니다.");
-                } else {
-                    alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
-                }
+            // Server response errors
+            if (error.response.status === 403) {
+                alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
+                return
+
+            } else if (error.response.status === 500) {
+                alert("서버 오류: 활동이 정지되었습니다.");
+                return
+
             } else {
-                // Request or network errors
                 alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
+                return
             }
+
         } finally {
             setIsLoading(false);
         }

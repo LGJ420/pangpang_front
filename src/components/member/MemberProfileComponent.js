@@ -262,11 +262,16 @@ const MemberProfileComponent = () => {
             } else {
                 alert("프로필 수정에 실패하였습니다.");
             }
-        } catch (err) {
-            console.error("Error updating member profile:", err);
-            alert("프로필 수정 중 오류가 발생했습니다.");
-        }
+        } catch (error) {
+            console.error("비밀번호 검증 중 오류 발생", error);
 
+            // Server response errors
+            if (error.response.status === 403) {
+                alert("아이디 혹은 비밀번호를 잘못 입력하셨습니다.");
+            } else {
+                alert("로그인 요청 중 알 수 없는 오류가 발생했습니다.");
+            }
+        } 
     }
     
     //프로필 사진 삭제
