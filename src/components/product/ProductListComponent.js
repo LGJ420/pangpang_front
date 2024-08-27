@@ -35,11 +35,10 @@ const ProductListComponent = () => {
 
 
   useEffect(() => {
-    const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
+    const fetchData = async () => {
       try {
         // 상품 목록 데이터 가져오기
         const data = await getList({ search, page, size, category: selectedCategory });
-        console.log("Fetching data with", { search, page, size, selectedCategory });
         setServerData(data);
         // console.log(data);   // 데이터 확인용
 

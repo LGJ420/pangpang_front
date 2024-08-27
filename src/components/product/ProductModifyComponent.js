@@ -101,7 +101,44 @@ const ProductModifyComponent = () => {
 
   // 상품 수정 처리
   const handleClickModify = async () => {
+
+    if (!product.productTitle.trim()) {
+      alert("상품 제목을 입력해주세요.");
+      return;
+    }
+
+    if (!product.productContent.trim()) {
+      alert("상품 소제목을 입력해주세요.");
+      return;
+    }
+
+    if (product.productStock <= 0) {
+      alert("재고량을 입력해주세요.");
+      return;
+    }
+
+    if (isNaN(product.productStock)) {
+      alert("제고량을 입력해주세요. (숫자만 가능)");
+      return;
+    }
+
+    if (!product.productDetailContent.trim()) {
+      alert("상품 상세설명을 입력해주세요.");
+      return;
+    }
+
+    if (product.productPrice <= 0) {
+      alert("상품 금액을 입력해주세요.");
+      return;
+    }
+
+    if (isNaN(product.productPrice)) {
+      alert("상품 금액을 입력해주세요. (숫자만 가능)");
+      return;
+    }
+
     setLoading(true);
+    
     try {
       const formData = new FormData();
       formData.append('productTitle', product.productTitle);

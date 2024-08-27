@@ -139,6 +139,17 @@ const ManagerProductComponent = () => {
 
     // 상품 수정 처리
     const handleStockModify = async () => {
+
+        if (modal.productStock <= 0) {
+            alert("재고량을 입력해주세요.");
+            return;
+        }
+
+        if (isNaN(modal.productStock)) {
+            alert("제고량을 입력해주세요. (숫자만 가능)");
+            return;
+        }
+
         try {
             
             const formData = new FormData();
@@ -163,8 +174,13 @@ const ManagerProductComponent = () => {
         }
     };
 
+    if (!isLogin || decodeToken.memberRole !== 'Admin') {
+        return <div>관리자 페이지입니다.</div>;
+    }
 
     return (
+
+        
         <div>
 
             {modal ?
