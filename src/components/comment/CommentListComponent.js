@@ -1,36 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {Box,Text,VStack,Button,FormControl,FormLabel,Textarea,Heading,AlertDialog,AlertDialogBody,AlertDialogHeader,AlertDialogContent,AlertDialogOverlay,Flex,IconButton,useColorModeValue,AlertDialogFooter} from '@chakra-ui/react';
-import { getCommentsByArticleId, postComment, deleteComment } from '../../api/commentApi';
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import React, { useState, useEffect } from 'react';
+import { Box, Text, VStack, Button, Flex, useColorModeValue, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import useCustomToken from '../../hooks/useCustomToken';
+import { getCommentsByArticleId, deleteComment } from '../../api/commentApi';
+import { formatDateTime } from "../../util/dateUtil";
 
 
 
-const CommentListComponent = ({ articleId }) => {
-  const [commentContent, setCommentContent] = useState('');
+const CommentListComponent = ({ articleId, onCommentAdded }) => {
   const [comments, setComments] = useState([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [deleteCommentId, setDeleteCommentId] = useState(null);
-  const [isDeleteMode, setIsDeleteMode] = useState(false);
-  const [isCommentSubmitMode, setIsCommentSubmitMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalComments, setTotalComments] = useState(0); 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
   const { isLogin, decodeToken } = useCustomToken();
-  const cancelRef = useRef();
   const navigate = useNavigate();
-  const bgColor = useColorModeValue('gray.50', 'gray.800');
+  const bgColor = useColorModeValue('gray.100', 'gray.800');
 
 
 
   // Fetch comments with pagination
   const fetchComments = async (page = 1) => {
     try {
-      console.log(`Fetching comments for page: ${page}`); // Debugging log
       const data = await getCommentsByArticleId(articleId, { page, size: 5 });
-      console.log('Fetched comments:', data); // Debugging log
       setComments(data.content);
       setTotalPages(data.totalPages);
+      setTotalComments(data.totalElements); 
       setCurrentPage(page);
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -43,32 +39,13 @@ const CommentListComponent = ({ articleId }) => {
     fetchComments(currentPage);
   }, [articleId, currentPage]);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    if (!isLogin) {
-      setIsDeleteMode(false);
-      setIsDialogOpen(true);
-    } else {
-      setIsCommentSubmitMode(true);
-      setIsDialogOpen(true);
+
+
+  useEffect(() => {
+    if (onCommentAdded) {
+      fetchComments(currentPage);
     }
-  };
-
-
-
-  const handleCommentSubmitConfirm = async () => {
-    try {
-      await postComment({
-        articleId,
-        commentContent,
-      });
-      setCommentContent('');
-      setIsDialogOpen(false);
-      fetchComments(currentPage); // Refresh comments list
-    } catch (error) {
-      console.error('Error creating comment:', error);
-    }
-  };
+  }, [onCommentAdded]);
 
 
 
@@ -79,33 +56,37 @@ const CommentListComponent = ({ articleId }) => {
 
 
   const handleDeleteClick = (commentId) => {
-    setDeleteCommentId(commentId);
-    setIsDeleteMode(true);
-    setIsDialogOpen(true);
+    setCommentToDelete(commentId);
+    setIsDeleteModalOpen(true);
   };
 
 
 
   const handleDeleteConfirm = async () => {
     try {
-      await deleteComment(deleteCommentId);
-      setComments((prevComments) => prevComments.filter(comment => comment.id !== deleteCommentId));
-      setIsDialogOpen(false);
+      await deleteComment(commentToDelete);
+      fetchComments(currentPage); // Fetch the updated list of comments
+      if (onCommentAdded) {
+        onCommentAdded(); // Notify the parent component to update the comment count
+      }
     } catch (error) {
       console.error('Error deleting comment:', error);
+    } finally {
+      setIsDeleteModalOpen(false);
+      setCommentToDelete(null);
     }
   };
 
 
 
-  const formatDateTime = (dateTime) => {
-    const date = new Date(dateTime);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  const handleCloseModal = () => {
+    setIsDeleteModalOpen(false);
+    setCommentToDelete(null);
   };
 
 
 
-  // Format content to convert URLs to clickable links
+
   const formatContent = (content) => {
     if (!content) return '';
     const urlPattern = /(https?:\/\/[^\s]+)/g;
@@ -117,16 +98,15 @@ const CommentListComponent = ({ articleId }) => {
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
+      fetchComments(page); // Fetch comments for the new page
     }
   };
 
 
 
   return (
-    <Box p={6} maxW="container.md" mx="auto">
-      <Heading mb={6}>댓글 목록</Heading>
-
-      <Box mt={6} p={4} borderWidth="1px" borderRadius="md" bg={bgColor}>
+    <section>
+      <Box p={4} borderWidth="1px" borderRadius="md" bg={bgColor}>
         {comments.length > 0 ? (
           <VStack spacing={4} align="stretch">
             {comments.map(comment => (
@@ -152,8 +132,6 @@ const CommentListComponent = ({ articleId }) => {
                     </Text>
                   </Flex>
 
-
-
                   <Text mb={2} style={{ whiteSpace: 'pre-wrap' }}
                         dangerouslySetInnerHTML={{ __html: formatContent(comment.commentContent) }}
                         sx={{
@@ -166,8 +144,6 @@ const CommentListComponent = ({ articleId }) => {
                         }
                     }}
                   />
-
-
 
                   {isLogin && decodeToken.id === comment.memberId && (
                     <Flex justify="flex-end" gap={2}>
@@ -182,40 +158,31 @@ const CommentListComponent = ({ articleId }) => {
 
 
             {/* Pagination */}
-            <Flex justifyContent="center" alignItems="center" mt={5} fontSize="lg">
-              <IconButton
-                aria-label="Previous Page"
-                icon={<ChevronLeftIcon />}
-                isDisabled={currentPage <= 1}
-                onClick={() => handlePageChange(currentPage - 1)}
-                mr={3}
-                _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
-              />
+            <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
+              {/* Previous Page */}
+              {currentPage > 1 && (
+                <Box cursor={"pointer"} marginRight={7} onClick={() => handlePageChange(currentPage - 1)}>
+                  {'\u003c'}
+                </Box>
+              )}
 
-              {[...Array(totalPages).keys()].map(page => (
-                <Button
-                  key={page + 1}
-                  mx={1}
-                  size="sm"
-                  variant={currentPage === page + 1 ? 'solid' : 'outline'}
-                  colorScheme={currentPage === page + 1 ? 'teal' : 'gray'}
-                  onClick={() => handlePageChange(page + 1)}
-                  _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                >
-                  {page + 1}
-                </Button>
+              {/* Page Numbers */}
+              {[...Array(totalPages).keys()].map(pageNum => (
+                <Box key={pageNum + 1}
+                     marginRight={7}
+                     cursor={"pointer"}
+                     className={currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
+                     onClick={() => handlePageChange(pageNum + 1)}>
+                  {pageNum + 1}
+                </Box>
               ))}
 
-              <IconButton
-                aria-label="Next Page"
-                icon={<ChevronRightIcon />}
-                isDisabled={currentPage >= totalPages}
-                onClick={() => handlePageChange(currentPage + 1)}
-                ml={3}
-                _hover={{ bg: 'teal.100', color: 'teal.700' }}
-                _disabled={{ bg: 'gray.200', cursor: 'not-allowed' }}
-              />
+              {/* Next Page */}
+              {currentPage < totalPages && (
+                <Box cursor={"pointer"} onClick={() => handlePageChange(currentPage + 1)}>
+                  {'\u003e'}
+                </Box>
+              )}
             </Flex>
           </VStack>
         ) : (
@@ -225,71 +192,26 @@ const CommentListComponent = ({ articleId }) => {
 
 
 
-      {/*댓글 작성 폼*/}
-      <Heading mt={8} mb={6}>댓글 작성</Heading>
-      <Box p={4} borderWidth="1px" borderRadius="md" bg="white">
-        <form onSubmit={handleFormSubmit}>
-          <FormControl mb={6} isRequired>
-            <FormLabel>댓글 내용</FormLabel>
-            <Textarea
-              value={commentContent}
-              onChange={(e) => setCommentContent(e.target.value)}
-            />
-          </FormControl>
-          <Button colorScheme="teal" type="submit" width="full">
-            저장
-          </Button>
-        </form>
-      </Box>
-
-      <AlertDialog
-        isOpen={isDialogOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setIsDialogOpen(false)}
-      >
-        <AlertDialogOverlay>
-          <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              {isDeleteMode ? '댓글 삭제 확인' : isCommentSubmitMode ? '댓글 작성 확인' : '로그인 필요'}
-            </AlertDialogHeader>
-
-            <AlertDialogBody>
-              {isDeleteMode 
-                ? '정말로 이 댓글을 삭제하시겠습니까?' 
-                : isCommentSubmitMode 
-                  ? '정말로 댓글을 작성하시겠습니까?' 
-                  : '로그인 먼저 해주십시오.'}
-            </AlertDialogBody>
-
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
-                취소
-              </Button>
-              
-              {!isLogin && !isDeleteMode && !isCommentSubmitMode && (
-                <Button 
-                  colorScheme="blue" 
-                  onClick={() => navigate('/login')} 
-                  ml={3}
-                >
-                  로그인하러 가기
-                </Button>
-              )}
-              
-              {(isDeleteMode || isCommentSubmitMode) && (
-                <Button 
-                  colorScheme={isDeleteMode ? "red" : "teal"} 
-                  onClick={isDeleteMode ? handleDeleteConfirm : handleCommentSubmitConfirm} 
-                  ml={3}
-                >
-                  네
-                </Button>
-              )}
-          </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialogOverlay>
-      </AlertDialog>
-    </Box>
+      {/* Delete Confirmation Modal */}
+      <Modal isOpen={isDeleteModalOpen} onClose={handleCloseModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>댓글 삭제 확인</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            정말로 이 댓글을 삭제하시겠습니까?
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" onClick={handleDeleteConfirm} mr={3}>
+              삭제
+            </Button>
+            <Button variant="ghost" onClick={handleCloseModal}>
+              취소
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </section>
   );
 };
 

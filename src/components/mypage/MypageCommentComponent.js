@@ -5,6 +5,7 @@ import { deleteComment, getMyComments } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
 import { useNavigate } from 'react-router-dom';
 import MypageTitleComponent from '../common/MypageTitleComponent';
+import { formatDateTime } from "../../util/dateUtil";
 
 
 
@@ -75,13 +76,6 @@ const MypageCommentComponent = () => {
             setCommentToDelete(null);
             onClose();
         }
-    };
-
-
-
-    const formatDateTime = (dateTime) => {
-        const date = new Date(dateTime);
-        return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     };
 
 

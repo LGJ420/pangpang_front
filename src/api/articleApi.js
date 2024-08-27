@@ -5,6 +5,21 @@ const prefix = `${API_SERVER_HOST}/api/article`;
 
 
 
+//글 작성하기
+export const postCreate = async (articleObj) => {
+    const token = localStorage.getItem("token");
+    
+    const res = await axios.post(`${prefix}`, articleObj, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    return res.data;
+}
+
+
+
 // 글 목록 보기
 export const getList = async (pageParam) => { 
     const {search, page, size, searchBy} = pageParam;
@@ -30,22 +45,7 @@ export const getList = async (pageParam) => {
 // 글 상세 보기
 export const getOne = async (id) => {
 
-    const res = await axios.get(`${prefix}/read/${id}`);
-
-    return res.data;
-}
-
-
-
-//글 작성하기
-export const postCreate = async (articleObj) => {
-    const token = localStorage.getItem("token");
-    
-    const res = await axios.post(`${prefix}/create`, articleObj, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
+    const res = await axios.get(`${prefix}/${id}`);
 
     return res.data;
 }
@@ -55,7 +55,7 @@ export const postCreate = async (articleObj) => {
 //글 삭제하기
 export const deleteOne = async (id) => {
 
-    const res = await axios.delete(`${prefix}/list/${id}`);
+    const res = await axios.delete(`${prefix}/${id}`);
 
     return res.data;
 }
@@ -66,7 +66,7 @@ export const deleteOne = async (id) => {
 export const putOne = async (id, article) => {
     const token = localStorage.getItem("token");
 
-    const res = await axios.put(`${prefix}/modify/${id}`, article, {
+    const res = await axios.put(`${prefix}/${id}`, article, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -74,6 +74,8 @@ export const putOne = async (id, article) => {
 
     return res.data;
 }
+
+
 
 // 마이페이지 내가 쓴 글 조회
 export const getMyArticles = async (pageParam) => {
