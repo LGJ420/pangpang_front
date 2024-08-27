@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteCartOne, getCartList, putCartOne } from "../../api/cartApi";
 import useCustomToken from "../../hooks/useCustomToken";
 import { CloseButton, Spinner } from "@chakra-ui/react";
+import { logout } from '../../hooks/logout';
 
 // const initState = [{
 //     productId: 0,
@@ -54,7 +55,15 @@ const CratListComponent = () => {
                     }
                 }
                 setImages(imageUrls);   // 이미지 url 저장
-            }).catch(e=>console.log(e)).finally(()=>setIsLoading(true));
+            })
+            .catch(e=>{
+                console.log(e)
+                if (e.response.status === 401) {
+                    alert("토큰 유효 시간이 만료되었습니다.")
+                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                }
+            })
+            .finally(()=>setIsLoading(true));
     }, []);
 
 
@@ -106,7 +115,8 @@ const CratListComponent = () => {
                 }
     
 
-                putCartOne({ ...item, cartCount: newCount }).then(() => {
+                putCartOne({ ...item, cartCount: newCount })
+                    .then(() => {
 
                     const newServerData = serverData.map(subItem =>
                         subItem.productId === productId ? { ...subItem, cartCount: newCount } : subItem
@@ -114,7 +124,13 @@ const CratListComponent = () => {
     
                     setServerData(newServerData);
                     setOrderList(newServerData.filter(item => item.checked));
-                });
+                    })
+                    .catch(error=>{
+                        if (error.response.status === 401) {
+                            alert("토큰 유효 시간이 만료되었습니다.")
+                            logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                        }
+                    });
     
                 return;
             }
@@ -129,7 +145,8 @@ const CratListComponent = () => {
         // eslint-disable-next-line no-restricted-globals
         const ifDel = confirm("정말로 장바구니에서 삭제하시겠습니까?");
         if (ifDel) {
-            deleteCartOne(cartListObj).then(() => {
+            deleteCartOne(cartListObj)
+            .then(() => {
                 getCartList().then(data => {
                     const newData = data.map(item => ({
                         ...item,
@@ -138,6 +155,12 @@ const CratListComponent = () => {
                     setServerData(newData);
                     setOrderList(newData);
                 });
+            })
+            .catch(error => {
+                if (error.response.status === 401) {
+                    alert("토큰 유효 시간이 만료되었습니다.")
+                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                }
             });
         }
     }
