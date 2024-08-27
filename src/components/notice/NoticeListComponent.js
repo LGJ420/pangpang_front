@@ -6,6 +6,7 @@ import { getNoticeList } from '../../api/noticeApi';
 import useCustomMove from '../../hooks/useCustomMove';
 import { useNavigate } from 'react-router-dom';
 import SearchBarComponent from '../common/SearchBarComponent';
+import BodyTitleComponent from '../common/BodyTitleComponent';
 
 
 
@@ -98,14 +99,17 @@ const NoticeListComponent = () => {
 
                     <>
                     {console.log(serverData)}
-                        <div className='flex justify-center items-center text-xl mt-10 mb-5 w-11/12 m-auto'>
-                            <select
-                                className='border h-14 focus:outline-none focus-within:border-blue-500'>
-                                <option value="">제목</option>
-                                <option value="">작성자명</option>
-                            </select>
+                        <div className='flex items-center justify-between text-xl mb-5'>
+                            <BodyTitleComponent title={`공지사항`} path={`notice`}/>
+                            <div className='pt-5 w-1/2 flex mr-10'>
+                                <select
+                                    className='border h-14 focus:outline-none focus-within:border-blue-500'>
+                                    <option value="">제목</option>
+                                    <option value="">작성자명</option>
+                                </select>
 
-                            <SearchBarComponent />
+                                <SearchBarComponent />
+                            </div>
                         </div>
 
                         <div className='h-[50rem]'>

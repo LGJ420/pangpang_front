@@ -42,7 +42,7 @@ const ProductReviewAddComponent = ({productId}) => {
             // 함수형 업데이트를 사용한다!
             setReview(()=>({
                 ...review,
-                productId: location.state.dto.productId
+                productId: location.state.dto.productId,
             }));
 
             setIsValid(true);
@@ -149,10 +149,10 @@ const ProductReviewAddComponent = ({productId}) => {
         <div className="flex border-b pl-10 pb-10 pr-3 mb-5">
             <h1 className="text-5xl mr-auto">리뷰 작성</h1>
         </div>
-        <div className="flex">
+        <div className="flex items-center">
             <div className="w-1/2 flex flex-col items-center">
-                <img src="/images/pr_mario.png"
-                    className="w-4/5 h-4/5 object-contain"/>
+                <img src={`http://localhost:8080/api/product/view/${productData.uploadFileNames[0]}`}
+                    className="w-4/5 h-[30rem] object-contain"/>
                 <h2 className="mt-5 text-2xl font-extrabold">&lt;상품명&gt; {productData.productTitle}</h2>
             </div>
             <div className="w-1/2 flex flex-col items-center">
