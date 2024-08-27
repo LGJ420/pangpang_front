@@ -84,7 +84,7 @@ const MypageReviewComponent = () => {
                                     className="w-10 h-10 mr-2 rounded-full border"
                                     src={`${prefix}/${review.memberProfile}`} />
                                 <div className="mr-2">
-                                    아이디입니당
+                                    {review.memberNickName}
                                 </div>
                                 <div>
 
