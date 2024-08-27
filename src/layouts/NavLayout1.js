@@ -15,7 +15,7 @@ const NavLayout1 = () => {
     useEffect(() => {
         // MypageLayoutComponent.js 참고
         if(decodeToken.id){
-            axios.get(`http://localhost:8080/api/member/${decodeToken.id}/image`)
+            axios.get(`http://localhost:8080/api/member/${decodeToken.sub}/image`)
             .then(response => {
                 // 성공적으로 응답을 받았을 때 처리할 내용
                 console.log(response.data);

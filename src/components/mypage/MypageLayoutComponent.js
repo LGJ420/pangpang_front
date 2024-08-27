@@ -36,7 +36,7 @@ const MypageLayoutComponent = ({children}) => {
 
         // 위 문제때문에 decodeToken.id 있을때만 실행시킴 고졸사토루 능지이슈 ㅈㅅ
         if(decodeToken.id){
-            axios.get(`http://localhost:8080/api/member/${decodeToken.id}/image`)
+            axios.get(`http://localhost:8080/api/member/${decodeToken.sub}/image`)
             .then(response => {
                 // 성공적으로 응답을 받았을 때 처리할 내용
                 console.log(response.data);
