@@ -98,6 +98,11 @@ const ProductDetailComponent = ({ num }) => {
   /* 구매하기 */
   const handleClickBuy = (product) => {
 
+    if(!isLogin) {
+      alert("로그인이 필요합니다");
+      return;
+    }
+
     // eslint-disable-next-line no-restricted-globals
     const goBuy = confirm("구매하시겠습니까?");
 
@@ -122,6 +127,11 @@ const ProductDetailComponent = ({ num }) => {
 
   /* 장바구니 */
   const handleClickCart = (product) => {
+
+    if (!isLogin) {
+      alert("로그인이 필요합니다");
+      return;
+    }
 
     const cartObj = {
 
