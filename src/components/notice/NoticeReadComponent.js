@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
 import { deleteNotice, getNoticeOne } from "../../api/noticeApi";
-import { deleteNoticeComment, getNoticeComments, postNoticeComment } from "../../api/commentApi";
+import { deleteNoticeComment, getNoticeComments, postNoticeComment, putNoticeComment } from "../../api/commentApi";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { formatDateTime } from "../../util/dateUtil";
+import useCustomToken from "../../hooks/useCustomToken";
 
 
 const initNoticeData = {
@@ -75,6 +76,9 @@ const NoticeReadComponent = ({id}) => {
     const [ refresh, setRefresh ] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [queryParams] = useSearchParams();
+    const [commentEdit, setCommentEdit] = useState(null);
+    const [modifyComment, setModifyComment] = useState({});
+    const {decodeToken} = useCustomToken();
     const navigate = useNavigate();
     
 
@@ -112,9 +116,9 @@ const NoticeReadComponent = ({id}) => {
     }
 
     // 공지사항 수정
-    const handleClickNoticeModify = () => {
+    const handleClickNoticeModify = (noticeId) => {
 
-
+        navigate(`./modify/${noticeId}`);
     }
 
     // 공지사항 삭제
@@ -134,11 +138,42 @@ const NoticeReadComponent = ({id}) => {
         
     }
 
-    // 댓글 수정
-    const handleClickCommentModify = () => {
+    // 댓글 수정버튼
+    const handleClickModifyComment = (commentId) => {
 
-
+        const commentToEdit = commentData.dtoList.find(dto => dto.id === commentId);
+        setModifyComment({ commentContent: commentToEdit.commentContent });
+        
+        setCommentEdit(commentId);
     }
+
+
+    // 댓글 수정 입력
+    const handleChangeModifyComment = (e) => {
+
+        const updateData = {
+            commentContent: e.target.value
+        }
+
+        setModifyComment(updateData);
+    }
+
+
+    // 댓글 수정후 수정완료 버튼
+    const handleClickModifyCommentComplete = (commentId) => {
+
+        const requestDTO = {id: commentId, ...modifyComment}
+
+        putNoticeComment(requestDTO)
+            .then(()=>{
+                setCommentEdit(null);
+                setModifyComment({});
+            })
+            .catch(error=>console.log(error))
+            .finally(()=>setRefresh(!refresh));
+    }
+
+
 
     // 댓글 삭제
     const handleClickCommentDelete = (commentId) => {
@@ -166,9 +201,10 @@ const NoticeReadComponent = ({id}) => {
                         <h3 className="w-4/5 text-4xl font-bold">
                             {noticeData.noticeTitle}
                         </h3>
+                        {decodeToken.memberRole === "Admin" ?
                         <div>
                             <button className="pr-3 border-r hover:opacity-40"
-                                onClick={handleClickNoticeModify}>
+                                onClick={()=>handleClickNoticeModify(id)}>
                                 수정
                             </button>
                             <button className="pl-3 hover:opacity-40"
@@ -176,6 +212,10 @@ const NoticeReadComponent = ({id}) => {
                                 삭제
                             </button>
                         </div>
+                        :
+                        <>
+                        </>
+                        }
                     </div>
                     <div className="pb-5 flex">
                         <div>작성자 : {noticeData.memberNickname}</div>
@@ -220,24 +260,54 @@ const NoticeReadComponent = ({id}) => {
                                 </div>
                             </div>
                         </div>
-                        <p className="pt-2 w-2/3">
-                            {dto.commentContent}
-                        </p>
+                        {dto.id === commentEdit ?
+                        
+                            <textarea
+                                className="pt-2 w-2/3 border resize-none"
+                                key={dto.id}
+                                value={modifyComment.commentContent}
+                                name="commentContent"
+                                rows={3}
+                                maxLength={200}
+                                onChange={handleChangeModifyComment}/>
+                        :
+                            <p className="pt-2 w-2/3">
+                                {dto.commentContent}
+                            </p>
+                        }
                         <div className="pt-2 flex flex-col items-end justify-between">
                             <div>
                                 {formatDateTime(dto.commentCreated)}
                             </div>
-                            <div>
-                                <button className="px-2 hover:opacity-80"
-                                    onClick={handleClickCommentModify}>
-                                    수정
-                                </button>
-                                <span className="border-l"/>
-                                <button className="px-2 hover:opacity-80"
-                                    onClick={()=>handleClickCommentDelete(dto.id)}>
-                                    삭제
-                                </button>
-                            </div>
+
+                            {decodeToken.id === dto.memberId ?
+                                
+                                <div>
+                                    {dto.id === commentEdit ?
+
+                                    <button className="px-2 hover:opacity-80"
+                                        onClick={()=>handleClickModifyCommentComplete(dto.id)}>
+                                        수정 완료
+                                    </button>
+                                    :
+                                    <button className="px-2 hover:opacity-80"
+                                        onClick={()=>handleClickModifyComment(dto.id)}>
+                                        수정
+                                    </button>
+                                    }
+                                    <span className="border-l"/>
+                                    <button className="px-2 hover:opacity-80"
+                                        onClick={()=>handleClickCommentDelete(dto.id)}>
+                                        삭제
+                                    </button>
+                                </div>
+
+                                :
+
+                                <>
+                                </>
+
+                            }
                         </div>
                     </div>
                     </>
