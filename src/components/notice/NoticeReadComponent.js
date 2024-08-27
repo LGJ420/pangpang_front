@@ -49,6 +49,12 @@ const initCommentData = {
     current: 0
 }
 
+const initRequestDTO = {
+
+
+}
+
+
 const getNum = (param, defaultValue) => {
 
     if (!param) {
@@ -58,11 +64,14 @@ const getNum = (param, defaultValue) => {
     return parseInt(param);
 }
 
+
 const NoticeReadComponent = ({id}) => {
 
     const [noticeData, setNoticeData] = useState(initNoticeData);
     const [commentData, setCommentData] = useState(initCommentData);
+    const [requestDTO, setRequestDTO] = useState({});
     const { moveToList, moveToModify } = useCustomMove();
+    const [ refresh, setRefresh ] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [queryParams] = useSearchParams();
 
@@ -80,17 +89,22 @@ const NoticeReadComponent = ({id}) => {
             .catch(error=>console.log(error))
             .finally(()=>setIsLoading(false));
 
-    },[]);
+    },[refresh]);
 
 
-    const handleChangeComment = () => {
+    const handleChangeComment = (e) => {
 
+        requestDTO[e.target.name] = e.target.value;
 
+        setRequestDTO({...requestDTO});
     }
 
     const handleClickComment = () => {
 
-        postNoticeComment()
+        console.log(requestDTO);
+        postNoticeComment(id, requestDTO)
+            .catch(error=>console.log(error))
+            .finally(()=>setRefresh(!refresh));
     }
 
 
@@ -127,8 +141,12 @@ const NoticeReadComponent = ({id}) => {
                 </p>
                 <div className="h-32 flex items-center justify-between">
                     <textarea className="w-5/6 h-24 p-4 border"
+                        name="commentContent"
                         onChange={handleChangeComment}/>
-                    <button className="bg-[rgb(224,26,109)] text-white hover:opacity-80 w-1/6 h-24 text-3xl">등록</button>
+                    <button className="bg-[rgb(224,26,109)] text-white hover:opacity-80 w-1/6 h-24 text-3xl"
+                        onClick={handleClickComment}>
+                        등록
+                    </button>
                 </div>
             </div>
             

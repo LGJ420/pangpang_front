@@ -103,16 +103,28 @@ export const getNoticeComments = async (noticeId, pageParam) => {
 // 공지사항 댓글 추가
 export const postNoticeComment = async (noticeId, dto) => {
 
-    const res = await axios.post(`${prefix}/notice/${noticeId}`, dto);
+    const token = localStorage.getItem("token");
+
+    const res = await axios.post(`${prefix}/notice/${noticeId}`, dto, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
     return res.data;
 }
 
 
 // 공지사항 댓글 수정
-export const modifyNoticeComment = async (dto) => {
+export const putNoticeComment = async (dto) => {
 
-    const res = await axios.put(`${prefix}/notice`, dto);
+    const token = localStorage.getItem("token");
+
+    const res = await axios.put(`${prefix}/notice`, dto, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
     return res.data;
 }
@@ -121,7 +133,13 @@ export const modifyNoticeComment = async (dto) => {
 // 공지사항 댓글 삭제
 export const deleteNoticeComment = async (commentId) => {
 
-    const res = await axios.delete(`${prefix}/notice/${commentId}`);
+    const token = localStorage.getItem("token");
+
+    const res = await axios.delete(`${prefix}/notice/${commentId}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
 
     return res.data;
 }
