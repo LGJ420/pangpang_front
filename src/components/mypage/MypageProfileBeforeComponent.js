@@ -5,7 +5,7 @@ import { confirmMemberPassword } from '../../api/memberApi'; // Updated import
 import MypageTitleComponent from '../common/MypageTitleComponent';
 import { logout } from '../../hooks/logout';
 
-const MemberConfirmBeforeProfileComponent = () => {
+const MypageProfileBeforeComponent = () => {
 
     // ⓐ 비밀번호  state
     const [memberPwInConfirmBeforeProfile, setMemberPwInConfirmBeforeProfile] = useState('');
@@ -123,4 +123,4 @@ const MemberConfirmBeforeProfileComponent = () => {
     );
 }
 
-export default MemberConfirmBeforeProfileComponent;
+export default MypageProfileBeforeComponent;

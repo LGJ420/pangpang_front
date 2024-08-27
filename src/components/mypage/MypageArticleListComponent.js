@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { deleteOne, getMyArticles } from '../../api/articleApi';
 import MypageTitleComponent from '../common/MypageTitleComponent';
 import { formatDateTime } from "../../util/dateUtil";
+import { logout } from '../../hooks/logout';
 
 
 
@@ -36,7 +37,15 @@ const MypageArticleListComponent = () => {
                 setCurrentPage(response.current); // Set the current page number
                 setTotalCount(response.totalCount);
             } catch (err) {
+
+                
+                if (err.response.status === 401) {
+                    alert("토큰 유효 시간이 만료되었습니다.")
+                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                }
+                
                 setError('Failed to fetch your articles.');
+                
             } finally {
                 setLoading(false);
             }
@@ -67,7 +76,14 @@ const MypageArticleListComponent = () => {
             await deleteOne(selectedArticleId); // Delete the article
             setRefresh(!refresh); // Refresh the list
         } catch (error) {
+            
             console.error('Error deleting article:', error);
+
+            if (error.response.status === 401) {
+                alert("토큰 유효 시간이 만료되었습니다.")
+                logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+            }
+
         } finally {
             onClose(); // Close the modal
         }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import useCustomToken from "../../hooks/useCustomToken";
 import { postNoticeOne } from "../../api/noticeApi";
 import { useNavigate } from "react-router-dom";
+import { logout } from '../../hooks/logout';
 
 const initState = {
 
@@ -44,7 +45,14 @@ const NoticeAddComponent = () => {
         postNoticeOne(noticeDto)
             .then(()=>navigate(`../list`, { replace: true }))
             .catch(error=>{
+
                 alert("공지사항은 운영자만 등록할 수 있습니다.");
+                
+                if (error.response.status === 401) {
+                    alert("토큰 유효 시간이 만료되었습니다.")
+                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                }
+
             });
     }
 

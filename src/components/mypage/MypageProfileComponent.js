@@ -8,7 +8,7 @@ import MypageTitleComponent from "../common/MypageTitleComponent";
 import { updateMemberProfile, deleteProfileImage, prefix } from '../../api/memberApi';
 import { logout } from '../../hooks/logout';
 
-const MemberProfileComponent = () => {
+const MypageProfileComponent = () => {
 
     // 잠깐의 렌더링도 방지하기 위한 state
     // 초기값이 false여야 처음부터 방지가능
@@ -476,4 +476,4 @@ const MemberProfileComponent = () => {
     );
 }
 
-export default MemberProfileComponent;
+export default MypageProfileComponent;

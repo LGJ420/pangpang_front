@@ -5,6 +5,7 @@ import { deleteNoticeComment, getNoticeComments, postNoticeComment, putNoticeCom
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { formatDateTime } from "../../util/dateUtil";
 import useCustomToken from "../../hooks/useCustomToken";
+import { logout } from '../../hooks/logout';
 
 
 const initNoticeData = {
@@ -107,7 +108,15 @@ const NoticeReadComponent = ({id}) => {
 
         console.log(requestDTO);
         postNoticeComment(id, requestDTO)
-            .catch(error=>console.log(error))
+            .catch(error=>{
+                console.log(error)
+
+                if (error.response.status === 401) {
+                    alert("토큰 유효 시간이 만료되었습니다.")
+                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                }
+                
+            })
             .finally(()=>setRefresh(!refresh));
     }
 
@@ -129,7 +138,15 @@ const NoticeReadComponent = ({id}) => {
                     alert("삭제가 완료되었습니다.");
                     navigate(`/notice`, {replace: true});
                 })
-                .catch(error=>console.log(error));
+                .catch(error=>{
+                    console.log(error)
+                
+                    if (error.response.status === 401) {
+                        alert("토큰 유효 시간이 만료되었습니다.")
+                        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                    }
+
+                });
         }
         
     }
@@ -165,7 +182,15 @@ const NoticeReadComponent = ({id}) => {
                 setCommentEdit(null);
                 setModifyComment({});
             })
-            .catch(error=>console.log(error))
+            .catch(error=>{
+                console.log(error)
+            
+                if (error.response.status === 401) {
+                    alert("토큰 유효 시간이 만료되었습니다.")
+                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                }
+                
+            })
             .finally(()=>setRefresh(!refresh));
     }
 
@@ -179,7 +204,15 @@ const NoticeReadComponent = ({id}) => {
         const ifDel = confirm("정말로 삭제하시겠습니까?");
         if(ifDel){
             deleteNoticeComment(commentId)
-                .catch(error=>console.log(error))
+                .catch(error=>{
+                    console.log(error)
+                
+                    if (error.response.status === 401) {
+                        alert("토큰 유효 시간이 만료되었습니다.")
+                        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                    }
+                    
+                })
                 .finally(()=>setRefresh(!refresh))
         }
 

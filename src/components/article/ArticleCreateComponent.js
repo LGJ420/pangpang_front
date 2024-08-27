@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useCustomMove from "../../hooks/useCustomMove";
 import { postCreate } from "../../api/articleApi";
 import useCustomToken from '../../hooks/useCustomToken';
+import { logout } from '../../hooks/logout';
 
 
 
@@ -54,8 +55,18 @@ const ArticleCreateComponent = () => {
       alert('글이 성공적으로 작성되었습니다!');
       moveToList();
     } catch (e) {
-      alert('제목, 내용을 모두 작성하여 주십시오.');
+      
       console.error(e);
+
+      if (e.response.status === 401) {
+        console.error("토큰 만료 : " + e)
+        alert("토큰 유효 시간이 만료되었습니다.")
+        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+        
+    } else {
+      alert('제목, 내용을 모두 작성하여 주십시오.');
+    }
+
     } finally {
       setLoading(false);
     }

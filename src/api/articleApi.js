@@ -9,13 +9,20 @@ const prefix = `${API_SERVER_HOST}/api/article`;
 export const postCreate = async (articleObj) => {
     const token = localStorage.getItem("token");
     
-    const res = await axios.post(`${prefix}`, articleObj, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
-
-    return res.data;
+    try {
+        
+        const res = await axios.post(`${prefix}`, articleObj, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    
+        return res.data;
+        
+    } catch (error) {
+        console.log("Error fetching article:" ,error);
+        throw error;
+    }
 }
 
 
@@ -54,10 +61,22 @@ export const getOne = async (id) => {
 
 //글 삭제하기
 export const deleteOne = async (id) => {
+    const token = localStorage.getItem("token");
 
-    const res = await axios.delete(`${prefix}/${id}`);
+    try {
+        
+        const res = await axios.delete(`${prefix}/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    
+        return res.data;
 
-    return res.data;
+    } catch (error) {
+        console.log("Error deleting user's articles:" ,error);
+        throw error;
+    }
 }
 
 
@@ -66,13 +85,20 @@ export const deleteOne = async (id) => {
 export const putOne = async (id, article) => {
     const token = localStorage.getItem("token");
 
-    const res = await axios.put(`${prefix}/${id}`, article, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
+    try {
+        
+        const res = await axios.put(`${prefix}/${id}`, article, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    
+        return res.data;
 
-    return res.data;
+    } catch (error) {
+        console.log("Error modifying user's articles:" ,error);
+        throw error;
+    }
 }
 
 

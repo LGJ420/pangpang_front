@@ -8,6 +8,7 @@ import { getReviewList } from "../../api/productReviewApi";
 import RatingStarCompoent from "../common/RatingStarComponent";
 import useCustomToken from "../../hooks/useCustomToken";
 import useCustomMove from "../../hooks/useCustomMove"
+import { logout } from '../../hooks/logout';
 
 /* 초기값 설정 */
 const initState = {
@@ -157,18 +158,28 @@ const ProductDetailComponent = ({ num }) => {
       cartCount: 1,
     }
 
-    postCartAdd(cartObj);
-    alert("장바구니에 상품이 등록되었습니다")
+    postCartAdd(cartObj)
+    .then(()=>{
 
+      alert("장바구니에 상품이 등록되었습니다")
+  
+  
+      // 여유가 되면 모달창을 제작해서 바꿀예정
+      // eslint-disable-next-line no-restricted-globals
+      const goToCart = confirm("장바구니 페이지로 이동하시겠습니까?");
+  
+      if (goToCart) {
+  
+        navigate({ pathname: '../../cart' });
+      }
 
-    // 여유가 되면 모달창을 제작해서 바꿀예정
-    // eslint-disable-next-line no-restricted-globals
-    const goToCart = confirm("장바구니 페이지로 이동하시겠습니까?");
-
-    if (goToCart) {
-
-      navigate({ pathname: '../../cart' });
+    })
+    .catch(error=>{
+      if (error.response.status === 401) {
+        alert("토큰 유효 시간이 만료되었습니다.")
+        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
     }
+    });
   }
 
   // 상품 수정 페이지로 이동

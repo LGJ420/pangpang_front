@@ -35,7 +35,15 @@ export const putComment = async (id, comment) => {
 
 // 자유게시판 댓글 삭제하기
 export const deleteComment = async (id) => {
-    await axios.delete(`${prefix}/${id}`);
+    const token = localStorage.getItem("token");
+
+    const res = await axios.delete(`${prefix}/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+
+    return res.data;
 };
 
 

@@ -1,10 +1,10 @@
-import MemberProfileComponent from "../../components/member/MemberProfileComponent"
+import MypageProfileComponent from "../../components/mypage/MypageProfileComponent"
 
 const MypageProfilePage = () => {
 
     return (
 
-        <MemberProfileComponent/>
+        <MypageProfileComponent/>
         
     );
 }
