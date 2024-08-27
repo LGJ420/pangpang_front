@@ -38,6 +38,12 @@ const MypageCommentComponent = () => {
             setCurrentPage(page);
         } catch (error) {
             setError('Failed to fetch comments.', error);
+
+            if (error.response.status === 401) {
+                alert("토큰 유효 시간이 만료되었습니다.")
+                logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+            }
+            
         } finally {
             setLoading(false);
         }
