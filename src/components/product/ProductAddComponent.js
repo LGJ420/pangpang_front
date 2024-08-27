@@ -5,6 +5,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import useCustomToken from '../../hooks/useCustomToken';
 import { useNavigate } from "react-router-dom";
 import BodyTitleComponent from "../common/BodyTitleComponent";
+import { logout } from '../../hooks/logout';
 
 // 초기 상태 설정
 const initState = {
@@ -73,13 +74,10 @@ const ProductAddComponent = () => {
         });
     };
 
-    // console.log(product);
-    // console.log(images);
-
     // 상품 추가 처리
     const handleClickAdd = async () => {
 
-        if(!product.productTitle.trim()) {
+        if (!product.productTitle.trim()) {
             alert("상품 제목을 입력해주세요.");
             return;
         }
@@ -104,22 +102,20 @@ const ProductAddComponent = () => {
             return;
         }
 
-        if(product.productPrice <= 0) {
+        if (product.productPrice <= 0) {
             alert("상품 금액을 입력해주세요.");
             return;
         }
 
-        if(isNaN(product.productPrice)) {
+        if (isNaN(product.productPrice)) {
             alert("상품 금액을 입력해주세요. (숫자만 가능)");
             return;
         }
 
-        if(images.length == 0) {
+        if (images.length == 0) {
             alert("상품 이미지를 등록해주세요.");
             return;
         }
-
-
 
 
         const submit = window.confirm("상품을 등록하시겠습니까?");
@@ -145,19 +141,23 @@ const ProductAddComponent = () => {
         try {
             // formData 서버로 전송
             const response = await addProduct(formData);
-            // console.log('상품이 성공적으로 추가되었습니다:', response);
             alert("상품이 성공적으로 추가되었습니다!")
             moveToList();  // 상품 등록 후 목록 페이지로 이동
-        } catch (error) {
-            alert("상품 추가 중 오류가 발생했습니다.")
-            // console.error('상품 추가 중 오류가 발생했습니다:', error);
+        } catch (e) {
+            if (e.response.status === 401) {
+                console.error("토큰 만료 : " + e)
+                alert("토큰 유효 시간이 만료되었습니다.")
+                logout();
+            } else {
+                alert("상품 추가 중 오류가 발생했습니다.");
+            }
         }
     };
 
     if (!isLogin) {
         return null;
     }
-    
+
     return (
         <section>
 

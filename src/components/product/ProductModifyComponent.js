@@ -4,6 +4,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import { useNavigate, useParams } from "react-router-dom";
 import { getOne, modifyProduct } from "../../api/productApi";
 import useCustomToken from "../../hooks/useCustomToken";
+import { logout } from '../../hooks/logout';
 
 
 const initState = {
@@ -157,9 +158,15 @@ const ProductModifyComponent = () => {
       await modifyProduct(id, formData);
       alert('수정이 완료되었습니다!');
       moveToRead(id);
-    } catch (error) {
-      // console.error("수정에 실패했습니다.", error);
-      alert("상품 수정에 실패했습니다.")
+    } catch (e) {
+      if (e.response.status === 401) {
+        // console.error("토큰 만료 : " + e);
+        alert("토큰 유효 시간이 만료되었습니다.");
+        logout();
+      } else {
+        alert("상품 수정에 실패했습니다.");
+      }
+
     } finally {
       setLoading(false);
     }

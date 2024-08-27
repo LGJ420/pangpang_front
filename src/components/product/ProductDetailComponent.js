@@ -79,16 +79,22 @@ const ProductDetailComponent = ({ num }) => {
 
     if (ifDel) {
 
-    try {
-      // 상품 삭제 요청
-      const response = await deleteProduct(num);
+      try {
+        // 상품 삭제 요청
+        const response = await deleteProduct(num);
         // 삭제가 성공한 경우 목록 페이지로 이동
-        alert("상품이 삭제되었습니다.")
+        alert("상품이 삭제되었습니다.");
         moveToList();
-      } catch (error) {
-      console.error('삭제 오류:', error);
-      alert(`상품 삭제에 실패했습니다: ${error.message}`);
-    }
+      } catch (e) {
+        // console.error('삭제 오류:', e);
+        if (e.response.status === 401) {
+          alert("토큰 유효 시간이 만료되었습니다.");
+          logout();
+
+        } else {
+          alert(`상품 삭제에 실패했습니다: ${e.message}`);
+        }
+      }
 
     }
   }
@@ -103,17 +109,17 @@ const ProductDetailComponent = ({ num }) => {
   /* 구매하기 */
   const handleClickBuy = (product) => {
 
-    if(!isLogin) {
+    if (!isLogin) {
       alert("로그인이 필요합니다");
       return;
     }
 
 
-    if(product.productStock <= 0) {
+    if (product.productStock <= 0) {
       alert("품절된 상품입니다");
       return navigate('/product/list');
     }
-    
+
 
     // eslint-disable-next-line no-restricted-globals
     const goBuy = confirm("구매하시겠습니까?");
@@ -131,7 +137,7 @@ const ProductDetailComponent = ({ num }) => {
       productPrice: product.productPrice,
       uploadFileNames: product.uploadFileNames,
       cartCount: 1,
-      productSales : product.productSales + 1,
+      productSales: product.productSales + 1,
       productStocl: product.productStock - 1
     }
 
@@ -159,27 +165,27 @@ const ProductDetailComponent = ({ num }) => {
     }
 
     postCartAdd(cartObj)
-    .then(()=>{
+      .then(() => {
 
-      alert("장바구니에 상품이 등록되었습니다")
-  
-  
-      // 여유가 되면 모달창을 제작해서 바꿀예정
-      // eslint-disable-next-line no-restricted-globals
-      const goToCart = confirm("장바구니 페이지로 이동하시겠습니까?");
-  
-      if (goToCart) {
-  
-        navigate({ pathname: '../../cart' });
-      }
+        alert("장바구니에 상품이 등록되었습니다")
 
-    })
-    .catch(error=>{
-      if (error.response.status === 401) {
-        alert("토큰 유효 시간이 만료되었습니다.")
-        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
-    }
-    });
+
+        // 여유가 되면 모달창을 제작해서 바꿀예정
+        // eslint-disable-next-line no-restricted-globals
+        const goToCart = confirm("장바구니 페이지로 이동하시겠습니까?");
+
+        if (goToCart) {
+
+          navigate({ pathname: '../../cart' });
+        }
+
+      })
+      .catch(error => {
+        if (error.response.status === 401) {
+          alert("토큰 유효 시간이 만료되었습니다.")
+          logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+        }
+      });
   }
 
   // 상품 수정 페이지로 이동
@@ -195,7 +201,7 @@ const ProductDetailComponent = ({ num }) => {
     <section>
       <div className="flex p-10 mb-10 border-b justify-between">
         <h1 className="text-5xl cursor-pointer"
-          onClick={()=>navigate(`/product`)}>
+          onClick={() => navigate(`/product`)}>
           쇼핑
         </h1>
 
