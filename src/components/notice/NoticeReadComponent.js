@@ -51,11 +51,7 @@ const initCommentData = {
     current: 0
 }
 
-const initRequestDTO = {
-
-
-}
-
+const prefix = "http://localhost:8080/api/productreview/view";
 
 const getNum = (param, defaultValue) => {
 
@@ -254,7 +250,7 @@ const NoticeReadComponent = ({id}) => {
                             <div className="flex items-center">
                                 <img
                                     className="w-10 h-10 mr-2 rounded-full border"
-                                    src="/images/profile.png" />
+                                    src={`${prefix}/${dto.memberImage}`} />
                                 <div>
                                     {dto.memberNickname}
                                 </div>

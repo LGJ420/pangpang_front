@@ -381,7 +381,7 @@ const ProductDetailComponent = ({ num }) => {
                   <div className="flex items-center">
                     <img
                       className="w-10 h-10 mr-2 rounded-full border"
-                      src={`${prefix}/${review.memberProfile}`} />
+                      src={`${prefix}/${review.memberImage}`} />
                     <div className="mr-2">
                       {review.memberNickName}
                     </div>
