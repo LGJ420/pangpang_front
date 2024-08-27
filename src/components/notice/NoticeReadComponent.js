@@ -3,6 +3,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import { getNoticeOne } from "../../api/noticeApi";
 import { getNoticeComments, postNoticeComment } from "../../api/commentApi";
 import { useSearchParams } from "react-router-dom";
+import { formatDateTime } from "../../util/dateUtil";
 
 
 const initNoticeData = {
@@ -74,6 +75,7 @@ const NoticeReadComponent = ({id}) => {
     const [ refresh, setRefresh ] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [queryParams] = useSearchParams();
+    
 
     const page = getNum(queryParams.get('page'), 1);
     const size = getNum(queryParams.get('size'), 50);
@@ -132,7 +134,7 @@ const NoticeReadComponent = ({id}) => {
                         <div>작성자 : {noticeData.memberNickname}</div>
                         <div className="px-2 ml-auto">조회수 : {noticeData.noticeHit}</div>
                         <div className="px-2">댓글 : {commentData.dtoList.length}</div>
-                        <div className="px-2">작성일 : {noticeData.noticeCreated.substring(0,10)}</div>
+                        <div className="px-2">작성일 : {formatDateTime(noticeData.noticeCreated)}</div>
                     </div>
                 </div>
             <hr />
@@ -174,7 +176,7 @@ const NoticeReadComponent = ({id}) => {
                         <p className="w-2/3">
                             {dto.commentContent}
                         </p>
-                        <div>{dto.commentCreated}</div>
+                        <div>{formatDateTime(dto.commentCreated)}</div>
                     </div>
                     </>
                 )
