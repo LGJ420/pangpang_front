@@ -238,7 +238,7 @@ const MypageProfileComponent = () => {
             // 사용자가 새 비밀번호를 입력한 경우에만 비밀번호를 추가
             if (modifyMemberPw) {
                 // 비밀번호 글자수 제한
-                if(modifyMemberPw.length >7 || modifyMemberPw.length <20){
+                if(modifyMemberPw.length < 8 || modifyMemberPw.length > 20){
                     alert("비밀번호는 8-20자리로 입력해주세요.");
                     return;
                 }
