@@ -135,3 +135,13 @@ export const signupMember = async (formData) => {
     }
 };
 
+// navBar, 마이페이지 레이아웃 프로필사진 불러오기
+export const getMemberProfileImage = async (memberId) => {
+    try {
+        const response = await axios.get(`${prefix}/${memberId}/image`);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch member profile image:', error);
+        return null;
+    }
+};

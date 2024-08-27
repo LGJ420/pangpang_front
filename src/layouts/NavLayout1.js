@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import useCustomToken from "../hooks/useCustomToken";
 import { useEffect, useState } from "react";
+import { getMemberProfileImage, prefix } from '../api/memberApi';
 
 const NavLayout1 = () => {
 
@@ -15,22 +16,14 @@ const NavLayout1 = () => {
     useEffect(() => {
         // MypageLayoutComponent.js 참고
         if(decodeToken.id){
-            axios.get(`http://localhost:8080/api/member/${decodeToken.sub}/image`)
-            .then(response => {
-                // 성공적으로 응답을 받았을 때 처리할 내용
-                console.log(response.data);
-                if(response.data){
-                    setImageUrl(`http://localhost:8080/api/member/view/${response.data}`);
-                } else {
-                    setImageUrl('/images/profile.png')
-                }
-            })
-            .catch(error => {
-                // 오류가 발생했을 때 처리할 내용
-                console.error('서버에서 이미지 다운받기 실패:', error);
-            });
+            const fetchProfileImage = async () => {
+                const imagePath = await getMemberProfileImage(decodeToken.sub);
+                setImageUrl(imagePath ? `${prefix}/view/${imagePath}` : '/images/profile.png');
+            };
+
+            fetchProfileImage();
         }
-    }, [decodeToken.id]);
+    },[isLogin, decodeToken]);
 
     // 로그아웃
     const handleLogout = () => {
