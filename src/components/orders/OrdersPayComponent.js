@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { postOrdersAdd } from "../../api/ordersApi";
+import { logout } from '../../hooks/logout';
 
 const initState = {
 
@@ -181,7 +182,13 @@ const OrdersPayComponent = () => {
             // console.log({...userData, dtoList: productData});    // 데이터 확인용
     
             postOrdersAdd({...userData, dtoList: productData})
-                .then(()=>navigate(`/mypage/orders/result`, { replace: true }));
+                .then(()=>navigate(`/mypage/orders/result`, { replace: true }))
+                .catch(error => {
+                    if (error.response.status === 401) {
+                        alert("토큰 유효 시간이 만료되었습니다.")
+                        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                    }
+                });
         }
     }
 

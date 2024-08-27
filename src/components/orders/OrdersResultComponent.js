@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 import MypageTitleComponent from "../common/MypageTitleComponent";
 import SearchBarComponent from "../common/SearchBarComponent";
+import { logout } from '../../hooks/logout';
 
 // const initData = [{
 //     name: "",
@@ -38,7 +39,15 @@ const OrdersResultComponent = () => {
             setServerData(data);
             // console.log(data);   // 데이터 확인용
         })
-        .catch(e=>console.log(e))
+        .catch(e=>{
+            
+            console.log(e)
+        
+            if (e.response.status === 401) {
+                alert("토큰 유효 시간이 만료되었습니다.")
+                logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+            }
+        })
         .finally(()=>setIsLoading(true));
 
     },[refresh]);
