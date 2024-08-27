@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { getMemberList, changeMemberRole, changeMemberActiveStatus } from "../../api/memberApi";
-import axios from "axios";
 
 // 빨간선때문에 import함 나중에 삭제하시길 ㅎㅎ
 import styles from "../../css/memberPage.module.css"
 import MypageTitleComponent from "../common/MypageTitleComponent";
+import SearchBarComponent from "../common/SearchBarComponent";
 
 // const initData =     {
 //     id: 0,
@@ -63,29 +63,24 @@ const ManagerMemberComponent = () => {
             .catch(error => {
                 console.log("Error changing member active status: ", error);
             });
-        // axios.post("http://localhost:8080/api/member/mypage/manager/change/isActive",{
-        //     id : data.id,
-        //     active : newActive,
-        // })
-        // .then((response)=>{
-        //     setRefresh(!refresh);
-        //     console.log("axois.post 이후 응답")
-        //     console.log(response.data);
-        // })
-        // .catch((error)=>{
-        //     console.log("에러메세지 : " + error);
-        // })
     }
 
     return(
         <div>
-            <div className="mb-5">
-                <MypageTitleComponent>회원 관리</MypageTitleComponent>
+            <div className="flex items-center justify-between mb-5">
+                <MypageTitleComponent>
+                    회원 관리
+                </MypageTitleComponent>
+
+                <SearchBarComponent 
+                    width="40%" 
+                    // changeFn={handleChangeSearch} 
+                    // clickFn={handleClickSearch}
+                />
             </div>
             <h3 className="text-xl my-5 ml-4">
                 총 회원 수 : {serverData.length}
             </h3>
-            <div className={styles.membersGrid}>
                 <div className={styles.membersHeader}>
                     <div>회원번호</div>
                     <div>회원 아이디</div>
@@ -94,10 +89,12 @@ const ManagerMemberComponent = () => {
                     <div>회원 가입 날짜</div>
                     <div>회원 활동 상태</div>
                 </div>
-                {serverData.map(data => (
-                    <div className={styles.memberRow} key={data.id}>
+
+                {serverData.slice().reverse().map((data, index) => (
+
+                    <div className={styles.membersBody} key={index}>
                         <div>{data.id}</div>
-                        <div>{data.memberName}</div>
+                        <div>{data.memberId}</div>
                         <div>{data.memberNickname}</div>
                         <div>
                             {data.memberRole}
@@ -105,7 +102,7 @@ const ManagerMemberComponent = () => {
                                 {data.memberRole === "User" ? "🔄️Admin" : "🔄️User"}
                             </button>
                         </div>
-                        <div>{data.memberSignupDate}</div>
+                        <div>{data.memberSignupDate.substr(0, 10)}</div>
                         <div>
                             {data.active === false ? "활동" : "활동정지"}
                             <button onClick={()=>clickMemberActive(data)}>
@@ -114,7 +111,7 @@ const ManagerMemberComponent = () => {
                         </div>
                     </div>
                 ))}
-            </div>
+
         </div>
     );
 
