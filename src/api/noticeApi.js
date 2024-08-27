@@ -37,3 +37,18 @@ export const postNoticeOne = async (noticeDto) => {
 
   return res.data;
 }
+
+
+
+export const deleteNotice = async (noticeId) => {
+
+  const token = localStorage.getItem("token");
+
+  const res = await axios.delete(`${prefix}/${noticeId}`, {
+      headers: {
+          'Authorization': `Bearer ${token}`
+      }
+  });
+
+  return res.data;
+}

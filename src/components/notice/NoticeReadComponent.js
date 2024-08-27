@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import useCustomMove from "../../hooks/useCustomMove";
-import { getNoticeOne } from "../../api/noticeApi";
-import { getNoticeComments, postNoticeComment } from "../../api/commentApi";
-import { useSearchParams } from "react-router-dom";
+import { deleteNotice, getNoticeOne } from "../../api/noticeApi";
+import { deleteNoticeComment, getNoticeComments, postNoticeComment, putNoticeComment } from "../../api/commentApi";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { formatDateTime } from "../../util/dateUtil";
+import useCustomToken from "../../hooks/useCustomToken";
 
 
 const initNoticeData = {
@@ -75,6 +76,10 @@ const NoticeReadComponent = ({id}) => {
     const [ refresh, setRefresh ] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [queryParams] = useSearchParams();
+    const [commentEdit, setCommentEdit] = useState(null);
+    const [modifyComment, setModifyComment] = useState({});
+    const {decodeToken} = useCustomToken();
+    const navigate = useNavigate();
     
 
     const page = getNum(queryParams.get('page'), 1);
@@ -94,6 +99,7 @@ const NoticeReadComponent = ({id}) => {
     },[refresh]);
 
 
+    // 댓글 작성
     const handleChangeComment = (e) => {
 
         requestDTO[e.target.name] = e.target.value;
@@ -109,6 +115,80 @@ const NoticeReadComponent = ({id}) => {
             .finally(()=>setRefresh(!refresh));
     }
 
+    // 공지사항 수정
+    const handleClickNoticeModify = (noticeId) => {
+
+        navigate(`./modify/${noticeId}`);
+    }
+
+    // 공지사항 삭제
+    const handleClickNoticeDelete = (noticeId) => {
+
+        // 여유가 되면 모달창을 제작해서 바꿀예정
+        // eslint-disable-next-line no-restricted-globals
+        const ifDel = confirm("정말로 삭제하시겠습니까?");
+        if(ifDel){
+            deleteNotice(noticeId)
+                .then(()=>{
+                    alert("삭제가 완료되었습니다.");
+                    navigate(`/notice`, {replace: true});
+                })
+                .catch(error=>console.log(error));
+        }
+        
+    }
+
+    // 댓글 수정버튼
+    const handleClickModifyComment = (commentId) => {
+
+        const commentToEdit = commentData.dtoList.find(dto => dto.id === commentId);
+        setModifyComment({ commentContent: commentToEdit.commentContent });
+        
+        setCommentEdit(commentId);
+    }
+
+
+    // 댓글 수정 입력
+    const handleChangeModifyComment = (e) => {
+
+        const updateData = {
+            commentContent: e.target.value
+        }
+
+        setModifyComment(updateData);
+    }
+
+
+    // 댓글 수정후 수정완료 버튼
+    const handleClickModifyCommentComplete = (commentId) => {
+
+        const requestDTO = {id: commentId, ...modifyComment}
+
+        putNoticeComment(requestDTO)
+            .then(()=>{
+                setCommentEdit(null);
+                setModifyComment({});
+            })
+            .catch(error=>console.log(error))
+            .finally(()=>setRefresh(!refresh));
+    }
+
+
+
+    // 댓글 삭제
+    const handleClickCommentDelete = (commentId) => {
+
+        // 여유가 되면 모달창을 제작해서 바꿀예정
+        // eslint-disable-next-line no-restricted-globals
+        const ifDel = confirm("정말로 삭제하시겠습니까?");
+        if(ifDel){
+            deleteNoticeComment(commentId)
+                .catch(error=>console.log(error))
+                .finally(()=>setRefresh(!refresh))
+        }
+
+    }
+
 
 
     return (
@@ -121,14 +201,21 @@ const NoticeReadComponent = ({id}) => {
                         <h3 className="w-4/5 text-4xl font-bold">
                             {noticeData.noticeTitle}
                         </h3>
+                        {decodeToken.memberRole === "Admin" ?
                         <div>
-                            <button className="pr-3 border-r hover:opacity-40">
+                            <button className="pr-3 border-r hover:opacity-40"
+                                onClick={()=>handleClickNoticeModify(id)}>
                                 수정
                             </button>
-                            <button className="pl-3 hover:opacity-40">
+                            <button className="pl-3 hover:opacity-40"
+                                onClick={()=>handleClickNoticeDelete(id)}>
                                 삭제
                             </button>
                         </div>
+                        :
+                        <>
+                        </>
+                        }
                     </div>
                     <div className="pb-5 flex">
                         <div>작성자 : {noticeData.memberNickname}</div>
@@ -162,21 +249,66 @@ const NoticeReadComponent = ({id}) => {
                 commentData.dtoList.map(dto=>
                     <>
                     <hr />
-                    <div className="py-4 flex justify-between">
+                    <div className="pt-2 pb-4 min-h-24 flex justify-between">
                         <div>
                             <div className="flex items-center">
                                 <img
                                     className="w-10 h-10 mr-2 rounded-full border"
                                     src="/images/profile.png" />
-                                <div className="mr-2">
+                                <div>
                                     {dto.memberNickname}
                                 </div>
                             </div>
                         </div>
-                        <p className="w-2/3">
-                            {dto.commentContent}
-                        </p>
-                        <div>{formatDateTime(dto.commentCreated)}</div>
+                        {dto.id === commentEdit ?
+                        
+                            <textarea
+                                className="pt-2 w-2/3 border resize-none"
+                                key={dto.id}
+                                value={modifyComment.commentContent}
+                                name="commentContent"
+                                rows={3}
+                                maxLength={200}
+                                onChange={handleChangeModifyComment}/>
+                        :
+                            <p className="pt-2 w-2/3">
+                                {dto.commentContent}
+                            </p>
+                        }
+                        <div className="pt-2 flex flex-col items-end justify-between">
+                            <div>
+                                {formatDateTime(dto.commentCreated)}
+                            </div>
+
+                            {decodeToken.id === dto.memberId ?
+                                
+                                <div>
+                                    {dto.id === commentEdit ?
+
+                                    <button className="px-2 hover:opacity-80"
+                                        onClick={()=>handleClickModifyCommentComplete(dto.id)}>
+                                        수정 완료
+                                    </button>
+                                    :
+                                    <button className="px-2 hover:opacity-80"
+                                        onClick={()=>handleClickModifyComment(dto.id)}>
+                                        수정
+                                    </button>
+                                    }
+                                    <span className="border-l"/>
+                                    <button className="px-2 hover:opacity-80"
+                                        onClick={()=>handleClickCommentDelete(dto.id)}>
+                                        삭제
+                                    </button>
+                                </div>
+
+                                :
+
+                                <>
+                                </>
+
+                            }
+                        </div>
                     </div>
                     </>
                 )
