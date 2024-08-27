@@ -257,6 +257,7 @@ const MemberProfileComponent = () => {
             const res = await updateMemberProfile(formData);
             if (res) {
                 alert("프로필 수정이 완료되었습니다.");
+                setToken(res); // 리코일로 재발급 받은 토큰 적용
                 navigate("/")
             } else {
                 alert("프로필 수정에 실패하였습니다.");
