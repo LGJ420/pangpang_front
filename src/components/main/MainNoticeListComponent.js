@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { getNoticeList } from "../../api/noticeApi";
 import { Spinner } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 
 const MainNoticeListComponent = () => {
 
     const [serverData, setServerData] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
+
 
     useEffect(()=>{
 
@@ -16,6 +19,12 @@ const MainNoticeListComponent = () => {
             .finally(()=>setIsLoading(false));
         
     },[]);
+
+
+    const handleClickTitle = (id) => {
+
+        navigate(`/notice/read/${id}`);
+    }
 
     return (
         
@@ -41,11 +50,12 @@ const MainNoticeListComponent = () => {
                 serverData ?
                 
                 serverData.dtoList.map((dto, index)=>
-                
                     <div className="px-5">
+                        {console.log(dto)}
 
                     <div className={`flex justify-between text-xl px-2 py-5 ${index === serverData.dtoList.length - 1 ? "" : "border-b"}`}>
-                        <div className="w-4/5 cursor-pointer rainbow-text truncate">
+                        <div className="w-4/5 cursor-pointer rainbow-text truncate"
+                            onClick={()=>handleClickTitle(dto.id)}>
                             {dto.noticeTitle}
                         </div>
                         <div>
