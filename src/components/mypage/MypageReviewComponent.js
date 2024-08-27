@@ -26,6 +26,7 @@ const MypageReviewComponent = () => {
         getMyReview().then(data => {
 
             setReviewData(data);
+            // console.log(data);
 
         }).catch(e => console.log(e))
         .finally(()=>setIsLoading(true));
@@ -81,7 +82,7 @@ const MypageReviewComponent = () => {
                             <div className="flex items-center">
                                 <img
                                     className="w-10 h-10 mr-2 rounded-full border"
-                                    src="/images/profile.png" />
+                                    src={`${prefix}/${review.memberProfile}`} />
                                 <div className="mr-2">
                                     아이디입니당
                                 </div>

@@ -67,7 +67,7 @@ const ProductDetailComponent = ({ num }) => {
   }, [num]);
 
 
-  console.log(product);
+  console.log(reviewData);
 
   // 상품 삭제
   const handleClickDelete = async () => {
@@ -381,9 +381,9 @@ const ProductDetailComponent = ({ num }) => {
                   <div className="flex items-center">
                     <img
                       className="w-10 h-10 mr-2 rounded-full border"
-                      src="/images/profile.png" />
+                      src={`${prefix}/${review.memberProfile}`} />
                     <div className="mr-2">
-                      아이디입니당
+                      
                     </div>
                     <div>
                       <RatingStarCompoent score={review.rating} />
