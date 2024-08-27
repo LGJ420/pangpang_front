@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMemberList } from "../../api/memberApi";
+import { getMemberList, changeMemberRole, changeMemberActiveStatus } from "../../api/memberApi";
 import axios from "axios";
 
 // 빨간선때문에 import함 나중에 삭제하시길 ㅎㅎ
@@ -24,11 +24,12 @@ const ManagerMemberComponent = () => {
 
     useEffect(()=>{
 
-        getMemberList().then(data=>{
-
-            setServerData(data);
-            console.log(data);
-        }).catch(e=>console.log(e));
+        getMemberList()
+            .then(data=>{
+                setServerData(data);
+                console.log(data);
+            })
+            .catch(e=>console.log(e));
 
     },[refresh]);
 
@@ -37,18 +38,15 @@ const ManagerMemberComponent = () => {
     const clickMemberRole = (data) => {
         const newRole = data.memberRole === "User" ? "Admin" : "User";
         
-        axios.post("http://localhost:8080/api/member/mypage/manager/change/role",{
-            id : data.id,
-            memberRole : newRole,
-        })
-        .then((response)=>{
-            setRefresh(!refresh);
-            console.log(response.data);
-        })
-        .catch((error)=>{
-            console.log("에러메세지 : " + error);
-        })
-    }
+        changeMemberRole(data.id, newRole)
+            .then(response => {
+                setRefresh(!refresh);
+                console.log(response);
+            })
+            .catch(error => {
+                console.log("Error changing member role: ", error);
+            });
+    };
 
     // 회원활동/활동정지 버튼 눌렀을 때, 활동<->활동정지 됨
     // serverData 자체를 변경해야됨
@@ -56,19 +54,27 @@ const ManagerMemberComponent = () => {
         const newActive = data.active===false ? true : false ; 
         // true = 활동정지 , false = 활동
         console.log("변경될 isActive 값:", newActive);
-        
-        axios.post("http://localhost:8080/api/member/mypage/manager/change/isActive",{
-            id : data.id,
-            active : newActive,
-        })
-        .then((response)=>{
-            setRefresh(!refresh);
-            console.log("axois.post 이후 응답")
-            console.log(response.data);
-        })
-        .catch((error)=>{
-            console.log("에러메세지 : " + error);
-        })
+    
+        changeMemberActiveStatus(data.id, newActive)
+            .then(response => {
+                setRefresh(!refresh);
+                console.log(response);
+            })
+            .catch(error => {
+                console.log("Error changing member active status: ", error);
+            });
+        // axios.post("http://localhost:8080/api/member/mypage/manager/change/isActive",{
+        //     id : data.id,
+        //     active : newActive,
+        // })
+        // .then((response)=>{
+        //     setRefresh(!refresh);
+        //     console.log("axois.post 이후 응답")
+        //     console.log(response.data);
+        // })
+        // .catch((error)=>{
+        //     console.log("에러메세지 : " + error);
+        // })
     }
 
     return(

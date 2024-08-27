@@ -155,8 +155,39 @@ export const deleteProfileImage = async (memberId) => {
 // ============ 관리자 관련 api============
 // 관리자 - 회원 정보 리스트 불러오기
 export const getMemberList = async () => {
-
-    const res = await axios.get(`${prefix}`);
-    
-    return res.data;
+    try {
+        const response = await axios.get(`${prefix}`);
+        return response.data;
+    } catch (error) {
+        console.error('Failed to fetch member list:', error);
+        return [];
+    }
 }
+
+// 관리자 - 회원 등급 변경(관리자<->유저)
+export const changeMemberRole = async (id, newRole) => {
+    try {
+        const response = await axios.post(`${prefix}/mypage/manager/change/role`, {
+            id: id,
+            memberRole: newRole,
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Failed to change member role:', error);
+        throw error;
+    }
+};
+
+// 관리자 - 회원 활동 상태 변경(활성화<->비활성화)
+export const changeMemberActiveStatus = async (id, newActive) => {
+    try {
+        const response = await axios.post(`${prefix}/mypage/manager/change/isActive`, {
+            id: id,
+            active: newActive,
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Failed to change member active status:', error);
+        throw error;
+    }
+};
