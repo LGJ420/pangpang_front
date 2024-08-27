@@ -3,6 +3,7 @@ import { Box, Text, VStack, Button, Flex, Modal, ModalOverlay, ModalContent, Mod
 import useCustomToken from '../../hooks/useCustomToken';
 import { getCommentsByArticleId, deleteComment, putComment } from '../../api/commentApi';
 import { formatDateTime } from '../../util/dateUtil';
+import { logout } from '../../hooks/logout';
 import DOMPurify from 'dompurify';
 
 const CommentListComponent = ({ articleId, onCommentAdded }) => {
