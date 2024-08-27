@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { getCommentById, putComment } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
+import { formatDateTime } from "../../util/dateUtil";
 
 
 
@@ -87,13 +88,6 @@ const CommentModifyComponent = () => {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-
-
-  const formatDateTime = (dateTime) => {
-    const date = new Date(dateTime);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   };
 
 
@@ -180,7 +174,7 @@ const CommentModifyComponent = () => {
         </ModalContent>
       </Modal>
 
-      
+
 
       {/* Error Modal */}
       <Modal isOpen={isOpen} onClose={() => {

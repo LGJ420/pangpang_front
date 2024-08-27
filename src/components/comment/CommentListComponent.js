@@ -3,6 +3,7 @@ import { Box, Text, VStack, Button, Flex, useColorModeValue, Modal, ModalOverlay
 import { useNavigate } from 'react-router-dom';
 import useCustomToken from '../../hooks/useCustomToken';
 import { getCommentsByArticleId, deleteComment } from '../../api/commentApi';
+import { formatDateTime } from "../../util/dateUtil";
 
 
 
@@ -83,12 +84,6 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
     setCommentToDelete(null);
   };
 
-
-
-  const formatDateTime = (dateTime) => {
-    const date = new Date(dateTime);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-  };
 
 
 

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteOne, getMyArticles } from '../../api/articleApi';
 import MypageTitleComponent from '../common/MypageTitleComponent';
+import { formatDateTime } from "../../util/dateUtil";
 
 
 
@@ -80,11 +81,6 @@ const MypageArticleListComponent = () => {
     };
 
 
-
-    const formatDateTime = (dateTime) => {
-        const date = new Date(dateTime);
-        return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-    };
 
 
 

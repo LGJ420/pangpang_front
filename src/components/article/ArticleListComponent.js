@@ -4,6 +4,7 @@ import { getList } from '../../api/articleApi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import useCustomToken from "../../hooks/useCustomToken";
+import { formatDateTime } from "../../util/dateUtil";
 
 const ArticleListComponent = () => {
     const navigate = useNavigate();
@@ -81,10 +82,7 @@ const ArticleListComponent = () => {
         });
     };
 
-    const formatDateTime = (dateTime) => {
-        const date = new Date(dateTime);
-        return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-    };
+
 
     const isArticleNew = (dateTime) => {
         const articleDate = new Date(dateTime);

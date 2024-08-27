@@ -6,17 +6,7 @@ import { deleteOne, getOne } from "../../api/articleApi";
 import CommentList from "../comment/CommentListComponent";
 import useCustomToken from "../../hooks/useCustomToken";
 import { getCommentsByArticleId, postComment } from "../../api/commentApi";
-
-
-
-// Date and time format function
-const formatDateTime = (dateTime) => {
-  const date = new Date(dateTime);
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  })}`;
-};
+import { formatDateTime } from "../../util/dateUtil";
 
 
 
