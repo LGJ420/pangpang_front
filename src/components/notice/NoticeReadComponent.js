@@ -87,11 +87,15 @@ const NoticeReadComponent = ({id}) => {
 
         getNoticeOne(id)
             .then(data=>setNoticeData(data))
-            .catch(error=>console.log(error));
+            .catch(error=>{
+                // console.log(error)
+            });
 
         getNoticeComments(id, {page, size})
             .then(data=>setCommentData(data))
-            .catch(error=>console.log(error))
+            .catch(error=>{
+                // console.log(error)
+            })
             .finally(()=>setIsLoading(false));
 
     },[refresh]);
@@ -107,10 +111,10 @@ const NoticeReadComponent = ({id}) => {
 
     const handleClickComment = () => {
 
-        console.log(requestDTO);
+        // console.log(requestDTO);
         postNoticeComment(id, requestDTO)
             .catch(error=>{
-                console.log(error)
+                // console.log(error)
 
                 if (error.response.status === 401) {
                     alert("토큰 유효 시간이 만료되었습니다.")
@@ -140,7 +144,7 @@ const NoticeReadComponent = ({id}) => {
                     navigate(`/notice`, {replace: true});
                 })
                 .catch(error=>{
-                    console.log(error)
+                    // console.log(error)
                 
                     if (error.response.status === 401) {
                         alert("토큰 유효 시간이 만료되었습니다.")
@@ -184,7 +188,7 @@ const NoticeReadComponent = ({id}) => {
                 setModifyComment({});
             })
             .catch(error=>{
-                console.log(error)
+                // console.log(error)
             
                 if (error.response.status === 401) {
                     alert("토큰 유효 시간이 만료되었습니다.")
@@ -206,7 +210,7 @@ const NoticeReadComponent = ({id}) => {
         if(ifDel){
             deleteNoticeComment(commentId)
                 .catch(error=>{
-                    console.log(error)
+                    // console.log(error)
                 
                     if (error.response.status === 401) {
                         alert("토큰 유효 시간이 만료되었습니다.")
