@@ -1,9 +1,5 @@
 import styles from '../../css/memberPage.module.css';
-import {
-    Input,
-    FormControl,
-    FormLabel,
-    } from '@chakra-ui/react'
+import { Input, FormControl, FormLabel } from '@chakra-ui/react'
 
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -49,14 +45,14 @@ const MemberResetPwComponent = () => {
         // 1. 안 채운 항목이 있는지 확인하기
         if([memberPwInFindPwForReset, memberPwConfirmInFindPwForReset].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
-            console.error(errorMsg)
+            // console.error(errorMsg)
             alert(errorMsg);
 
             return;
         }
 
         // 비밀번호 8-20자리인지 체크
-        if(memberPwInFindPwForReset.length < 7 || memberPwInFindPwForReset.length > 20){
+        if(memberPwInFindPwForReset.length < 8 || memberPwInFindPwForReset.length > 20){
             alert("비밀번호는 8-20자리로 입력해주세요.");
             return
         }
@@ -64,7 +60,7 @@ const MemberResetPwComponent = () => {
         // 2. 비밀번호 = 비밀번호확인 확인하기
         if(memberPwInFindPwForReset !== memberPwConfirmInFindPwForReset ) {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
-            console.error(errorMsg);
+            // console.error(errorMsg);
             alert(errorMsg);
             return;
         }
@@ -72,10 +68,10 @@ const MemberResetPwComponent = () => {
         // 3. axios 포스트 하기
         try {
             const response = await resetMemberPassword(memberId, memberPwInFindPwForReset);
-            console.log(response);
+            // console.log(response);
             navigate("/reset/pw/confirm", { replace: true });
         } catch (error) {
-            console.error("비밀번호 변경 중 오류 발생", error);
+            // console.error("비밀번호 변경 중 오류 발생", error);
         }
     }
 

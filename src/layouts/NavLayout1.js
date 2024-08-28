@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
 import useCustomToken from "../hooks/useCustomToken";
 import { useEffect, useState } from "react";
 import { getMemberProfileImage, logoutMember, prefix } from '../api/memberApi';
@@ -29,12 +28,12 @@ const NavLayout1 = () => {
     const handleLogout = async () => {
         try {
             await logoutMember();
-            console.log("로그아웃 성공");
+            // console.log("로그아웃 성공");
             localStorage.removeItem("memberId");
             localStorage.removeItem("token");
             window.location.reload();
         } catch (error) {
-            console.error("로그아웃 실패", error);
+            // console.error("로그아웃 실패", error);
         }
     }
 
@@ -70,7 +69,14 @@ const NavLayout1 = () => {
                                 </li> */}
                         <li>
                             <Link to={'/mypage'} className="px-3 flex items-center">
-                                <img src={imageUrl} className="object-cover w-12 h-12 rounded-full border mr-1"/>
+                                <img 
+                                    src={imageUrl} 
+                                    className="object-cover w-12 h-12 rounded-full border mr-1" 
+                                    onError={(e) => {
+                                        e.target.onerror = null; // 무한 루프 방지
+                                        e.target.src = "/images/profile.png"; // 대체 이미지 경로
+                                    }}
+                                />
                                 <span className="font-extrabold">{decodeToken.memberNickname}</span>님, 환영합니다!
                             </Link>
                         </li>

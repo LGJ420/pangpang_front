@@ -2,11 +2,7 @@ import styles from '../../css/memberPage.module.css';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { findMemberId } from '../../api/memberApi'; // Updated import
-import {
-    Input,
-    FormControl,
-    FormLabel,
-    } from '@chakra-ui/react'
+import { Input, FormControl, FormLabel } from '@chakra-ui/react'
 import { useState } from "react";
 
 const MemberFindIdComponent = () => {
@@ -31,16 +27,16 @@ const MemberFindIdComponent = () => {
     // 아이디 찾기 버튼
     const handleFindId = async () => {
         
-        // 1. 제대로 입력되었는지 확인
-        console.log("click find_id");
-        console.log("이름 : " + memberNameInFindId);
-        console.log("생년월일 : " + memberBirthInFindId);
+        // // 1. 제대로 입력되었는지 확인
+        // console.log("click find_id");
+        // console.log("이름 : " + memberNameInFindId);
+        // console.log("생년월일 : " + memberBirthInFindId);
         
         // 2. 아이디 찾는 조건 작성
         //    2-1. input에 빠짐없이 다 적혀있는가?
         if(!memberNameInFindId || !memberBirthInFindId){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
-            console.error(errorMsg);
+            // console.error(errorMsg);
             alert(errorMsg);
             return;
         }
@@ -53,17 +49,17 @@ const MemberFindIdComponent = () => {
         
         try {
             const response = await findMemberId(memberNameInFindId, memberBirthInFindId);
-            console.log("response 이후 콘솔 내용");
+            // console.log("response 이후 콘솔 내용");
             const { memberName, memberId } = response;
-            console.log(response.data);
-            console.log("이름 : " + memberName);
-            console.log("ID : " + memberId);
+            // console.log(response.data);
+            // console.log("이름 : " + memberName);
+            // console.log("ID : " + memberId);
 
             navigate("/find/id/confirm", { state: { memberName, memberId } });
         } catch (error) {
             const errorMsg = "회원이 존재하지 않습니다.";
             alert(errorMsg);
-            console.error(errorMsg);
+            // console.error(errorMsg);
         }
     }
 

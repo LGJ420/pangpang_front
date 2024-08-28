@@ -34,7 +34,7 @@ export const signupMember = async (formData) => {
 // 아이디 찾기
 export const findMemberId = async (name, birth) => {
     try {
-        const res = await axios.post(`${prefix}/find/id`, {
+        const res = await axios.post(`${prefix}/id`, {
             memberName: name,
             memberBirth: birth
         });
@@ -49,7 +49,7 @@ export const findMemberId = async (name, birth) => {
 // 비밀번호 찾기
 export const findMemberPassword = async (id, name, birth) => {
     try {
-        const res = await axios.post(`${prefix}/find/pw`, {
+        const res = await axios.post(`${prefix}/password`, {
             memberId: id,
             memberName: name,
             memberBirth: birth
@@ -64,7 +64,7 @@ export const findMemberPassword = async (id, name, birth) => {
 // 비밀번호 찾기->비밀번호 변경
 export const resetMemberPassword = async (memberId, newPassword) => {
     try {
-        const res = await axios.post(`${prefix}/find/pw/reset`, {
+        const res = await axios.put(`${prefix}/password`, {
             memberId,
             memberPw: newPassword
         });
@@ -122,7 +122,7 @@ export const confirmMemberPassword = async (password) => {
     const token = localStorage.getItem("token");
 
     try {
-        const res = await axios.post(`${prefix}/confirm_before_profile`, { memberPw: password }, {
+        const res = await axios.post(`${prefix}/mypage/confirm_before_profile`, { memberPw: password }, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -138,7 +138,7 @@ export const confirmMemberPassword = async (password) => {
 export const updateMemberProfile = async (formData) => {
     const token = localStorage.getItem("token");
     try {
-        const res = await axios.post(`${prefix}/mypage/modify`, formData, {
+        const res = await axios.put(`${prefix}/mypage/profile`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -182,7 +182,7 @@ export const getMemberList = async (pageParam) => {
 // 관리자 - 회원 등급 변경(관리자<->유저)
 export const changeMemberRole = async (id, newRole) => {
     try {
-        const response = await axios.post(`${prefix}/mypage/manager/change/role`, {
+        const response = await axios.put(`${prefix}/mypage/manager/role`, {
             id: id,
             memberRole: newRole,
         });
@@ -196,7 +196,7 @@ export const changeMemberRole = async (id, newRole) => {
 // 관리자 - 회원 활동 상태 변경(활성화<->비활성화)
 export const changeMemberActiveStatus = async (id, newActive) => {
     try {
-        const response = await axios.post(`${prefix}/mypage/manager/change/isActive`, {
+        const response = await axios.put(`${prefix}/mypage/manager/isActive`, {
             id: id,
             active: newActive,
         });

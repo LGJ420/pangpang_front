@@ -115,7 +115,7 @@ const MypageProfileComponent = () => {
         const script = document.createElement('script');
         script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
         script.onload = () => console.log('Daum Postcode script loaded.');
-        script.onerror = () => console.error(`Script load error`);
+        // script.onerror = () => console.error(`Script load error`);
         document.head.appendChild(script);
 
         return () => {
@@ -180,7 +180,7 @@ const MypageProfileComponent = () => {
     
             setFile(modifiedFile);
             setProfileImage(URL.createObjectURL(modifiedFile)); // 선택한 파일을 URL로 변환하여 미리보기에 사용
-            console.log("선택된 파일:", modifiedFile); // 디버깅
+            // console.log("선택된 파일:", modifiedFile); // 디버깅
         }
     }; 
 
@@ -196,20 +196,20 @@ const MypageProfileComponent = () => {
     // 수정하기 버튼
     const clickModify = async()=>{
 
-        console.log("click modify");
-        console.log("ID : " + memberId);
-        console.log("PW : " + modifyMemberPw);
-        console.log("닉네임 : " + modifyMemberNickname);
-        console.log("핸드폰 : " + phone1+"-"+phone2+"-"+phone3);
-        console.log("우편번호 : " + postcodeApi);
-        console.log("주소 : " + postAddressApi);
-        console.log("상세주소 : " + detailAddressApi);
-        console.log("기타주소 : " + extraAddressApi);
+        // console.log("click modify");
+        // console.log("ID : " + memberId);
+        // console.log("PW : " + modifyMemberPw);
+        // console.log("닉네임 : " + modifyMemberNickname);
+        // console.log("핸드폰 : " + phone1+"-"+phone2+"-"+phone3);
+        // console.log("우편번호 : " + postcodeApi);
+        // console.log("주소 : " + postAddressApi);
+        // console.log("상세주소 : " + detailAddressApi);
+        // console.log("기타주소 : " + extraAddressApi);
 
         // 안 채운 항목이 있는지 체크
-        if(!memberNickname && !modifyMemberNickname && !phone1 && !phone2 && !phone3 && !postcodeApi &&!postAddressApi && !detailAddressApi){
+        if([modifyMemberNickname, phone1, phone2, phone3, postcodeApi, postAddressApi, detailAddressApi].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
-            console.error(errorMsg)
+            // console.error(errorMsg)
             alert(errorMsg);
 
             return;
@@ -218,10 +218,16 @@ const MypageProfileComponent = () => {
         // 비밀번호 = 비밀번호 확인 체크
         if(modifyMemberPw !== modifyMemberPwConfirm ) {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
-            console.error(errorMsg);
+            // console.error(errorMsg);
             alert(errorMsg);
 
             return;
+        }
+
+        // 닉네임 길이 10자리 체크
+        if(modifyMemberNickname.length < 2 || modifyMemberNickname.length > 10){
+            alert("닉네임은 2-10자리로 입력해주세요.");
+            return
         }
 
         try {
@@ -238,7 +244,7 @@ const MypageProfileComponent = () => {
             // 사용자가 새 비밀번호를 입력한 경우에만 비밀번호를 추가
             if (modifyMemberPw) {
                 // 비밀번호 글자수 제한
-                if(modifyMemberPw.length >7 || modifyMemberPw.length <20){
+                if(modifyMemberPw.length < 8 || modifyMemberPw.length > 20){
                     alert("비밀번호는 8-20자리로 입력해주세요.");
                     return;
                 }
@@ -251,8 +257,8 @@ const MypageProfileComponent = () => {
                 formData.append('file', file);
             }
 
-            console.log("file(memberImage) 출력")
-            console.log(file)
+            // console.log("file(memberImage) 출력")
+            // console.log(file)
     
             // 회원 정보 및 프로필 사진 수정 API 호출
             const res = await updateMemberProfile(formData);
@@ -264,7 +270,7 @@ const MypageProfileComponent = () => {
                 alert("프로필 수정에 실패하였습니다.");
             }
         } catch (error) {
-            console.error("비밀번호 검증 중 오류 발생", error);
+            // console.error("비밀번호 검증 중 오류 발생", error);
 
             // Server response errors
             if (error.response.status === 401) {
@@ -294,7 +300,7 @@ const MypageProfileComponent = () => {
                     alert("프로필 사진 삭제에 실패하였습니다.");
                 }
             } catch (err) {
-                console.error("Error deleting profile image:", err);
+                // console.error("Error deleting profile image:", err);
                 alert("프로필 사진 삭제 중 오류가 발생했습니다.");
             }
         }
@@ -328,7 +334,12 @@ const MypageProfileComponent = () => {
                             <div className="flex flex-col items-center">
                                 <img 
                                     className="border w-48 h-48 object-cover rounded-full"
-                                    src={profileImage}/>
+                                    src={profileImage}
+                                    onError={(e) => {
+                                        e.target.onerror = null; // 무한 루프 방지
+                                        e.target.src = "/images/profile.png"; // 대체 이미지 경로
+                                    }}
+                                />
                                 <input 
                                     type="file" 
                                     id="file" 
