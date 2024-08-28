@@ -41,7 +41,7 @@ const OrdersResultComponent = () => {
         })
         .catch(e=>{
             
-            console.log(e)
+            // console.log(e)
         
             if (e.response.status === 401) {
                 alert("토큰 유효 시간이 만료되었습니다.")
@@ -109,8 +109,12 @@ const OrdersResultComponent = () => {
                 <div className="w-[720px] p-4 bg-white border shadow-md flex flex-col justify-center">
 
                     <div className="flex">
-                            <img src={modal.uploadFileNames[0] ? `http://localhost:8080/api/product/view/${modal.uploadFileNames[0]}` : '/images/chi1.jpg'}
-                                alt={modal.productTitle} className="w-56 m-3"></img>
+                            <img src={`http://localhost:8080/api/product/view/${modal.uploadFileNames[0]}`}
+                                alt={modal.productTitle} className="w-56 m-3"
+                                onError={(e) => {
+                                    e.target.onerror = null; // 무한 루프 방지
+                                    e.target.src = "/images/profile.png"; // 대체 이미지 경로
+                                }} />
                         <div className="flex flex-col flex-1 ml-7">
                             <button className="self-end m-3 px-3 py-1 text-2xl font-bold rounded-sm hover:opacity-80 close"
                                 onClick={handleClickClose}>

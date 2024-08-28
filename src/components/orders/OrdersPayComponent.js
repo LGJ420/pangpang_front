@@ -53,7 +53,7 @@ const OrdersPayComponent = () => {
 
     }, [location.state]);
 
-    console.log(productData);
+    // console.log(productData);
 
     
 
@@ -79,8 +79,6 @@ const OrdersPayComponent = () => {
 
         const script = document.createElement('script');
         script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-        script.onload = () => console.log('Daum Postcode script loaded.');
-        script.onerror = () => console.error(`Script load error`);
         document.head.appendChild(script);
 
         return () => {
