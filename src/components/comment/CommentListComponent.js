@@ -213,7 +213,7 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
           </Flex>
         </VStack>
       ) : (
-        <Text textAlign="center">아직 댓글이 없습니다.</Text>
+        <Text textAlign="center" marginTop="5rem">아직 댓글이 없습니다.</Text>
       )}
 
       {/* Delete Confirmation Modal */}

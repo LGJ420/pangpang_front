@@ -9,6 +9,7 @@ import { getCommentsByArticleId, postComment } from "../../api/commentApi";
 import { formatDateTime } from "../../util/dateUtil";
 import DOMPurify from "dompurify";
 import { logout } from '../../hooks/logout';
+import BodyTitleComponent from "../common/BodyTitleComponent";
 
 
 
@@ -209,6 +210,7 @@ const ArticleReadComponent = () => {
 
   return (
     <section>
+      <BodyTitleComponent title={`자유게시판`} path={`article`}/>
       <hr />
       <div className="text-xl">
         <div className="bg-gray-100 px-5">

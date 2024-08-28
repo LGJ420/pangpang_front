@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import useCustomToken from "../../hooks/useCustomToken";
 import { formatDateTime } from "../../util/dateUtil";
+import BodyTitleComponent from '../common/BodyTitleComponent';
+import SearchBarComponent from '../common/SearchBarComponent';
 
 
 
@@ -161,31 +163,21 @@ const ArticleListComponent = () => {
                     :
                     serverData.articleList.length > 0 ?
                         <>
-                            <div className='flex justify-center text-xl mt-10 mb-5'>
-                                <Select
-                                    placeholder='검색기준'
-                                    w="10rem" mr={2} fontSize="xl"
-                                    value={searchBy}
-                                    onChange={(e) => setSearchBy(e.target.value)}
-                                >
-                                    <option value="title">제목</option>
-                                    <option value="author">작성자명</option>
-                                </Select>
+                            <div className='flex items-center justify-between text-xl mb-5'>
+                                <BodyTitleComponent title={`자유게시판`} path={`article`}/>
 
-                                <Input
-                                    placeholder='검색어를 입력하세요'
-                                    w="70%" mr={2} fontSize="xl"
-                                    value={searchValue}
-                                    onChange={(e) => setSearchValue(e.target.value)}
-                                    onKeyDown={handleKeyEnter}
-                                />
+                                <div className='pt-5 w-1/2 flex mr-10'>
+                                    <select
+                                        className='border h-14 focus:outline-none focus-within:border-blue-500'
+                                        onChange={(e) => setSearchBy(e.target.value)}
+                                        value={searchBy}>
+                                        <option value="title">제목</option>
+                                        <option value="author">작성자명</option>
+                                    </select>
 
-                                <IconButton
-                                    className='bg-[rgb(49,49,49)]'
-                                    aria-label='Search database'
-                                    icon={<SearchIcon className='text-white text-2xl' />}
-                                    onClick={handleSearch}
-                                />
+                                    <SearchBarComponent clickFn={handleSearch} changeFn={(e) => setSearchValue(e.target.value)}/>
+                                </div>
+
                             </div>
 
                             <div className='h-[50rem]'>
