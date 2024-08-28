@@ -27,16 +27,20 @@ const MypageArticleListComponent = () => {
 
 
     useEffect(() => {
+      let isMounted = true; // To prevent state updates if component is unmounted
+
         const fetchMyArticles = async () => {
             setLoading(true);
             setError(null);
             try {
                 const response = await getMyArticles({ page, size });
                 // console.log(response);
+                if (isMounted){ // Only update state if component is still mounted
                 setArticles(response.dtoList);
-                setTotalPages(response.totalPage); // Set the total number of pages
-                setCurrentPage(response.current); // Set the current page number
+                setTotalPages(response.totalPage); 
+                setCurrentPage(response.current); 
                 setTotalCount(response.totalCount);
+              }
             } catch (err) {               
                 if (err.response.status === 401) {
                     alert("토큰 유효 시간이 만료되었습니다.")
@@ -44,11 +48,17 @@ const MypageArticleListComponent = () => {
                 }                
                 setError('Failed to fetch your articles.');                
             } finally {
-                setLoading(false);
+                if (isMounted) {
+                  setLoading(false);
+                }
             }
         };
 
         fetchMyArticles();
+
+        return () => {
+          isMounted = false; // Cleanup function to prevent state updates
+        }
     }, [page, size, refresh]);
 
 

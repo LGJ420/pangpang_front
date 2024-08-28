@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import {Box,Heading,Text,VStack,Flex, CloseButton,Modal,ModalOverlay,ModalContent,ModalHeader,ModalBody,ModalFooter,useDisclosure,Spinner,Alert,AlertIcon,ModalCloseButton,Button} from '@chakra-ui/react';
 import { deleteComment, getMyComments } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
@@ -10,95 +10,126 @@ import { formatContent } from '../../util/contentUtil';
 
 
 
+const initState = {
+    comments: [],
+    loading: true,
+    error: null,
+    currentPage: 1,
+    totalPages: 1,
+    totalCount: 0,
+    commentToDelete: null
+}
+
+
+
+// 리듀서 함수 정의
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'FETCH_COMMENTS_REQUEST':
+            return { ...state, loading: true, error: null };
+        case 'FETCH_COMMENTS_SUCCESS':
+            return {
+                ...state,
+                comments: action.payload.comments,
+                totalPages: action.payload.totalPages,
+                totalCount: action.payload.totalCount,
+                currentPage: action.payload.currentPage,
+                loading: false,
+            };
+        case 'FETCH_COMMENTS_FAILURE':
+            return { ...state, loading: false, error: action.payload };
+        case 'SET_COMMENT_TO_DELETE':
+            return { ...state, commentToDelete: action.payload };
+        case 'RESET_COMMENT_TO_DELETE':
+            return { ...state, commentToDelete: null };
+        default:
+            return state;
+    }
+};
+
+
 const MypageCommentComponent = () => {
-    const [comments, setComments] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(0); // 추가된 상태 변수
-    const [commentToDelete, setCommentToDelete] = useState(null);
+    const [state, dispatch] = useReducer(reducer, initState);
     const { isLogin, decodeToken } = useCustomToken();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const navigate = useNavigate();
 
-
-
     const fetchComments = async (page = 1) => {
         if (!isLogin) return;
-        setLoading(true);
-        setError(null);
+        dispatch({ type: 'FETCH_COMMENTS_REQUEST' });
         try {
             const memberId = decodeToken.id;
             const data = await getMyComments({ page, size: 5, memberId });
-            // console.log(data);
-            setComments(data.dtoList || []);
-            setTotalPages(Math.ceil(data.totalCount / 5));
-            setTotalCount(data.totalCount);
-            setCurrentPage(page);
+            dispatch({
+                type: 'FETCH_COMMENTS_SUCCESS',
+                payload: {
+                    comments: data.dtoList || [],
+                    totalPages: Math.ceil(data.totalCount / 5),
+                    totalCount: data.totalCount,
+                    currentPage: page,
+                },
+            });
         } catch (error) {
-            
-            if (error.response.status === 401) {
-                alert("토큰 유효 시간이 만료되었습니다.")
-                logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+            if (error.response?.status === 401) {
+                alert("토큰 유효 시간이 만료되었습니다.");
+                logout();
             }
-            
-            setError('Failed to fetch comments.', error);
-            
-        } finally {
-            setLoading(false);
+            dispatch({
+                type: 'FETCH_COMMENTS_FAILURE',
+                payload: 'Failed to fetch comments.',
+            });
         }
     };
 
-
+    
 
     useEffect(() => {
         if (isLogin) {
-            fetchComments(currentPage);
+            fetchComments(state.currentPage);
         }
-    }, [isLogin, currentPage]);
+    }, [isLogin, state.currentPage]);
 
 
 
     const handlePageChange = (page) => {
-        if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page);
+        if (page >= 1 && page <= state.totalPages) {
+            fetchComments(page);
         }
     };
 
 
 
     const handleClickDelete = (id) => {
-        setCommentToDelete(id);
+        dispatch({ type: 'SET_COMMENT_TO_DELETE', payload: id });
         onOpen();
     };
 
 
 
     const confirmDelete = async () => {
-        if (commentToDelete) {
+        if (state.commentToDelete) {
             try {
-                await deleteComment(commentToDelete);
-                fetchComments(currentPage);
+                await deleteComment(state.commentToDelete);
+                fetchComments(state.currentPage);
             } catch (error) {                
                 // console.error('Error deleting comment:', error);                
                 if (error.response.status === 401) {
                     alert("토큰 유효 시간이 만료되었습니다.")
-                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+                    logout(); 
                 }                
             }
-            setCommentToDelete(null);
+            dispatch({ type: 'RESET_COMMENT_TO_DELETE' });
             onClose();
         }
     };
 
 
 
-    if (loading) return <Spinner size="xl" />;
-    if (error) return (
+    if (state.loading) return <Spinner size="xl" />;
+    if (state.error) return (
         <Alert status="error" mb={4}>
             <AlertIcon />
-            {error}
+            {state.error}
         </Alert>
     );
 
@@ -111,12 +142,12 @@ const MypageCommentComponent = () => {
             </MypageTitleComponent>
 
             <h3 className="text-xl my-5 ml-4">
-                총 댓글 개수: {totalCount}
+                총 댓글 개수: {state.totalCount}
             </h3>
 
-            {comments.length > 0 ? (
+            {state.comments.length > 0 ? (
                 <VStack spacing={6} align="stretch">
-                    {comments.map(comment => (
+                    {state.comments.map(comment => (
                         <Box
                             key={comment.id}
                             p={6}
@@ -189,26 +220,26 @@ const MypageCommentComponent = () => {
                     {/* Pagination */}
                     <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
                     {/* Previous Page */}
-                    {currentPage > 1 && (
-                        <Box cursor={"pointer"} marginRight={7} onClick={() => handlePageChange(currentPage - 1)}>
+                    {state.currentPage > 1 && (
+                        <Box cursor={"pointer"} marginRight={7} onClick={() => handlePageChange(state.currentPage - 1)}>
                             {'\u003c'}
                         </Box>
                     )}
 
                     {/* Page Numbers */}
-                    {[...Array(totalPages).keys()].map(pageNum => (
+                    {[...Array(state.totalPages).keys()].map(pageNum => (
                     <Box key={pageNum + 1}
                         marginRight={7}
                         cursor={"pointer"}
-                        className={currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
+                        className={state.currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
                         onClick={() => handlePageChange(pageNum + 1)}>
                         {pageNum + 1}
                     </Box>
                     ))}
 
                     {/* Next Page */}
-                    {currentPage < totalPages && (
-                    <Box cursor={"pointer"} onClick={() => handlePageChange(currentPage + 1)}>
+                    {state.currentPage < state.totalPages && (
+                    <Box cursor={"pointer"} onClick={() => handlePageChange(state.ButtoncurrentPage + 1)}>
                         {'\u003e'}
                     </Box>
                     )}
