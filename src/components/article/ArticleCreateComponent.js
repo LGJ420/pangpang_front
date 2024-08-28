@@ -4,6 +4,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import { postCreate } from "../../api/articleApi";
 import useCustomToken from '../../hooks/useCustomToken';
 import { logout } from '../../hooks/logout';
+import BodyTitleComponent from '../common/BodyTitleComponent';
 
 
 
@@ -21,6 +22,8 @@ const ArticleCreateComponent = () => {
   const { isLogin } = useCustomToken();
   const { moveToList } = useCustomMove();
 
+
+
   useEffect(() => {
     if (!isLogin) {
       alert("잘못된 접근 방식입니다.");
@@ -32,9 +35,12 @@ const ArticleCreateComponent = () => {
 
 
   const handleChangeArticle = (e) => {
-    article[e.target.name] = e.target.value;
-    setArticle({ ...article });
-  }
+    const { name, value } = e.target;
+    setArticle(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
 
 
 
@@ -54,19 +60,15 @@ const ArticleCreateComponent = () => {
       setArticle({ ...initState });
       alert('글이 성공적으로 작성되었습니다!');
       moveToList();
-    } catch (e) {
-      
-      console.error(e);
-
+    } catch (e) {      
+      // console.error(e);
       if (e.response.status === 401) {
-        console.error("토큰 만료 : " + e)
+        // console.error("토큰 만료 : " + e)
         alert("토큰 유효 시간이 만료되었습니다.")
-        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
-        
+        logout();         
     } else {
       alert('제목, 내용을 모두 작성하여 주십시오.');
     }
-
     } finally {
       setLoading(false);
     }
@@ -81,7 +83,8 @@ const ArticleCreateComponent = () => {
   
 
   return (
-    <section className="my-10 m-auto text-2xl">
+    <section className="mb-10 text-2xl">
+      <BodyTitleComponent title={`자유게시판`} path={`article`}/>
       <div className="my-10 flex flex-col">
         <label className="m-3 font-extrabold" htmlFor="articleTitle">
           제목
@@ -107,7 +110,7 @@ const ArticleCreateComponent = () => {
           id="articleContent" 
           name="articleContent" 
           value={article.articleContent}
-          placeholder="자세한 설명을 적어주세요." 
+          placeholder="내용을 적어주세요." 
           maxLength={2000} 
         />
       </div>

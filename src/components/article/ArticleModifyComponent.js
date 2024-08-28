@@ -4,6 +4,7 @@ import { getOne, putOne } from "../../api/articleApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import useCustomToken from "../../hooks/useCustomToken";
 import { logout } from '../../hooks/logout';
+import BodyTitleComponent from "../common/BodyTitleComponent";
 
 
 
@@ -18,10 +19,12 @@ const initState = {
 const ArticleModifyComponent = () => {
   const { id } = useParams();
   const { moveToRead } = useCustomMove();
-  const { isLogin, decodeToken } = useCustomToken();
+  const { isLogin } = useCustomToken();
   const navigate = useNavigate();
   const [article, setArticle] = useState({ ...initState });
   const [loading, setLoading] = useState(false);
+
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +32,7 @@ const ArticleModifyComponent = () => {
         const data = await getOne(id);
         setArticle(data);
       } catch (error) {
-        console.error("글을 불러오는데 실패했습니다.", error);
+        // console.error("글을 불러오는데 실패했습니다.", error);
       }
     };
 
@@ -65,12 +68,10 @@ const ArticleModifyComponent = () => {
       moveToRead(id);
     } catch (error) {
       console.error("수정에 실패했습니다.", error);
-
       if (error.response.status === 401) {
         alert("토큰 유효 시간이 만료되었습니다.")
-        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
-      }
-      
+        logout(); 
+      }      
     } finally {
       setLoading(false);
     }
@@ -91,8 +92,8 @@ const ArticleModifyComponent = () => {
   
 
   return (
-    <section className='pt-10 pl-10 pb-10 pr-3 mb-5'>
-      <h1 className="text-5xl mr-auto">게시글 수정</h1>
+    <section className='mb-10 text-2xl'>
+      <BodyTitleComponent title={`자유게시판`} path={`article`}/>
         <div className="my-10 flex flex-col">
           <label
             className="m-3 font-extrabold"
@@ -129,14 +130,14 @@ const ArticleModifyComponent = () => {
 
         <div className="flex justify-center space-x-4">
           <button
-            className="w-52 h-16 text-3xl bg-orange-600 text-white rounded-2xl hover:opacity-80"
+            className="w-52 h-16 text-3xl bg-[rgb(77,160,124)] text-white hover:opacity-80"
             onClick={handleClickModify}
             disabled={loading}
           >
             {loading ? '저장 중...' : '저장'}
           </button>
           <button
-            className="w-52 h-16 text-3xl bg-gray-600 text-white rounded-2xl hover:opacity-80"
+            className="w-52 h-16 text-3xl bg-gray-600 text-white hover:opacity-80"
             onClick={handleCancel}
           >
             취소

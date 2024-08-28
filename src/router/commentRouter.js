@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom";
 
 const CommentList = lazy(() => import("../pages/comment/CommentListPage"))
 // const CommentCreate = lazy(() => import("../pages/comment/CommentCreatePage"))
-const CommentModify = lazy(() => import("../pages/comment/CommentModifyPage"))
+// const CommentModify = lazy(() => import("../pages/comment/CommentModifyPage"))
 
 const commentRouter = () => {
     return [
@@ -29,14 +29,14 @@ const commentRouter = () => {
         //     )
         // },
 
-        {
-            path: "modify/:id",
-            element: (
-                <Suspense fallback={<div>Loading...</div>}>
-                    <CommentModify />
-                </Suspense>
-            )
-        }
+        // {
+        //     path: "modify/:id",
+        //     element: (
+        //         <Suspense fallback={<div>Loading...</div>}>
+        //             <CommentModify />
+        //         </Suspense>
+        //     )
+        // }
     ];
 }
 
