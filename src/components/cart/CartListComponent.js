@@ -102,6 +102,9 @@ const CratListComponent = () => {
                 } else if (newCount > 10) {
                     alert("상품의 최대 수량은 10개입니다.");
                     return item;
+                } else if(newCount > item.productStock) {
+                    alert("상품의 재고가 모자랍니다.");
+                    return item;
                 }
 
 

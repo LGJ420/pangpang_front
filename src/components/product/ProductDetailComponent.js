@@ -133,8 +133,6 @@ const ProductDetailComponent = ({ num }) => {
       productPrice: product.productPrice,
       uploadFileNames: product.uploadFileNames,
       cartCount: 1,
-      productSales: product.productSales + 1,
-      productStocl: product.productStock - 1
     }
 
     navigate("/orders/pay", { state: { order } });
