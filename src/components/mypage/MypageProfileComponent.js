@@ -207,7 +207,7 @@ const MypageProfileComponent = () => {
         console.log("기타주소 : " + extraAddressApi);
 
         // 안 채운 항목이 있는지 체크
-        if(!modifyMemberNickname && !phone1 && !phone2 && !phone3 && !postcodeApi &&!postAddressApi && !detailAddressApi){
+        if([modifyMemberNickname, phone1, phone2, phone3, postcodeApi, postAddressApi, detailAddressApi].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
             console.error(errorMsg)
             alert(errorMsg);
