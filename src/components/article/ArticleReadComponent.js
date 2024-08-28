@@ -9,6 +9,7 @@ import { getCommentsByArticleId, postComment } from "../../api/commentApi";
 import { formatDateTime } from "../../util/dateUtil";
 import { logout } from '../../hooks/logout';
 import { formatContent } from "../../util/contentUtil";
+import BodyTitleComponent from "../common/BodyTitleComponent";
 
 
 
