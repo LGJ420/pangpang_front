@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, ButtonGroup, Flex, Grid, Image, Text, useDisclosure } from '@chakra-ui/react'
+import { Box, ButtonGroup, Flex, Image, Text } from '@chakra-ui/react'
 
 import { deleteProduct, getOne } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
