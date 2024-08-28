@@ -1,5 +1,5 @@
-import { Box, Heading, Text, Button, Stack, Spinner, Alert, AlertIcon, IconButton, Flex, CloseButton, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton } from '@chakra-ui/react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { Box, Heading, Text, Button, Stack, Spinner, Alert, AlertIcon, Flex, CloseButton, useDisclosure, 
+Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, ModalCloseButton } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteOne, getMyArticles } from '../../api/articleApi';
