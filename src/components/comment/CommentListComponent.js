@@ -117,29 +117,33 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
 
   return (
     <section>
+      
       {comments.length > 0 ? (
+        
         <VStack spacing={4} align="stretch">
           {comments.map(comment => (
+            <>
+            <hr></hr>
             <Box
-              key={comment.id}
-              p={4}
-            >
+              key={comment.id}>
               <div className="pt-2 pb-4 min-h-24 flex justify-between">
-                <div className="flex items-center">
-                  <img
-                    className="w-10 h-10 mr-2 rounded-full border"
-                    src={`http://localhost:8080/api/productreview/view/${comment.memberImage}`} // Adjusted the image URL
-                    alt="Profile"
-                  />
-                  <div>
-                    <div className="font-bold">{comment.memberNickname}</div>
+                <div>
+                  <div className='flex items-center'>
+                    <img
+                      className="w-10 h-10 mr-2 rounded-full border"
+                      src={`http://localhost:8080/api/productreview/view/${comment.memberImage}`} // Adjusted the image URL
+                      alt="Profile"
+                    />
+                      <div className="font-bold">
+                        {comment.memberNickname}
+                      </div>
                   </div>
                 </div>
 
                 <div className="w-2/3">
                   {commentEdit === comment.id ? (
                     <textarea
-                      className="pt-2 border resize-none w-full"
+                      className="p-2 border resize-none w-full"
                       value={modifyComment}
                       name="commentContent"
                       rows={3}
@@ -147,41 +151,42 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
                       onChange={handleChangeModifyComment}
                     />
                   ) : (
-                    <p className="pt-2 whitespace-pre-wrap">
+                    <p className="whitespace-pre-wrap">
                       <span dangerouslySetInnerHTML={{ __html: formatContent(comment.commentContent) }} />
                     </p>
                   )}
                 </div>
 
-                <div className="pt-2 flex flex-col items-end justify-between">
-                  <div className="text-sm text-gray-500">
+                <div className="flex flex-col items-end justify-between">
+                  <div className="text-sm text-gray-500 pr-1">
                     작성일: {formatDateTime(comment.commentCreated)}
-                    {comment.commentUpdated && (
-                      <span className="text-gray-400 ml-2">
-                        (수정일: {formatDateTime(comment.commentUpdated)})
-                      </span>
-                    )}
                   </div>
+                  {comment.commentUpdated && (
+                  <div className="text-sm text-gray-400">
+                    (수정일: {formatDateTime(comment.commentUpdated)})
+                  </div>
+                  )}
 
                   {isLogin && decodeToken.id === comment.memberId && (
-                    <div className="flex gap-2">
-                      {commentEdit === comment.id ? (
-                        <button className="px-2 hover:opacity-80" onClick={handleClickModifyCommentComplete}>
-                          수정 완료
-                        </button>
-                      ) : (
-                        <button className="px-2 hover:opacity-80" onClick={() => handleEditClick(comment.id, comment.commentContent)}>
-                          수정
-                        </button>
-                      )}
-                      <button className="px-2 hover:opacity-80" onClick={() => handleDeleteClick(comment.id)}>
-                        삭제
+                  <div className="flex pt-3">
+                    {commentEdit === comment.id ? (
+                      <button className="px-2 hover:opacity-80" onClick={handleClickModifyCommentComplete}>
+                        수정 완료
                       </button>
-                    </div>
+                    ) : (
+                      <button className="px-2 hover:opacity-80" onClick={() => handleEditClick(comment.id, comment.commentContent)}>
+                        수정
+                      </button>
+                    )}
+                    <button className="px-2 hover:opacity-80" onClick={() => handleDeleteClick(comment.id)}>
+                      삭제
+                    </button>
+                  </div>
                   )}
                 </div>
               </div>
             </Box>
+            </>
           ))}
 
           {/* Pagination */}
@@ -212,6 +217,7 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
             )}
           </Flex>
         </VStack>
+      
       ) : (
         <Text textAlign="center" marginTop="5rem">아직 댓글이 없습니다.</Text>
       )}
