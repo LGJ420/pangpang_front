@@ -127,96 +127,108 @@ const MypageArticleListComponent = () => {
             </h3>
 
             <Stack spacing={6}>
-                {articles.map(article => (
-                    <Box 
-                        key={article.id} 
-                        p={6} 
-                        shadow="lg" 
-                        borderWidth="1px" 
-                        borderRadius="md" 
-                        bg="white"
-                    >
-                    <Flex justifyContent="space-between">
-                        <div className='cursor-pointer' onClick={() => navigate(`/article/read/${article.id}`)}>
-                            <Flex>
-                                <Heading fontSize="xl" mb={2}>
-                                    글제목: {article.articleTitle}
-                                </Heading> 
-                            </Flex>
-
-                                <Text fontSize="sm" color="gray.600" mb={2}>
-                                    글번호: {article.id}
-                                </Text>
-
-                                {/*내용*/}
-                                <Text 
-                                    mb={4} 
-                                    style={{ whiteSpace: 'pre-wrap' }} 
-                                    dangerouslySetInnerHTML={{ __html: formatContent(article.articleContent) }}
-                                    sx={{
-                                        '& a': {
-                                                color: 'blue.500',
-                                                textDecoration: 'underline',
-                                                _hover: {
-                                                color: 'blue.700'
-                                                }
-                                            }
-                                        }}
-                                    />
-
-                                <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
-                                    <Text>조회수: {article.viewCount}</Text>
-                                </Flex>
-                            </div>
-
-                            <div className='flex flex-col justify-between'>
-                                <CloseButton className='ml-auto' onClick={() => handleClickDelete(article.id)} />
-                                <Text fontSize="sm" color="gray.500">작성일: {formatDateTime(article.articleCreated)}</Text>
-                            </div>
-                        </Flex>
-                        </Box>
-                    ))}
-                </Stack>
-
-
-                
-            {/* Pagination Controls */}
-            <Flex justifyContent="center" alignItems="center" mt={6} fontSize="lg">
-                <IconButton
-                    aria-label="Previous Page"
-                    icon={<ChevronLeftIcon />}
-                    isDisabled={page === 1}
-                    onClick={() => handlePageChange(page - 1)}
-                    mr={3}
-                    _hover={{ bg: 'teal.50', color: 'teal.600' }}
-                    _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
-                />
-
-                {/* Page Numbers */}
-                {[...Array(totalPages)].map((_, index) => (
-                    <Button
-                        key={index + 1}
-                        mx={1}
-                        size="sm"
-                        variant={currentPage === index + 1 ? 'solid' : 'outline'}
-                        colorScheme={currentPage === index + 1 ? 'teal' : 'gray'}
-                        onClick={() => handlePageChange(index + 1)}
-                        _hover={{ bg: 'teal.50', color: 'teal.600' }}
-                    >
-                        {index + 1}
-                    </Button>
-                ))}
-
-                <IconButton
-                    aria-label="Next Page"
-                    icon={<ChevronRightIcon />}
-                    isDisabled={page === totalPages}
-                    onClick={() => handlePageChange(page + 1)}
-                    ml={3}
-                    _hover={{ bg: 'teal.50', color: 'teal.600' }}
-                    _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
-                />
+  {articles.map((article) => (
+    <Box
+      key={article.id}
+      p={6}
+      shadow="lg"
+      borderWidth="1px"
+      borderRadius="md"
+      bg="white"
+    >
+      <Flex justifyContent="space-between">
+        <div
+          className="cursor-pointer"
+          onClick={() => navigate(`/article/read/${article.id}`)}
+        >
+          <Flex direction="column" mb={4}>
+            <Flex align="center" mb={2}>
+              <Heading
+                className="cursor-pointer"
+                fontSize="xl"
+                mb={2}
+                _hover={{
+                  textDecoration: "underline",
+                  transform: "scale(1.05)",
+                  transition: "transform 0.2s ease, text-decoration 0.2s ease",
+                  color: "blue.600",
+                }}
+              >
+                글제목: {article.articleTitle}
+              </Heading>
             </Flex>
+
+            <Text fontSize="sm" color="gray.600" mb={2}>
+              글번호: {article.id}
+            </Text>
+
+            {/* 내용 */}
+            <Text
+              mb={4}
+              style={{ whiteSpace: "pre-wrap" }}
+              dangerouslySetInnerHTML={{
+                __html: formatContent(article.articleContent),
+              }}
+              sx={{
+                "& a": {
+                  color: "blue.500",
+                  textDecoration: "underline",
+                  _hover: {
+                    color: "blue.700",
+                  },
+                },
+              }}
+            />
+
+            <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
+              <Text>조회수: {article.viewCount}</Text>
+            </Flex>
+          </Flex>
+        </div>
+
+        <div className="flex flex-col justify-between">
+          <CloseButton
+            className="ml-auto"
+            onClick={() => handleClickDelete(article.id)}
+          />
+          <Text fontSize="sm" color="gray.500">
+            작성일: {formatDateTime(article.articleCreated)}
+          </Text>
+        </div>
+      </Flex>
+    </Box>
+  ))}
+
+  {/* Pagination Controls */}
+  <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
+    {/* Previous Page */}
+    {page > 1 && (
+      <Box cursor="pointer" marginRight={7} onClick={() => handlePageChange(page - 1)}>
+        {'\u003c'}
+      </Box>
+    )}
+
+    {/* Page Numbers */}
+    {[...Array(totalPages).keys()].map((pageNum) => (
+      <Box
+        key={pageNum + 1}
+        marginRight={7}
+        cursor="pointer"
+        className={currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
+        onClick={() => handlePageChange(pageNum + 1)}
+      >
+        {pageNum + 1}
+      </Box>
+    ))}
+
+    {/* Next Page */}
+    {page < totalPages && (
+      <Box cursor="pointer" onClick={() => handlePageChange(page + 1)}>
+        {'\u003e'}
+      </Box>
+    )}
+  </Flex>
+</Stack>
 
             {/* Confirmation Modal */}
             <Modal isOpen={isOpen} onClose={handleCancelDelete}>

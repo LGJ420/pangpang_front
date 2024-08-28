@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Box,Heading,Text,VStack,Flex,IconButton,CloseButton,Modal,ModalOverlay,ModalContent,ModalHeader,ModalBody,ModalFooter,useDisclosure,Spinner,Alert,AlertIcon,ModalCloseButton,Button} from '@chakra-ui/react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import {Box,Heading,Text,VStack,Flex, CloseButton,Modal,ModalOverlay,ModalContent,ModalHeader,ModalBody,ModalFooter,useDisclosure,Spinner,Alert,AlertIcon,ModalCloseButton,Button} from '@chakra-ui/react';
 import { deleteComment, getMyComments } from '../../api/commentApi';
 import useCustomToken from '../../hooks/useCustomToken';
 import { useNavigate } from 'react-router-dom';
@@ -186,46 +185,37 @@ const MypageCommentComponent = () => {
 
 
 
-                    {/* Pagination Controls */}
-                    <Flex justifyContent="center" alignItems="center" mt={6} fontSize="lg">
-                        <IconButton
-                            aria-label="Previous Page"
-                            icon={<ChevronLeftIcon />}
-                            isDisabled={currentPage <= 1}
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            mr={3}
-                            _hover={{ bg: 'teal.50', color: 'teal.600' }}
-                            _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
-                        />
-
-                        {[...Array(totalPages).keys()].map(page => (
-                            <Button
-                                key={page + 1}
-                                mx={1}
-                                size="sm"
-                                variant={currentPage === page + 1 ? 'solid' : 'outline'}
-                                colorScheme={currentPage === page + 1 ? 'teal' : 'gray'}
-                                onClick={() => handlePageChange(page + 1)}
-                                _hover={{ bg: 'teal.50', color: 'teal.600' }}
-                            >
-                                {page + 1}
-                            </Button>
-                        ))}
-
-                        <IconButton
-                            aria-label="Next Page"
-                            icon={<ChevronRightIcon />}
-                            isDisabled={currentPage >= totalPages}
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            ml={3}
-                            _hover={{ bg: 'teal.50', color: 'teal.600' }}
-                            _disabled={{ bg: 'gray.200', color: 'gray.500', cursor: 'not-allowed' }}
-                        />
-                    </Flex>
-                </VStack>
-            ) : (
-                <Text textAlign="center" color="gray.500">댓글을 찾을 수 없습니다.</Text>
+                    {/* Pagination */}
+          <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
+            {/* Previous Page */}
+            {currentPage > 1 && (
+              <Box cursor={"pointer"} marginRight={7} onClick={() => handlePageChange(currentPage - 1)}>
+                {'\u003c'}
+              </Box>
             )}
+
+            {/* Page Numbers */}
+            {[...Array(totalPages).keys()].map(pageNum => (
+              <Box key={pageNum + 1}
+                   marginRight={7}
+                   cursor={"pointer"}
+                   className={currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
+                   onClick={() => handlePageChange(pageNum + 1)}>
+                {pageNum + 1}
+              </Box>
+            ))}
+
+            {/* Next Page */}
+            {currentPage < totalPages && (
+              <Box cursor={"pointer"} onClick={() => handlePageChange(currentPage + 1)}>
+                {'\u003e'}
+              </Box>
+            )}
+          </Flex>
+        </VStack>
+      ) : (
+        <Text textAlign="center">아직 댓글이 없습니다.</Text>
+      )}
 
 
 
