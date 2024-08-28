@@ -182,7 +182,7 @@ export const getMemberList = async (pageParam) => {
 // 관리자 - 회원 등급 변경(관리자<->유저)
 export const changeMemberRole = async (id, newRole) => {
     try {
-        const response = await axios.post(`${prefix}/mypage/manager/change/role`, {
+        const response = await axios.put(`${prefix}/mypage/manager/change/role`, {
             id: id,
             memberRole: newRole,
         });
@@ -196,7 +196,7 @@ export const changeMemberRole = async (id, newRole) => {
 // 관리자 - 회원 활동 상태 변경(활성화<->비활성화)
 export const changeMemberActiveStatus = async (id, newActive) => {
     try {
-        const response = await axios.post(`${prefix}/mypage/manager/change/isActive`, {
+        const response = await axios.put(`${prefix}/mypage/manager/change/isActive`, {
             id: id,
             active: newActive,
         });
