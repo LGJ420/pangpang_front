@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useCustomToken from "../../hooks/useCustomToken";
 import { postNoticeOne } from "../../api/noticeApi";
 import { useNavigate } from "react-router-dom";
@@ -15,9 +15,25 @@ const initState = {
 const NoticeAddComponent = () => {
 
     const [noticeDto, setNoticeDto] = useState(initState);
-    const {decodeToken} = useCustomToken();
+    const {isLogin, decodeToken} = useCustomToken();
 
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        if (!isLogin) {
+          alert("잘못된 접근 방식입니다.");
+          navigate(-1);
+          return;
+        }
+
+        if (decodeToken.memberRole !== "Admin") {
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+            return;
+        }
+      }, [isLogin]);
+
 
 
     const handleChangeNotice = (e) => {
@@ -58,6 +74,11 @@ const NoticeAddComponent = () => {
     }
 
 
+
+
+    if (!isLogin) {
+        return null;
+    }
     return (
 
         <section>

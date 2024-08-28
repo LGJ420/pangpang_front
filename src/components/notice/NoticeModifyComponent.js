@@ -14,10 +14,11 @@ const initData = {
 
 const NoticeModifyComponent = ({id}) => {
 
-    const {decodeToken} = useCustomToken();
+    const {isLogin, decodeToken} = useCustomToken();
     const [serverData, setServerData] = useState(initData);
 
     const navigate = useNavigate();
+
 
     useEffect(()=>{
 
@@ -26,6 +27,22 @@ const NoticeModifyComponent = ({id}) => {
             .catch(error=>console.log(error));
 
     },[]);
+
+
+    useEffect(() => {
+        if (!isLogin) {
+          alert("잘못된 접근 방식입니다.");
+          navigate(-1);
+          return;
+        }
+
+        if (decodeToken.memberRole !== "Admin") {
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+            return;
+        }
+
+      }, [isLogin]);
 
 
     const handleChangeNotice = (e) => {
@@ -57,6 +74,13 @@ const NoticeModifyComponent = ({id}) => {
             });
     }
 
+
+
+
+    
+    if (!isLogin) {
+        return null;
+    }
     return (
 
         <section>
