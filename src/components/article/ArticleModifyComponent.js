@@ -92,7 +92,7 @@ const ArticleModifyComponent = () => {
   
 
   return (
-    <section className='mb-10'>
+    <section className='mb-10 text-2xl'>
       <BodyTitleComponent title={`자유게시판`} path={`article`}/>
         <div className="my-10 flex flex-col">
           <label
