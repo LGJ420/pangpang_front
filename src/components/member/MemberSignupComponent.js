@@ -29,7 +29,7 @@ const MemberSignupComponent = () => {
         const validInputValue = inko.ko2en(e.target.value);
         
         // 특수문자 검사
-        var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi;
+        var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-+┼<>@\#$%&\'\"\\\(\=]/gi;
         if (regExp.test(validInputValue)) {
             alert("특수문자는 _만 입력 가능합니다.");
             // validInputValue = validInputValue.replace(regExp, ''); // 특수문자를 제거
