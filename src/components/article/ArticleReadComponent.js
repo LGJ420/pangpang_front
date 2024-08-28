@@ -40,6 +40,7 @@ const ArticleReadComponent = () => {
   const { moveToList, moveToModify } = useCustomMove();
   const { isLogin, decodeToken } = useCustomToken();
   const isAuthor = isLogin && serverData.memberId === decodeToken.id;
+  const isAdmin = isLogin && decodeToken.memberRole === "Admin";
 
 
 
@@ -195,7 +196,7 @@ const ArticleReadComponent = () => {
               {serverData.articleTitle}
             </h3>
             <div>
-              {isAuthor && (
+            {isAuthor ? (
                 <>
                   <button
                     className="pr-3 border-r hover:opacity-40"
@@ -203,14 +204,15 @@ const ArticleReadComponent = () => {
                   >
                     수정
                   </button>
-                  <button
-                    className="pl-3 hover:opacity-40"
-                    onClick={onOpen}
-                  >
+                  <button className="pl-3 hover:opacity-40" onClick={onOpen}>
                     삭제
                   </button>
                 </>
-              )}
+              ) : isAdmin ? (
+                <button className="pl-3 hover:opacity-40" onClick={onOpen}>
+                  삭제
+                </button>
+              ) : null}
             </div>
           </div>
 
