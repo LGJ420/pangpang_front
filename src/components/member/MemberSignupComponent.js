@@ -27,6 +27,7 @@ const MemberSignupComponent = () => {
     const [pwInputError, setPwInputError] = useState('')  // 비번 인풋 빨갛게 체크함(seccess, error)
 
     const handleMemberId = (e)=>{
+        setCheckMemberIdStatus(false) // 아이디 인풋 변경하면 false로 바뀌면서 중복확인 안한 것으로 간주
         let inko = new Inko();
         const validInputValue = inko.ko2en(e.target.value);
         setMemberId(validInputValue);
