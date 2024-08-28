@@ -35,14 +35,14 @@ const MypageProfileBeforeComponent = () => {
     // 비밀번호 확인 버튼
     const clickConfirmBeforeProfile = async () => {
         // 1. 제대로 입력되었는지 확인
-        console.log("click confirm_bofore_profile");
-        console.log("비밀번호 입력 완료");
-        console.log(memberPwInConfirmBeforeProfile);
+        // console.log("click confirm_bofore_profile");
+        // console.log("비밀번호 입력 완료");
+        // console.log(memberPwInConfirmBeforeProfile);
 
         // 2. 빈칸은 없는가?
         if(!memberPwInConfirmBeforeProfile){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
-            console.error(errorMsg);
+            // console.error(errorMsg);
             alert(errorMsg);
             return; 
         }

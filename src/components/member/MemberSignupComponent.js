@@ -1,12 +1,7 @@
-import {
-    Input,
-    FormControl,
-    FormLabel,
-    } from '@chakra-ui/react'
-
+import { Input, FormControl, FormLabel } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import { checkMemberId, signupMember, loadPostcodeScript } from '../../api/memberApi';
+import { checkMemberId, signupMember } from '../../api/memberApi';
 import { Inko } from 'inko';
 
 const MemberSignupComponent = () => {
@@ -115,7 +110,7 @@ const MemberSignupComponent = () => {
         const script = document.createElement('script');
         script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
         script.onload = () => console.log('Daum Postcode script loaded.');
-        script.onerror = () => console.error(`Script load error`);
+        // script.onerror = () => console.error(`Script load error`);
         document.head.appendChild(script);
 
         return () => {
@@ -163,24 +158,24 @@ const MemberSignupComponent = () => {
 
     // 회원가입 버튼
     const onClicksignup = async ()=>{
-        console.log("click signup");
-        console.log("ID : " + memberId);
-        console.log("PW : " + memberPw);
-        console.log("PWConfirm : " + memberPwConfirm);
-        console.log("이름 : " + memberName);
-        console.log("닉네임 : " + memberNickname);
-        console.log("생년월일 : " + memberBirth);
-        console.log("핸드폰 : " + phone1+"-"+phone2+"-"+phone3);
-        console.log("우편번호 : " + postcode);
-        console.log("주소 : " + postAddress);
-        console.log("상세주소 : " + detailAddress);
-        console.log("기타주소 : " + extraAddress);
-        console.log("역할 : " + memberRole);
+        // console.log("click signup");
+        // console.log("ID : " + memberId);
+        // console.log("PW : " + memberPw);
+        // console.log("PWConfirm : " + memberPwConfirm);
+        // console.log("이름 : " + memberName);
+        // console.log("닉네임 : " + memberNickname);
+        // console.log("생년월일 : " + memberBirth);
+        // console.log("핸드폰 : " + phone1+"-"+phone2+"-"+phone3);
+        // console.log("우편번호 : " + postcode);
+        // console.log("주소 : " + postAddress);
+        // console.log("상세주소 : " + detailAddress);
+        // console.log("기타주소 : " + extraAddress);
+        // console.log("역할 : " + memberRole);
 
         // 안 채운 항목이 있는지 체크
         if([memberId, memberPw, memberPwConfirm, memberName, memberNickname, memberBirth, phone1, phone2, phone3, postcode, postAddress, detailAddress].includes('')){
             const errorMsg = "입력하지 않은 사항이 있습니다.";
-            console.error(errorMsg)
+            // console.error(errorMsg)
             alert(errorMsg);
 
             return;
@@ -189,7 +184,7 @@ const MemberSignupComponent = () => {
         // 아이디 중복 확인 (false면 중복확인 안한 것으로 간주)
         if(checkMemberIdStatus == false){ // === 이걸로하면 안됨 // 해결-성빈240821
             const errorMsg = "아이디 중복 확인은 필수입니다.";
-            console.error(errorMsg);
+            // console.error(errorMsg);
             alert("아이디 중복 확인은 필수입니다."); 
             setIdInputError('error'); // 아이디 에러나면 인풋창 빨갛게 하려고 만듦
             return;
@@ -207,7 +202,7 @@ const MemberSignupComponent = () => {
         // 비밀번호 = 비밀번호 확인 체크
         if(memberPw !== memberPwConfirm ) {
             const errorMsg = "비밀번호가 일치하지 않습니다.";
-            console.error(errorMsg);
+            // console.error(errorMsg);
             alert(errorMsg);
             setPwInputError('error');
             return;
@@ -258,7 +253,7 @@ const MemberSignupComponent = () => {
             });
             navigate("/signup_confirm");
         } catch (error) {
-            console.error("회원가입 요청 중 오류 발생", error);
+            // console.error("회원가입 요청 중 오류 발생", error);
         }
     }
         

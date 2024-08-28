@@ -1,5 +1,4 @@
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
 import useCustomToken from "../hooks/useCustomToken";
 import { useEffect, useState } from "react";
 import { getMemberProfileImage, logoutMember, prefix } from '../api/memberApi';
@@ -29,12 +28,12 @@ const NavLayout1 = () => {
     const handleLogout = async () => {
         try {
             await logoutMember();
-            console.log("로그아웃 성공");
+            // console.log("로그아웃 성공");
             localStorage.removeItem("memberId");
             localStorage.removeItem("token");
             window.location.reload();
         } catch (error) {
-            console.error("로그아웃 실패", error);
+            // console.error("로그아웃 실패", error);
         }
     }
 

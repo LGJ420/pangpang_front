@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { getMemberList, changeMemberRole, changeMemberActiveStatus } from "../../api/memberApi";
-
-// 빨간선때문에 import함 나중에 삭제하시길 ㅎㅎ
 import styles from "../../css/memberPage.module.css"
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import MypageTitleComponent from "../common/MypageTitleComponent";
@@ -108,7 +106,7 @@ const ManagerMemberComponent = () => {
         
             }
             catch (error) {
-                console.error(error);
+                // console.error(error);
             }
             finally {
                 setIsLoading(true);
@@ -137,10 +135,10 @@ const ManagerMemberComponent = () => {
         changeMemberRole(data.id, newRole)
             .then(response => {
                 setRefresh(!refresh);
-                console.log(response);
+                // console.log(response);
             })
             .catch(error => {
-                console.log("Error changing member role: ", error);
+                // console.log("Error changing member role: ", error);
             });
     };
 
@@ -152,15 +150,15 @@ const ManagerMemberComponent = () => {
     const clickMemberActive = (data) => {
         const newActive = data.active===false ? true : false ; 
         // true = 활동정지 , false = 활동
-        console.log("변경될 isActive 값:", newActive);
+        // console.log("변경될 isActive 값:", newActive);
     
         changeMemberActiveStatus(data.id, newActive)
             .then(response => {
                 setRefresh(!refresh);
-                console.log(response);
+                // console.log(response);
             })
             .catch(error => {
-                console.log("Error changing member active status: ", error);
+                // console.log("Error changing member active status: ", error);
             });
     }
 

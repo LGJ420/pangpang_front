@@ -41,19 +41,19 @@ const MemberLoginComponent = () => {
         
         setIsLoading(true);
         
-        console.log("click login");
-        console.log("ID : " + memberId);
-        console.log("PW : " + memberPw);
+        // console.log("click login");
+        // console.log("ID : " + memberId);
+        // console.log("PW : " + memberPw);
         
         try {
             const response = await loginMember(memberId, memberPw);
-            console.log(response);
-            console.log("======================", "로그인 성공");
+            // console.log(response);
+            // console.log("======================", "로그인 성공");
 
             if (response) {
                 localStorage.setItem("memberId", memberId);
                 localStorage.setItem("token", response); // Adjust according to response structure
-                console.log("로그인 성공, 로컬 스토리지에 저장됨");
+                // console.log("로그인 성공, 로컬 스토리지에 저장됨");
                 
                 setToken(response);
 
@@ -63,7 +63,7 @@ const MemberLoginComponent = () => {
                 alert("토큰이 응답에 없습니다.");
             }
         } catch (error) {
-            console.error("로그인 요청 중 오류 발생", error);
+            // console.error("로그인 요청 중 오류 발생", error);
             
             // Server response errors
             if (error.response.status === 403) {

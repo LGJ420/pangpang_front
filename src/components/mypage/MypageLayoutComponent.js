@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
 import { useEffect, useState } from "react";
 import { getMemberProfileImage, prefix } from '../../api/memberApi';
-import axios from 'axios';
 
 const MypageLayoutComponent = ({children}) => {
 
@@ -14,8 +13,8 @@ const MypageLayoutComponent = ({children}) => {
     const [imageUrl, setImageUrl] = useState('');
 
     useEffect(()=>{
-        console.log("decode token : " +decodeToken);
-        console.log('User ID:', decodeToken.id);
+        // console.log("decode token : " +decodeToken);
+        // console.log('User ID:', decodeToken.id);
 
         // useEffect에도 이렇게 두번에 걸쳐 작업하는이유는
         // 리액트의 비동기 특성때문
@@ -26,16 +25,16 @@ const MypageLayoutComponent = ({children}) => {
             return; // 로그인하지 않은 경우, 나머지 코드 실행 방지
         }
 
-        // ?? 왜 한번에 decodeToken.id 못찾는지 아는사람 (아래는 콘솔로그)
-            // decode token : [object Object]
-            // User ID:      여기 토큰.id들어가야된다능↓
-            // http://localhost:8080/api/member/view//image
-            // decode token : [object Object]
-            // User ID: 39 (29행은 id를 못찾은거라능!!!)
-            // http://localhost:8080/api/member/view/39/image
+
+        // decode token : [object Object]
+        // User ID:       여기 토큰.id가 들어가야함↓
+        // http://localhost:8080/api/member/view//image
+        // decode token : [object Object]
+        // User ID: 39      제대로 토큰.id가 들어감↓
+        // http://localhost:8080/api/member/view/39/image
         // console.log(`http://localhost:8080/api/member/view/${decodeToken.id}/image`);
 
-        // 위 문제때문에 decodeToken.id 있을때만 실행시킴 고졸사토루 능지이슈 ㅈㅅ
+        // 위 문제때문에 decodeToken.id 있을때만 실행
         if(decodeToken.id){
             const fetchProfileImage = async () => {
                 const imagePath = await getMemberProfileImage(decodeToken.sub);
