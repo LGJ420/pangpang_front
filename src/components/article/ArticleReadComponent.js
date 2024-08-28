@@ -235,12 +235,6 @@ const ArticleReadComponent = () => {
                   </button>
                 </>
               )}
-              <button
-                className="pl-3 hover:opacity-40"
-                onClick={() => navigate('/article/list')}
-              >
-                목록으로 이동
-              </button>
             </div>
           </div>
 
