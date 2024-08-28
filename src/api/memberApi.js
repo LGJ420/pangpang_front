@@ -64,7 +64,7 @@ export const findMemberPassword = async (id, name, birth) => {
 // 비밀번호 찾기->비밀번호 변경
 export const resetMemberPassword = async (memberId, newPassword) => {
     try {
-        const res = await axios.post(`${prefix}/find/pw/reset`, {
+        const res = await axios.put(`${prefix}/find/pw/reset`, {
             memberId,
             memberPw: newPassword
         });
@@ -138,7 +138,7 @@ export const confirmMemberPassword = async (password) => {
 export const updateMemberProfile = async (formData) => {
     const token = localStorage.getItem("token");
     try {
-        const res = await axios.post(`${prefix}/mypage/modify`, formData, {
+        const res = await axios.put(`${prefix}/mypage/modify`, formData, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
