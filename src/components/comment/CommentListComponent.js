@@ -123,6 +123,11 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
                       className="w-10 h-10 mr-2 rounded-full border"
                       src={`http://localhost:8080/api/productreview/view/${comment.memberImage}`} // Adjusted the image URL
                       alt="Profile"
+                      onError={(e) => {
+                        e.target.onerror = null; // 무한 루프 방지
+                        e.target.src = "/images/profile.png"; // 대체 이미지 경로
+                     }}
+                      
                     />
                       <div className="font-bold">
                         {comment.memberNickname}
