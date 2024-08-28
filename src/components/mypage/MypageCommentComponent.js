@@ -81,7 +81,7 @@ const MypageCommentComponent = () => {
         }
     };
 
-    
+
 
     useEffect(() => {
         if (isLogin) {
@@ -239,7 +239,7 @@ const MypageCommentComponent = () => {
 
                     {/* Next Page */}
                     {state.currentPage < state.totalPages && (
-                    <Box cursor={"pointer"} onClick={() => handlePageChange(state.ButtoncurrentPage + 1)}>
+                    <Box cursor={"pointer"} onClick={() => handlePageChange(state.currentPage + 1)}>
                         {'\u003e'}
                     </Box>
                     )}
