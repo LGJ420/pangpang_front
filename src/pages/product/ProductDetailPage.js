@@ -4,9 +4,7 @@ import ProductDetailComponent from '../../components/product/ProductDetailCompon
 const ProductDetailPage = () => {
 
   const {id} = useParams();
-
-  console.log(id)
-
+  
   return (
 
     <ProductDetailComponent num={id}/>

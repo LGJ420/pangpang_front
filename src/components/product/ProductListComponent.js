@@ -20,6 +20,8 @@ const initState = {
   current: 0              // 현재 페이지 번호
 }
 
+const prefix = "http://localhost:8080/api/productreview/view";
+
 // 서버에서 데이터 가져오기
 const ProductListComponent = () => {
 
@@ -40,21 +42,20 @@ const ProductListComponent = () => {
         // 상품 목록 데이터 가져오기
         const data = await getList({ search, page, size, category: selectedCategory });
         setServerData(data);
-        // console.log(data);   // 데이터 확인용
 
         // 이미지 URL 설정하기
         const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성
         for (const product of data.dtoList) {   // 상품 목록 반복
           if (product.uploadFileNames[0]) {     // 상품이 이미지 파일을 가지고 있는지 확인
             const fileName = product.uploadFileNames[0];    // 첫 번쩨 이미지 파일 이름을 가져옴
-            const url = `http://localhost:8080/api/product/view/${fileName}`;   // 이미지 url 만듦
+            const url = `${prefix}/${fileName}`;   // 이미지 url 만듦
             imageUrls[product.id] = url;    // 상품 id를 키로, 이미지 url을 값으로 설정
           }
         }
         setImages(imageUrls);   // 상태를 업데이트하여 이미지 url 저장
       }
       catch (error) {
-        console.error(error);
+        // console.error(error);
       }
       finally {
         setIsLoading(true);

@@ -3,7 +3,6 @@ import { Navigate } from "react-router-dom";
 
 const Member = lazy(() => import("../pages/manager/ManagerMemberPage"));
 const Product = lazy(() => import("../pages/manager/ManagerProductPage"));
-const Article = lazy(() => import("../pages/manager/ManagerArticlePage"));
 
 const managerRouter = () => {
 
@@ -24,10 +23,6 @@ const managerRouter = () => {
       element: <Suspense><Product /></Suspense>
     },
 
-    {
-      path: "article",
-      element: <Suspense><Article /></Suspense>
-    }
   ]
 }
 

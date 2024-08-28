@@ -53,7 +53,7 @@ const OrdersPayComponent = () => {
 
     }, [location.state]);
 
-    console.log(productData);
+    // console.log(productData);
 
     
 
@@ -79,8 +79,6 @@ const OrdersPayComponent = () => {
 
         const script = document.createElement('script');
         script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-        script.onload = () => console.log('Daum Postcode script loaded.');
-        script.onerror = () => console.error(`Script load error`);
         document.head.appendChild(script);
 
         return () => {
@@ -150,7 +148,7 @@ const OrdersPayComponent = () => {
             alert("전화번호가 올바르지 않습니다.");
             return false;
         }
-        if (postAddress < 3 || detailAddress.length < 3) {
+        if (postAddress < 2 || detailAddress.length < 2) {
             alert("주소가 올바르지 않습니다.");
             return false;
         }

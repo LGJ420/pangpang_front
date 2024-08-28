@@ -1,10 +1,11 @@
-import { Select, Input, IconButton, Button, Spinner, Flex, Box, Badge } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import { Button, Spinner, Flex, Box, Badge } from '@chakra-ui/react';
 import { getList } from '../../api/articleApi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import useCustomToken from "../../hooks/useCustomToken";
 import { formatDateTime } from "../../util/dateUtil";
+import BodyTitleComponent from '../common/BodyTitleComponent';
+import SearchBarComponent from '../common/SearchBarComponent';
 
 
 
@@ -56,6 +57,7 @@ const serverDataReducer = (state, action) => {
 const ArticleListComponent = () => { 
     const navigate = useNavigate();
     const location = useLocation();
+    const { isLogin } = useCustomToken();
 
      // Using useReducer for server data state management
     const [serverData, dispatch] = useReducer(serverDataReducer, initState);
@@ -64,14 +66,12 @@ const ArticleListComponent = () => {
 
     // Memoized fetchData object using useMemo
     const fetchData = useMemo(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const page = parseInt(queryParams.get("page")) || 1;
-    const search = queryParams.get("search") || "";
-    const searchBy = queryParams.get("searchBy") || "title";
-    return { page, search, searchBy };
-  }, [location.search]);
-
-    const { isLogin } = useCustomToken();
+        const queryParams = new URLSearchParams(location.search);
+        const page = parseInt(queryParams.get("page")) || 1;
+        const search = queryParams.get("search") || "";
+        const searchBy = queryParams.get("searchBy") || "title";
+        return { page, search, searchBy };
+    }, [location.search]);
 
 
 
@@ -114,14 +114,6 @@ const ArticleListComponent = () => {
 
 
 
-    const handleKeyEnter = (event) => {
-        if (event.key === 'Enter') {
-            handleSearch();
-        }
-    };
-
-
-
     // Memoized handlePageChange function using useCallback
     const handlePageChange = useCallback(
         (page) => {
@@ -161,31 +153,21 @@ const ArticleListComponent = () => {
                     :
                     serverData.articleList.length > 0 ?
                         <>
-                            <div className='flex justify-center text-xl mt-10 mb-5'>
-                                <Select
-                                    placeholder='검색기준'
-                                    w="10rem" mr={2} fontSize="xl"
-                                    value={searchBy}
-                                    onChange={(e) => setSearchBy(e.target.value)}
-                                >
-                                    <option value="title">제목</option>
-                                    <option value="author">작성자명</option>
-                                </Select>
+                            <div className='flex items-center justify-between text-xl mb-5'>
+                                <BodyTitleComponent title={`자유게시판`} path={`article`}/>
 
-                                <Input
-                                    placeholder='검색어를 입력하세요'
-                                    w="70%" mr={2} fontSize="xl"
-                                    value={searchValue}
-                                    onChange={(e) => setSearchValue(e.target.value)}
-                                    onKeyDown={handleKeyEnter}
-                                />
+                                <div className='pt-5 w-1/2 flex mr-10'>
+                                    <select
+                                        className='border h-14 focus:outline-none focus-within:border-blue-500'
+                                        onChange={(e) => setSearchBy(e.target.value)}
+                                        value={searchBy}>
+                                        <option value="title">제목</option>
+                                        <option value="author">작성자명</option>
+                                    </select>
 
-                                <IconButton
-                                    className='bg-[rgb(49,49,49)]'
-                                    aria-label='Search database'
-                                    icon={<SearchIcon className='text-white text-2xl' />}
-                                    onClick={handleSearch}
-                                />
+                                    <SearchBarComponent clickFn={handleSearch} changeFn={(e) => setSearchValue(e.target.value)}/>
+                                </div>
+
                             </div>
 
                             <div className='h-[50rem]'>
@@ -288,12 +270,12 @@ const ArticleListComponent = () => {
                                     )}
 
                                     {isLogin && (
-                                        <Button
+                                        <button
                                             className='absolute right-0 text-2xl text-white h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'
                                             onClick={() => navigate("/article/create")}
                                         >
                                             글쓰기
-                                        </Button>
+                                        </button>
                                     )}
                                 </Flex>
                             </div>
@@ -303,7 +285,8 @@ const ArticleListComponent = () => {
                             <div className='pb-20'>
                                 {/* <img src="/images/no_notice.png" className="w-60" /> */}
                                 <div className="mt-10">현재 게시글이 없습니다</div>
-                            </div>
+                        </div>
+                        
                             {isLogin && (
                                 <Button
                                     className='absolute bottom-0 right-0 text-2xl text-white h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'

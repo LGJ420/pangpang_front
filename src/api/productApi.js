@@ -11,14 +11,14 @@ export const addProduct = async (formData) => {
 
   try {
 
-    const res = await axios.post(`${prefix}/add`, formData, {
+    const res = await axios.post(`${prefix}`, formData, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
     return res.data;
   } catch (error) {
-    console.log("Error fetching product:", error);
+    // console.log("Error fetching product:", error);
     throw error;
   }
 }
@@ -29,7 +29,7 @@ export const modifyProduct = async (id, formData) => {
   const token = localStorage.getItem("token");
 
   try {
-    const res = await axios.put(`${prefix}/modify/${id}`, formData, {
+    const res = await axios.put(`${prefix}/${id}`, formData, {
       headers: {
         "Content-Type": 'multipart/form-data',    // 파일 데이터 (이미지), 폼 데이터 처리 위해
         'Authorization': `Bearer ${token}`
@@ -37,7 +37,7 @@ export const modifyProduct = async (id, formData) => {
     });
     return res.data;
   } catch (error) {
-    console.log("Error modifying product:", error);
+    // console.log("Error modifying product:", error);
     throw error;
   }
 }
@@ -47,7 +47,7 @@ export const modifyProduct = async (id, formData) => {
 export const deleteProduct = async (id) => {
   const token = localStorage.getItem("token");
   try {
-    const res = await axios.delete(`${prefix}/read/${id}`, {
+    const res = await axios.delete(`${prefix}/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -56,7 +56,7 @@ export const deleteProduct = async (id) => {
     return res.data;
 
   } catch (error) {
-    console.log("Error deleting product:", error);
+    // console.log("Error deleting product:", error);
     throw error;
   }
 }
@@ -77,7 +77,7 @@ export const getList = async (pageParam) => {
 /* 상품 상세보기 */
 export const getOne = async (id) => {
 
-  const res = await axios.get(`${prefix}/read/${id}`);
+  const res = await axios.get(`${prefix}/${id}`);
 
   return res.data;
 }

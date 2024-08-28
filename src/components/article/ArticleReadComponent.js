@@ -7,23 +7,9 @@ import CommentList from "../comment/CommentListComponent";
 import useCustomToken from "../../hooks/useCustomToken";
 import { getCommentsByArticleId, postComment } from "../../api/commentApi";
 import { formatDateTime } from "../../util/dateUtil";
-import DOMPurify from "dompurify";
 import { logout } from '../../hooks/logout';
-
-
-
-// URL format function
-const formatContent = (content) => {
-  const urlPattern = /(https?:\/\/[^\s]+)/g;
-  const formattedContent = content.replace(urlPattern, (url) => 
-    `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline hover:text-blue-700">${url}</a>`
-  );
-  return DOMPurify.sanitize(formattedContent, {
-    ALLOWED_TAGS: ['a'],
-    ALLOWED_ATTR: ['href', 'target', 'rel', 'class']
-  });
-};
-
+import { formatContent } from "../../util/contentUtil";
+import BodyTitleComponent from "../common/BodyTitleComponent";
 
 
 
@@ -53,6 +39,7 @@ const ArticleReadComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { moveToList, moveToModify } = useCustomMove();
   const { isLogin, decodeToken } = useCustomToken();
+  const isAuthor = isLogin && serverData.memberId === decodeToken.id;
 
 
 
@@ -69,7 +56,7 @@ const ArticleReadComponent = () => {
         onOpen();
       }
     } catch (error) {
-      console.error("글을 불러오는데 실패했습니다.", error);
+      // console.error("글을 불러오는데 실패했습니다.", error);
       setError("존재하지 않는 글입니다.");
       onOpen();
     }
@@ -87,7 +74,7 @@ const ArticleReadComponent = () => {
         commentCount: data.totalElements // Update comment count based on API response
       }));
     } catch (error) {
-      console.error('댓글을 불러오는데 실패했습니다.', error);
+      // console.error('댓글을 불러오는데 실패했습니다.', error);
     }
   };
 
@@ -117,15 +104,12 @@ const ArticleReadComponent = () => {
     try {
       await deleteOne(id);
       moveToList();
-    } catch (error) {
-      
+    } catch (error) {     
       if (error.response.status === 401) {
         alert("토큰 유효 시간이 만료되었습니다.")
         logout(); // import { logout } from '../../hooks/logout'; 추가 필요
       }
-
-      console.error("삭제에 실패했습니다.", error);
-      
+      // console.error("삭제에 실패했습니다.", error);      
     } finally {
       onClose();
     }
@@ -156,23 +140,16 @@ const ArticleReadComponent = () => {
       handleCommentUpdate();
       setCommentContent('');
       setIsCommentSubmitMode(false);
-    } catch (error) {
-      
-      console.error("Error creating comment:", error);
-      
+    } catch (error) {     
+      // console.error("Error creating comment:", error);     
       if (error.response.status === 401) {
         alert("토큰 유효 시간이 만료되었습니다.")
         logout(); // import { logout } from '../../hooks/logout'; 추가 필요
-      } 
-      
+      }       
     } finally {
       onClose();
     }
   };
-
-
-
-  const isAuthor = isLogin && serverData.memberId === decodeToken.id;
 
 
 
@@ -209,6 +186,7 @@ const ArticleReadComponent = () => {
 
   return (
     <section>
+      <BodyTitleComponent title={`자유게시판`} path={`article`}/>
       <hr />
       <div className="text-xl">
         <div className="bg-gray-100 px-5">
@@ -233,22 +211,18 @@ const ArticleReadComponent = () => {
                   </button>
                 </>
               )}
-              <button
-                className="pl-3 hover:opacity-40"
-                onClick={() => navigate('/article/list')}
-              >
-                목록으로 이동
-              </button>
             </div>
           </div>
 
-          <div className="pb-5 flex">
+          <div className="pb-5 flex items-end">
             <div>작성자 : {serverData.memberNickname}</div>
-            <div className="px-2 ml-auto">조회수 : {serverData.viewCount || 0}회</div>
-            <div className="px-2">작성일 : {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}</div>
-            {serverData.articleUpdated && (
-              <div className="px-2">수정일 : {formatDateTime(serverData.articleUpdated)}</div>
-            )}
+            <div className="px-4 ml-auto">조회수 : {serverData.viewCount || 0}회</div>
+            <div>
+              <div className="px-2">작성일 : {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}</div>
+              {serverData.articleUpdated && (
+                <div className="px-2">수정일 : {formatDateTime(serverData.articleUpdated)}</div>
+              )}
+            </div>
           </div>
         </div>
         <hr />
@@ -272,7 +246,6 @@ const ArticleReadComponent = () => {
         <div className="pb-3">
           전체 댓글 <span className="text-red-600 font-bold">{serverData.commentCount}</span>개
         </div>
-        <hr />
         <CommentList
           articleId={id}
           onCommentAdded={handleCommentUpdate}

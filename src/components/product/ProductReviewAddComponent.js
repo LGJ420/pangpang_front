@@ -150,10 +150,16 @@ const ProductReviewAddComponent = ({productId}) => {
             <h1 className="text-5xl mr-auto">리뷰 작성</h1>
         </div>
         <div className="flex items-center">
-            <div className="w-1/2 flex flex-col items-center">
+            <div className="w-1/2 flex flex-col items-center justify-center">
                 <img src={`http://localhost:8080/api/product/view/${productData.uploadFileNames[0]}`}
-                    className="w-4/5 h-[30rem] object-contain"/>
-                <h2 className="mt-5 text-2xl font-extrabold">&lt;상품명&gt; {productData.productTitle}</h2>
+                    className="w-4/5 h-[30rem] object-contain"
+                    onError={(e) => {
+                        e.target.onerror = null; // 무한 루프 방지
+                        e.target.src = "/images/no_image.png"; // 대체 이미지 경로
+                    }}/>
+                <h2 className="mt-5 text-2xl font-extrabold">
+                    &lt;상품명&gt; {productData.productTitle}
+                </h2>
             </div>
             <div className="w-1/2 flex flex-col items-center">
                 <h3>

@@ -13,6 +13,8 @@ const initState = {
   productDetailContent: "",
   productPrice: 0,
   productCategory: "",
+  productStock: 0,
+  productSales : 0,
   files: []
 }
 
@@ -37,7 +39,7 @@ const ProductModifyComponent = () => {
         setProduct(data);
         setImages(data.uploadFileNames);    // 서버에서 가져온 이미지
       } catch (error) {
-        console.error("상품을 불러오는데 실패했습니다.", error);
+        // console.error("상품을 불러오는데 실패했습니다.", error);
       }
     };
 
@@ -46,9 +48,6 @@ const ProductModifyComponent = () => {
     }
   }, [id]);
 
-
-  // console.log(product);
-  // console.log(images);
 
 
   useEffect(() => {
@@ -113,16 +112,6 @@ const ProductModifyComponent = () => {
       return;
     }
 
-    if (product.productStock <= 0) {
-      alert("재고량을 입력해주세요.");
-      return;
-    }
-
-    if (isNaN(product.productStock)) {
-      alert("제고량을 입력해주세요. (숫자만 가능)");
-      return;
-    }
-
     if (!product.productDetailContent.trim()) {
       alert("상품 상세설명을 입력해주세요.");
       return;
@@ -147,7 +136,6 @@ const ProductModifyComponent = () => {
       formData.append('productPrice', product.productPrice);
       formData.append('productDetailContent', product.productDetailContent);
       formData.append('productCategory', product.productCategory);
-      formData.append('productStock', product.productStock);
 
       // 기존 이미지
       images.forEach(fileName => formData.append('existingImages', fileName));

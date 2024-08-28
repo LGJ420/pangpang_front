@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-
-// 빨간선때문에 import함 나중에 삭제하시길 ㅎㅎ
 import styles from "../../css/memberPage.module.css"
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
@@ -89,10 +87,9 @@ const ManagerProductComponent = () => {
                 // 상품 목록 데이터 가져오기
                 const data = await getList({ search, page, size });
                 setServerData(data);
-                console.log(data);   // 데이터 확인용
             }
             catch (error) {
-                console.error(error);
+                // console.error(error);
             }
             finally {
                 setIsLoading(true);
@@ -141,7 +138,7 @@ const ManagerProductComponent = () => {
     // 상품 수정 처리
     const handleStockModify = async (productId) => {
 
-        if (modal.productStock <= 0) {
+        if (modal.productStock < 0) {
             alert("재고량을 입력해주세요.");
             return;
         }
@@ -174,11 +171,6 @@ const ManagerProductComponent = () => {
         }
 
 
-
-
-    if (!isLogin || decodeToken.memberRole !== 'Admin') {
-        return <div>관리자 페이지입니다.</div>;
-    }
 
     return (
 
@@ -262,7 +254,7 @@ const ManagerProductComponent = () => {
                         {data.productCreated.substring(0, 10)}
                     </div>
                     <div>
-                        {data.productSales}개
+                        {data.productTotalSales}개
                     </div>
                     <div>
                         <div>

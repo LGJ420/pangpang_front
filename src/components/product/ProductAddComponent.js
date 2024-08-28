@@ -145,7 +145,7 @@ const ProductAddComponent = () => {
             moveToList();  // 상품 등록 후 목록 페이지로 이동
         } catch (e) {
             if (e.response.status === 401) {
-                console.error("토큰 만료 : " + e)
+                // console.error("토큰 만료 : " + e)
                 alert("토큰 유효 시간이 만료되었습니다.")
                 logout();
             } else {
