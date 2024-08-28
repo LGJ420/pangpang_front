@@ -10,6 +10,6 @@ export const logout = async () => {
         localStorage.removeItem("token");
         window.location.replace("/login");
     } catch (error) {
-        console.error("로그아웃 실패", error);
+        // console.error("로그아웃 실패", error);
     }
 }
