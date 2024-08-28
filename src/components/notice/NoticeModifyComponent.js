@@ -141,7 +141,7 @@ const NoticeModifyComponent = ({id}) => {
                         placeholder="자세한 설명을 적어주세요."
                         value={serverData.noticeContent}
                         onChange={handleChangeNotice}
-                        maxLength={2000}/>
+                        maxLength={900}/>
                 </div>
 
                 <div className="flex justify-center">
