@@ -150,7 +150,7 @@ const OrdersPayComponent = () => {
             alert("전화번호가 올바르지 않습니다.");
             return false;
         }
-        if (postAddress < 3 || detailAddress.length < 3) {
+        if (postAddress < 2 || detailAddress.length < 2) {
             alert("주소가 올바르지 않습니다.");
             return false;
         }
