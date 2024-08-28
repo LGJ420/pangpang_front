@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import styles from "../../css/memberPage.module.css"
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
 import { getList, modifyProduct, modifyProductStock } from "../../api/productApi";
