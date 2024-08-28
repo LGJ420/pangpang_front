@@ -23,10 +23,22 @@ const MemberSignupComponent = () => {
 
     const handleMemberId = (e)=>{
         setCheckMemberIdStatus(false) // 아이디 인풋 변경하면 false로 바뀌면서 중복확인 안한 것으로 간주
+
+        // 한타->영타
         let inko = new Inko();
         const validInputValue = inko.ko2en(e.target.value);
+        
+        // 특수문자 검사
+        var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-+┼<>@\#$%&\'\"\\\(\=]/gi;
+        if (regExp.test(validInputValue)) {
+            alert("특수문자는 _만 입력 가능합니다.");
+            // validInputValue = validInputValue.replace(regExp, ''); // 특수문자를 제거
+            return
+        }
+
         setMemberId(validInputValue);
     }
+
     const handleMemberPw = (e)=>{
         setMemberPw(e.target.value);
     }
@@ -285,13 +297,14 @@ const MemberSignupComponent = () => {
                     <FormLabel className="w-1/4">아이디</FormLabel>
                     <div className='flex w-3/4'>
                         <Input
-                        type="text"
-                        value={memberId}
-                        onChange={handleMemberId}
-                        className={idInputError === 'success' ? 'border-blue-500' : idInputError === 'error' ? 'border-red-500' : ''}
-                        placeholder='6자리 이상 입력해주세요.'
-                        minLength={6}
-                        maxLength={20}/>
+                            type="text"
+                            value={memberId}
+                            onChange={handleMemberId}
+                            className={idInputError === 'success' ? 'border-blue-500' : idInputError === 'error' ? 'border-red-500' : ''}
+                            placeholder='6자리 이상 입력해주세요.'
+                            minLength={6}
+                            maxLength={20}
+                        />
                         <button className="w-32 ml-3 bg-slate-400 rounded text-white hover:opacity-80"
                         onClick={onClickCheckMemberId}>
                             중복확인

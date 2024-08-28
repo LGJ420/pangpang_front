@@ -5,7 +5,7 @@ const ArticleIndexPage = () => {
 
     return (
 
-        <BasicLayout width={'85rem'} minHeight={'60rem'}>
+        <BasicLayout width={'85rem'} minHeight={'72rem'}>
 
             <Outlet/>
 

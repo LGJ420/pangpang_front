@@ -281,19 +281,18 @@ const ArticleListComponent = () => {
                             </div>
                         </>
                         :
-                        <div className="relative flex flex-col items-center justify-center text-2xl font-semibold h-[60rem]">
+                        <div className="relative flex flex-col items-center justify-center text-2xl font-semibold h-[60rem] mb-10">
                             <div className='pb-20'>
-                                {/* <img src="/images/no_notice.png" className="w-60" /> */}
+                                <img src="/images/no_notice.png" className="w-60" />
                                 <div className="mt-10">현재 게시글이 없습니다</div>
-                        </div>
-                        
+                            </div>
                             {isLogin && (
-                                <Button
+                                <button
                                     className='absolute bottom-0 right-0 text-2xl text-white h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'
                                     onClick={() => navigate("/article/create")}
                                 >
                                     글쓰기
-                                </Button>
+                                </button>
                             )}
                         </div>
             }
