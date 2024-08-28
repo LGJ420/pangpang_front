@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-// 빨간선때문에 import함 나중에 삭제하시길 ㅎㅎ
-import styles from "../../css/memberPage.module.css"
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
 import { getList, modifyProduct, modifyProductStock } from "../../api/productApi";
