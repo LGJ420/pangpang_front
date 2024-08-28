@@ -4,6 +4,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import { postCreate } from "../../api/articleApi";
 import useCustomToken from '../../hooks/useCustomToken';
 import { logout } from '../../hooks/logout';
+import BodyTitleComponent from '../common/BodyTitleComponent';
 
 
 
@@ -81,7 +82,8 @@ const ArticleCreateComponent = () => {
   
 
   return (
-    <section className="my-10 m-auto text-2xl">
+    <section className="mb-10 text-2xl">
+      <BodyTitleComponent title={`자유게시판`} path={`article`}/>
       <div className="my-10 flex flex-col">
         <label className="m-3 font-extrabold" htmlFor="articleTitle">
           제목

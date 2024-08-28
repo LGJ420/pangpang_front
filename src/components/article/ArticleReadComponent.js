@@ -194,6 +194,7 @@ const ArticleReadComponent = () => {
 
   return (
     <section>
+      <BodyTitleComponent title={`자유게시판`} path={`article`}/>
       <hr />
       <div className="text-xl">
         <div className="bg-gray-100 px-5">
@@ -218,22 +219,18 @@ const ArticleReadComponent = () => {
                   </button>
                 </>
               )}
-              <button
-                className="pl-3 hover:opacity-40"
-                onClick={() => navigate('/article/list')}
-              >
-                목록으로 이동
-              </button>
             </div>
           </div>
 
-          <div className="pb-5 flex">
+          <div className="pb-5 flex items-end">
             <div>작성자 : {serverData.memberNickname}</div>
-            <div className="px-2 ml-auto">조회수 : {serverData.viewCount || 0}회</div>
-            <div className="px-2">작성일 : {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}</div>
-            {serverData.articleUpdated && (
-              <div className="px-2">수정일 : {formatDateTime(serverData.articleUpdated)}</div>
-            )}
+            <div className="px-4 ml-auto">조회수 : {serverData.viewCount || 0}회</div>
+            <div>
+              <div className="px-2">작성일 : {serverData.articleCreated ? formatDateTime(serverData.articleCreated) : 'N/A'}</div>
+              {serverData.articleUpdated && (
+                <div className="px-2">수정일 : {formatDateTime(serverData.articleUpdated)}</div>
+              )}
+            </div>
           </div>
         </div>
         <hr />
@@ -257,7 +254,6 @@ const ArticleReadComponent = () => {
         <div className="pb-3">
           전체 댓글 <span className="text-red-600 font-bold">{serverData.commentCount}</span>개
         </div>
-        <hr />
         <CommentList
           articleId={id}
           onCommentAdded={handleCommentUpdate}
