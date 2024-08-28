@@ -148,6 +148,11 @@ const ManagerProductComponent = () => {
             return;
         }
 
+        if(modal.productStock >= 101) {
+            alert("재고량은 100개까지 입력 가능합니다.");
+            return;
+        }
+
 
 
         modifyProductStock(productId, {productStock: modal.productStock})
