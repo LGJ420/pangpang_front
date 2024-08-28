@@ -41,9 +41,9 @@ const MypageReviewComponent = () => {
 
         }).catch(e => {
             
-            console.log(e)
+            // console.log(e);
         
-            if (e.response.status === 401) {
+            if (e.response && e.response.status === 401) {
                 alert("토큰 유효 시간이 만료되었습니다.")
                 logout(); // import { logout } from '../../hooks/logout'; 추가 필요
             }
@@ -59,9 +59,8 @@ const MypageReviewComponent = () => {
             <MypageTitleComponent>
                 내가 쓴 리뷰
             </MypageTitleComponent>
-            <h3 className="text-xl my-5 ml-4">
-                총 {reviewData.length}개 리뷰
-            </h3>
+
+
 
             { !isLoading ?
 
@@ -77,9 +76,14 @@ const MypageReviewComponent = () => {
             
             :
             
-            reviewData.length > 0 ?
-
-            reviewData.map((review) =>
+            reviewData[0].memberId !== 0 ?
+            
+            <>
+            <h3 className="text-xl my-5 ml-4">
+                총 {reviewData.length}개 리뷰
+            </h3>
+            
+            {reviewData.map((review) =>
 
                 <div className="p-5 ml-4 mb-5 border">
                     <div className="border-b pb-5 flex items-center cursor-pointer"
@@ -131,15 +135,16 @@ const MypageReviewComponent = () => {
                         </div>
                     </div>
                 </div>
-            )
+            )}
+            </>
+
+            :
+
+            <div className="text-xl flex justify-center pt-28">
+                작성한 리뷰가 없습니다.
+            </div>
             
-        :
-
-        <div className="text-xl flex justify-center pt-28">
-            작성한 리뷰가 없습니다.
-        </div>
-
-        }
+            }
 
 
         </section>
