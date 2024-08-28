@@ -1,5 +1,4 @@
-import { Select, Input, IconButton, Button, Spinner, Flex, Box, Badge } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import { Button, Spinner, Flex, Box, Badge } from '@chakra-ui/react';
 import { getList } from '../../api/articleApi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
@@ -280,12 +279,12 @@ const ArticleListComponent = () => {
                                     )}
 
                                     {isLogin && (
-                                        <Button
+                                        <button
                                             className='absolute right-0 text-2xl text-white h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'
                                             onClick={() => navigate("/article/create")}
                                         >
                                             글쓰기
-                                        </Button>
+                                        </button>
                                     )}
                                 </Flex>
                             </div>
