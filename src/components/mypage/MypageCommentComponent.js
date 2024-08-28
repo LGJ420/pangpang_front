@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import MypageTitleComponent from '../common/MypageTitleComponent';
 import { formatDateTime } from "../../util/dateUtil";
 import { logout } from '../../hooks/logout';
+import { formatContent } from '../../util/contentUtil';
 
 
 
@@ -94,14 +95,6 @@ const MypageCommentComponent = () => {
 
 
 
-    const formatContent = (content) => {
-        if (!content) return '';
-        const urlPattern = /(https?:\/\/[^\s]+)/g;
-        return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
-    };
-
-
-
     if (loading) return <Spinner size="xl" />;
     if (error) return (
         <Alert status="error" mb={4}>
@@ -186,36 +179,36 @@ const MypageCommentComponent = () => {
 
 
                     {/* Pagination */}
-          <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
-            {/* Previous Page */}
-            {currentPage > 1 && (
-              <Box cursor={"pointer"} marginRight={7} onClick={() => handlePageChange(currentPage - 1)}>
-                {'\u003c'}
-              </Box>
-            )}
+                    <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
+                    {/* Previous Page */}
+                    {currentPage > 1 && (
+                        <Box cursor={"pointer"} marginRight={7} onClick={() => handlePageChange(currentPage - 1)}>
+                            {'\u003c'}
+                        </Box>
+                    )}
 
-            {/* Page Numbers */}
-            {[...Array(totalPages).keys()].map(pageNum => (
-              <Box key={pageNum + 1}
-                   marginRight={7}
-                   cursor={"pointer"}
-                   className={currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
-                   onClick={() => handlePageChange(pageNum + 1)}>
-                {pageNum + 1}
-              </Box>
-            ))}
+                    {/* Page Numbers */}
+                    {[...Array(totalPages).keys()].map(pageNum => (
+                    <Box key={pageNum + 1}
+                        marginRight={7}
+                        cursor={"pointer"}
+                        className={currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
+                        onClick={() => handlePageChange(pageNum + 1)}>
+                        {pageNum + 1}
+                    </Box>
+                    ))}
 
-            {/* Next Page */}
-            {currentPage < totalPages && (
-              <Box cursor={"pointer"} onClick={() => handlePageChange(currentPage + 1)}>
-                {'\u003e'}
-              </Box>
+                    {/* Next Page */}
+                    {currentPage < totalPages && (
+                    <Box cursor={"pointer"} onClick={() => handlePageChange(currentPage + 1)}>
+                        {'\u003e'}
+                    </Box>
+                    )}
+                </Flex>
+                </VStack>
+            ) : (
+                <Text textAlign="center">아직 댓글이 없습니다.</Text>
             )}
-          </Flex>
-        </VStack>
-      ) : (
-        <Text textAlign="center">아직 댓글이 없습니다.</Text>
-      )}
 
 
 

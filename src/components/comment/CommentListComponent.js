@@ -4,7 +4,7 @@ import useCustomToken from '../../hooks/useCustomToken';
 import { getCommentsByArticleId, deleteComment, putComment } from '../../api/commentApi';
 import { formatDateTime } from '../../util/dateUtil';
 import { logout } from '../../hooks/logout';
-import DOMPurify from 'dompurify';
+import { formatContent } from '../../util/contentUtil';
 
 const CommentListComponent = ({ articleId, onCommentAdded }) => {
   const [comments, setComments] = useState([]);
@@ -96,17 +96,7 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
     setCommentToDelete(null);
   };
 
-  // URL format function
-  const formatContent = (content) => {
-    const urlPattern = /(https?:\/\/[^\s]+)/g;
-    const formattedContent = content.replace(urlPattern, (url) => 
-      `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline hover:text-blue-700">${url}</a>`
-    );
-    return DOMPurify.sanitize(formattedContent, {
-      ALLOWED_TAGS: ['a'],
-      ALLOWED_ATTR: ['href', 'target', 'rel', 'class']
-    });
-  };
+
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {

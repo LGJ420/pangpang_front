@@ -7,23 +7,8 @@ import CommentList from "../comment/CommentListComponent";
 import useCustomToken from "../../hooks/useCustomToken";
 import { getCommentsByArticleId, postComment } from "../../api/commentApi";
 import { formatDateTime } from "../../util/dateUtil";
-import DOMPurify from "dompurify";
 import { logout } from '../../hooks/logout';
-
-
-
-// URL format function
-const formatContent = (content) => {
-  const urlPattern = /(https?:\/\/[^\s]+)/g;
-  const formattedContent = content.replace(urlPattern, (url) => 
-    `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-500 underline hover:text-blue-700">${url}</a>`
-  );
-  return DOMPurify.sanitize(formattedContent, {
-    ALLOWED_TAGS: ['a'],
-    ALLOWED_ATTR: ['href', 'target', 'rel', 'class']
-  });
-};
-
+import { formatContent } from "../../util/contentUtil";
 
 
 

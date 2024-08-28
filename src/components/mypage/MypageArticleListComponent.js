@@ -6,6 +6,7 @@ import { deleteOne, getMyArticles } from '../../api/articleApi';
 import MypageTitleComponent from '../common/MypageTitleComponent';
 import { formatDateTime } from "../../util/dateUtil";
 import { logout } from '../../hooks/logout';
+import { formatContent } from '../../util/contentUtil';
 
 
 
@@ -94,14 +95,6 @@ const MypageArticleListComponent = () => {
     const handleCancelDelete = () => {
         setSelectedArticleId(null); // Clear the selected article ID
         onClose(); // Close the modal
-    };
-
-
-
-    const formatContent = (content) => {
-        if (!content) return '';
-        const urlPattern = /(https?:\/\/[^\s]+)/g;
-        return content.replace(urlPattern, (url) => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
     };
 
 
@@ -199,36 +192,36 @@ const MypageArticleListComponent = () => {
     </Box>
   ))}
 
-  {/* Pagination Controls */}
-  <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
-    {/* Previous Page */}
-    {page > 1 && (
-      <Box cursor="pointer" marginRight={7} onClick={() => handlePageChange(page - 1)}>
-        {'\u003c'}
-      </Box>
-    )}
+              {/* Pagination Controls */}
+              <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
+                {/* Previous Page */}
+                {page > 1 && (
+                  <Box cursor="pointer" marginRight={7} onClick={() => handlePageChange(page - 1)}>
+                    {'\u003c'}
+                  </Box>
+                )}
 
-    {/* Page Numbers */}
-    {[...Array(totalPages).keys()].map((pageNum) => (
-      <Box
-        key={pageNum + 1}
-        marginRight={7}
-        cursor="pointer"
-        className={currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
-        onClick={() => handlePageChange(pageNum + 1)}
-      >
-        {pageNum + 1}
-      </Box>
-    ))}
+                {/* Page Numbers */}
+                {[...Array(totalPages).keys()].map((pageNum) => (
+                  <Box
+                    key={pageNum + 1}
+                    marginRight={7}
+                    cursor="pointer"
+                    className={currentPage === pageNum + 1 ? 'text-[rgb(224,26,109)] border-b' : ''}
+                    onClick={() => handlePageChange(pageNum + 1)}
+                  >
+                    {pageNum + 1}
+                  </Box>
+                ))}
 
-    {/* Next Page */}
-    {page < totalPages && (
-      <Box cursor="pointer" onClick={() => handlePageChange(page + 1)}>
-        {'\u003e'}
-      </Box>
-    )}
-  </Flex>
-</Stack>
+                {/* Next Page */}
+                {page < totalPages && (
+                  <Box cursor="pointer" onClick={() => handlePageChange(page + 1)}>
+                    {'\u003e'}
+                  </Box>
+                )}
+              </Flex>
+            </Stack>
 
             {/* Confirmation Modal */}
             <Modal isOpen={isOpen} onClose={handleCancelDelete}>
