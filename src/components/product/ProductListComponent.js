@@ -176,10 +176,18 @@ const ProductListComponent = () => {
         </div>
       }
 
-
       {/* 페이지네이션 */}
-
       <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700">
+
+      { !isLoading ?
+
+        <></>
+
+      :
+        
+        serverData.dtoList.length > 0 ?
+
+        <>
         {/* 이전 페이지 */}
         <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData - 1 })}>{'\u003c'}</Box>
 
@@ -192,9 +200,17 @@ const ProductListComponent = () => {
 
         {/* 다음 페이지 */}
         <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.current + 1 })}>{'\u003e'}</Box>
+        </>
+
+        :
+
+        <>
+        </>
+      }
+
 
         {
-          decodeToken.memberRole === 'Admin' &&
+          isLoading && decodeToken.memberRole === 'Admin' &&
 
           <button className="absolute right-0 bg-[rgb(77,160,124)] text-white w-40 h-16 hover:opacity-80 font-bold"
             onClick={handleClickAdd}>
