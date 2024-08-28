@@ -204,8 +204,7 @@ const ManagerProductComponent = () => {
 
                                 <div className="flex text-xl mt-7 justify-end">
                                     <button className="mr-3 p-2 px-5 bg-[rgb(77,160,124)] text-white"
-                                        onClick={()=>handleStockModify(modal.id)}
-                                        onKeyDown={()=>handleStockModify(modal.id)}>
+                                        onClick={()=>handleStockModify(modal.id)}>
                                         수정
                                     </button>
                                     <button className="mr-3 p-2 px-5 bg-[rgb(240,113,113)] text-white"
