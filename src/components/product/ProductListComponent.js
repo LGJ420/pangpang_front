@@ -169,7 +169,7 @@ const ProductListComponent = () => {
           </>
         :
         <div className="relative p-4 flex flex-col items-center justify-center text-2xl font-semibold">
-          <img src="/images/product_none.png"/>
+          <img src="/images/no_product.png"/>
           <div>
             지금은 상품 준비중입니다
           </div>
