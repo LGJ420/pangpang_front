@@ -18,10 +18,12 @@ const initState = {
 const ArticleModifyComponent = () => {
   const { id } = useParams();
   const { moveToRead } = useCustomMove();
-  const { isLogin, decodeToken } = useCustomToken();
+  const { isLogin } = useCustomToken();
   const navigate = useNavigate();
   const [article, setArticle] = useState({ ...initState });
   const [loading, setLoading] = useState(false);
+
+  
 
   useEffect(() => {
     const fetchData = async () => {

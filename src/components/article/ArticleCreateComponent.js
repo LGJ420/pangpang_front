@@ -61,7 +61,7 @@ const ArticleCreateComponent = () => {
       if (e.response.status === 401) {
         console.error("토큰 만료 : " + e)
         alert("토큰 유효 시간이 만료되었습니다.")
-        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
+        logout(); 
         
     } else {
       alert('제목, 내용을 모두 작성하여 주십시오.');
