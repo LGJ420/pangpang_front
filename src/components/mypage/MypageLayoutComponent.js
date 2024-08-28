@@ -68,7 +68,14 @@ const MypageLayoutComponent = ({children}) => {
         <>
         <section>
             <div className="h-[15rem] flex items-center border-b bg-slate-100">
-                <img src={imageUrl} className="object-cover rounded-full border w-52 h-52 ml-8"/>
+                <img 
+                    src={imageUrl} 
+                    className="object-cover rounded-full border w-52 h-52 ml-8"
+                    onError={(e) => {
+                        e.target.onerror = null; // 무한 루프 방지
+                        e.target.src = "/images/profile.png"; // 대체 이미지 경로
+                    }}
+                />
                 <h3 className="text-5xl font-bold p-5 tracking-wider">{decodeToken.memberNickname}</h3>
                 <div className="text-2xl font-semibold pt-6 uppercase">등급 : {decodeToken.memberRole}</div>
             </div>

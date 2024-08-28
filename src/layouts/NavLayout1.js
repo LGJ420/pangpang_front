@@ -70,7 +70,14 @@ const NavLayout1 = () => {
                                 </li> */}
                         <li>
                             <Link to={'/mypage'} className="px-3 flex items-center">
-                                <img src={imageUrl} className="object-cover w-12 h-12 rounded-full border mr-1"/>
+                                <img 
+                                    src={imageUrl} 
+                                    className="object-cover w-12 h-12 rounded-full border mr-1" 
+                                    onError={(e) => {
+                                        e.target.onerror = null; // 무한 루프 방지
+                                        e.target.src = "/images/profile.png"; // 대체 이미지 경로
+                                    }}
+                                />
                                 <span className="font-extrabold">{decodeToken.memberNickname}</span>님, 환영합니다!
                             </Link>
                         </li>

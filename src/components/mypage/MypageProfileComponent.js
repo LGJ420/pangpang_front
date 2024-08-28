@@ -334,7 +334,12 @@ const MypageProfileComponent = () => {
                             <div className="flex flex-col items-center">
                                 <img 
                                     className="border w-48 h-48 object-cover rounded-full"
-                                    src={profileImage}/>
+                                    src={profileImage}
+                                    onError={(e) => {
+                                        e.target.onerror = null; // 무한 루프 방지
+                                        e.target.src = "/images/profile.png"; // 대체 이미지 경로
+                                    }}
+                                />
                                 <input 
                                     type="file" 
                                     id="file" 
