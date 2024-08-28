@@ -175,11 +175,6 @@ const ManagerProductComponent = () => {
 
 
 
-
-    if (!isLogin || decodeToken.memberRole !== 'Admin') {
-        return <div>관리자 페이지입니다.</div>;
-    }
-
     return (
 
         
