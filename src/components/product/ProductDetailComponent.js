@@ -45,7 +45,7 @@ const ProductDetailComponent = ({ num }) => {
 
         // 첫 번째 이미지를 초기 대표 이미지로 설정
         if (data.uploadFileNames && data.uploadFileNames.length > 0) {
-          setSelectedImages(`http://localhost:8080/api/product/view/${data.uploadFileNames[0]}`);
+          setSelectedImages(`${prefix}/${data.uploadFileNames[0]}`);
         }
       } catch (error) {
         console.error(error);
@@ -102,7 +102,7 @@ const ProductDetailComponent = ({ num }) => {
 
   /* 이미지 클릭 시 대표 이미지 변경 */
   const handleClickImage = (fileName) => {
-    setSelectedImages(`http://localhost:8080/api/product/view/${fileName}`);
+    setSelectedImages(`${prefix}/${fileName}`);
   }
 
 
@@ -238,7 +238,7 @@ const ProductDetailComponent = ({ num }) => {
             {product.uploadFileNames && product.uploadFileNames.length > 0 ? (
               product.uploadFileNames.map((fileName, index) => (
                 <Image key={index}
-                  src={`http://localhost:8080/api/product/view/s_${fileName}`}
+                  src={`${prefix}/s_${fileName}`}
                   boxSize="100px"
                   objectFit="contain"
                   m={2}
