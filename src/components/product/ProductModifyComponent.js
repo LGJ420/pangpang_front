@@ -49,7 +49,7 @@ const ProductModifyComponent = () => {
   }, [id]);
 
 
-  // console.log(product);
+  console.log(product);
   // console.log(images);
 
 
@@ -140,7 +140,8 @@ const ProductModifyComponent = () => {
       formData.append('productDetailContent', product.productDetailContent);
       formData.append('productCategory', product.productCategory);
       formData.append('productStock', product.productStock);
-      formData.append('productSales', product.productSales);
+      formData.append('productTotalSales', product.productTotalSales);
+      formData.append('productUpdateSales', product.productUpdateSales);
 
       // 기존 이미지
       images.forEach(fileName => formData.append('existingImages', fileName));

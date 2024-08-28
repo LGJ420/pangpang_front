@@ -262,7 +262,7 @@ const ManagerProductComponent = () => {
                         {data.productCreated.substring(0, 10)}
                     </div>
                     <div>
-                        {data.productSales}개
+                        {data.productTotalSales}개
                     </div>
                     <div>
                         <div>
