@@ -89,10 +89,9 @@ const ManagerProductComponent = () => {
                 // 상품 목록 데이터 가져오기
                 const data = await getList({ search, page, size });
                 setServerData(data);
-                console.log(data);   // 데이터 확인용
             }
             catch (error) {
-                console.error(error);
+                // console.error(error);
             }
             finally {
                 setIsLoading(true);

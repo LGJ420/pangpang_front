@@ -39,7 +39,7 @@ const ProductModifyComponent = () => {
         setProduct(data);
         setImages(data.uploadFileNames);    // 서버에서 가져온 이미지
       } catch (error) {
-        console.error("상품을 불러오는데 실패했습니다.", error);
+        // console.error("상품을 불러오는데 실패했습니다.", error);
       }
     };
 
@@ -48,9 +48,6 @@ const ProductModifyComponent = () => {
     }
   }, [id]);
 
-
-  console.log(product);
-  // console.log(images);
 
 
   useEffect(() => {

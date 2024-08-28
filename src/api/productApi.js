@@ -18,7 +18,7 @@ export const addProduct = async (formData) => {
     });
     return res.data;
   } catch (error) {
-    console.log("Error fetching product:", error);
+    // console.log("Error fetching product:", error);
     throw error;
   }
 }
@@ -37,7 +37,7 @@ export const modifyProduct = async (id, formData) => {
     });
     return res.data;
   } catch (error) {
-    console.log("Error modifying product:", error);
+    // console.log("Error modifying product:", error);
     throw error;
   }
 }
@@ -56,7 +56,7 @@ export const deleteProduct = async (id) => {
     return res.data;
 
   } catch (error) {
-    console.log("Error deleting product:", error);
+    // console.log("Error deleting product:", error);
     throw error;
   }
 }

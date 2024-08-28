@@ -42,7 +42,6 @@ const ProductListComponent = () => {
         // 상품 목록 데이터 가져오기
         const data = await getList({ search, page, size, category: selectedCategory });
         setServerData(data);
-        // console.log(data);   // 데이터 확인용
 
         // 이미지 URL 설정하기
         const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성
@@ -56,7 +55,7 @@ const ProductListComponent = () => {
         setImages(imageUrls);   // 상태를 업데이트하여 이미지 url 저장
       }
       catch (error) {
-        console.error(error);
+        // console.error(error);
       }
       finally {
         setIsLoading(true);

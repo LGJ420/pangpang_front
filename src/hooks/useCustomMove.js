@@ -64,7 +64,7 @@ const useCustomMove = () => {
     // 수정화면으로 이동하는 기능
     const moveToModify = (num) => {
 
-        console.log(queryDefault);
+        // console.log(queryDefault);
 
         navigate({ pathname: `../modify/${num}`, search: queryDefault });
     }

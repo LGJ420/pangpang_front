@@ -41,14 +41,12 @@ const ProductDetailComponent = ({ num }) => {
         const data = await getOne(num);
         setProduct(data);
 
-        // console.log(data);   // 데이터 확인용
-
         // 첫 번째 이미지를 초기 대표 이미지로 설정
         if (data.uploadFileNames && data.uploadFileNames.length > 0) {
           setSelectedImages(`${prefix}/${data.uploadFileNames[0]}`);
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
 
 
@@ -58,7 +56,7 @@ const ProductDetailComponent = ({ num }) => {
         });
       }
       catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     };
 
@@ -67,8 +65,6 @@ const ProductDetailComponent = ({ num }) => {
     }
   }, [num]);
 
-
-  console.log(reviewData);
 
   // 상품 삭제
   const handleClickDelete = async () => {
@@ -193,8 +189,6 @@ const ProductDetailComponent = ({ num }) => {
 
     navigate(`../modify/${product.id}`);
   }
-
-  console.log(reviewData);
 
 
   return (
