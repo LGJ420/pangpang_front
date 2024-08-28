@@ -221,8 +221,8 @@ const MemberSignupComponent = () => {
         } 
 
         // 닉네임 길이 10자리 체크
-        if(memberNickname >= 10){
-            alert("닉네임은 10자리 이내로 입력해주세요.");
+        if(memberNickname.length < 2 || memberNickname.length > 10){
+            alert("닉네임은 2-10자리로 입력해주세요.");
             return
         }
 
