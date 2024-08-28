@@ -85,7 +85,7 @@ const MypageReviewComponent = () => {
                     <div className="border-b pb-5 flex items-center cursor-pointer"
                         onClick={()=>navigate(`/product/read/${review.productId}`)}>
                         <img className="w-32 h-20 object-contain mr-5"
-                            src={`http://localhost:8080/api/product/view/${review.productImages[0]}`}
+                            src={`${prefix}/${review.productImages[0]}`}
                             onError={(e) => {
                                 e.target.onerror = null; // 무한 루프 방지
                                 e.target.src = "/images/no_image.png"; // 대체 이미지 경로

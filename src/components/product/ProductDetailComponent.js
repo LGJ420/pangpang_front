@@ -219,7 +219,11 @@ const ProductDetailComponent = ({ num }) => {
 
         <Box flex="1" align="center">
           <Image
-            src={selectedImages || '/images/chi1.jpg'}
+            src={selectedImages}
+            onError={(e) => {
+              e.target.onError = null;
+              e.target.src = "/images/no_image.png";
+            }}
             alt={product.productTitle}
             boxSize={{ base: '100%', md: '50%' }}
             className="mx-auto h-80 object-contain" />
