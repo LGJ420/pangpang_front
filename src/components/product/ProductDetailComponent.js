@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Box, ButtonGroup, Flex, Grid, Image, Text, useDisclosure } from '@chakra-ui/react'
+import { Box, ButtonGroup, Flex, Image, Text } from '@chakra-ui/react'
 
 import { deleteProduct, getOne } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
@@ -133,8 +133,6 @@ const ProductDetailComponent = ({ num }) => {
       productPrice: product.productPrice,
       uploadFileNames: product.uploadFileNames,
       cartCount: 1,
-      productSales: product.productSales + 1,
-      productStocl: product.productStock - 1
     }
 
     navigate("/orders/pay", { state: { order } });
@@ -219,7 +217,11 @@ const ProductDetailComponent = ({ num }) => {
 
         <Box flex="1" align="center">
           <Image
-            src={selectedImages || '/images/chi1.jpg'}
+            src={selectedImages}
+            onError={(e) => {
+              e.target.onError = null;
+              e.target.src = "/images/no_image.png";
+            }}
             alt={product.productTitle}
             boxSize={{ base: '100%', md: '50%' }}
             className="mx-auto h-80 object-contain" />

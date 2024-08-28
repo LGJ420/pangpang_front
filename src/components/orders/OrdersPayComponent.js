@@ -10,6 +10,7 @@ const initState = {
     address: ""
 }   
 
+const prefix = "http://localhost:8080/api/productreview/view";
 
 const OrdersPayComponent = () => {
 
@@ -312,7 +313,7 @@ const OrdersPayComponent = () => {
                                 <>
                                 <hr className="my-3"/>
                                 <div key={index} className="flex items-center">
-                                            <img src={product.uploadFileNames[0] ? `http://localhost:8080/api/product/view/${product.uploadFileNames[0]}` : '/images/chi1.jpg'}
+                                            <img src={product.uploadFileNames[0] ? `${prefix}/${product.uploadFileNames[0]}` : "/images/no_image.png"}
                                                 alt={product.productTitle} 
                                                 className="w-24 h-24 border rounded object-contain"></img>
                                     <div className="ml-5">

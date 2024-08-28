@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { Card, CardBody, CardFooter, Stack, Image, Heading, Text, Divider, ButtonGroup, SimpleGrid, Box, Flex, Input, IconButton, Spinner, Select, Button } from '@chakra-ui/react'
+import { SimpleGrid, Box, Flex, Spinner } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
 import useCustomToken from "../../hooks/useCustomToken";
 
 import { getList } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
-import { postCartAdd } from "../../api/cartApi";
-import { SearchIcon } from "@chakra-ui/icons";
 import SearchBarComponent from "../common/SearchBarComponent";
 
 /* 초기값 설정 */
@@ -29,7 +27,6 @@ const ProductListComponent = () => {
 
   const [serverData, setServerData] = useState(initState);
   const [word, setWord] = useState("");   // 상품 검색용
-  const [images, setImages] = useState({}); // 이미지 URL을 저장할 상태
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(category);
   const navigate = useNavigate();
@@ -42,17 +39,6 @@ const ProductListComponent = () => {
         // 상품 목록 데이터 가져오기
         const data = await getList({ search, page, size, category: selectedCategory });
         setServerData(data);
-
-        // 이미지 URL 설정하기
-        const imageUrls = {};   // 이미지 url을 저장할 빈 객체 생성
-        for (const product of data.dtoList) {   // 상품 목록 반복
-          if (product.uploadFileNames[0]) {     // 상품이 이미지 파일을 가지고 있는지 확인
-            const fileName = product.uploadFileNames[0];    // 첫 번쩨 이미지 파일 이름을 가져옴
-            const url = `${prefix}/${fileName}`;   // 이미지 url 만듦
-            imageUrls[product.id] = url;    // 상품 id를 키로, 이미지 url을 값으로 설정
-          }
-        }
-        setImages(imageUrls);   // 상태를 업데이트하여 이미지 url 저장
       }
       catch (error) {
         // console.error(error);
@@ -160,9 +146,12 @@ const ProductListComponent = () => {
               <div className="flex flex-col justify-between overflow-hidden">
                 <div className="relative hover:scale-125 duration-300 cursor-pointer"
                   onClick={() => moveToRead(product.id)}>
-                  <Image
-                    src={images[product.id] || '/images/chi1.jpg'}    // 저장된 이밎 url 또는 기본 이미지 사용
-                    alt={product.productTitle}
+                  <img
+                    src={product.uploadFileNames[0] ? `${prefix}/${product.uploadFileNames[0]}` : "/images/no_image.png"}
+                    onError={(e) => {
+                      e.target.onError = null;
+                      e.target.src = "/images/no_image.png";
+                    }}
                     borderRadius='lg'
                     className='mx-auto h-52 object-contain' />
                 </div>

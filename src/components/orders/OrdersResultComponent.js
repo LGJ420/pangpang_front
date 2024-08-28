@@ -21,6 +21,9 @@ import { logout } from '../../hooks/logout';
 // }]
 
 
+const prefix = "http://localhost:8080/api/productreview/view";
+
+
 const OrdersResultComponent = () => {
 
     const [serverData, setServerData] = useState([]); // 데이터
@@ -109,11 +112,11 @@ const OrdersResultComponent = () => {
                 <div className="w-[720px] p-4 bg-white border shadow-md flex flex-col justify-center">
 
                     <div className="flex">
-                            <img src={`http://localhost:8080/api/product/view/${modal.uploadFileNames[0]}`}
+                            <img src={`${prefix}/${modal.uploadFileNames[0]}`}
                                 alt={modal.productTitle} className="w-56 m-3"
                                 onError={(e) => {
                                     e.target.onerror = null; // 무한 루프 방지
-                                    e.target.src = "/images/profile.png"; // 대체 이미지 경로
+                                    e.target.src = "/images/no_image.png"; // 대체 이미지 경로
                                 }} />
                         <div className="flex flex-col flex-1 ml-7">
                             <button className="self-end m-3 px-3 py-1 text-2xl font-bold rounded-sm hover:opacity-80 close"
@@ -201,7 +204,7 @@ const OrdersResultComponent = () => {
                 <>
                 <div className=" bg-white ml-3 flex justify-around mx-auto my-4 p-4 items-center content-center"
                     key={`${data.memberId}-${dto.productId}`}>
-                    <img src={dto.uploadFileNames[0] ? `http://localhost:8080/api/product/view/${dto.uploadFileNames[0]}` : '/images/chi1.jpg'}
+                        <img src={dto.uploadFileNames[0] ? `${prefix}/${dto.uploadFileNames[0]}` : "/images/no_image.png"}
                         alt={dto.productTitle} className="w-40 h-40 object-contain"></img>
                     <div className="w-1/3">
                         <h3 className="font-extrabold text-2xl cursor-pointer truncate"
