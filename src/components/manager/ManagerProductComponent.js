@@ -141,7 +141,7 @@ const ManagerProductComponent = () => {
     // 상품 수정 처리
     const handleStockModify = async (productId) => {
 
-        if (modal.productStock <= 0) {
+        if (modal.productStock < 0) {
             alert("재고량을 입력해주세요.");
             return;
         }
