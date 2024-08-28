@@ -303,7 +303,8 @@ const ArticleListComponent = () => {
                             <div className='pb-20'>
                                 {/* <img src="/images/no_notice.png" className="w-60" /> */}
                                 <div className="mt-10">현재 게시글이 없습니다</div>
-                            </div>
+                        </div>
+                        
                             {isLogin && (
                                 <Button
                                     className='absolute bottom-0 right-0 text-2xl text-white h-14 w-32 bg-[rgb(77,160,124)] hover:opacity-80'

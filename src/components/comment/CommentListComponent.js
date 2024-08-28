@@ -51,7 +51,7 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
     if (commentEdit === null) return;
 
     try {
-      await putComment({ id: commentEdit, commentContent: modifyComment });
+      await putComment( commentEdit, {commentContent: modifyComment });
       fetchComments(currentPage);
       if (onCommentAdded) {
         onCommentAdded();
