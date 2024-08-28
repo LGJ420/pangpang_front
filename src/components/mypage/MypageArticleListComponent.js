@@ -32,21 +32,17 @@ const MypageArticleListComponent = () => {
             setError(null);
             try {
                 const response = await getMyArticles({ page, size });
-                console.log(response);
+                // console.log(response);
                 setArticles(response.dtoList);
                 setTotalPages(response.totalPage); // Set the total number of pages
                 setCurrentPage(response.current); // Set the current page number
                 setTotalCount(response.totalCount);
-            } catch (err) {
-
-                
+            } catch (err) {               
                 if (err.response.status === 401) {
                     alert("토큰 유효 시간이 만료되었습니다.")
-                    logout(); // import { logout } from '../../hooks/logout'; 추가 필요
-                }
-                
-                setError('Failed to fetch your articles.');
-                
+                    logout(); 
+                }                
+                setError('Failed to fetch your articles.');                
             } finally {
                 setLoading(false);
             }
@@ -76,15 +72,12 @@ const MypageArticleListComponent = () => {
         try {
             await deleteOne(selectedArticleId); // Delete the article
             setRefresh(!refresh); // Refresh the list
-        } catch (error) {
-            
-            console.error('Error deleting article:', error);
-
+        } catch (error) {           
+            // console.error('Error deleting article:', error);
             if (error.response.status === 401) {
                 alert("토큰 유효 시간이 만료되었습니다.")
                 logout(); // import { logout } from '../../hooks/logout'; 추가 필요
             }
-
         } finally {
             onClose(); // Close the modal
         }
@@ -120,77 +113,79 @@ const MypageArticleListComponent = () => {
             </h3>
 
             <Stack spacing={6}>
-  {articles.map((article) => (
-    <Box
-      key={article.id}
-      p={6}
-      shadow="lg"
-      borderWidth="1px"
-      borderRadius="md"
-      bg="white"
-    >
-      <Flex justifyContent="space-between">
-        <div
-          className="cursor-pointer"
-          onClick={() => navigate(`/article/read/${article.id}`)}
-        >
-          <Flex direction="column" mb={4}>
-            <Flex align="center" mb={2}>
-              <Heading
-                className="cursor-pointer"
-                fontSize="xl"
-                mb={2}
-                _hover={{
-                  textDecoration: "underline",
-                  transform: "scale(1.05)",
-                  transition: "transform 0.2s ease, text-decoration 0.2s ease",
-                  color: "blue.600",
-                }}
-              >
-                글제목: {article.articleTitle}
-              </Heading>
-            </Flex>
+              {articles.map((article) => (
+                <Box
+                  key={article.id}
+                  p={6}
+                  shadow="lg"
+                  borderWidth="1px"
+                  borderRadius="md"
+                  bg="white"
+                >
+                  <Flex justifyContent="space-between">
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => navigate(`/article/read/${article.id}`)}
+                    >
+                      <Flex direction="column" mb={4}>
+                        <Flex align="center" mb={2}>
+                          <Heading
+                            className="cursor-pointer"
+                            fontSize="xl"
+                            mb={2}
+                            _hover={{
+                              textDecoration: "underline",
+                              transform: "scale(1.05)",
+                              transition: "transform 0.2s ease, text-decoration 0.2s ease",
+                              color: "blue.600",
+                            }}
+                          >
+                            글제목: {article.articleTitle}
+                          </Heading>
+                        </Flex>
 
-            <Text fontSize="sm" color="gray.600" mb={2}>
-              글번호: {article.id}
-            </Text>
+                        <Text fontSize="sm" color="gray.600" mb={2}>
+                          글번호: {article.id}
+                        </Text>
 
-            {/* 내용 */}
-            <Text
-              mb={4}
-              style={{ whiteSpace: "pre-wrap" }}
-              dangerouslySetInnerHTML={{
-                __html: formatContent(article.articleContent),
-              }}
-              sx={{
-                "& a": {
-                  color: "blue.500",
-                  textDecoration: "underline",
-                  _hover: {
-                    color: "blue.700",
-                  },
-                },
-              }}
-            />
+                        {/* 내용 */}
+                        <Text
+                          mb={4}
+                          style={{ whiteSpace: "pre-wrap" }}
+                          dangerouslySetInnerHTML={{
+                            __html: formatContent(article.articleContent),
+                          }}
+                          sx={{
+                            "& a": {
+                              color: "blue.500",
+                              textDecoration: "underline",
+                              _hover: {
+                                color: "blue.700",
+                              },
+                            },
+                          }}
+                        />
 
-            <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
-              <Text>조회수: {article.viewCount}</Text>
-            </Flex>
-          </Flex>
-        </div>
+                        <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
+                          <Text>조회수: {article.viewCount}</Text>
+                        </Flex>
+                      </Flex>
+                    </div>
 
-        <div className="flex flex-col justify-between">
-          <CloseButton
-            className="ml-auto"
-            onClick={() => handleClickDelete(article.id)}
-          />
-          <Text fontSize="sm" color="gray.500">
-            작성일: {formatDateTime(article.articleCreated)}
-          </Text>
-        </div>
-      </Flex>
-    </Box>
-  ))}
+                    <div className="flex flex-col justify-between">
+                      <CloseButton
+                        className="ml-auto"
+                        onClick={() => handleClickDelete(article.id)}
+                      />
+                      <Text fontSize="sm" color="gray.500">
+                        작성일: {formatDateTime(article.articleCreated)}
+                      </Text>
+                    </div>
+                  </Flex>
+                </Box>
+              ))}
+
+
 
               {/* Pagination Controls */}
               <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700 mt-5">
@@ -222,6 +217,8 @@ const MypageArticleListComponent = () => {
                 )}
               </Flex>
             </Stack>
+
+
 
             {/* Confirmation Modal */}
             <Modal isOpen={isOpen} onClose={handleCancelDelete}>

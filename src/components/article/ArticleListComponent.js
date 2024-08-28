@@ -57,6 +57,7 @@ const serverDataReducer = (state, action) => {
 const ArticleListComponent = () => { 
     const navigate = useNavigate();
     const location = useLocation();
+    const { isLogin } = useCustomToken();
 
      // Using useReducer for server data state management
     const [serverData, dispatch] = useReducer(serverDataReducer, initState);
@@ -65,14 +66,12 @@ const ArticleListComponent = () => {
 
     // Memoized fetchData object using useMemo
     const fetchData = useMemo(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const page = parseInt(queryParams.get("page")) || 1;
-    const search = queryParams.get("search") || "";
-    const searchBy = queryParams.get("searchBy") || "title";
-    return { page, search, searchBy };
-  }, [location.search]);
-
-    const { isLogin } = useCustomToken();
+        const queryParams = new URLSearchParams(location.search);
+        const page = parseInt(queryParams.get("page")) || 1;
+        const search = queryParams.get("search") || "";
+        const searchBy = queryParams.get("searchBy") || "title";
+        return { page, search, searchBy };
+    }, [location.search]);
 
 
 
@@ -112,14 +111,6 @@ const ArticleListComponent = () => {
             search: `?search=${encodeURIComponent(searchValue)}&page=1&searchBy=${searchBy}`,
         });
     }, [navigate, searchValue, searchBy]);
-
-
-
-    const handleKeyEnter = (event) => {
-        if (event.key === 'Enter') {
-            handleSearch();
-        }
-    };
 
 
 

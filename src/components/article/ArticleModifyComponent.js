@@ -32,7 +32,7 @@ const ArticleModifyComponent = () => {
         const data = await getOne(id);
         setArticle(data);
       } catch (error) {
-        console.error("글을 불러오는데 실패했습니다.", error);
+        // console.error("글을 불러오는데 실패했습니다.", error);
       }
     };
 
@@ -68,12 +68,10 @@ const ArticleModifyComponent = () => {
       moveToRead(id);
     } catch (error) {
       console.error("수정에 실패했습니다.", error);
-
       if (error.response.status === 401) {
         alert("토큰 유효 시간이 만료되었습니다.")
-        logout(); // import { logout } from '../../hooks/logout'; 추가 필요
-      }
-      
+        logout(); 
+      }      
     } finally {
       setLoading(false);
     }

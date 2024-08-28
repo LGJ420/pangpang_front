@@ -39,6 +39,7 @@ const ArticleReadComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { moveToList, moveToModify } = useCustomMove();
   const { isLogin, decodeToken } = useCustomToken();
+  const isAuthor = isLogin && serverData.memberId === decodeToken.id;
 
 
 
@@ -55,7 +56,7 @@ const ArticleReadComponent = () => {
         onOpen();
       }
     } catch (error) {
-      console.error("글을 불러오는데 실패했습니다.", error);
+      // console.error("글을 불러오는데 실패했습니다.", error);
       setError("존재하지 않는 글입니다.");
       onOpen();
     }
@@ -73,7 +74,7 @@ const ArticleReadComponent = () => {
         commentCount: data.totalElements // Update comment count based on API response
       }));
     } catch (error) {
-      console.error('댓글을 불러오는데 실패했습니다.', error);
+      // console.error('댓글을 불러오는데 실패했습니다.', error);
     }
   };
 
@@ -103,15 +104,12 @@ const ArticleReadComponent = () => {
     try {
       await deleteOne(id);
       moveToList();
-    } catch (error) {
-      
+    } catch (error) {     
       if (error.response.status === 401) {
         alert("토큰 유효 시간이 만료되었습니다.")
         logout(); // import { logout } from '../../hooks/logout'; 추가 필요
       }
-
-      console.error("삭제에 실패했습니다.", error);
-      
+      // console.error("삭제에 실패했습니다.", error);      
     } finally {
       onClose();
     }
@@ -142,23 +140,16 @@ const ArticleReadComponent = () => {
       handleCommentUpdate();
       setCommentContent('');
       setIsCommentSubmitMode(false);
-    } catch (error) {
-      
-      console.error("Error creating comment:", error);
-      
+    } catch (error) {     
+      // console.error("Error creating comment:", error);     
       if (error.response.status === 401) {
         alert("토큰 유효 시간이 만료되었습니다.")
         logout(); // import { logout } from '../../hooks/logout'; 추가 필요
-      } 
-      
+      }       
     } finally {
       onClose();
     }
   };
-
-
-
-  const isAuthor = isLogin && serverData.memberId === decodeToken.id;
 
 
 

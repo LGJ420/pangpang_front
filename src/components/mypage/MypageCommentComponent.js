@@ -31,7 +31,7 @@ const MypageCommentComponent = () => {
         try {
             const memberId = decodeToken.id;
             const data = await getMyComments({ page, size: 5, memberId });
-            console.log(data);
+            // console.log(data);
             setComments(data.dtoList || []);
             setTotalPages(Math.ceil(data.totalCount / 5));
             setTotalCount(data.totalCount);
@@ -58,6 +58,8 @@ const MypageCommentComponent = () => {
         }
     }, [isLogin, currentPage]);
 
+
+
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
@@ -78,15 +80,12 @@ const MypageCommentComponent = () => {
             try {
                 await deleteComment(commentToDelete);
                 fetchComments(currentPage);
-            } catch (error) {
-                
-                console.error('Error deleting comment:', error);
-                
+            } catch (error) {                
+                // console.error('Error deleting comment:', error);                
                 if (error.response.status === 401) {
                     alert("토큰 유효 시간이 만료되었습니다.")
                     logout(); // import { logout } from '../../hooks/logout'; 추가 필요
-                }
-                
+                }                
             }
             setCommentToDelete(null);
             onClose();
@@ -127,50 +126,59 @@ const MypageCommentComponent = () => {
                             bg="white"
                         >
                             <Flex justifyContent="space-between">
-                                <div className='cursor-pointer' onClick={() => navigate(`/article/read/${comment.articleId}`)}>
-                                    <Flex direction="column" mb={4}>
-                                        <Flex align="center" mb={2}>
-                                            <Heading className='cursor-pointer' fontSize="xl" mb={2} 
-                                                _hover={{
-                                                textDecoration: 'underline',
-                                                transform: 'scale(1.05)',
-                                                transition: 'transform 0.2s ease, text-decoration 0.2s ease',
-                                                color: 'blue.600'
+                                <div className='cursor-pointer' 
+                                onClick={() => navigate(`/article/read/${comment.articleId}`)}
+                            >
+                                <Flex direction="column" mb={4}>
+                                    <Flex align="center" mb={2}>
+                                        <Heading 
+                                            className='cursor-pointer' 
+                                            fontSize="xl" 
+                                            mb={2} 
+                                            _hover={{
+                                            textDecoration: 'underline',
+                                            transform: 'scale(1.05)',
+                                            transition: 'transform 0.2s ease, text-decoration 0.2s ease',
+                                            color: 'blue.600'
                                             }}
-                                            >
+                                        >
                                             글제목: {comment.articleTitle}
-                                            </Heading>
-                                        </Flex>
+                                        </Heading>
+                                    </Flex>
 
-                                        <Text fontSize="sm" color="gray.600" mb={2}>
-                                            글번호: {comment.articleId}
-                                        </Text>
+                                    <Text fontSize="sm" color="gray.600" mb={2}>
+                                        글번호: {comment.articleId}
+                                    </Text>
                                         
-                                        {/*댓글 내용*/}
-                                        <Text 
-                                            mb={4} 
-                                            style={{ whiteSpace: 'pre-wrap' }} 
-                                            dangerouslySetInnerHTML={{ __html: formatContent(comment.commentContent) }}
-                                                sx={{
-                                                    '& a': {
-                                                    color: 'blue.500',
-                                                    textDecoration: 'underline',
-                                                    _hover: {
-                                                    color: 'blue.700'
-                                                    }
+                                    {/*댓글 내용*/}
+                                    <Text 
+                                        mb={4} 
+                                        style={{ whiteSpace: 'pre-wrap' }} 
+                                        dangerouslySetInnerHTML={{ __html: formatContent(comment.commentContent) }}
+                                            sx={{
+                                                '& a': {
+                                                color: 'blue.500',
+                                                textDecoration: 'underline',
+                                                _hover: {
+                                                color: 'blue.700'
                                                 }
-                                            }}
-                                        />
+                                            }
+                                        }}
+                                    />
 
-                                        <Flex justify="space-between" align="center" fontSize="sm" color="gray.500">
+                                        <Flex justify="space-between" align="center" fontSize="sm"  color="gray.500">
                                             <Text>조회수: {comment.viewCount}</Text>
                                         </Flex>
                                     </Flex>
                                 </div>
 
                                 <div className='flex flex-col justify-between'>
-                                    <CloseButton className='ml-auto' onClick={() => handleClickDelete(comment.id)} />
-                                    <Text fontSize="sm" color="gray.500">작성일: {formatDateTime(comment.commentCreated)}</Text>
+                                    <CloseButton className='ml-auto' 
+                                    onClick={() => handleClickDelete(comment.id)} 
+                                    />
+                                    <Text fontSize="sm" color="gray.500">
+                                        작성일: {formatDateTime(comment.commentCreated)}
+                                    </Text>
                                 </div>
                             </Flex>
                         </Box>

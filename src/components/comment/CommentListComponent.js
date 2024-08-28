@@ -6,6 +6,8 @@ import { formatDateTime } from '../../util/dateUtil';
 import { logout } from '../../hooks/logout';
 import { formatContent } from '../../util/contentUtil';
 
+
+
 const CommentListComponent = ({ articleId, onCommentAdded }) => {
   const [comments, setComments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,41 +17,46 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
   const [commentEdit, setCommentEdit] = useState(null);
   const [modifyComment, setModifyComment] = useState('');
   const { isLogin, decodeToken } = useCustomToken();
+  const page_size = 5;
+
+
 
   // Fetch comments with pagination
   const fetchComments = async (page = 1) => {
     try {
-      const data = await getCommentsByArticleId(articleId, { page, size: 5 });
+      const data = await getCommentsByArticleId(articleId, { page, size: page_size });
       setComments(data.content);
       setTotalPages(data.totalPages);
       setCurrentPage(page);
     } catch (error) {
-      console.error('Error fetching comments:', error);
+      // console.error('Error fetching comments:', error);
     }
   };
 
-  useEffect(() => {
-    fetchComments(currentPage);
-  }, [articleId, currentPage]);
+
 
   useEffect(() => {
-    if (onCommentAdded) {
+    if(onCommentAdded)
       fetchComments(currentPage);
-    }
-  }, [onCommentAdded]);
+  }, [articleId, currentPage, onCommentAdded]);
+
+
 
   const handleEditClick = (id, content) => {
     setCommentEdit(id);
     setModifyComment(content);
   };
 
+
+
   const handleChangeModifyComment = (e) => {
     setModifyComment(e.target.value);
   };
 
+
+
   const handleClickModifyCommentComplete = async () => {
     if (commentEdit === null) return;
-
     try {
       await putComment( commentEdit, {commentContent: modifyComment });
       fetchComments(currentPage);
@@ -57,39 +64,42 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
         onCommentAdded();
       }
     } catch (error) {
-      console.error('Error updating comment:', error);
+      // console.error('Error updating comment:', error);
     } finally {
       setCommentEdit(null);
       setModifyComment('');
     }
   };
 
+
+
   const handleDeleteClick = (commentId) => {
     setCommentToDelete(commentId);
     setIsDeleteModalOpen(true);
   };
 
+
+
   const handleDeleteConfirm = async () => {
     try {
       await deleteComment(commentToDelete);
-      fetchComments(currentPage);
+        fetchComments(currentPage);
       if (onCommentAdded) {
         onCommentAdded();
       }
-    } catch (error) {
-      
-      console.error('Error deleting comment:', error);
-      
+    } catch (error) {      
+      // console.error('Error deleting comment:', error);      
       if (error.response.status === 401) {
         alert("토큰 유효 시간이 만료되었습니다.")
         logout(); // import { logout } from '../../hooks/logout'; 추가 필요
       }
-
     } finally {
       setIsDeleteModalOpen(false);
       setCommentToDelete(null);
     }
   };
+
+
 
   const handleCloseModal = () => {
     setIsDeleteModalOpen(false);
@@ -100,16 +110,20 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-      fetchComments(page);
+      setCurrentPage((prevPage) => {
+        if (prevPage !== page) {
+          fetchComments(page);
+        }
+        return page;
+      });
     }
   };
 
+
+
   return (
-    <section>
-      
-      {comments.length > 0 ? (
-        
+    <section>     
+      {comments.length > 0 ? (        
         <VStack spacing={4} align="stretch">
           {comments.map(comment => (
             <>

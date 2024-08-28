@@ -20,7 +20,7 @@ export const postCreate = async (articleObj) => {
         return res.data;
         
     } catch (error) {
-        console.log("Error fetching article:" ,error);
+        // console.log("Error fetching article:" ,error);
         throw error;
     }
 }
@@ -42,7 +42,7 @@ export const getList = async (pageParam) => {
         });
         return res.data;
     }catch(err){
-        console.log("Error fetching list:" ,err);
+        // console.log("Error fetching list:" ,err);
         throw err;
     }
 }
@@ -74,7 +74,7 @@ export const deleteOne = async (id) => {
         return res.data;
 
     } catch (error) {
-        console.log("Error deleting user's articles:" ,error);
+        // console.log("Error deleting user's articles:" ,error);
         throw error;
     }
 }
@@ -96,7 +96,7 @@ export const putOne = async (id, article) => {
         return res.data;
 
     } catch (error) {
-        console.log("Error modifying user's articles:" ,error);
+        // console.log("Error modifying user's articles:" ,error);
         throw error;
     }
 }
@@ -121,7 +121,7 @@ export const getMyArticles = async (pageParam) => {
         });
         return res.data;
     } catch (err) {
-        console.error("Error fetching user's articles:", err);
+        // console.error("Error fetching user's articles:", err);
         throw err;
     }
 }
