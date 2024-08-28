@@ -36,11 +36,12 @@ const NoticeModifyComponent = ({id}) => {
           return;
         }
 
-        if (decodeToken.memberRole !== "Admin") {
-            alert("잘못된 접근 방식입니다.");
-            navigate(-1);
-            return;
-        }
+        // 제대로 작동하지 않음, 분석 필요
+        // if (decodeToken.memberRole !== "Admin") {
+        //     alert("잘못된 접근 방식입니다.");
+        //     navigate(-1);
+        //     return;
+        // }
 
       }, [isLogin]);
 
