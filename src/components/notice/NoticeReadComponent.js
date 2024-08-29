@@ -7,6 +7,7 @@ import { formatDateTime } from "../../util/dateUtil";
 import useCustomToken from "../../hooks/useCustomToken";
 import { logout } from '../../hooks/logout';
 import BodyTitleComponent from "../common/BodyTitleComponent";
+import { formatContent } from "../../util/contentUtil";
 
 
 const initNoticeData = {
@@ -259,9 +260,8 @@ const NoticeReadComponent = ({id}) => {
                     </div>
                 </div>
             <hr />
-                <p className="p-5 mb-32 rounded-xl">
-                    {noticeData.noticeContent}
-                </p>
+                <p className="p-5 mb-32 rounded-xl whitespace-pre-wrap"
+                    dangerouslySetInnerHTML={{ __html: formatContent(noticeData.noticeContent) }} />
             </div>
 
         </section>
