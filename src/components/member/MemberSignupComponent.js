@@ -301,8 +301,8 @@ const MemberSignupComponent = () => {
                             value={memberId}
                             onChange={handleMemberId}
                             className={idInputError === 'success' ? 'border-blue-500' : idInputError === 'error' ? 'border-red-500' : ''}
-                            placeholder='6자리 이상 입력해주세요.'
-                            minLength={6}
+                            placeholder='4자리 이상 입력해주세요.'
+                            minLength={4}
                             maxLength={20}
                         />
                         <button className="w-32 ml-3 bg-slate-400 rounded text-white hover:opacity-80"
