@@ -11,7 +11,7 @@ export const checkMemberId = async (memberId) => {
         const res = await axios.post(`${prefix}/signup/checkMemberId`, { memberId });
         return res;
     } catch (err) {
-        console.error("Error checking member ID:", err);
+        // console.error("Error checking member ID:", err);
         throw err;
     }
 };
@@ -22,7 +22,7 @@ export const signupMember = async (formData) => {
         const res = await axios.post(`${prefix}/signup`, formData);
         return res.data;
     } catch (err) {
-        console.error("Error signing up member:", err);
+        // console.error("Error signing up member:", err);
         throw err;
     }
 };
@@ -40,7 +40,7 @@ export const findMemberId = async (name, birth) => {
         });
         return res.data;
     } catch (err) {
-        console.error("Error finding member ID:", err);
+        // console.error("Error finding member ID:", err);
         throw err;
     }
 };
@@ -56,7 +56,7 @@ export const findMemberPassword = async (id, name, birth) => {
         });
         return res.data;
     } catch (err) {
-        console.error("Error finding member password:", err);
+        // console.error("Error finding member password:", err);
         throw err;
     }
 };
@@ -70,7 +70,7 @@ export const resetMemberPassword = async (memberId, newPassword) => {
         });
         return res;
     } catch (err) {
-        console.error("Error resetting member password:", err);
+        // console.error("Error resetting member password:", err);
         throw err;
     }
 };
@@ -88,7 +88,7 @@ export const loginMember = async (id, password) => {
         });
         return res.data;
     } catch (err) {
-        console.error("Error logging in member:", err);
+        // console.error("Error logging in member:", err);
         throw err;
     }
 };
@@ -98,7 +98,7 @@ export const logoutMember = async () => {
     try {
         await axios.post(`${prefix}/logout`);
     } catch (error) {
-        console.error("로그아웃 실패", error);
+        // console.error("로그아웃 실패", error);
         throw error; 
     }
 };
@@ -112,7 +112,7 @@ export const getMemberProfileImage = async (memberId) => {
         const response = await axios.get(`${prefix}/${memberId}/image`);
         return response.data;
     } catch (error) {
-        console.error('Failed to fetch member profile image:', error);
+        // console.error('Failed to fetch member profile image:', error);
         return null;
     }
 };
@@ -129,7 +129,7 @@ export const confirmMemberPassword = async (password) => {
         });
         return res.data;
     } catch (err) {
-        console.error("Error confirming member password:", err);
+        // console.error("Error confirming member password:", err);
         throw err;
     }
 };
@@ -145,7 +145,7 @@ export const updateMemberProfile = async (formData) => {
         });
         return res.data;
     } catch (err) {
-        console.error("Error updating member profile:", err);
+        // console.error("Error updating member profile:", err);
         throw err;
     }
 };
@@ -156,7 +156,7 @@ export const deleteProfileImage = async (memberId) => {
         const res = await axios.delete(`${prefix}/${memberId}/image`);
         return res.data;
     } catch (err) {
-        console.error("Error deleting profile image:", err);
+        // console.error("Error deleting profile image:", err);
         throw err;
     }
 };
@@ -172,7 +172,7 @@ export const getMemberList = async (pageParam) => {
         const response = await axios.get(`${prefix}`, { params: { search, page, size } });
         return response.data;
     } catch (error) {
-        console.error('Failed to fetch member list:', error);
+        // console.error('Failed to fetch member list:', error);
         return [];
     }
 }
@@ -188,7 +188,7 @@ export const changeMemberRole = async (id, newRole) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Failed to change member role:', error);
+        // console.error('Failed to change member role:', error);
         throw error;
     }
 };
@@ -202,7 +202,7 @@ export const changeMemberActiveStatus = async (id, newActive) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Failed to change member active status:', error);
+        // console.error('Failed to change member active status:', error);
         throw error;
     }
 };
