@@ -24,6 +24,7 @@ const ProductModifyComponent = () => {
   const [product, setProduct] = useState(initState);
   const [images, setImages] = useState([]);       // 기존 이미지
   const [newImages, setNewImages] = useState([]); // 새로 추가할 이미지
+  const [deleteImages, setDeleteImages] = useState([]); // 삭제할 이미지
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -86,6 +87,13 @@ const ProductModifyComponent = () => {
   };
 
 
+  // 기존 이미지 삭제 함수
+  const hanldeExistingImage = (fileName) => {
+    setDeleteImages((prev) => [...prev, fileName]);
+    setImages(images.filter((image) => image !== fileName));
+  }
+
+
   // 새로운 이미지 삭제 함수
   const handleDeleteNewImages = (index) => {
     setNewImages(newImages.filter((_, idx) => idx !== index));
@@ -127,6 +135,12 @@ const ProductModifyComponent = () => {
       return;
     }
 
+    if (images.length == 0) {
+      alert("상품 이미지를 등록해주세요.");
+      return;
+    }
+    
+
     setLoading(true);
 
     try {
@@ -139,6 +153,9 @@ const ProductModifyComponent = () => {
 
       // 기존 이미지
       images.forEach(fileName => formData.append('existingImages', fileName));
+
+      // 삭제할 이미지
+      deleteImages.forEach(fileName => formData.append('deleteImages', fileName));
 
       // 새로운 이미지
       newImages.forEach(image => formData.append('files', image.file));
@@ -159,6 +176,10 @@ const ProductModifyComponent = () => {
       setLoading(false);
     }
   };
+
+  console.log("기존 이미지 : " + images);
+  console.log("삭제할 이미지 : " + deleteImages);
+  console.log("새로 저장할 이미지 : " + newImages);
 
 
 
@@ -202,6 +223,14 @@ const ProductModifyComponent = () => {
                   className="w-36 h-32 object-contain"
                   alt={`기존 이미지 ${index}`}
                 />
+                <div className="flex items-center mt-1">
+                  <span
+                    className="text-xl cursor-pointer text-red-500"
+                    onClick={() => hanldeExistingImage(fileName)}
+                  >
+                    x
+                  </span>
+                </div>
               </div>
             ))}
 
