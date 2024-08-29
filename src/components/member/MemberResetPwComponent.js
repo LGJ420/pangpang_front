@@ -112,7 +112,7 @@ const MemberResetPwComponent = () => {
                             type='password' 
                             value={memberPwInFindPwForReset}
                             onChange={handleMemberPwInFindPwForReset}
-                            placeholder='8자리 이상 입력해주세요.' />
+                            placeholder='4자리 이상 입력해주세요.' />
                         </FormControl>
                         {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
 
