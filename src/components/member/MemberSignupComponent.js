@@ -90,7 +90,7 @@ const MemberSignupComponent = () => {
     const onClickCheckMemberId = async () => {
 
         // 아이디 길이 확인
-        if(memberId.length >= 6 ){
+        if(memberId.length >= 4 ){
 
             try {
                 await checkMemberId(memberId);
@@ -103,7 +103,7 @@ const MemberSignupComponent = () => {
                 setIdInputError('error');
             }
         } else {
-            alert("아이디는 6자리 이상 입력해주세요.");
+            alert("아이디는 4자리 이상 입력해주세요.");
             setCheckMemberIdStatus(false);
             setIdInputError('error');
         }
