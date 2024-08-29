@@ -237,7 +237,7 @@ const ManagerProductComponent = () => {
 
                 <div>상품번호</div>
                 <div>카테고리</div>
-                <div>상품명</div>
+                <div className="pl-5">상품명</div>
                 <div>등록일</div>
                 <div>판매량</div>
                 <div>재고량</div>
@@ -252,7 +252,9 @@ const ManagerProductComponent = () => {
                     <div className="hover:cursor-pointer hover:text-gray-500"
                         onClick={() => navigate(`/product/read/${data.id}`)}
                     >
-                        {data.productTitle}
+                        <div className="pl-5 w-11/12">
+                            {data.productTitle}
+                        </div>
                     </div>
                     <div>
                         {data.productCreated.substring(0, 10)}
