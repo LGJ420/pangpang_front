@@ -204,9 +204,9 @@ const MemberSignupComponent = () => {
             setIdInputError('success');
         }
 
-        // 비밀번호 8자리 이상인지 체크
-        if(memberPw.length < 8 || memberPw.length > 20){
-            alert("비밀번호는 8-20자리로 입력해주세요.");
+        // 비밀번호 4자리 이상인지 체크
+        if(memberPw.length < 4 || memberPw.length > 20){
+            alert("비밀번호는 4-20자리로 입력해주세요.");
             setPwInputError('error');
             return;
         }
@@ -321,8 +321,8 @@ const MemberSignupComponent = () => {
                         type='password' 
                         value={memberPw}
                         onChange={handleMemberPw}
-                        placeholder='8자리 이상 입력해주세요.'
-                        minLength={8}
+                        placeholder='4자리 이상 입력해주세요.'
+                        minLength={4}
                         maxLength={20} />
                 </FormControl>
                 {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
@@ -336,7 +336,7 @@ const MemberSignupComponent = () => {
                         value={memberPwConfirm}
                         onChange={handleMemberPwConfirm}
                         placeholder='비밀번호를 다시 입력해주세요.'
-                        minLength={8}
+                        minLength={4}
                         maxLength={20} />
                 </FormControl>
 
