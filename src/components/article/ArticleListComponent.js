@@ -1,4 +1,4 @@
-import { Button, Spinner, Flex, Box, Badge } from '@chakra-ui/react';
+import { Spinner, Flex, Box, Badge } from '@chakra-ui/react';
 import { getList } from '../../api/articleApi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import React, { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
