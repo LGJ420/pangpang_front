@@ -134,7 +134,7 @@ const CommentListComponent = ({ articleId, onCommentAdded }) => {
                 <div>
                   <div className='flex items-center'>
                     <img
-                      className="w-10 h-10 mr-2 rounded-full border"
+                      className="w-10 h-10 mr-2 rounded-full border object-cover"
                       src={`http://localhost:8080/api/productreview/view/${comment.memberImage}`} // Adjusted the image URL
                       alt="Profile"
                       onError={(e) => {
