@@ -44,9 +44,8 @@ const ProductDetailComponent = ({ num }) => {
         // 첫 번째 이미지를 초기 대표 이미지로 설정
         if (data.uploadFileNames && data.uploadFileNames.length > 0) {
           setSelectedImages(`${prefix}/${data.uploadFileNames[0]}`);
-        } else {
-          setSelectedImages("/images/no_image.png");
-        }
+        } 
+        
       } catch (error) {
         // console.error(error);
       }

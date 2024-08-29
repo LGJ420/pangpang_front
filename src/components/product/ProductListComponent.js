@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SimpleGrid, Box, Flex, Spinner } from '@chakra-ui/react'
+import { Spinner } from '@chakra-ui/react'
 
 import useCustomMove from "../../hooks/useCustomMove"
 import useCustomToken from "../../hooks/useCustomToken";
@@ -140,31 +140,34 @@ const ProductListComponent = () => {
         </button>
       </div>
       
-        <SimpleGrid columns={ 4 } spacing={10}>
-          {serverData.dtoList.map(product =>
-            <div key={product.id} className="border p-5">
-              <div className="flex flex-col justify-between overflow-hidden">
-                <div className="relative hover:scale-125 duration-300 cursor-pointer"
-                  onClick={() => moveToRead(product.id)}>
-                  <img
-                    src={product.uploadFileNames[0] ? `${prefix}/${product.uploadFileNames[0]}` : "/images/no_image.png"}
-                    onError={(e) => {
-                      e.target.onError = null;
-                      e.target.src = "/images/no_image.png";
-                    }}
-                    borderRadius='lg'
-                    className='mx-auto h-52 object-contain' />
+            <div className="grid grid-cols-4 gap-10">
+              {serverData.dtoList.map(product => (
+                <div key={product.id} className="border p-5">
+                  <div className="flex flex-col justify-between overflow-hidden">
+                    <div
+                      className="relative hover:scale-125 duration-300 cursor-pointer"
+                      onClick={() => moveToRead(product.id)}
+                    >
+                      <img
+                        src={product.uploadFileNames[0] ? `${prefix}/${product.uploadFileNames[0]}` : "/images/no_image.png"}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/images/no_image.png";
+                        }}
+                        className="mx-auto h-52 object-contain rounded-lg"
+                      />
+                    </div>
+                    <div className="py-5 pb-3 text-xl z-10 bg-white whitespace-nowrap overflow-hidden text-ellipsis">
+                      {product.productTitle}
+                    </div>
+                    <div className="text-3xl font-bold">
+                      {product.productPrice.toLocaleString()}원
+                    </div>
+                  </div>
                 </div>
-                <div className="py-5 pb-3 text-xl z-10 bg-white whitespace-nowrap overflow-hidden text-ellipsis">
-                  {product.productTitle}
-                </div>
-                <div className="text-3xl font-bold">
-                  {product.productPrice.toLocaleString()}원
-                </div>
-              </div> 
+              ))}
             </div>
-          )}
-        </SimpleGrid>
+
 
           </>
         :
@@ -177,36 +180,35 @@ const ProductListComponent = () => {
       }
 
       {/* 페이지네이션 */}
-      <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700">
+      <div className="flex justify-center items-center text-[25px] relative py-10 text-gray-700">
 
-      { !isLoading ?
+        {!isLoading ?
 
-        <></>
+          <></>
 
-      :
-        
-        serverData.dtoList.length > 0 ?
+          :
 
-        <>
-        {/* 이전 페이지 */}
-        <Box cursor={"pointer"} marginRight={7} onClick={() => moveToList({ page: serverData - 1 })}>{'\u003c'}</Box>
+          serverData.dtoList.length > 0 ?
 
-        {/* 페이지 넘버 */}
-        {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
-          (<Box key={pageNum}
-            marginRight={7} cursor={"pointer"}
-            className={serverData.current === pageNum ? 'text-[rgb(224,26,109)] border-b' : ''}
-            onClick={() => moveToList({ page: pageNum })}>{pageNum}</Box>) : <></>)}
+            <>
+              {/* 이전 페이지 */}
+              <div className="cursor-pointer mr-7" onClick={() => moveToList({ page: serverData - 1 })}>{'\u003c'}</div>
 
-        {/* 다음 페이지 */}
-        <Box cursor={"pointer"} onClick={() => moveToList({ page: serverData.current + 1 })}>{'\u003e'}</Box>
-        </>
+              {/* 페이지 넘버 */}
+              {serverData.pageNumList.map(pageNum => serverData.dtoList.length > 0 ?
+                (<div key={pageNum}
+                  className={`mr-7 cursor-pointer ${serverData.current === pageNum ? 'text-[rgb(224,26,109)] border-b' : ''}`}
+                  onClick={() => moveToList({ page: pageNum })}>{pageNum}</div>) : <></>)}
 
-        :
+              {/* 다음 페이지 */}
+              <div className="cursor-pointer" onClick={() => moveToList({ page: serverData.current + 1 })}>{'\u003e'}</div>
+            </>
 
-        <>
-        </>
-      }
+            :
+
+            <>
+            </>
+        }
 
 
         {
@@ -218,7 +220,8 @@ const ProductListComponent = () => {
           </button>
         }
 
-      </Flex>
+      </div>
+
 
 
 
