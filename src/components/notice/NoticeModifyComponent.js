@@ -36,11 +36,12 @@ const NoticeModifyComponent = ({id}) => {
           return;
         }
 
-        if (decodeToken.memberRole !== "Admin") {
-            alert("잘못된 접근 방식입니다.");
-            navigate(-1);
-            return;
-        }
+        // 제대로 작동하지 않음, 분석 필요
+        // if (decodeToken.memberRole !== "Admin") {
+        //     alert("잘못된 접근 방식입니다.");
+        //     navigate(-1);
+        //     return;
+        // }
 
       }, [isLogin]);
 
@@ -140,7 +141,7 @@ const NoticeModifyComponent = ({id}) => {
                         placeholder="자세한 설명을 적어주세요."
                         value={serverData.noticeContent}
                         onChange={handleChangeNotice}
-                        maxLength={2000}/>
+                        maxLength={900}/>
                 </div>
 
                 <div className="flex justify-center">

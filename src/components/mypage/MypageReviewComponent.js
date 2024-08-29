@@ -76,7 +76,7 @@ const MypageReviewComponent = () => {
             
             :
             
-            reviewData[0].memberId !== 0 ?
+            reviewData.length > 0 && reviewData[0].memberId !== 0 ?
             
             <>
             <h3 className="text-xl my-5 ml-4">

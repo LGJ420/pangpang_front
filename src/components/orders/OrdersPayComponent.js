@@ -316,7 +316,7 @@ const OrdersPayComponent = () => {
                                             <img src={product.uploadFileNames[0] ? `${prefix}/${product.uploadFileNames[0]}` : "/images/no_image.png"}
                                                 alt={product.productTitle} 
                                                 className="w-24 h-24 border rounded object-contain"></img>
-                                    <div className="ml-5">
+                                    <div className="ml-5 w-1/2">
                                         <h3 className="text-lg font-extrabold">{product.productTitle}</h3>
                                         <p className="text-xs">{product.productContent}</p>
                                         <div className="font-bold mt-3">{product.cartCount}개</div>
