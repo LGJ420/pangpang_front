@@ -44,6 +44,8 @@ const ProductDetailComponent = ({ num }) => {
         // 첫 번째 이미지를 초기 대표 이미지로 설정
         if (data.uploadFileNames && data.uploadFileNames.length > 0) {
           setSelectedImages(`${prefix}/${data.uploadFileNames[0]}`);
+        } else {
+          setSelectedImages("/images/no_image.png");
         }
       } catch (error) {
         // console.error(error);
@@ -235,6 +237,10 @@ const ProductDetailComponent = ({ num }) => {
               product.uploadFileNames.map((fileName, index) => (
                 <Image key={index}
                   src={`${prefix}/s_${fileName}`}
+                  onError={(e) => {
+                    e.target.onError = null;
+                    e.target.src = "/images/no_image.png";
+                  }}
                   boxSize="100px"
                   objectFit="contain"
                   m={2}
@@ -249,7 +255,7 @@ const ProductDetailComponent = ({ num }) => {
           </Flex>
         </Box>
 
-        <Box flex="1" ml={5} textAlign="center" className='border-l'>
+        <Box flex="1" ml={5} textAlign="center" className='border-l pl-7'>
           <Text fontSize="4xl" fontWeight='bold' mb={4}>{product.productTitle}</Text>
           <Text fontSize='2xl' mb={4} >{product.productContent}</Text>
           <Text fontSize='3xl' mb={6}>{product.productPrice.toLocaleString()}원</Text>

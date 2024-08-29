@@ -137,9 +137,11 @@ const NoticeListComponent = () => {
                                     <div className='flex items-center justify-center col-span-1'>
                                         {dto.id}
                                     </div>
-                                    <div className='flex items-center justify-center col-span-6 cursor-pointer hover:underline hover:text-blue-500 truncate'
+                                    <div className='flex items-center justify-center col-span-6 cursor-pointer hover:underline hover:text-blue-500'
                                         onClick={()=>handleClickTitle(dto.id)}>
-                                        {dto.noticeTitle}
+                                        <div className='truncate'>
+                                            {dto.noticeTitle}
+                                        </div>
                                     </div>
                                     <div className='flex items-center justify-center col-span-2'>
                                         {dto.memberNickname}
@@ -151,8 +153,8 @@ const NoticeListComponent = () => {
                                         {dto.noticeHit}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
 
                             <div className='relative mt-10'>
                                 <Flex justifyContent="center" alignItems="center" fontSize="25px" className="relative py-10 text-gray-700">

@@ -199,16 +199,18 @@ const ArticleListComponent = () => {
                                             {article.id}
                                         </div>
                                         <div
-                                            className='flex items-center justify-center col-span-6 cursor-pointer hover:underline hover:text-blue-500 truncate'
+                                            className='flex items-center justify-center col-span-6 cursor-pointer hover:underline hover:text-blue-500'
                                             onClick={() => navigate(`/article/read/${article.id}`)}
                                         >
-                                            {isArticleNew(article.articleCreated) && (
-                                                <Badge ml={2} colorScheme="red">new</Badge>
-                                            )}
-                                            {article.articleTitle}
-                                            {article.commentCount > 0 && (
-                                                <span>&#91;{article.commentCount}&#93;</span>
-                                            )}
+                                            <div className='truncate'>
+                                                {isArticleNew(article.articleCreated) && (
+                                                    <Badge ml={2} colorScheme="red">new</Badge>
+                                                )}
+                                                {article.articleTitle}
+                                                {article.commentCount > 0 && (
+                                                    <span>&#91;{article.commentCount}&#93;</span>
+                                                )}
+                                            </div>
                                         </div>
                                         <div className='flex items-center justify-center col-span-2'>
                                             {article.memberNickname}

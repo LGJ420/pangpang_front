@@ -51,9 +51,9 @@ const MemberResetPwComponent = () => {
             return;
         }
 
-        // 비밀번호 8-20자리인지 체크
-        if(memberPwInFindPwForReset.length < 8 || memberPwInFindPwForReset.length > 20){
-            alert("비밀번호는 8-20자리로 입력해주세요.");
+        // 비밀번호 4-20자리인지 체크
+        if(memberPwInFindPwForReset.length < 4 || memberPwInFindPwForReset.length > 20){
+            alert("비밀번호는 4-20자리로 입력해주세요.");
             return
         }
 
@@ -112,7 +112,7 @@ const MemberResetPwComponent = () => {
                             type='password' 
                             value={memberPwInFindPwForReset}
                             onChange={handleMemberPwInFindPwForReset}
-                            placeholder='8자리 이상 입력해주세요.' />
+                            placeholder='4자리 이상 입력해주세요.' />
                         </FormControl>
                         {/* <p>비밀번호는 4~20자의 영문, 숫자만 사용 가능합니다</p> */}
 
