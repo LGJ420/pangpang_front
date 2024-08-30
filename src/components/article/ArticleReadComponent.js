@@ -284,7 +284,7 @@ const ArticleReadComponent = () => {
                 ? '댓글을 작성하려면 먼저 로그인해 주세요.'
                 : state.isCommentSubmitMode
                 ? '댓글을 작성하시겠습니까?'
-                : '정말로 이 글을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.'}
+                : '정말로 이 글을 삭제하시겠습니까?'}
             </ModalBody>
             <ModalFooter>
               {state.isLoginRequired ? (
