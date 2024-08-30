@@ -108,7 +108,7 @@ const ProductDetailComponent = ({ num }) => {
 
     if (!isLogin) {
       alert("로그인이 필요합니다");
-      return;
+      return navigate('/login');
     }
 
 
@@ -145,7 +145,7 @@ const ProductDetailComponent = ({ num }) => {
 
     if (!isLogin) {
       alert("로그인이 필요합니다");
-      return;
+      return navigate('/login');
     }
 
     if (product.productStock <= 0) {
