@@ -45,6 +45,10 @@ const ProductDetailComponent = ({ num }) => {
         if (data.uploadFileNames && data.uploadFileNames.length > 0) {
           setSelectedImages(`${prefix}/${data.uploadFileNames[0]}`);
         } 
+
+        if (window.Kakao && !window.Kakao.isInitialized()) {
+          window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
+        }
         
       } catch (error) {
         // console.error(error);
@@ -190,6 +194,40 @@ const ProductDetailComponent = ({ num }) => {
   }
 
 
+  // 상품 카톡 공유하기
+  const handleKakaoShare = () => {
+    if (window.Kakao) {
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init(process.env.REACT_APP_KAKAO_API_KEY);
+      }
+
+      window.Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: product.productTitle,
+          description: product.productContent,
+          imageUrl: selectedImages,
+          link: {
+            webUrl: window.location.href,
+          },
+        },
+        buttons: [
+          {
+            title: "웹으로 보기",
+            link: {
+              webUrl: window.location.href,
+            },
+          },
+        ],
+      });
+    } else {
+      alert("카카오톡 공유 중 오류가 발생했습니다.");
+      // console.error("Kakao SDK is not loaded or initialized.");
+    }
+  }
+
+
+
   return (
     <section>
       <div className="flex p-10 mb-10 border-b justify-between">
@@ -214,62 +252,71 @@ const ProductDetailComponent = ({ num }) => {
         }
       </div>
 
-      <Flex justify="center" align="center" p={5} >
+      <div className="flex justify-center items-center p-5">
 
-        <Box flex="1" align="center">
-          <Image
+        <div className="flex-1 text-center">
+          <img
             src={selectedImages}
             onError={(e) => {
-              e.target.onError = null;
+              e.target.onerror = null;
               e.target.src = "/images/no_image.png";
             }}
             alt={product.productTitle}
-            boxSize={{ base: '100%', md: '50%' }}
-            className="mx-auto h-80 object-contain" />
+            className="mx-auto h-80 object-contain"
+          />
 
-          <Flex
-            direction="row"
-            wrap="wrap"
-            align="center"
-            justify="center"     >
+          <div className="flex flex-wrap items-center justify-center">
             {product.uploadFileNames && product.uploadFileNames.length > 0 ? (
               product.uploadFileNames.map((fileName, index) => (
-                <Image key={index}
+                <img
+                  key={index}
                   src={`${prefix}/s_${fileName}`}
                   onError={(e) => {
-                    e.target.onError = null;
+                    e.target.onerror = null;
                     e.target.src = "/images/no_image.png";
                   }}
-                  boxSize="100px"
-                  objectFit="contain"
-                  m={2}
-                  border={selectedImages?.includes(fileName) ? '2px solid #ff6347' : '1px solid #ccc'} // 선택된 이미지 강조
+                  className={`w-24 h-24 object-contain m-2 ${selectedImages?.includes(fileName) ? 'border-2 border-[#ff6347]' : 'border border-[#ccc]'}`}
                   onClick={() => handleClickImage(fileName)}
-                  cursor="pointer"
+                  style={{ cursor: 'pointer' }}
+                  alt="Product Thumbnail"
                 />
               ))
             ) : (
               <div></div>
             )}
-          </Flex>
-        </Box>
+          </div>
+        </div>
 
-        <Box flex="1" ml={5} textAlign="center" className='border-l pl-7'>
-          <Text fontSize="4xl" fontWeight='bold' mb={4}>{product.productTitle}</Text>
-          <Text fontSize='2xl' mb={4} >{product.productContent}</Text>
-          <Text fontSize='3xl' mb={6}>{product.productPrice.toLocaleString()}원</Text>
-          <ButtonGroup spacing='7' className='mx-auto mt-5'>
-            <button className="text-white bg-[rgb(224,26,109)] text-xl font-extrabold hover:opacity-70 w-36 h-16"
-              onClick={() => { handleClickBuy(product) }}>
+        <div className="flex-1 ml-5 text-center border-l pl-7">
+          <h1 className="text-4xl font-bold mb-4">{product.productTitle}</h1>
+          <p className="text-2xl mb-4">{product.productContent}</p>
+          <p className="text-3xl mb-6">{product.productPrice.toLocaleString()}원</p>
+          <div className="flex space-x-7 mx-auto mt-5 justify-center">
+            <button
+              className="text-white bg-[#e01a6d] text-xl font-extrabold hover:opacity-70 w-36 h-16"
+              onClick={() => { handleClickBuy(product) }}
+            >
               구매하기
             </button>
-            <button className="text-[rgb(224,26,109)] border-[rgb(224,26,109)] text-xl border hover:opacity-70 w-36"
-              onClick={() => { handleClickCart(product) }}>
+            <button
+              className="text-[#e01a6d] border-[#e01a6d] text-xl border hover:opacity-70 w-36"
+              onClick={() => { handleClickCart(product) }}
+            >
               장바구니
             </button>
-          </ButtonGroup>
-        </Box>
-      </Flex>
+            <div className="w-16 h-16">
+              <img
+                onClick={handleKakaoShare}
+                src="/images/kakao_logo.png"
+                alt="Kakao Logo"
+                className="cursor-pointer"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
       <h4 className="bg-red-50 p-3 text-center">
         판매자가 타 사이트 안내 및 현금 결제, 개인정보 유도 시 결제/입력 마시고 즉시 고객센터로 신고해주세요.
       </h4>
