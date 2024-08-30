@@ -225,7 +225,7 @@ const ManagerProductComponent = () => {
 
             <div className="flex items-center justify-between mb-5">
                 <MypageTitleComponent>
-                    상품 관리
+                    상품 재고 관리
                 </MypageTitleComponent>
 
                 <SearchBarComponent width="40%" changeFn={handleChangeSearch} clickFn={handleClickSearch} />
