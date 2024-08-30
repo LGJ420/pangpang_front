@@ -211,14 +211,6 @@ const ProductDetailComponent = ({ num }) => {
             webUrl: window.location.href,
           },
         },
-        buttons: [
-          {
-            title: "웹으로 보기",
-            link: {
-              webUrl: window.location.href,
-            },
-          },
-        ],
       });
     } else {
       alert("카카오톡 공유 중 오류가 발생했습니다.");
