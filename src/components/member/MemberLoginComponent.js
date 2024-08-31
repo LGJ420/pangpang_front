@@ -6,6 +6,7 @@ import { tokenState } from '../../atoms/tokenState';
 import { Spinner } from 'react-bootstrap';
 import { loginMember } from '../../api/memberApi';
 import { Inko } from 'inko';
+import GoogleLoginBtn from './social_login/GoogleLoginBtn';
 
 const MemberLoginComponent = () => {
 
@@ -159,6 +160,11 @@ const MemberLoginComponent = () => {
                             홈으로 가기
                         </Link>
                     </div>
+
+                    {/* 소셜 로그인 버튼 */}
+                    <div>
+                        <GoogleLoginBtn></GoogleLoginBtn>
+                    </div>  
                 </div>
             </section>
     );
