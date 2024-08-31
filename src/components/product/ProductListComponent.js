@@ -79,9 +79,6 @@ const ProductListComponent = () => {
 
 
 
-
-
-
   return (
     <section>
 
@@ -180,7 +177,7 @@ const ProductListComponent = () => {
       }
 
       {/* 페이지네이션 */}
-      <div className="flex justify-center items-center text-[25px] relative py-10 text-gray-700">
+      <div className="flex justify-center items-center text-[23px] relative py-10 text-gray-700 mb-10">
 
         {!isLoading ?
 
