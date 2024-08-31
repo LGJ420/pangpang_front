@@ -53,9 +53,7 @@ export const getList = async (pageParam) => {
 export const getOne = async (id) => {
     try {
         // 쿠키 전달을 위해 withCredentials 옵션 추가
-        const res = await axios.get(`${prefix}/${id}`, {
-            withCredentials: true,
-        });
+        const res = await axios.get(`${prefix}/${id}`);
         return res.data;
     } catch (error) {
         throw error;
