@@ -51,11 +51,16 @@ export const getList = async (pageParam) => {
 
 // 글 상세 보기
 export const getOne = async (id) => {
-
-    const res = await axios.get(`${prefix}/${id}`);
-
-    return res.data;
-}
+    try {
+        // 쿠키 전달을 위해 withCredentials 옵션 추가
+        const res = await axios.get(`${prefix}/${id}`, {
+            withCredentials: true,
+        });
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+};
 
 
 
