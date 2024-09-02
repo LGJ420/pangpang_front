@@ -97,7 +97,7 @@ const ProductAddComponent = () => {
         }
 
         if (isNaN(product.productStock)) {
-            alert("제고량을 입력해주세요. (숫자만 가능)");
+            alert("재고량을 입력해주세요. (숫자만 가능)");
             return;
         }
 
