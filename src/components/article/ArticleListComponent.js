@@ -12,7 +12,6 @@ import SearchBarComponent from '../common/SearchBarComponent';
 const initState = {
     articleList: [],
     pageNumList: [],
-    pageRequestDTO: null,
     prev: false,
     next: false,
     totalCount: 0,
@@ -85,7 +84,6 @@ const ArticleListComponent = () => {
                     payload: {
                         articleList: data.dtoList,
                         pageNumList: data.pageNumList,
-                        pageRequestDTO: data.pageRequestDTO,
                         prev: data.prev,
                         next: data.next,
                         totalCount: data.totalCount,
@@ -126,14 +124,14 @@ const ArticleListComponent = () => {
 
 
 
-    const isArticleNew = useCallback((dateTime) => {
+    const isArticleNew = (dateTime) => {
         const articleDate = new Date(dateTime);
         const now = new Date();
         const nextDayMidnight = new Date(articleDate);
         nextDayMidnight.setDate(articleDate.getDate() + 1);
         nextDayMidnight.setHours(0, 0, 0, 0);
         return now < nextDayMidnight;
-    }, []);
+    };
 
 
 
