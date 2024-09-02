@@ -30,6 +30,9 @@ export default function GoogleLoginBtn() {
     // })
 
     return (
-        <button onClick={handleLogin}>구글 아이디로 로그인</button>
+        <button onClick={handleLogin}
+            className="mt-5">
+            <img src="/images/login_google.png"></img>
+        </button>
     )
 }
