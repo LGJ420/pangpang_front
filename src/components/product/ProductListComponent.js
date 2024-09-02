@@ -139,7 +139,6 @@ const ProductListComponent = () => {
       
             <div className="grid grid-cols-4 gap-10">
               {serverData.dtoList.map(product => (
-                product.productStock > 0 ?
                 <div key={product.id} className="border p-5">
                   <div className="flex flex-col justify-between overflow-hidden">
                     <div
@@ -163,8 +162,6 @@ const ProductListComponent = () => {
                     </div>
                   </div>
                 </div>
-                :
-                <></>
               ))}
             </div>
 
