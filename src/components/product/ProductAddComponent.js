@@ -25,7 +25,7 @@ const ProductAddComponent = () => {
 
     const navigate = useNavigate();
     const { moveToList } = useCustomMove(); // 커스텀 훅 사용
-    const { isLogin } = useCustomToken();
+    const { isLogin, decodeToken } = useCustomToken();
 
 
     useEffect(() => {
@@ -33,6 +33,10 @@ const ProductAddComponent = () => {
 
             alert("잘못된 접근 방식입니다.");
             navigate(-1);
+            return;
+        } else if (decodeToken.memberRole === "User") {
+            alert("관리자만 접근 가능한 페이지입니다.");
+            navigate("/product/list");
             return;
         }
     }, [])
@@ -155,6 +159,10 @@ const ProductAddComponent = () => {
     };
 
     if (!isLogin) {
+        return null;
+    }
+
+    if (decodeToken.memberRole === "User") {
         return null;
     }
 

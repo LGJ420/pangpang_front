@@ -30,7 +30,22 @@ const ProductModifyComponent = () => {
   const [loading, setLoading] = useState(false);
 
   const { moveToRead } = useCustomMove();
-  const { isLogin } = useCustomToken();
+  const { isLogin, decodeToken } = useCustomToken();
+
+
+
+  useEffect(() => {
+    if (!isLogin) {
+
+      alert("잘못된 접근 방식입니다.");
+      navigate(-1);
+      return;
+    } else if (decodeToken.memberRole === "User") {
+      alert("관리자만 접근 가능한 페이지입니다.");
+      navigate("/product/list");
+      return;
+    }
+  }, [])
 
 
   useEffect(() => {
@@ -49,16 +64,6 @@ const ProductModifyComponent = () => {
     }
   }, [id]);
 
-
-
-  useEffect(() => {
-    if (!isLogin) {
-
-      alert("잘못된 접근 방식입니다.");
-      navigate(-1);
-      return;
-    }
-  }, [isLogin, navigate])
 
 
   // 이미지 저장할 함수
@@ -177,14 +182,14 @@ const ProductModifyComponent = () => {
     }
   };
 
-  console.log("기존 이미지 : " + images);
-  console.log("삭제할 이미지 : " + deleteImages);
-  console.log("새로 저장할 이미지 : " + newImages);
-
 
 
 
   if (!isLogin) {
+    return null;
+  }
+
+  if (decodeToken.memberRole === "User") {
     return null;
   }
 
