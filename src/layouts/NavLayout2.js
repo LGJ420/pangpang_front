@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
+import useCustomToken from "../hooks/useCustomToken";
 
 const NavLayout2 = () => {
 
+    const {decodeToken} = useCustomToken();
+
     return (
-        <nav id="navbar2" className="flex items-center bg-black h-[70px] min-w-[1350px] sticky top-0 z-20">
+        <nav id="navbar2" className={`flex items-center h-[70px] min-w-[1350px] sticky top-0 z-20
+            ${decodeToken.memberRole === 'Admin' ? 'bg-[rgb(224,26,109)]' : 'bg-black'}`}>
             <div className="flex justify-between w-[1350px] m-auto">
                 <ul className="flex items-center text-white text-xl ml-5">
                     <li className="w-32">
@@ -32,7 +36,8 @@ const NavLayout2 = () => {
                         </Link>
                     </li>
                 </ul>
-                <a href="/game" className="flex items-center text-2xl h-[70px] text-white bg-[rgb(224,26,109)] mx-7 px-12 hover:bg-indigo-500">
+                <a href="/game" className={`flex items-center text-2xl h-[70px] text-white mx-7 px-12 hover:bg-indigo-500
+                     ${decodeToken.memberRole === 'Admin' ? 'bg-black' : 'bg-[rgb(224,26,109)]'}`}>
                     GAME START
                 </a>
 
