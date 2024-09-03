@@ -196,6 +196,7 @@ const ManagerProductComponent = () => {
                                     value={modal.productStock}
                                     maxLength={50}
                                     onChange={handleChangeStock}
+                                    onKeyDown={(e) => { if (e.key === "Enter") { handleStockModify(modal.id) } }}
                                 />
 
                                 <div className="flex text-xl mt-7 justify-end">
