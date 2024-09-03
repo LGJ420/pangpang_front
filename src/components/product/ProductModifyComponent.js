@@ -36,7 +36,6 @@ const ProductModifyComponent = () => {
 
   useEffect(() => {
     if (!isLogin) {
-
       alert("잘못된 접근 방식입니다.");
       navigate(-1);
       return;
@@ -45,7 +44,7 @@ const ProductModifyComponent = () => {
       navigate("/product/list");
       return;
     }
-  }, [])
+  }, [isLogin, decodeToken, navigate])
 
 
   useEffect(() => {
@@ -185,11 +184,7 @@ const ProductModifyComponent = () => {
 
 
 
-  if (!isLogin) {
-    return null;
-  }
-
-  if (decodeToken.memberRole === "User") {
+  if (!isLogin || decodeToken.memberRole === "User") {
     return null;
   }
 
