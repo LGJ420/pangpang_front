@@ -30,9 +30,9 @@ const MemberLoginComponent = () => {
     }, [navigate, token]);
     
     const handleMemberId = (e)=>{
-        let inko = new Inko();
-        const validInputValue = inko.ko2en(e.target.value);
-        setMemberId(validInputValue);
+        
+        setMemberId(e.target.value);
+
     }
     const handleMemberPw = (e)=>{
         setMemberPw(e.target.value);
