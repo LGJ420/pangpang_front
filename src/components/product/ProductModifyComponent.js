@@ -41,7 +41,7 @@ const ProductModifyComponent = () => {
       return;
     } else if (decodeToken.memberRole === "User") {
       alert("관리자만 접근 가능한 페이지입니다.");
-      navigate("/product/list");
+      navigate(-1);
       return;
     }
   }, [isLogin, decodeToken, navigate])
