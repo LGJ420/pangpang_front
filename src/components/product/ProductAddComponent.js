@@ -30,16 +30,16 @@ const ProductAddComponent = () => {
 
     useEffect(() => {
         if (!isLogin) {
-
             alert("잘못된 접근 방식입니다.");
             navigate(-1);
             return;
         } else if (decodeToken.memberRole === "User") {
             alert("관리자만 접근 가능한 페이지입니다.");
-            navigate("/product/list");
+            navigate(-1);
             return;
         }
-    }, [])
+    }, [isLogin, decodeToken, navigate])
+    
 
     // 이미지 저장할 함수
     const handleAddImages = (event) => {
@@ -158,13 +158,10 @@ const ProductAddComponent = () => {
         }
     };
 
-    if (!isLogin) {
+    if (!isLogin || decodeToken.memberRole === "User") {
         return null;
     }
 
-    if (decodeToken.memberRole === "User") {
-        return null;
-    }
 
     return (
         <section>

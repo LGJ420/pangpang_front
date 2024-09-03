@@ -78,6 +78,19 @@ const ManagerProductComponent = () => {
     }
 
 
+    useEffect(() => {
+        if (!isLogin) {
+            alert("잘못된 접근 방식입니다.");
+            navigate(-1);
+            return;
+        } else if (decodeToken.memberRole === "User") {
+            alert("관리자만 접근 가능한 페이지입니다.");
+            navigate(-1);
+            return;
+        }
+    }, [isLogin, decodeToken, navigate])
+
+
 
     useEffect(() => {
         const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
@@ -173,6 +186,9 @@ const ManagerProductComponent = () => {
             })
         }
 
+    if (!isLogin || decodeToken.memberRole === "User") {
+        return null;
+    }
 
 
     return (
