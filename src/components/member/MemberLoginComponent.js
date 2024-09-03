@@ -162,9 +162,9 @@ const MemberLoginComponent = () => {
                     </div>
 
                     {/* 소셜 로그인 버튼 */}
-                    <div>
+                    {/* <div>
                         <GoogleLoginBtn></GoogleLoginBtn>
-                    </div>  
+                    </div>   */}
                 </div>
             </section>
     );
