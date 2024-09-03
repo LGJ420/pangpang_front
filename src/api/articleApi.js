@@ -51,11 +51,13 @@ export const getList = async (pageParam) => {
 
 // 글 상세 보기
 export const getOne = async (id) => {
-
-    const res = await axios.get(`${prefix}/${id}`);
-
-    return res.data;
-}
+    try {
+        const res = await axios.get(`${prefix}/${id}`);
+        return res.data;
+    } catch (error) {
+        throw error;
+    }
+};
 
 
 

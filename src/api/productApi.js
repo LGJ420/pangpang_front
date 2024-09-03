@@ -74,6 +74,17 @@ export const getList = async (pageParam) => {
 }
 
 
+/* 상품 목록보기 */
+export const getAllList = async (pageParam) => {
+
+  const { search, page, size } = pageParam;
+
+  const res = await axios.get(`${prefix}/`, { params: { search, page, size } });
+
+  return res.data;
+}
+
+
 /* 상품 상세보기 */
 export const getOne = async (id) => {
 

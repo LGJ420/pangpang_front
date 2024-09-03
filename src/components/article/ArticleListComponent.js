@@ -9,10 +9,9 @@ import SearchBarComponent from '../common/SearchBarComponent';
 
 
 
-const initState  = {
+const initState = {
     articleList: [],
     pageNumList: [],
-    pageRequestDTO: null,
     prev: false,
     next: false,
     totalCount: 0,
@@ -29,37 +28,37 @@ const initState  = {
 // Reducer function for useReducer
 const serverDataReducer = (state, action) => {
     switch (action.type) {
-      case "FETCH_SUCCESS":
-        return {
-          ...state,
-          ...action.payload,
-          loading: false,
-          error: null,
-        };
-      case "FETCH_ERROR":
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-      case "SET_LOADING":
-        return {
-          ...state,
-          loading: true,
-        };
-      default:
-        return state;
+        case "FETCH_SUCCESS":
+            return {
+                ...state,
+                ...action.payload,
+                loading: false,
+                error: null,
+            };
+        case "FETCH_ERROR":
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+        case "SET_LOADING":
+            return {
+                ...state,
+                loading: true,
+            };
+        default:
+            return state;
     }
-  };
+};
 
 
 
-const ArticleListComponent = () => { 
+const ArticleListComponent = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { isLogin } = useCustomToken();
 
-     // Using useReducer for server data state management
+    // Using useReducer for server data state management
     const [serverData, dispatch] = useReducer(serverDataReducer, initState);
     const [searchValue, setSearchValue] = useState('');
     const [searchBy, setSearchBy] = useState('title');
@@ -77,31 +76,30 @@ const ArticleListComponent = () => {
 
     useEffect(() => {
         const fetchArticles = async () => {
-          dispatch({ type: "SET_LOADING" });
-          try {
-            const data = await getList(fetchData);
-            dispatch({
-              type: "FETCH_SUCCESS",
-              payload: {
-                articleList: data.dtoList,
-                pageNumList: data.pageNumList,
-                pageRequestDTO: data.pageRequestDTO,
-                prev: data.prev,
-                next: data.next,
-                totalCount: data.totalCount,
-                prevPage: data.prevPage,
-                nextPage: data.nextPage,
-                totalPage: data.totalPage,
-                current: data.current,
-              },
-            });
-          } catch (err) {
-            dispatch({ type: "FETCH_ERROR", payload: "글을 불러오는데 실패했습니다." });
-          }
+            dispatch({ type: "SET_LOADING" });
+            try {
+                const data = await getList(fetchData);
+                dispatch({
+                    type: "FETCH_SUCCESS",
+                    payload: {
+                        articleList: data.dtoList,
+                        pageNumList: data.pageNumList,
+                        prev: data.prev,
+                        next: data.next,
+                        totalCount: data.totalCount,
+                        prevPage: data.prevPage,
+                        nextPage: data.nextPage,
+                        totalPage: data.totalPage,
+                        current: data.current,
+                    },
+                });
+            } catch (err) {
+                dispatch({ type: "FETCH_ERROR", payload: "글을 불러오는데 실패했습니다." });
+            }
         };
-    
+
         fetchArticles();
-      }, [fetchData]);
+    }, [fetchData]);
 
 
 
@@ -117,23 +115,23 @@ const ArticleListComponent = () => {
     // Memoized handlePageChange function using useCallback
     const handlePageChange = useCallback(
         (page) => {
-        navigate({
-            search: `?search=${encodeURIComponent(fetchData.search)}&page=${page}&searchBy=${fetchData.searchBy}`,
-        });
+            navigate({
+                search: `?search=${encodeURIComponent(fetchData.search)}&page=${page}&searchBy=${fetchData.searchBy}`,
+            });
         },
         [navigate, fetchData.search, fetchData.searchBy]
     );
 
 
 
-    const isArticleNew = useCallback((dateTime) => {
+    const isArticleNew = (dateTime) => {
         const articleDate = new Date(dateTime);
         const now = new Date();
         const nextDayMidnight = new Date(articleDate);
         nextDayMidnight.setDate(articleDate.getDate() + 1);
         nextDayMidnight.setHours(0, 0, 0, 0);
         return now < nextDayMidnight;
-      }, []);
+    };
 
 
 
@@ -154,7 +152,7 @@ const ArticleListComponent = () => {
                     serverData.articleList.length > 0 ?
                         <>
                             <div className='flex items-center justify-between text-xl mb-5'>
-                                <BodyTitleComponent title={`자유게시판`} path={`article`}/>
+                                <BodyTitleComponent title={`자유게시판`} path={`article`} />
 
                                 <div className='pt-5 w-1/2 flex mr-10'>
                                     <select
@@ -165,7 +163,7 @@ const ArticleListComponent = () => {
                                         <option value="author">작성자명</option>
                                     </select>
 
-                                    <SearchBarComponent clickFn={handleSearch} changeFn={(e) => setSearchValue(e.target.value)}/>
+                                    <SearchBarComponent clickFn={handleSearch} changeFn={(e) => setSearchValue(e.target.value)} />
                                 </div>
 
                             </div>
@@ -226,18 +224,18 @@ const ArticleListComponent = () => {
                             </div>
 
                             <div className='relative mt-10'>
-                                <Flex 
-                                    justifyContent="center" 
-                                    alignItems="center" 
-                                    fontSize="25px" 
+                                <Flex
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    fontSize="25px"
                                     className="relative py-10 text-gray-700"
                                 >
 
                                     {/* 이전 페이지 */}
                                     {serverData.prev && (
-                                        <Box 
-                                            cursor={"pointer"} 
-                                            marginRight={7} 
+                                        <Box
+                                            cursor={"pointer"}
+                                            marginRight={7}
                                             onClick={() => handlePageChange(serverData.prevPage)}
                                         >
                                             {'\u003c'}
@@ -246,14 +244,14 @@ const ArticleListComponent = () => {
 
                                     {/* 페이지 넘버 */}
                                     {serverData.pageNumList.map(pageNum => (
-                                        <Box 
+                                        <Box
                                             key={pageNum}
-                                            marginRight={7} 
+                                            marginRight={7}
                                             cursor={"pointer"}
                                             className={
-                                                serverData.current === pageNum 
-                                                ? 'text-[rgb(224,26,109)] border-b' 
-                                                : ''
+                                                serverData.current === pageNum
+                                                    ? 'text-[rgb(224,26,109)] border-b'
+                                                    : ''
                                             }
                                             onClick={() => handlePageChange(pageNum)}
                                         >
@@ -263,8 +261,8 @@ const ArticleListComponent = () => {
 
                                     {/* 다음 페이지 */}
                                     {serverData.next && (
-                                        <Box 
-                                            cursor={"pointer"} 
+                                        <Box
+                                            cursor={"pointer"}
                                             onClick={() => handlePageChange(serverData.nextPage)}
                                         >
                                             {'\u003e'}

@@ -24,12 +24,28 @@ const ProductModifyComponent = () => {
   const [product, setProduct] = useState(initState);
   const [images, setImages] = useState([]);       // 기존 이미지
   const [newImages, setNewImages] = useState([]); // 새로 추가할 이미지
+  const [deleteImages, setDeleteImages] = useState([]); // 삭제할 이미지
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
 
   const { moveToRead } = useCustomMove();
-  const { isLogin } = useCustomToken();
+  const { isLogin, decodeToken } = useCustomToken();
+
+
+
+  useEffect(() => {
+    if (!isLogin) {
+
+      alert("잘못된 접근 방식입니다.");
+      navigate(-1);
+      return;
+    } else if (decodeToken.memberRole === "User") {
+      alert("관리자만 접근 가능한 페이지입니다.");
+      navigate("/product/list");
+      return;
+    }
+  }, [])
 
 
   useEffect(() => {
@@ -48,16 +64,6 @@ const ProductModifyComponent = () => {
     }
   }, [id]);
 
-
-
-  useEffect(() => {
-    if (!isLogin) {
-
-      alert("잘못된 접근 방식입니다.");
-      navigate(-1);
-      return;
-    }
-  }, [isLogin, navigate])
 
 
   // 이미지 저장할 함수
@@ -84,6 +90,13 @@ const ProductModifyComponent = () => {
 
     setNewImages(updatedImages);
   };
+
+
+  // 기존 이미지 삭제 함수
+  const hanldeExistingImage = (fileName) => {
+    setDeleteImages((prev) => [...prev, fileName]);
+    setImages(images.filter((image) => image !== fileName));
+  }
 
 
   // 새로운 이미지 삭제 함수
@@ -127,6 +140,12 @@ const ProductModifyComponent = () => {
       return;
     }
 
+    if (images.length == 0) {
+      alert("상품 이미지를 등록해주세요.");
+      return;
+    }
+    
+
     setLoading(true);
 
     try {
@@ -139,6 +158,9 @@ const ProductModifyComponent = () => {
 
       // 기존 이미지
       images.forEach(fileName => formData.append('existingImages', fileName));
+
+      // 삭제할 이미지
+      deleteImages.forEach(fileName => formData.append('deleteImages', fileName));
 
       // 새로운 이미지
       newImages.forEach(image => formData.append('files', image.file));
@@ -164,6 +186,10 @@ const ProductModifyComponent = () => {
 
 
   if (!isLogin) {
+    return null;
+  }
+
+  if (decodeToken.memberRole === "User") {
     return null;
   }
 
@@ -202,6 +228,14 @@ const ProductModifyComponent = () => {
                   className="w-36 h-32 object-contain"
                   alt={`기존 이미지 ${index}`}
                 />
+                <div className="flex items-center mt-1">
+                  <span
+                    className="text-xl cursor-pointer text-red-500"
+                    onClick={() => hanldeExistingImage(fileName)}
+                  >
+                    x
+                  </span>
+                </div>
               </div>
             ))}
 

@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "../../css/memberPage.module.css"
 import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
-import { getList, modifyProduct, modifyProductStock } from "../../api/productApi";
-import { IconButton, Input } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { getAllList, modifyProductStock } from "../../api/productApi";
 import MypageTitleComponent from "../common/MypageTitleComponent";
 import SearchBarComponent from "../common/SearchBarComponent";
 import { logout } from '../../hooks/logout';
@@ -85,7 +83,7 @@ const ManagerProductComponent = () => {
         const fetchData = async () => {   // fetchData : 비동기 함수. 서버에서 데이터를 가져오고 이미지를 로드하는 작업 수행
             try {
                 // 상품 목록 데이터 가져오기
-                const data = await getList({ search, page, size });
+                const data = await getAllList({ search, page, size });
                 setServerData(data);
             }
             catch (error) {
@@ -185,29 +183,28 @@ const ManagerProductComponent = () => {
             {modal ?
 
                 <div className="fixed w-full h-full top-0 left-0 z-20 bg-white/90 flex justify-center items-center close">
-                    <div className="w-[575px] h-[400px] p-4 bg-white border shadow-md flex flex-col justify-center">
+                    <div className="w-[745px] p-12 m-12 bg-white border shadow-md flex flex-col justify-center max-w-[90%] max-h-[90%] overflow-auto">
                         <div className="flex">
-                            <div className="flex flex-col flex-1 ml-7">
-
-                                <div className="w-4/5 text-4xl font-bold mt-7">{modal.productTitle}</div>
-                                <div className="my-5 text-xl">{modal.productContent}</div>
+                            <div className="flex flex-col flex-1">
+                                <div className="w-full text-4xl font-bold mb-7">{modal.productTitle}</div>
+                                <div className="mr-7 mb-7 text-xl">{modal.productContent}</div>
                                 <label className="mb-3 font-extrabold text-2xl" htmlFor="productStock">재고량</label>
                                 <input
                                     className="rounded border text-xl w-20 h-12 p-3"
                                     id="productStock"
                                     name="productStock"
-
                                     value={modal.productStock}
                                     maxLength={50}
                                     onChange={handleChangeStock}
+                                    onKeyDown={(e) => { if (e.key === "Enter") { handleStockModify(modal.id) } }}
                                 />
 
                                 <div className="flex text-xl mt-7 justify-end">
-                                    <button className="mr-3 p-2 px-5 bg-[rgb(77,160,124)] text-white"
-                                        onClick={()=>handleStockModify(modal.id)}>
+                                    <button className="mr-3 p-3 px-7 bg-[rgb(77,160,124)] text-white"
+                                        onClick={() => handleStockModify(modal.id)}>
                                         수정
                                     </button>
-                                    <button className="mr-3 p-2 px-5 bg-[rgb(240,113,113)] text-white"
+                                    <button className="mr-3 p-3 px-7 bg-[rgb(240,113,113)] text-white"
                                         onClick={handleClickClose}>
                                         취소
                                     </button>
@@ -217,6 +214,7 @@ const ManagerProductComponent = () => {
                     </div>
                 </div>
 
+
                 :
 
                 <></>
@@ -225,7 +223,7 @@ const ManagerProductComponent = () => {
 
             <div className="flex items-center justify-between mb-5">
                 <MypageTitleComponent>
-                    상품 관리
+                    상품 재고 관리
                 </MypageTitleComponent>
 
                 <SearchBarComponent width="40%" changeFn={handleChangeSearch} clickFn={handleClickSearch} />

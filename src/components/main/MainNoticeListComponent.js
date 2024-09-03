@@ -51,7 +51,7 @@ const MainNoticeListComponent = () => {
                 
                 serverData.dtoList.map((dto, index)=>
                     <div className="px-5">
-                        {console.log(dto)}
+                        {/* {console.log(dto)} */}
 
                     <div className={`flex justify-between text-xl px-2 py-5 ${index === serverData.dtoList.length - 1 ? "" : "border-b"}`}>
                         <div className="w-4/5 cursor-pointer rainbow-text truncate"
