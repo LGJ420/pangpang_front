@@ -142,7 +142,7 @@ const ProductListComponent = () => {
                 <div key={product.id} className="border p-5">
                   <div className="flex flex-col justify-between overflow-hidden">
                     <div
-                      className="relative hover:scale-125 duration-300 cursor-pointer"
+                      className={`${product.productStock <= 0 ? "" : "relative hover:scale-125 duration-300 cursor-pointer"}`}
                       onClick={() => moveToRead(product.id)}
                     >
                       <img
@@ -151,9 +151,10 @@ const ProductListComponent = () => {
                           e.target.onerror = null;
                           e.target.src = "/images/no_image.png";
                         }}
-                        className="mx-auto h-52 object-contain rounded-lg"
+                        className={`mx-auto h-52 object-contain rounded-lg ${product.productStock <= 0 ? "opacity-45" : ""}`}
                       />
                     </div>
+                    {product.productStock <= 0 ? <div className="font-bold text-red-600">품절된 상품입니다.</div> : <div></div>}
                     <div className="py-5 pb-3 text-xl z-10 bg-white whitespace-nowrap overflow-hidden text-ellipsis">
                       {product.productTitle}
                     </div>
