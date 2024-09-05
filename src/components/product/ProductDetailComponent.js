@@ -245,8 +245,8 @@ const ProductDetailComponent = ({ num }) => {
       </div>
 
       <div className="flex justify-center items-center p-5">
-
         <div className="flex-1 text-center">
+
           <img
             src={selectedImages}
             onError={(e) => {
@@ -260,6 +260,7 @@ const ProductDetailComponent = ({ num }) => {
           <div className="flex flex-wrap items-center justify-center">
             {product.uploadFileNames && product.uploadFileNames.length > 0 ? (
               product.uploadFileNames.map((fileName, index) => (
+
                 <img
                   key={index}
                   src={`${prefix}/s_${fileName}`}
@@ -280,10 +281,9 @@ const ProductDetailComponent = ({ num }) => {
         </div>
 
         <div className="flex-1 ml-5 text-center border-l pl-7">
-          <div className="flex justify-center items-center">
-            <h1 className={`text-4xl font-bold mr-5 mb-4 ${product.productStock <= 0 ? "line-through" : ""}`}>{product.productTitle}</h1>
-          {product.productStock <= 0 ? <h1 className="text-3xl font-bold mb-4 text-red-600">품절된 상품입니다.</h1> : <></>}
-          </div>
+          {product.productStock <= 0 ? <h1 className="text-3xl font-bold text-red-600 text-center bg-red-50 h-16 flex items-center justify-center mb-4">품절된 상품입니다.</h1> : <></>}
+          <h1 className={`text-4xl mr-5 mb-4 ${product.productStock <= 0 ? "line-through" : "font-bold"}`}>{product.productTitle}</h1>
+
           <p className="text-2xl mb-4">{product.productContent}</p>
           <p className="text-3xl mb-6">{product.productPrice.toLocaleString()}원</p>
           <div className="flex space-x-7 mx-auto mt-5 justify-center">
