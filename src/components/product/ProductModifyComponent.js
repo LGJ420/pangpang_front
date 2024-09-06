@@ -69,12 +69,6 @@ const ProductModifyComponent = () => {
   const handleAddImages = (event) => {
     const fileList = event.target.files;
     let updatedImages = [...newImages];
-    const totalImages = images.length + updatedImages.length; // 전체 이미지 개수
-
-    if (totalImages >= 5) {
-      alert("기존 이미지와 새로 추가할 이미지를 합쳐서 최대 5개까지 등록 가능합니다.");
-      return;
-    }
 
     for (let i = 0; i < fileList.length; i++) {
       if (updatedImages.length >= 5 - images.length) {
