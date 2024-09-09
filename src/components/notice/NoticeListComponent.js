@@ -95,7 +95,7 @@ const NoticeListComponent = () => {
 
                 :
 
-                    serverData !== undefined ?
+                serverData && serverData.dtoList && Array.isArray(serverData.dtoList) ?
 
                     <>
                     {console.log(serverData)}

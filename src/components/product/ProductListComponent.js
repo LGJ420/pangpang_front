@@ -106,7 +106,7 @@ const ProductListComponent = () => {
       
       :
       
-      serverData.dtoList.length > 0 ?
+      (serverData.dtoList && serverData.dtoList.length > 0) ?
 
       <>
 
