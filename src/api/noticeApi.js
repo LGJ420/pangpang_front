@@ -1,7 +1,7 @@
 import axios from "axios"
 
-
-const prefix = `APIServer1-env.eba-a6uh9rip.ap-northeast-2.elasticbeanstalk.com/api/notice`;
+export const API_SERVER_HOST = process.env.REACT_APP_API_SERVER_HOST;
+const prefix = `${API_SERVER_HOST}/api/notice`;
 
 
 export const getNoticeList = async (pageParam) => {

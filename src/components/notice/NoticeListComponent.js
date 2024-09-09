@@ -132,7 +132,7 @@ const NoticeListComponent = () => {
                                 </div>
                             </div>
                                 {/* 데이터 행 */}
-                                {serverData.dtoList.map((dto) => (
+                                {serverData && serverData.dtoList && Array.isArray(serverData.dtoList) && serverData.dtoList.map((dto) => (
                                 <div className='w-[80rem] h-[4rem] text-xl m-auto grid grid-cols-12 border-b'>
                                     <div className='flex items-center justify-center col-span-1'>
                                         {dto.id}
