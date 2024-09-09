@@ -18,7 +18,7 @@ const initState = {
   current: 0              // 현재 페이지 번호
 }
 
-const prefix = "http://localhost:8080/api/productreview/view";
+const prefix = "https://elasticbeanstalk-ap-northeast-2-533267223550.s3.ap-northeast-2.amazonaws.com";
 
 // 서버에서 데이터 가져오기
 const ProductListComponent = () => {

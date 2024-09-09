@@ -104,12 +104,11 @@ export const logoutMember = async () => {
 };
 
 
-
 // ============ 마이페이지 관련 api ============
 // navBar, 마이페이지 레이아웃 프로필사진 불러오기
 export const getMemberProfileImage = async (memberId) => {
     try {
-        const response = await axios.get(`${prefix}/${memberId}/image`);
+        const response = await axios.get(`https://elasticbeanstalk-ap-northeast-2-533267223550.s3.ap-northeast-2.amazonaws.com/${memberId}/image`);
         return response.data;
     } catch (error) {
         // console.error('Failed to fetch member profile image:', error);
