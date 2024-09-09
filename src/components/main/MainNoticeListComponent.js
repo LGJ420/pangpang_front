@@ -47,7 +47,7 @@ const MainNoticeListComponent = () => {
 
             :
 
-                serverData ?
+                serverData && Array.isArray(serverData.dtoList) && serverData.dtoList.length > 0 ?
                 
                 serverData.dtoList.map((dto, index)=>
                     <div className="px-5">
