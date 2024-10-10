@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
 import { useEffect, useState } from "react";
 import { getMemberProfileImage } from '../../api/memberApi';
+import { API_SERVER_HOST } from "../../api/serverHost";
 
 
 const MypageLayoutComponent = ({children}) => {

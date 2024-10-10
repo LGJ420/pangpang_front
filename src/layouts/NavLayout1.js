@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useCustomToken from "../hooks/useCustomToken";
 import { useEffect, useState } from "react";
 import { getMemberProfileImage, logoutMember } from '../api/memberApi';
+import { API_SERVER_HOST } from "../api/serverHost";
 
 const NavLayout1 = () => {
 
