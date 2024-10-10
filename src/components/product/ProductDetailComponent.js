@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Box, ButtonGroup, Flex, Image, Text } from '@chakra-ui/react'
 
-import { API_SERVER_HOST, deleteProduct, getOne } from "../../api/productApi";
+import { deleteProduct, getOne } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
 import { getReviewList } from "../../api/productReviewApi";
@@ -9,6 +9,7 @@ import RatingStarCompoent from "../common/RatingStarComponent";
 import useCustomToken from "../../hooks/useCustomToken";
 import useCustomMove from "../../hooks/useCustomMove"
 import { logout } from '../../hooks/logout';
+import { API_SERVER_HOST } from "../../api/serverHost";
 
 /* 초기값 설정 */
 const initState = {

@@ -1,11 +1,13 @@
 import axios from "axios"
+import { API_SERVER_HOST } from "./serverHost";
 
-export const API_SERVER_HOST = process.env.REACT_APP_API_SERVER_HOST;
+
+const prefix = `${API_SERVER_HOST}`;
 
 
 /* 상품 목록 가져오기 */
 export const getProductList = async () => {
-  const res = await axios.get(`${API_SERVER_HOST}/`);
+  const res = await axios.get(`${prefix}/`);
   return res.data;
 }
 

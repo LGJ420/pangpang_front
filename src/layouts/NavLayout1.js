@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import useCustomToken from "../hooks/useCustomToken";
 import { useEffect, useState } from "react";
-import { getMemberProfileImage, logoutMember, prefix } from '../api/memberApi';
+import { getMemberProfileImage, logoutMember } from '../api/memberApi';
+import { API_SERVER_HOST } from "../api/serverHost";
 
 const NavLayout1 = () => {
 
@@ -17,7 +18,7 @@ const NavLayout1 = () => {
         if(decodeToken.id){
             const fetchProfileImage = async () => {
                 const imagePath = await getMemberProfileImage(decodeToken.sub);
-                setImageUrl(imagePath ? `${prefix}/view/${imagePath}` : '/images/profile.png');
+                setImageUrl(imagePath ? `${API_SERVER_HOST}/view/${imagePath}` : '/images/profile.png');
             };
 
             fetchProfileImage();

@@ -8,7 +8,7 @@ import useCustomToken from "../../hooks/useCustomToken";
 import { logout } from '../../hooks/logout';
 import BodyTitleComponent from "../common/BodyTitleComponent";
 import { formatContent } from "../../util/contentUtil";
-import { API_SERVER_HOST } from "../../api/productApi";
+import { API_SERVER_HOST } from "../../api/serverHost";
 
 
 const initNoticeData = {

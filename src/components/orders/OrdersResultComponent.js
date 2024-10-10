@@ -5,7 +5,7 @@ import { Spinner } from "@chakra-ui/react";
 import MypageTitleComponent from "../common/MypageTitleComponent";
 import SearchBarComponent from "../common/SearchBarComponent";
 import { logout } from '../../hooks/logout';
-import { API_SERVER_HOST } from "../../api/productApi";
+import { API_SERVER_HOST } from "../../api/serverHost";
 
 // const initData = [{
 //     name: "",

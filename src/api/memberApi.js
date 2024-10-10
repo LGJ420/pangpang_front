@@ -1,7 +1,8 @@
 import axios from "axios"
+import { API_SERVER_HOST } from "./serverHost";
 
-export const API_SERVER_HOST = process.env.REACT_APP_API_SERVER_HOST;
-export const prefix = `${API_SERVER_HOST}/api/member`;
+
+const prefix = `${API_SERVER_HOST}/api/member`;
 
 
 // ============ 회원가입 관련 api ============

@@ -1,6 +1,7 @@
 import axios from "axios"
+import { API_SERVER_HOST } from "./serverHost";
 
-export const API_SERVER_HOST = process.env.REACT_APP_API_SERVER_HOST;
+
 const prefix = `${API_SERVER_HOST}/api/article`;
 
 

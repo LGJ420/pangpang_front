@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import useCustomToken from "../../hooks/useCustomToken";
 import { useEffect, useState } from "react";
-import { getMemberProfileImage, prefix } from '../../api/memberApi';
+import { getMemberProfileImage } from '../../api/memberApi';
+import { API_SERVER_HOST } from "../../api/serverHost";
 
 const MypageLayoutComponent = ({children}) => {
 
@@ -38,7 +39,7 @@ const MypageLayoutComponent = ({children}) => {
         if(decodeToken.id){
             const fetchProfileImage = async () => {
                 const imagePath = await getMemberProfileImage(decodeToken.sub);
-                setImageUrl(imagePath ? `${prefix}/view/${imagePath}` : '/images/profile.png');
+                setImageUrl(imagePath ? `${API_SERVER_HOST}/view/${imagePath}` : '/images/profile.png');
             };
 
             fetchProfileImage();

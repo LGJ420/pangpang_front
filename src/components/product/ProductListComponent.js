@@ -4,9 +4,10 @@ import { Spinner } from '@chakra-ui/react'
 import useCustomMove from "../../hooks/useCustomMove"
 import useCustomToken from "../../hooks/useCustomToken";
 
-import { API_SERVER_HOST, getList } from "../../api/productApi";
+import { getList } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
 import SearchBarComponent from "../common/SearchBarComponent";
+import { API_SERVER_HOST } from "../../api/serverHost";
 
 /* 초기값 설정 */
 const initState = {
