@@ -1,7 +1,6 @@
 import axios from "axios"
 
 
-
 const prefix = `/api/product`;
 
 
@@ -106,5 +105,12 @@ export const modifyProductStock = async (productId, productDTO) => {
     }
   });
 
+  return res.data;
+}
+
+
+/* 메인페이지 상품 목록 랜덤으로 가져오기 */
+export const getRandomProductList = async () => {
+  const res = await axios.get(`${prefix}/random`);
   return res.data;
 }

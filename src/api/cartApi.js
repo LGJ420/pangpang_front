@@ -1,9 +1,7 @@
 import axios from "axios"
 
 
-
 const prefix = `/api/cart`;
-
 
 
 export const getCartList = async () => {

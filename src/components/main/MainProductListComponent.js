@@ -1,7 +1,7 @@
 import { Image, SimpleGrid, Spinner, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getProductList } from "../../api/mainPageApi";
+import { getRandomProductList } from "../../api/productApi";
 
 
 
@@ -23,7 +23,7 @@ const MainProductList = () => {
     const fetchData = async () => {
       try {
         // 상품 목록 데이터 가져오기
-        const data = await getProductList();
+        const data = await getRandomProductList();
         setServerData(data);
 
       } catch (error) {

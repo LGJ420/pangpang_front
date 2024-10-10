@@ -1,9 +1,7 @@
 import axios from "axios"
 
 
-
 const prefix = `/api/article`;
-
 
 
 //글 작성하기

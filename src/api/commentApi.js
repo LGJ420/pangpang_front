@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 
-
 const prefix = `/api/comment`;
-
 
 
 // 자유게시판 댓글 추가하기

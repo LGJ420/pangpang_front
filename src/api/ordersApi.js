@@ -1,9 +1,7 @@
 import axios from "axios"
 
 
-
 const prefix = `/api/orders`;
-
 
 
 export const getOrdersList = async (search) => {

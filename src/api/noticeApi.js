@@ -1,7 +1,6 @@
 import axios from "axios"
 
 
-
 const prefix = `/api/notice`;
 
 
