@@ -24,7 +24,7 @@ const initData = {
     
 }
 
-const prefix = "https://elasticbeanstalk-ap-northeast-2-533267223550.s3.ap-northeast-2.amazonaws.com";
+const prefix = "http://localhost:8080/api/productreview/view";
 
 const MypageReviewComponent = () => {
 

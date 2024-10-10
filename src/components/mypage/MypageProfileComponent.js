@@ -165,7 +165,7 @@ const MypageProfileComponent = () => {
     // // 프로필 사진 관련 코드
 
     // 비번확인하면 memberId, memberImage...등 보내주는데, memberImage 유무로 있는사진띄워줄건지 너굴맨띄워줄건지 구분하는 코드
-    const [profileImage, setProfileImage] = useState(memberImage ? `https://elasticbeanstalk-ap-northeast-2-533267223550.s3.ap-northeast-2.amazonaws.com/${memberImage}` : "/images/profile.png")
+    const [profileImage, setProfileImage] = useState(memberImage ? `http://localhost:8080/api/productreview/view/${memberImage}` : "/images/profile.png")
     
     // 사진 미리보기
     const [file, setFile] = useState(); 
@@ -187,7 +187,7 @@ const MypageProfileComponent = () => {
     // 이거안하면 too many response? 이거생김
     useEffect(() => {
         if (memberImage) {
-            setProfileImage(`https://elasticbeanstalk-ap-northeast-2-533267223550.s3.ap-northeast-2.amazonaws.com/${memberImage}`);
+            setProfileImage(`http://localhost:8080/api/productreview/view/${memberImage}`);
         } else {
             setProfileImage("/images/profile.png");
         }
