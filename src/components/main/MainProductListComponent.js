@@ -2,13 +2,14 @@ import { Image, SimpleGrid, Spinner, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductList } from "../../api/mainPageApi";
+import { API_SERVER_HOST } from "../../api/productApi";
 
 
 /* 초기값 설정 */
 const initState = [];
 
 
-const prefix = "http://localhost:8080/api/productreview/view";
+const prefix = `${API_SERVER_HOST}/api/productreview/view`;
 
 const MainProductList = () => {
 

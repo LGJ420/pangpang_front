@@ -28,11 +28,11 @@ const MypageLayoutComponent = ({children}) => {
 
         // decode token : [object Object]
         // User ID:       여기 토큰.id가 들어가야함↓
-        // http://localhost:8080/api/member/view//image
+        // http://15.165.219.211:8080/api/member/view//image
         // decode token : [object Object]
         // User ID: 39      제대로 토큰.id가 들어감↓
-        // http://localhost:8080/api/member/view/39/image
-        // console.log(`http://localhost:8080/api/member/view/${decodeToken.id}/image`);
+        // http://15.165.219.211:8080/api/member/view/39/image
+        // console.log(`http://15.165.219.211:8080/api/member/view/${decodeToken.id}/image`);
 
         // 위 문제때문에 decodeToken.id 있을때만 실행
         if(decodeToken.id){

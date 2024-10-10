@@ -4,6 +4,7 @@ import { deleteCartOne, getCartList, putCartOne } from "../../api/cartApi";
 import useCustomToken from "../../hooks/useCustomToken";
 import { CloseButton, Spinner } from "@chakra-ui/react";
 import { logout } from '../../hooks/logout';
+import { API_SERVER_HOST } from "../../api/productApi";
 
 // const initState = [{
 //     productId: 0,
@@ -13,7 +14,7 @@ import { logout } from '../../hooks/logout';
 //     cartCount: 0
 // }]
 
-const prefix = "http://localhost:8080/api/productreview/view";
+const prefix = `${API_SERVER_HOST}/api/productreview/view`;
 
 const CratListComponent = () => {
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Box, ButtonGroup, Flex, Image, Text } from '@chakra-ui/react'
 
-import { deleteProduct, getOne } from "../../api/productApi";
+import { API_SERVER_HOST, deleteProduct, getOne } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
 import { postCartAdd } from "../../api/cartApi";
 import { getReviewList } from "../../api/productReviewApi";
@@ -19,7 +19,7 @@ const initState = {
   productDetailContent: ''
 }
 
-const prefix = "http://localhost:8080/api/productreview/view";
+const prefix = `${API_SERVER_HOST}/api/productreview/view`;
 
 const ProductDetailComponent = ({ num }) => {
 

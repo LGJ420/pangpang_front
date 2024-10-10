@@ -151,7 +151,7 @@ const ProductReviewAddComponent = ({productId}) => {
         </div>
         <div className="flex items-center">
             <div className="w-1/2 flex flex-col items-center justify-center">
-                <img src={`http://localhost:8080/api/product/view/${productData.uploadFileNames[0]}`}
+                <img src={`http://15.165.219.211:8080/api/product/view/${productData.uploadFileNames[0]}`}
                     className="w-4/5 h-[30rem] object-contain"
                     onError={(e) => {
                         e.target.onerror = null; // 무한 루프 방지

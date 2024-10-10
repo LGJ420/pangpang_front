@@ -213,7 +213,7 @@ const ProductModifyComponent = () => {
             {images.map((fileName, index) => (
               <div key={index} className="flex flex-col items-center mt-1 mr-1">
                 <img
-                  src={`http://localhost:8080/api/product/view/${fileName}`}
+                  src={`http://15.165.219.211:8080/api/product/view/${fileName}`}
                   className="w-36 h-32 object-contain"
                   alt={`기존 이미지 ${index}`}
                 />

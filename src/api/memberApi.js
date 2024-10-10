@@ -108,7 +108,7 @@ export const logoutMember = async () => {
 // navBar, 마이페이지 레이아웃 프로필사진 불러오기
 export const getMemberProfileImage = async (memberId) => {
     try {
-        const response = await axios.get(`http://localhost:8080/api/productreview/view/${memberId}/image`);
+        const response = await axios.get(`http://15.165.219.211:8080/api/productreview/view/${memberId}/image`);
         return response.data;
     } catch (error) {
         // console.error('Failed to fetch member profile image:', error);

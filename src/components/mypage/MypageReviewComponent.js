@@ -6,6 +6,7 @@ import { Spinner } from "@chakra-ui/react";
 import MypageTitleComponent from "../common/MypageTitleComponent";
 import { logout } from '../../hooks/logout';
 import { useNavigate } from "react-router-dom";
+import { API_SERVER_HOST } from "../../api/productApi";
 
 
 const initData = {
@@ -24,7 +25,7 @@ const initData = {
     
 }
 
-const prefix = "http://localhost:8080/api/productreview/view";
+const prefix = `${API_SERVER_HOST}/api/productreview/view`;
 
 const MypageReviewComponent = () => {
 

@@ -62,8 +62,7 @@ export const deleteProduct = async (id) => {
 }
 
 
-
-/* 상품 목록보기 */
+/* 상품 목록 보기 */
 export const getList = async (pageParam) => {
 
   const { search, page, size, category } = pageParam;
@@ -71,10 +70,11 @@ export const getList = async (pageParam) => {
   const res = await axios.get(`${prefix}/list`, { params: { search, page, size, category } });
 
   return res.data;
+
 }
 
 
-/* 상품 목록보기 */
+/* 상품 목록 전체보기 */
 export const getAllList = async (pageParam) => {
 
   const { search, page, size } = pageParam;

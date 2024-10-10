@@ -4,7 +4,7 @@ import { Spinner } from '@chakra-ui/react'
 import useCustomMove from "../../hooks/useCustomMove"
 import useCustomToken from "../../hooks/useCustomToken";
 
-import { getList } from "../../api/productApi";
+import { API_SERVER_HOST, getList } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
 import SearchBarComponent from "../common/SearchBarComponent";
 
@@ -18,7 +18,7 @@ const initState = {
   current: 0              // 현재 페이지 번호
 }
 
-const prefix = "http://localhost:8080/api/productreview/view";
+const prefix = `${API_SERVER_HOST}/api/product/view`;
 
 // 서버에서 데이터 가져오기
 const ProductListComponent = () => {
