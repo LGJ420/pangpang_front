@@ -8,7 +8,7 @@ import useCustomToken from "../../hooks/useCustomToken";
 import { logout } from '../../hooks/logout';
 import BodyTitleComponent from "../common/BodyTitleComponent";
 import { formatContent } from "../../util/contentUtil";
-import { API_SERVER_HOST } from "../../api/serverHost";
+
 
 
 const initNoticeData = {
@@ -55,7 +55,7 @@ const initCommentData = {
     current: 0
 }
 
-const prefix = `${API_SERVER_HOST}/api/productreview/view`;
+const prefix = `/api/productreview/view`;
 
 const getNum = (param, defaultValue) => {
 

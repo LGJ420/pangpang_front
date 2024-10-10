@@ -7,7 +7,7 @@ import useCustomToken from "../../hooks/useCustomToken";
 import { getList } from "../../api/productApi";
 import { useNavigate } from "react-router-dom";
 import SearchBarComponent from "../common/SearchBarComponent";
-import { API_SERVER_HOST } from "../../api/serverHost";
+
 
 /* 초기값 설정 */
 const initState = {
@@ -19,7 +19,7 @@ const initState = {
   current: 0              // 현재 페이지 번호
 }
 
-const prefix = `${API_SERVER_HOST}/api/product/view`;
+const prefix = `/api/product/view`;
 
 // 서버에서 데이터 가져오기
 const ProductListComponent = () => {

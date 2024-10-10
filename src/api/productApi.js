@@ -1,8 +1,8 @@
 import axios from "axios"
-import { API_SERVER_HOST } from "./serverHost";
 
 
-const prefix = `${API_SERVER_HOST}/api/product`;
+
+const prefix = `/api/product`;
 
 
 /* 상품 등록 */

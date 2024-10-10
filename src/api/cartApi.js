@@ -1,8 +1,8 @@
 import axios from "axios"
-import { API_SERVER_HOST } from "./serverHost";
 
 
-const prefix = `${API_SERVER_HOST}/api/cart`;
+
+const prefix = `/api/cart`;
 
 
 

@@ -5,7 +5,7 @@ import { Spinner } from "@chakra-ui/react";
 import MypageTitleComponent from "../common/MypageTitleComponent";
 import SearchBarComponent from "../common/SearchBarComponent";
 import { logout } from '../../hooks/logout';
-import { API_SERVER_HOST } from "../../api/serverHost";
+
 
 // const initData = [{
 //     name: "",
@@ -22,7 +22,7 @@ import { API_SERVER_HOST } from "../../api/serverHost";
 // }]
 
 
-const prefix = `${API_SERVER_HOST}/api/productreview/view`;
+const prefix = `/api/productreview/view`;
 
 
 const OrdersResultComponent = () => {

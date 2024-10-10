@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { postOrdersAdd } from "../../api/ordersApi";
 import { logout } from '../../hooks/logout';
-import { API_SERVER_HOST } from "../../api/serverHost";
+
 
 const initState = {
 
@@ -11,7 +11,7 @@ const initState = {
     address: ""
 }   
 
-const prefix = `${API_SERVER_HOST}/api/productreview/view`;
+const prefix = `/api/productreview/view`;
 
 const OrdersPayComponent = () => {
 

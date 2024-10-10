@@ -8,18 +8,15 @@
 
 import axios from "axios"
 import { getCookie, setCookie } from "./cookieUtil";
-import { API_SERVER_HOST } from "../api/articleApi";
 
 const jwtAxios = axios.create();
 
 const refreshJWT = async (accessToken, refreshToken) => {
 
-    const host = API_SERVER_HOST;
-
     const header = {header: {"Authorization": `Bearer ${accessToken}`}};
 
     //POST방식이 낫긴하지만 예제에서는 눈에 보이도록 GET방식을 이용했음
-    const res = await axios.get(`${host}/api/member/refresh?refreshToken=${refreshToken}`, header);
+    const res = await axios.get(`/api/member/refresh?refreshToken=${refreshToken}`, header);
 
     console.log("----------------------");
     console.log(res.data);

@@ -9,7 +9,7 @@ import RatingStarCompoent from "../common/RatingStarComponent";
 import useCustomToken from "../../hooks/useCustomToken";
 import useCustomMove from "../../hooks/useCustomMove"
 import { logout } from '../../hooks/logout';
-import { API_SERVER_HOST } from "../../api/serverHost";
+
 
 /* 초기값 설정 */
 const initState = {
@@ -20,7 +20,7 @@ const initState = {
   productDetailContent: ''
 }
 
-const prefix = `${API_SERVER_HOST}/api/productreview/view`;
+const prefix = `/api/productreview/view`;
 
 const ProductDetailComponent = ({ num }) => {
 
