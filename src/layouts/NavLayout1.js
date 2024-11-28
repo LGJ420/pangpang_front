@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import useCustomToken from "../hooks/useCustomToken";
 import { useEffect, useState } from "react";
-import { getMemberProfileImage, logoutMember } from '../api/memberApi';
+import { getMemberProfileImage } from '../api/memberApi';
 import { API_SERVER_HOST } from "../api/serverHost";
 
 const NavLayout1 = () => {
@@ -27,15 +27,11 @@ const NavLayout1 = () => {
 
     // 로그아웃
     const handleLogout = async () => {
-        try {
-            await logoutMember();
-            // console.log("로그아웃 성공");
-            localStorage.removeItem("memberId");
-            localStorage.removeItem("token");
-            window.location.reload();
-        } catch (error) {
-            // console.error("로그아웃 실패", error);
-        }
+
+        localStorage.removeItem("memberId");
+        localStorage.removeItem("token");
+        window.location.reload();
+
     }
 
 
